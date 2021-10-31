@@ -1,0 +1,95 @@
+PODS:
+  - AppAuth (1.4.0):
+    - AppAuth/Core (= 1.4.0)
+    - AppAuth/ExternalUserAgent (= 1.4.0)
+  - AppAuth/Core (1.4.0)
+  - AppAuth/ExternalUserAgent (1.4.0)
+  - AppCenter (3.3.2):
+    - AppCenter/Analytics (= 3.3.2)
+    - AppCenter/Crashes (= 3.3.2)
+  - AppCenter/Analytics (3.3.2):
+    - AppCenter/Core
+  - AppCenter/Core (3.3.2)
+  - AppCenter/Crashes (3.3.2):
+    - AppCenter/Core
+  - FBSDKCoreKit (7.1.1):
+    - FBSDKCoreKit/Basics (= 7.1.1)
+    - FBSDKCoreKit/Core (= 7.1.1)
+  - FBSDKCoreKit/Basics (7.1.1)
+  - FBSDKCoreKit/Core (7.1.1):
+    - FBSDKCoreKit/Basics
+  - FBSDKLoginKit (7.1.1):
+    - FBSDKLoginKit/Login (= 7.1.1)
+  - FBSDKLoginKit/Login (7.1.1):
+    - FBSDKCoreKit (~> 7.1.1)
+  - FLAnimatedImage (1.0.12)
+  - GoogleSignIn (5.0.2):
+    - AppAuth (~> 1.2)
+    - GTMAppAuth (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GTMAppAuth (1.0.0):
+    - AppAuth/Core (~> 1.0)
+    - GTMSessionFetcher (~> 1.1)
+  - GTMSessionFetcher (1.4.0):
+    - GTMSessionFetcher/Full (= 1.4.0)
+  - GTMSessionFetcher/Core (1.4.0)
+  - GTMSessionFetcher/Full (1.4.0):
+    - GTMSessionFetcher/Core (= 1.4.0)
+  - MBProgressHUD (1.0.0)
+  - ReachabilitySwift (3)
+  - SDWebImage (5.8.3):
+    - SDWebImage/Core (= 5.8.3)
+  - SDWebImage/Core (5.8.3)
+  - Sketch (3.0)
+  - SwiftyGif (5.3.0)
+  - VariousViewsEffects (1.2.1)
+
+DEPENDENCIES:
+  - AppCenter
+  - FBSDKLoginKit
+  - FLAnimatedImage
+  - GoogleSignIn
+  - MBProgressHUD (~> 1.0.0)
+  - ReachabilitySwift (~> 3)
+  - SDWebImage (~> 5.0)
+  - Sketch
+  - SwiftyGif
+  - VariousViewsEffects
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs:
+    - AppAuth
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - GoogleSignIn
+    - GTMAppAuth
+    - GTMSessionFetcher
+    - MBProgressHUD
+    - ReachabilitySwift
+    - SDWebImage
+    - Sketch
+    - SwiftyGif
+  trunk:
+    - AppCenter
+    - FLAnimatedImage
+    - VariousViewsEffects
+
+SPEC CHECKSUMS:
+  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
+  AppCenter: aba7de06e4c2184f90dc84f7866bd07f82427d69
+  FBSDKCoreKit: b46507dc8b8cefed31d644e74d7cc30e2a715ef8
+  FBSDKLoginKit: 1a61d79e2b25e2fc0d03dccab1e34b38bbdf2546
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
+  GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
+  GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
+  SDWebImage: 112503ec94a5a2a41869503844a15e8d8f1ead5c
+  Sketch: 49a4b71f7bc77316ed5f75ee79dedaa2b844d5e7
+  SwiftyGif: e466e86c660d343357ab944a819a101c4127cb40
+  VariousViewsEffects: 07c0592127b36a32549e61f73e48ae1a4a865566
+
+PODFILE CHECKSUM: 88aeb2a4a2de37fa85b4684eb8d2d7fbb8a11f21
+
+COCOAPODS: 1.10.1

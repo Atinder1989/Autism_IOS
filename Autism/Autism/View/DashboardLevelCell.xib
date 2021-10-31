@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="MaisonNeue-Bold.ttf">
+            <string>MaisonNeue-Bold</string>
+        </array>
+        <array key="MaisonNeue-Demi.ttf">
+            <string>MaisonNeue-Demi</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="DashboardLevelCell" customModule="Autism_Therapy" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="165"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="300" height="165"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Level 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HX6-0f-oQj">
+                        <rect key="frame" x="20" y="23" width="63" height="20"/>
+                        <fontDescription key="fontDescription" name="MaisonNeue-Bold" family="Maison Neue" pointSize="20"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are ready to give a shot to this level." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="joG-oP-9qP">
+                        <rect key="frame" x="20" y="55" width="166" height="33"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="33" id="bJc-DW-aM1"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="MaisonNeue-Demi" family="Maison Neue" pointSize="12"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="csa-BE-pTj">
+                        <rect key="frame" x="200" y="65" width="100" height="100"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="100" id="u5E-JA-dKJ"/>
+                            <constraint firstAttribute="width" constant="100" id="zsK-2m-3bn"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/11" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jY-RM-24j">
+                        <rect key="frame" x="264.5" y="15" width="24.5" height="12"/>
+                        <fontDescription key="fontDescription" name="MaisonNeue-Demi" family="Maison Neue" pointSize="12"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="zGu-Dc-1pV">
+                        <rect key="frame" x="20" y="98" width="175" height="30"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="rd9-M1-PEk"/>
+                        </constraints>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="5" id="j49-jy-1qw">
+                            <size key="itemSize" width="128" height="128"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                </subviews>
+            </view>
+            <color key="backgroundColor" red="0.4823529412" green="0.25882352939999997" blue="0.92156862750000001" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="zGu-Dc-1pV" firstAttribute="top" secondItem="joG-oP-9qP" secondAttribute="bottom" constant="10" id="0OB-Gg-lCU"/>
+                <constraint firstItem="joG-oP-9qP" firstAttribute="top" secondItem="HX6-0f-oQj" secondAttribute="bottom" constant="12" id="GlE-qH-r6v"/>
+                <constraint firstAttribute="bottom" secondItem="csa-BE-pTj" secondAttribute="bottom" id="GnG-Rb-KaR"/>
+                <constraint firstItem="HX6-0f-oQj" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="23" id="LBI-Jf-B5C"/>
+                <constraint firstItem="joG-oP-9qP" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="Nae-aD-Hg4"/>
+                <constraint firstAttribute="trailing" secondItem="csa-BE-pTj" secondAttribute="trailing" id="QJI-E5-y85"/>
+                <constraint firstItem="csa-BE-pTj" firstAttribute="leading" secondItem="zGu-Dc-1pV" secondAttribute="trailing" constant="5" id="cVM-ko-irb"/>
+                <constraint firstAttribute="trailing" secondItem="7jY-RM-24j" secondAttribute="trailing" constant="11" id="enp-mB-ryv"/>
+                <constraint firstItem="zGu-Dc-1pV" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="ljV-g0-PVt"/>
+                <constraint firstItem="csa-BE-pTj" firstAttribute="leading" secondItem="joG-oP-9qP" secondAttribute="trailing" constant="14" id="mQo-oC-ASE"/>
+                <constraint firstItem="HX6-0f-oQj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="nKt-rG-gZE"/>
+                <constraint firstItem="7jY-RM-24j" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="15" id="pIR-8W-Szm"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="250" height="137"/>
+            <connections>
+                <outlet property="completeLbl" destination="7jY-RM-24j" id="Ud3-Y0-2Wg"/>
+                <outlet property="levelImageView" destination="csa-BE-pTj" id="zTO-PH-gWA"/>
+                <outlet property="levelLbl" destination="HX6-0f-oQj" id="tw9-KO-oxa"/>
+                <outlet property="messageLbl" destination="joG-oP-9qP" id="vKA-vw-AxP"/>
+                <outlet property="starCollectionView" destination="zGu-Dc-1pV" id="peb-Qo-60Z"/>
+            </connections>
+            <point key="canvasLocation" x="140.57971014492756" y="56.584821428571423"/>
+        </collectionViewCell>
+    </objects>
+</document>

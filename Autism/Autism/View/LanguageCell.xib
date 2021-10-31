@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="LanguageCell" customModule="Autism" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="150" height="220"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="150" height="220"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="languageCellBackground" translatesAutoresizingMaskIntoConstraints="NO" id="22w-7W-Dnb">
+                        <rect key="frame" x="0.0" y="0.0" width="150" height="220"/>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mL8-8l-Sfq">
+                        <rect key="frame" x="37.5" y="82.5" width="75.5" height="55"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="55" id="M9V-qG-1A3">
+                                <variation key="heightClass=regular-widthClass=regular" constant="90"/>
+                            </constraint>
+                            <constraint firstAttribute="width" constant="75.5" id="l8K-xZ-eYm"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="English" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kib-oS-fHa">
+                        <rect key="frame" x="0.0" y="145" width="150" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="MrK-Q3-b9f">
+                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
+                            </constraint>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                        <variation key="heightClass=regular-widthClass=regular">
+                            <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                        </variation>
+                    </label>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="kib-oS-fHa" firstAttribute="top" secondItem="mL8-8l-Sfq" secondAttribute="bottom" constant="7.5" id="2i2-c5-l8Y">
+                    <variation key="heightClass=regular-widthClass=regular" constant="15"/>
+                </constraint>
+                <constraint firstAttribute="bottom" secondItem="22w-7W-Dnb" secondAttribute="bottom" id="Dhj-lZ-CIp"/>
+                <constraint firstAttribute="trailing" secondItem="kib-oS-fHa" secondAttribute="trailing" id="NzZ-6A-Nm8"/>
+                <constraint firstItem="22w-7W-Dnb" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="VaY-n2-xEl"/>
+                <constraint firstItem="kib-oS-fHa" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="bNJ-Au-Jma"/>
+                <constraint firstItem="22w-7W-Dnb" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dW7-Ir-sVE"/>
+                <constraint firstItem="mL8-8l-Sfq" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="h7b-tT-gy4"/>
+                <constraint firstAttribute="trailing" secondItem="22w-7W-Dnb" secondAttribute="trailing" id="m32-9l-4IT"/>
+                <constraint firstItem="mL8-8l-Sfq" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="wgG-k1-9Dd"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="150" height="118"/>
+            <connections>
+                <outlet property="languageImageView" destination="mL8-8l-Sfq" id="iF1-Jr-GDz"/>
+                <outlet property="languageName" destination="kib-oS-fHa" id="rx9-nF-a31"/>
+            </connections>
+            <point key="canvasLocation" x="56.521739130434788" y="85.714285714285708"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="languageCellBackground" width="268" height="277"/>
+    </resources>
+</document>

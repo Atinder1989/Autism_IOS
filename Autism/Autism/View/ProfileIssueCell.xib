@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ProfileIssueCell" customModule="Autism_Therapy" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="988" height="799"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="988" height="799"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SENSORY ISSUES?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s0a-gA-tgw">
+                        <rect key="frame" x="376.5" y="102" width="235.5" height="38"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="38" id="N7W-mz-2ha"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="26"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="56w-62-JxP" customClass="TPKeyboardAvoidingTableView">
+                        <rect key="frame" x="50" y="175" width="888" height="480"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </tableView>
+                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ce-XU-Be3">
+                        <rect key="frame" x="404" y="696" width="180" height="47"/>
+                        <color key="backgroundColor" red="0.4823529412" green="0.25882352939999997" blue="0.92156862750000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="47" id="2pG-l8-Qfk"/>
+                            <constraint firstAttribute="width" constant="180" id="8J8-m5-N15"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                        <state key="normal" title="Next">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <connections>
+                            <action selector="nextClicked:" destination="gTV-IL-0wX" eventType="touchUpInside" id="0Pi-B1-RlK"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="56w-62-JxP" firstAttribute="top" secondItem="s0a-gA-tgw" secondAttribute="bottom" constant="35" id="1IH-j8-V3O"/>
+                <constraint firstItem="5ce-XU-Be3" firstAttribute="top" secondItem="56w-62-JxP" secondAttribute="bottom" constant="41" id="8rF-vs-UIi"/>
+                <constraint firstItem="s0a-gA-tgw" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="102" id="A3R-La-e0Z"/>
+                <constraint firstItem="5ce-XU-Be3" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Asx-E4-eTg"/>
+                <constraint firstItem="56w-62-JxP" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="50" id="Cv7-Y7-H6u"/>
+                <constraint firstItem="s0a-gA-tgw" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Dxf-dP-0Mk"/>
+                <constraint firstAttribute="bottom" secondItem="5ce-XU-Be3" secondAttribute="bottom" constant="56" id="xTd-Tc-2Xf"/>
+                <constraint firstAttribute="trailing" secondItem="56w-62-JxP" secondAttribute="trailing" constant="50" id="yUp-f7-6so"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="674" height="643"/>
+            <connections>
+                <outlet property="issuesListTableView" destination="56w-62-JxP" id="D9c-Ux-fJj"/>
+                <outlet property="nextButton" destination="5ce-XU-Be3" id="JLv-cJ-VJT"/>
+                <outlet property="titleLabel" destination="s0a-gA-tgw" id="VTz-r6-EHj"/>
+            </connections>
+            <point key="canvasLocation" x="271.01449275362319" y="141.62946428571428"/>
+        </collectionViewCell>
+    </objects>
+</document>

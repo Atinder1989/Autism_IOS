@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="19H15" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AvatarVariation" representedClassName="AvatarVariation" syncable="YES" codeGenerationType="class">
+        <attribute name="avtar_id" optional="YES" attributeType="String"/>
+        <attribute name="file" optional="YES" attributeType="String"/>
+        <attribute name="file_type" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="isDownloaded" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="userid" optional="YES" attributeType="String"/>
+        <attribute name="variation_type" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
+        <attribute name="avatar" optional="YES" attributeType="String"/>
+        <attribute name="avatarGender" optional="YES" attributeType="String"/>
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="languageCode" optional="YES" attributeType="String"/>
+        <attribute name="languageImage" optional="YES" attributeType="String"/>
+        <attribute name="languageName" optional="YES" attributeType="String"/>
+        <attribute name="languageStatus" optional="YES" attributeType="String"/>
+        <attribute name="nickname" optional="YES" attributeType="String"/>
+        <attribute name="parentName" optional="YES" attributeType="String"/>
+        <attribute name="screen_id" optional="YES" attributeType="String"/>
+        <attribute name="token" optional="YES" attributeType="String"/>
+        <attribute name="verification" optional="YES" attributeType="String"/>
+        <attribute name="verified" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
+    <elements>
+        <element name="AvatarVariation" positionX="-63" positionY="-27" width="128" height="28"/>
+        <element name="User" positionX="-63" positionY="-18" width="128" height="253"/>
+    </elements>
+</model>

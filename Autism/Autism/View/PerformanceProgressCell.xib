@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Black.ttf">
+            <string>Roboto-Black</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="PerformanceProgressCell" customModule="Autism" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="120" height="420"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="120" height="420"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zvr-ff-mdQ">
+                        <rect key="frame" x="35" y="10" width="50" height="300"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="progressWhiteBackground" translatesAutoresizingMaskIntoConstraints="NO" id="SRM-Ny-iuI">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="300"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ugw-24-eDs">
+                                <rect key="frame" x="0.0" y="300" width="50" height="0.0"/>
+                                <color key="backgroundColor" red="0.27777117639999999" green="1" blue="0.31518023890000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="i2S-GW-7Cd"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="SRM-Ny-iuI" secondAttribute="bottom" id="3MU-nB-1iR"/>
+                            <constraint firstItem="SRM-Ny-iuI" firstAttribute="top" secondItem="zvr-ff-mdQ" secondAttribute="top" id="EFt-ni-VQE"/>
+                            <constraint firstAttribute="trailing" secondItem="SRM-Ny-iuI" secondAttribute="trailing" id="Lg5-o1-Sdr"/>
+                            <constraint firstAttribute="height" constant="300" id="RKO-Sa-K42"/>
+                            <constraint firstItem="Ugw-24-eDs" firstAttribute="leading" secondItem="zvr-ff-mdQ" secondAttribute="leading" id="cYP-Qp-Xya"/>
+                            <constraint firstItem="SRM-Ny-iuI" firstAttribute="leading" secondItem="zvr-ff-mdQ" secondAttribute="leading" id="iuh-mZ-MUm"/>
+                            <constraint firstAttribute="trailing" secondItem="Ugw-24-eDs" secondAttribute="trailing" id="pB5-LV-0PN"/>
+                            <constraint firstAttribute="width" constant="50" id="s7Y-EG-g6E"/>
+                            <constraint firstAttribute="bottom" secondItem="Ugw-24-eDs" secondAttribute="bottom" id="wbR-xn-vts"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VFO-yb-1VU">
+                        <rect key="frame" x="0.0" y="320" width="120" height="100"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="45" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sDo-ug-CI7">
+                                <rect key="frame" x="34" y="2" width="52.5" height="53"/>
+                                <fontDescription key="fontDescription" name="Roboto-Black" family="Roboto" pointSize="45"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Block design" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hH2-c9-A7r">
+                                <rect key="frame" x="0.0" y="60" width="120" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="aF3-mL-Tiy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Black" family="Roboto" pointSize="16"/>
+                                <color key="textColor" red="0.023529411764705882" green="0.12549019607843137" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="hH2-c9-A7r" secondAttribute="trailing" id="1Ed-gP-GNi"/>
+                            <constraint firstAttribute="height" constant="100" id="3KU-Ze-NDi"/>
+                            <constraint firstItem="hH2-c9-A7r" firstAttribute="leading" secondItem="VFO-yb-1VU" secondAttribute="leading" id="ATB-zK-cVP"/>
+                            <constraint firstItem="sDo-ug-CI7" firstAttribute="top" secondItem="VFO-yb-1VU" secondAttribute="top" constant="2" id="UXn-Hu-ReW"/>
+                            <constraint firstItem="hH2-c9-A7r" firstAttribute="top" secondItem="sDo-ug-CI7" secondAttribute="bottom" constant="5" id="aEb-pM-Jnb"/>
+                            <constraint firstItem="hH2-c9-A7r" firstAttribute="centerX" secondItem="VFO-yb-1VU" secondAttribute="centerX" id="aOT-IH-tpE"/>
+                            <constraint firstItem="sDo-ug-CI7" firstAttribute="centerX" secondItem="VFO-yb-1VU" secondAttribute="centerX" id="hd2-2e-b6Q"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="zvr-ff-mdQ" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="50c-tb-Ycs"/>
+                <constraint firstAttribute="trailing" secondItem="VFO-yb-1VU" secondAttribute="trailing" id="O1U-ds-5V6"/>
+                <constraint firstItem="zvr-ff-mdQ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="r7l-BS-vaO"/>
+                <constraint firstAttribute="bottom" secondItem="VFO-yb-1VU" secondAttribute="bottom" id="rV0-e4-mEd"/>
+                <constraint firstItem="VFO-yb-1VU" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="vlU-2y-NsI"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="50" height="103"/>
+            <connections>
+                <outlet property="heigthConstraint" destination="i2S-GW-7Cd" id="g8E-CY-tTG"/>
+                <outlet property="progressView" destination="Ugw-24-eDs" id="OTv-Zm-eNd"/>
+                <outlet property="titleLabel" destination="hH2-c9-A7r" id="bsj-OE-gQK"/>
+                <outlet property="valueLabel" destination="sDo-ug-CI7" id="fmK-Rn-ik5"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="81.696428571428569"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="progressWhiteBackground" width="31" height="217"/>
+    </resources>
+</document>
