@@ -91,7 +91,7 @@ extension MenuListViewController {
 //        ]
         
         self.menuListItems = [
-            .changeLanguage,.editprofile,
+            .changeLanguage,
             .deleteAccount,.logout
         ]
 

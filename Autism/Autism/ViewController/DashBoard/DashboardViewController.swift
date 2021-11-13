@@ -144,6 +144,8 @@ class DashboardViewController: UIViewController {
         print("Setting Clicked")
         if !isMenuVisible {
                    self.showMenuView()
+        } else {
+            self.isMenuVisible = false
         }
     }
     
@@ -183,23 +185,8 @@ class DashboardViewController: UIViewController {
     }
     
     @IBAction func resetLearningClicked(_ sender: Any) {
-        
-        var service = Service.init(httpMethod: .POST)
-        service.url = ServiceHelper.getResetLearning()
-        if let user = UserManager.shared.getUserInfo() {
-           service.params = [
-            ServiceParsingKeys.user_id.rawValue:user.id,
-           ]
-        }
-        ServiceManager.processDataFromServer(service: service, model: CommonMessageResponseVO.self) { (responseVo, error) in
-            if let _ = error {
-            } else {
-                if let res = responseVo {
-                    DispatchQueue.main.async {
-                        Utility.sharedInstance.showToast(message: res.message)
-                    }
-                }
-            }
+        DispatchQueue.main.async {
+            self.dashboardViewModel.resetLearning()
         }
     }
     
@@ -243,8 +230,15 @@ extension DashboardViewController {
             DispatchQueue.main.async {
                 self.isActionPerformed = false
                 if response.success {
-                    UserManager.shared.resetAssessment()
+                    //UserManager.shared.resetAssessment()
                 }
+            }
+        }
+        
+        self.dashboardViewModel.resetLearningClosure = { response in
+            DispatchQueue.main.async {
+                self.isActionPerformed = false
+                Utility.sharedInstance.showToast(message: "Learning Reset Successfully")
             }
         }
         

@@ -11,6 +11,8 @@ import Foundation
 class DashboardViewModel:NSObject  {
     var dataClosure : (() -> Void)?
     var resetAssessmentClosure : ((_ response:CommonMessageResponseVO) -> Void)?
+    var resetLearningClosure : ((_ response:CommonMessageResponseVO) -> Void)?
+
     var learningAlgoClosure : ((_ algoResponse:AlgorithmResponseVO) -> Void)?
     var deleteAccountClosure : ((_ messageResponse:CommonMessageResponseVO) -> Void)?
     var noNetWorkClosure: (() -> Void)?
@@ -72,6 +74,27 @@ class DashboardViewModel:NSObject  {
     }
     
     func resetAssessment() {
+        var service = Service.init(httpMethod: .POST)
+        service.url = ServiceHelper.getResetLearning()
+        if let user = UserManager.shared.getUserInfo() {
+           service.params = [
+            ServiceParsingKeys.user_id.rawValue:user.id,
+           ]
+        }
+        ServiceManager.processDataFromServer(service: service, model: CommonMessageResponseVO.self) { (responseVo, error) in
+            if let _ = error {
+            } else {
+                if let res = responseVo {
+                    if let closure = self.resetAssessmentClosure {
+                           closure(res)
+                       }
+                }
+            }
+        }
+    }
+
+    
+    func resetLearning() {
            var service = Service.init(httpMethod: .POST)
            service.url = ServiceHelper.getResetAssessmentUrl()
            if let user = UserManager.shared.getUserInfo() {
@@ -84,7 +107,7 @@ class DashboardViewModel:NSObject  {
                    print("Error = ", e.localizedDescription)
                } else {
                    if let res = responseVo {
-                    if let closure = self.resetAssessmentClosure {
+                    if let closure = self.resetLearningClosure {
                            closure(res)
                        }
                    }

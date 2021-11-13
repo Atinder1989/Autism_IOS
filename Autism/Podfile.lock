@@ -57,10 +57,12 @@ DEPENDENCIES:
   - VariousViewsEffects
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs:
+  trunk:
     - AppAuth
+    - AppCenter
     - FBSDKCoreKit
     - FBSDKLoginKit
+    - FLAnimatedImage
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
@@ -69,9 +71,6 @@ SPEC REPOS:
     - SDWebImage
     - Sketch
     - SwiftyGif
-  trunk:
-    - AppCenter
-    - FLAnimatedImage
     - VariousViewsEffects
 
 SPEC CHECKSUMS:
@@ -92,4 +91,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 88aeb2a4a2de37fa85b4684eb8d2d7fbb8a11f21
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

@@ -305,14 +305,26 @@ class LearningManager {
             }
             break
         default:
-            Utility.showAlert(title:"", message: response.message)
-            UserManager.shared.exitAssessment()
+            self.showAlert(message: response.message)
             break
         }
         } else {
-            Utility.showAlert(title:"", message: response.message)
-            UserManager.shared.exitAssessment()
+            self.showAlert(message: response.message)
         }
+    }
+    
+    static func showAlert(message: String) {
+        if let topController = UIApplication.topViewController() {
+            if topController is UIAlertController {
+            } else {
+                let alert = UIAlertController(title: "", message: message,
+                                              preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
+                    self.resetAssessment()
+                }))
+                topController.present(alert, animated: true, completion: nil)
+            }
+         }
     }
 
     static func handleTrialInfo(trialInfo:TrialInfo)
@@ -328,6 +340,52 @@ class LearningManager {
         }
         }
     }
+    
+    
+    private static func resetAssessment() {
+        Utility.showLoader()
+        var service = Service.init(httpMethod: .POST)
+        service.url = ServiceHelper.getResetLearning()
+        if let user = UserManager.shared.getUserInfo() {
+           service.params = [
+            ServiceParsingKeys.user_id.rawValue:user.id,
+           ]
+        }
+        ServiceManager.processDataFromServer(service: service, model: CommonMessageResponseVO.self) { (responseVo, error) in
+            Utility.hideLoader()
+            if let _ = error {
+            } else {
+                if let res = responseVo {
+                    DispatchQueue.main.async {
+                        self.resetLearning()
+                    }
+                }
+            }
+        }
+    }
+
+    
+    private static func resetLearning() {
+        Utility.showLoader()
+
+           var service = Service.init(httpMethod: .POST)
+           service.url = ServiceHelper.getResetAssessmentUrl()
+           if let user = UserManager.shared.getUserInfo() {
+               service.params = [
+                   ServiceParsingKeys.user_id.rawValue:user.id,
+               ]
+           }
+           ServiceManager.processDataFromServer(service: service, model: CommonMessageResponseVO.self) { (responseVo, error) in
+               Utility.hideLoader()
+               if let e = error {
+                   print("Error = ", e.localizedDescription)
+               } else {
+                   if let _ = responseVo {
+                       UserManager.shared.resetAssessment()
+                   }
+               }
+           }
+       }
     
     
     //MARK:- Youtube

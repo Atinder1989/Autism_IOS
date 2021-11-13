@@ -107,6 +107,7 @@ class RecordingManager:NSObject {
             })
         }
         if let del = self.delegate {
+            print("****** Recording Start ==========")
             del.recordingStart()
         }
         self.waitForUserAnswerTimer = Timer.scheduledTimer(timeInterval: TimeInterval(4), target: self, selector: #selector(userAnswerTimerAction), userInfo: nil, repeats: false)

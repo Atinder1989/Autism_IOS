@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "129-1295290_transparent-body-outline-png-figure-drawing-1 copy-1.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "129-1295290_transparent-body-outline-png-figure-drawing-1 copy-2.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "129-1295290_transparent-body-outline-png-figure-drawing-1 copy.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
