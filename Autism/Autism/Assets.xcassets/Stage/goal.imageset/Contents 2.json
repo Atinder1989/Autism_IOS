@@ -1,23 +1,23 @@
 {
   "images" : [
     {
-      "filename" : "undraw_winners_ao2o.png",
       "idiom" : "universal",
+      "filename" : "goal.png",
       "scale" : "1x"
     },
     {
-      "filename" : "undraw_winners_ao2o-1.png",
       "idiom" : "universal",
+      "filename" : "goal@2x.png",
       "scale" : "2x"
     },
     {
-      "filename" : "undraw_winners_ao2o-2.png",
       "idiom" : "universal",
+      "filename" : "goal@3x.png",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "author" : "xcode",
-    "version" : 1
+    "version" : 1,
+    "author" : "xcode"
   }
 }

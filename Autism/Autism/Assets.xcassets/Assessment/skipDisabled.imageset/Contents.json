@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "skip Disabled-1.png",
+      "filename" : "skip Disabled.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "skip Disabled-2.png",
+      "filename" : "skip Disabled-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "skip Disabled.png",
+      "filename" : "skip Disabled-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
