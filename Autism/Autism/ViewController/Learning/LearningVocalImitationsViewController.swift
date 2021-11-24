@@ -130,12 +130,10 @@ extension LearningVocalImitationsViewController {
         self.nextButton.isHidden = true
         self.speechTitle.text = ""
         isChildActionCompleted = false
-       // self.view.isUserInteractionEnabled = false
         self.playerView.isHidden = true
         self.thumnailImageView.isHidden = true
         self.userAnswer.text = ""
         self.bufferLoaderView.isHidden = true
-
     }
     
     private func listenModelClosures() {
@@ -175,6 +173,7 @@ extension LearningVocalImitationsViewController {
        self.verbalViewModal.clearSpeechTextClosure = {
             DispatchQueue.main.async {
                 self.userAnswer.text = ""
+                self.speechTitle.text = ""
             }
        }
         
