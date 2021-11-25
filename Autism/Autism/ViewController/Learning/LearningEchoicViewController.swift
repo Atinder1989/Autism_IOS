@@ -85,6 +85,7 @@ class LearningEchoicViewController: UIViewController {
 //    }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
+        self.stopTimer()
         self.verbalViewModal.pausePlayer()
         self.verbalViewModal.stopAllCommands()
         UserManager.shared.exitAssessment()

@@ -81,6 +81,7 @@ class LearningGrabingObjectsViewController: UIViewController {
     }
 
     @IBAction func exitAssessmentClicked(_ sender: Any) {
+        self.stopTimer()
         self.grabingObjectViewModel.pausePlayer()
         self.grabingObjectViewModel.stopAllCommands()
         UserManager.shared.exitAssessment()

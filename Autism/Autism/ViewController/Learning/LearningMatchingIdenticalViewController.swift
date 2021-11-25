@@ -83,6 +83,7 @@ class LearningMatchingIdenticalViewController: UIViewController {
 //    }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
+        self.stopTimer()
         self.matchingIdenticalViewModal.pausePlayer()
         self.matchingIdenticalViewModal.stopAllCommands()
         UserManager.shared.exitAssessment()

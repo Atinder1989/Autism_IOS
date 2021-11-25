@@ -110,6 +110,7 @@ class LearningMathematicsViewController: UIViewController {
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
+        self.stopTimer()
         self.mathematicsViewModel.pausePlayer()
         self.mathematicsViewModel.stopAllCommands()
         UserManager.shared.exitAssessment()

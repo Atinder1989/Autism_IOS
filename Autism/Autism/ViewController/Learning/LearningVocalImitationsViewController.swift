@@ -85,6 +85,7 @@ class LearningVocalImitationsViewController: UIViewController {
 //    }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
+        self.stopTimer()
         self.verbalViewModal.pausePlayer()
         self.verbalViewModal.stopAllCommands()
         UserManager.shared.exitAssessment()
@@ -133,6 +134,7 @@ extension LearningVocalImitationsViewController {
         self.playerView.isHidden = true
         self.thumnailImageView.isHidden = true
         self.userAnswer.text = ""
+        self.speechTitle.isHidden = true
         self.bufferLoaderView.isHidden = true
     }
     

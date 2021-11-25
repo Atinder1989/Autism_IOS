@@ -85,6 +85,7 @@ class LearningManding2WordsViewController: UIViewController {
 //    }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
+        self.stopTimer()
         self.manding2WordsViewModal.pausePlayer()
         self.manding2WordsViewModal.stopAllCommands()
         UserManager.shared.exitAssessment()

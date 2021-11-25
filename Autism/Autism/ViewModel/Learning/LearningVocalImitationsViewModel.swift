@@ -164,6 +164,7 @@ class LearningVocalImitationsViewModel: NSObject {
     
     func handleUserAnswer(text:String) {
         if let info = self.scriptManager.getChildActionCommandInfo() {
+                        
             if Utility.sharedInstance.isAnswerMatched(text: text, answer: info.value) {
                 
                self.calculateChildAction(state: true)
@@ -177,6 +178,8 @@ class LearningVocalImitationsViewModel: NSObject {
                 }
                 
             }
+            
+            
         }
     }
     

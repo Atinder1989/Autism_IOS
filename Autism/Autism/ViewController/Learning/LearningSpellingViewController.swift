@@ -85,6 +85,7 @@ class LearningSpellingViewController: UIViewController {
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
+        self.stopTimer()
         self.spellingViewModel.pausePlayer()
         self.spellingViewModel.stopAllCommands()
         UserManager.shared.exitAssessment()

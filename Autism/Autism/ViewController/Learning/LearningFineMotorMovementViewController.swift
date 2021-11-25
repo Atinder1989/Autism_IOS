@@ -79,6 +79,7 @@ class LearningFineMotorMovementViewController: UIViewController {
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
+        self.stopTimer()
         self.fineMotorViewModel.pausePlayer()
         self.fineMotorViewModel.stopAllCommands()
         UserManager.shared.exitAssessment()

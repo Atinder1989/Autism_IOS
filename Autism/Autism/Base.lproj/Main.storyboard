@@ -5739,7 +5739,7 @@
                                     <action selector="resumeAssessmentClicked:" destination="1zX-rd-VRd" eventType="touchUpInside" id="ey0-qc-kcj"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p38-OM-kGs">
+                            <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p38-OM-kGs">
                                 <rect key="frame" x="665.5" y="65" width="140" height="40"/>
                                 <color key="backgroundColor" red="0.4823529412" green="0.25490196079999999" blue="0.92156862750000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -5754,7 +5754,7 @@
                                     <action selector="resetAssessmentClicked:" destination="1zX-rd-VRd" eventType="touchUpInside" id="NZn-ae-kuC"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pc2-pH-dlj">
+                            <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pc2-pH-dlj">
                                 <rect key="frame" x="555.5" y="65" width="100" height="40"/>
                                 <color key="backgroundColor" red="0.4823529412" green="0.25490196079999999" blue="0.92156862750000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -13104,7 +13104,7 @@
         <image name="downarrow" width="250" height="250"/>
         <image name="dragHand" width="100" height="100"/>
         <image name="edit" width="12.5" height="12.5"/>
-        <image name="greenTick" width="36" height="36"/>
+        <image name="greenTick" width="24" height="24"/>
         <image name="home" width="250" height="250"/>
         <image name="languageBackground" width="768" height="1024"/>
         <image name="play" width="19" height="19"/>
