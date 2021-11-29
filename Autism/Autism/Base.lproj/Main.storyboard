@@ -5739,7 +5739,7 @@
                                     <action selector="resumeAssessmentClicked:" destination="1zX-rd-VRd" eventType="touchUpInside" id="ey0-qc-kcj"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p38-OM-kGs">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p38-OM-kGs">
                                 <rect key="frame" x="665.5" y="65" width="140" height="40"/>
                                 <color key="backgroundColor" red="0.4823529412" green="0.25490196079999999" blue="0.92156862750000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>

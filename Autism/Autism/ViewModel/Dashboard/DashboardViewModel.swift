@@ -75,7 +75,7 @@ class DashboardViewModel:NSObject  {
     
     func resetAssessment() {
         var service = Service.init(httpMethod: .POST)
-        service.url = ServiceHelper.getResetLearning()
+        service.url = ServiceHelper.getResetAssessmentUrl()
         if let user = UserManager.shared.getUserInfo() {
            service.params = [
             ServiceParsingKeys.user_id.rawValue:user.id,
@@ -96,7 +96,7 @@ class DashboardViewModel:NSObject  {
     
     func resetLearning() {
            var service = Service.init(httpMethod: .POST)
-           service.url = ServiceHelper.getResetAssessmentUrl()
+           service.url = ServiceHelper.getResetLearning()
            if let user = UserManager.shared.getUserInfo() {
                service.params = [
                    ServiceParsingKeys.user_id.rawValue:user.id,
