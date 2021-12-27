@@ -230,7 +230,7 @@ extension DashboardViewController {
             DispatchQueue.main.async {
               //  self.isActionPerformed = false
                 if response.success {
-                    //UserManager.shared.resetAssessment()
+                    UserManager.shared.resetAssessment()
                 }
             }
         }
@@ -238,7 +238,7 @@ extension DashboardViewController {
         self.dashboardViewModel.resetLearningClosure = { response in
             DispatchQueue.main.async {
                 //self.isActionPerformed = false
-                Utility.sharedInstance.showToast(message: "Learning Reset Successfully")
+               // Utility.sharedInstance.showToast(message: "Learning Reset Successfully")
             }
         }
         
@@ -257,7 +257,17 @@ extension DashboardViewController {
                     if let data = algoResponse.data {
                         if data.course_type == .none {
                             if let labelresponse = self.dashboardViewModel.labelsResponseVO {
-                                Utility.showAlert(title: labelresponse.getLiteralof(code: DashboardLabelCode.information.rawValue).label_text, message: algoResponse.message)
+                                
+                                let alert = UIAlertController(title: labelresponse.getLiteralof(code: DashboardLabelCode.information.rawValue).label_text, message: algoResponse.message,
+                                                              preferredStyle: UIAlertController.Style.alert)
+                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
+                                    print("ok")
+                                    self.dashboardViewModel.resetAssessment()
+                                }))
+                                self.present(alert, animated: true, completion: nil)
+                                
+                                
+                               // Utility.showAlert(title: labelresponse.getLiteralof(code: DashboardLabelCode.information.rawValue).label_text, message: algoResponse.message)
                             }
                             return
                         }
