@@ -11,7 +11,7 @@ import Foundation
 class ServiceHelper: NSObject {
     static var baseURL: ServiceEnvironment {
         get {
-            return ServiceEnvironment.Testing
+            return ServiceEnvironment.Development
         }
     }
 }
