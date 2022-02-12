@@ -552,7 +552,7 @@ extension TrialBalloonGameViewController {
         self.timeTakenToSolve = 0
         timerMaxTime = 0
         self.speechTitle.text = ""
-        self.avatarCenterImageView.animatedImage =  idleGif
+        self.avatarCenterImageView.animatedImage =  getIdleGif()
         self.avatarCenterImageView.isHidden = true
 //    }
 //    private func customSetting() {
@@ -610,11 +610,11 @@ extension TrialBalloonGameViewController: SpeechManagerDelegate {
         
         if let type = Utility.getSpeechMessageType(text: speechText) {
             if type != .hurrayGoodJob {
-                self.avatarCenterImageView.animatedImage =  idleGif
+                self.avatarCenterImageView.animatedImage =  getIdleGif()
             }
         }
         else {
-            self.avatarCenterImageView.animatedImage =  idleGif
+            self.avatarCenterImageView.animatedImage =  getIdleGif()
         }
         
         switch self.questionState {
@@ -656,16 +656,16 @@ extension TrialBalloonGameViewController: SpeechManagerDelegate {
         if let type = Utility.getSpeechMessageType(text: speechText) {
             switch type {
             case .hurrayGoodJob:
-                self.avatarCenterImageView.animatedImage =  hurrayGif
+                self.avatarCenterImageView.animatedImage =  getHurrayGif()
                 return
             case .wrongAnswer:
-                self.avatarCenterImageView.animatedImage =  wrongAnswerGif
+                self.avatarCenterImageView.animatedImage =  getWrongAnswerGif()
                 return
             default:
                 break
             }
         }
-        self.avatarCenterImageView.animatedImage =  talkingGif
+        self.avatarCenterImageView.animatedImage =  getTalkingGif()
     }
 }
 

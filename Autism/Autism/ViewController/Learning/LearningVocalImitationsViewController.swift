@@ -197,7 +197,7 @@ extension LearningVocalImitationsViewController {
         self.verbalViewModal.talkAvatarClosure = {
              DispatchQueue.main.async {
                 self.avatarImageView.isHidden = false
-                self.avatarImageView.animatedImage = talkingGif
+                self.avatarImageView.animatedImage = getTalkingGif()
              }
         }
         

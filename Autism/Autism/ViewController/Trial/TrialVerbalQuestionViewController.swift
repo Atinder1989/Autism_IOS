@@ -235,11 +235,11 @@ extension TrialVerbalQuestionViewController: SpeechManagerDelegate {
 
         if let type = Utility.getSpeechMessageType(text: speechText) {
                    if type != .hurrayGoodJob {
-                       self.avatarImageView.animatedImage =  idleGif
+                       self.avatarImageView.animatedImage =  getIdleGif()
                    }
                }
         else {
-                self.avatarImageView.animatedImage =  idleGif
+                self.avatarImageView.animatedImage =  getIdleGif()
         }
         
         switch self.questionState {
@@ -283,16 +283,16 @@ extension TrialVerbalQuestionViewController: SpeechManagerDelegate {
         if let type = Utility.getSpeechMessageType(text: speechText) {
             switch type {
             case .hurrayGoodJob:
-                self.avatarImageView.animatedImage =  hurrayGif
+                self.avatarImageView.animatedImage =  getHurrayGif()
                 return
             case .wrongAnswer:
-                self.avatarImageView.animatedImage =  wrongAnswerGif
+                self.avatarImageView.animatedImage =  getWrongAnswerGif()
                 return
             default:
                 break
             }
         }
-        self.avatarImageView.animatedImage =  talkingGif
+        self.avatarImageView.animatedImage =  getTalkingGif()
     }
 }
 

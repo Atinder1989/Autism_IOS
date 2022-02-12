@@ -32,11 +32,12 @@ class UserManager {
     
     func clearCurrentUserData() {
         self.user = nil
-        UserDefaults.standard.removeObject(forKey: keyExcellent)
-        UserDefaults.standard.removeObject(forKey: keyIdle)
-        UserDefaults.standard.removeObject(forKey: keyWrongAnswer)
-        UserDefaults.standard.removeObject(forKey: keyTalking)
-        UserDefaults.standard.removeObject(forKey: keyHurray)
+        UserDefaults.standard.setValue(nil, forKeyPath: keyExcellent)
+        UserDefaults.standard.setValue(nil, forKeyPath: keyIdle)
+        UserDefaults.standard.setValue(nil, forKeyPath: keyWrongAnswer)
+        UserDefaults.standard.setValue(nil, forKeyPath: keyTalking)
+        UserDefaults.standard.setValue(nil, forKeyPath: keyHurray)        
+        UserDefaults.standard.synchronize()
         DatabaseManager.sharedInstance.clearDatabaseWithEntityName(DatabaseEntity.AvatarVariation.rawValue)
     }
     

@@ -74,7 +74,7 @@ extension LearningFollowingInstructionsViewController {
         initializeFrame()
         isChildAction = false
         self.speechTitle.text = ""
-        self.avatarCenterImageView.animatedImage =  idleGif
+        self.avatarCenterImageView.animatedImage =  getIdleGif()
         self.avatarCenterImageView.isHidden = true
         self.imagesCollectionView.isHidden = true
         self.imageList = []
@@ -116,7 +116,7 @@ extension LearningFollowingInstructionsViewController {
                  if let option = commandInfo.option,let this = self  {
                      if option.Position == ScriptCommandOptionType.center.rawValue {
                         this.avatarCenterImageView.isHidden = false
-                        this.avatarCenterImageView.animatedImage =  talkingGif
+                        this.avatarCenterImageView.animatedImage =  getTalkingGif()
                      }
                  }
               }

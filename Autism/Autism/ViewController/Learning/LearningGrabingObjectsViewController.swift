@@ -220,14 +220,14 @@ extension LearningGrabingObjectsViewController {
               DispatchQueue.main.async {
                  if let _ = commandInfo.option {
                     self.avatarBottomImageView.isHidden = false
-                    self.avatarBottomImageView.animatedImage =  talkingGif
+                    self.avatarBottomImageView.animatedImage =  getTalkingGif()
                  }
               }
         }
         
         self.grabingObjectViewModel.idleAvatarClosure = { commandInfo in
               DispatchQueue.main.async {
-                self.avatarBottomImageView.animatedImage =  idleGif
+                self.avatarBottomImageView.animatedImage =  getIdleGif()
               }
         }
        

@@ -91,7 +91,7 @@ extension LearningMatching3PairViewController {
         self.initializeFrame()
         isChildAction = false
         self.speechTitle.text = ""
-        self.avatarCenterImageView.animatedImage =  idleGif
+        self.avatarCenterImageView.animatedImage =  getIdleGif()
         self.avatarCenterImageView.isHidden = true
         self.imageViewleft1.isHidden = true
         self.imageViewleft2.isHidden = true
@@ -196,7 +196,7 @@ extension LearningMatching3PairViewController {
         self.commandViewModal.waveAvatarClosure = {
              DispatchQueue.main.async {
                 self.avatarCenterImageView.isHidden = false
-                self.avatarCenterImageView.animatedImage =  hurrayGif
+                self.avatarCenterImageView.animatedImage =  getHurrayGif()
              }
         }
         
@@ -208,7 +208,7 @@ extension LearningMatching3PairViewController {
         
         self.commandViewModal.talkAvatarClosure = {
               DispatchQueue.main.async {
-                self.avatarCenterImageView.animatedImage =  talkingGif
+                self.avatarCenterImageView.animatedImage =  getTalkingGif()
               }
         }
         self.commandViewModal.hideAvatarClosure = {

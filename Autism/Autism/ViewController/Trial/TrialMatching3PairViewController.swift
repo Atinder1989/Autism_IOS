@@ -141,7 +141,7 @@ extension TrialMatching3PairViewController {
         self.isDragCompleted = false
         self.isDragStarted = false
         self.speechTitle.text = ""
-        self.avatarCenterImageView.animatedImage =  idleGif
+        self.avatarCenterImageView.animatedImage =  getIdleGif()
         self.avatarCenterImageView.isHidden = true
         self.avatarBottomImageView.isHidden = true
         self.view.isUserInteractionEnabled = false

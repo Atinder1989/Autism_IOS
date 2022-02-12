@@ -307,9 +307,9 @@ extension AssessmentBodyTrackingViewController {
     private func customSetting() {
         
         if(self.bodyTrackingQuestionInfo.correct_answer == "4") {
-            self.imgViewAvatar.animatedImage =  raiseHandGif
+            self.imgViewAvatar.animatedImage =  getRaiseHandGif()
         } else {
-            self.imgViewAvatar.animatedImage =  talkingGif
+            self.imgViewAvatar.animatedImage =  getTalkingGif()
         }
         
         self.imgViewAvatar.isHidden = true
@@ -416,14 +416,14 @@ extension AssessmentBodyTrackingViewController: SpeechManagerDelegate {
         
         if let type = Utility.getSpeechMessageType(text: speechText) {
             if type != .hurrayGoodJob {
-                self.imgViewAvatar.animatedImage =  idleGif
+                self.imgViewAvatar.animatedImage =  getIdleGif()
             }
         }
         else {
             if(self.bodyTrackingQuestionInfo.correct_answer == "4") {
-                self.imgViewAvatar.animatedImage =  raiseHandGif
+                self.imgViewAvatar.animatedImage =  getRaiseHandGif()
             } else {
-                self.imgViewAvatar.animatedImage =  idleGif
+                self.imgViewAvatar.animatedImage =  getIdleGif()
             }
         }
         

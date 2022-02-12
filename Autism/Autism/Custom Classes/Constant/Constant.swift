@@ -17,6 +17,8 @@ import FLAnimatedImage
 //  support@fluent8.com
 //  nijubashi##2019
 
+// com.impute.Autism
+
 //Youtube Quote
 //https://stackoverflow.com/questions/47408723/youtube-quotas-exceeded
 
@@ -69,8 +71,8 @@ var trailPromptTimeForUser = 0
 
 var selectedLanguageModel = LanguageModel.init(name: "", code: "", image: "", status: "")
 
-var idleGif: FLAnimatedImage? = {
-    
+
+func getIdleGif() -> FLAnimatedImage? {
     var imageData:Data? = UserDefaults.standard.object(forKey: keyIdle) as? Data
     if(imageData == nil) {
         
@@ -85,17 +87,17 @@ var idleGif: FLAnimatedImage? = {
     }
     let imgFL = FLAnimatedImage(animatedGIFData: imageData)
     return imgFL
-}()
+}
 
-var hurrayGif: FLAnimatedImage? = {
-    
+
+func getHurrayGif() -> FLAnimatedImage? {
     var imageData:Data? = UserDefaults.standard.object(forKey: keyHurray) as? Data
     if(imageData == nil) {
-        
+
         if let model = DatabaseManager.sharedInstance.getAvatarVariationOfType(variationType: keyHurray) {
         let stringSpace = ServiceHelper.baseURL.getMediaBaseUrl() + model.file
         let urlString:String! = stringSpace.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        
+
         let url = URL(string: urlString)!
         imageData = try? Data(contentsOf: url)
         UserDefaults.standard.setValue(imageData, forKeyPath: keyHurray)
@@ -103,10 +105,9 @@ var hurrayGif: FLAnimatedImage? = {
     }
     let imgFL = FLAnimatedImage(animatedGIFData: imageData)
     return imgFL
-}()
+}
 
-var talkingGif: FLAnimatedImage? = {
-    
+func getTalkingGif() -> FLAnimatedImage? {
     var imageData:Data? = UserDefaults.standard.object(forKey: keyTalking) as? Data
     if(imageData == nil) {
         
@@ -121,10 +122,9 @@ var talkingGif: FLAnimatedImage? = {
     }
     let imgFL = FLAnimatedImage(animatedGIFData: imageData)
     return imgFL
-}()
+}
 
-var wrongAnswerGif: FLAnimatedImage? = {
-    
+func getWrongAnswerGif() -> FLAnimatedImage? {
     var imageData:Data? = UserDefaults.standard.object(forKey: keyWrongAnswer) as? Data
     if(imageData == nil) {
         
@@ -139,10 +139,9 @@ var wrongAnswerGif: FLAnimatedImage? = {
     }
     let imgFL = FLAnimatedImage(animatedGIFData: imageData)
     return imgFL
-}()
+}
 
-var excellentGif: FLAnimatedImage? = {
-    
+func getExcellentGif() -> FLAnimatedImage? {
     var imageData:Data? = UserDefaults.standard.object(forKey: keyExcellent) as? Data
     if(imageData == nil) {
         
@@ -157,11 +156,9 @@ var excellentGif: FLAnimatedImage? = {
     }
     let imgFL = FLAnimatedImage(animatedGIFData: imageData)
     return imgFL
-}()
+}
 
-
-var clappingGif: FLAnimatedImage? = {
-    
+func getClappingGif() -> FLAnimatedImage? {
     var imageData:Data? = UserDefaults.standard.object(forKey: keyClapping) as? Data
     if(imageData == nil) {
         
@@ -176,11 +173,9 @@ var clappingGif: FLAnimatedImage? = {
     }
     let imgFL = FLAnimatedImage(animatedGIFData: imageData)
     return imgFL
-}()
+}
 
-
-var raiseHandGif: FLAnimatedImage? = {
-    
+func getRaiseHandGif() -> FLAnimatedImage? {
     var imageData:Data? = UserDefaults.standard.object(forKey: keyRaiseHand) as? Data
     if(imageData == nil) {
         
@@ -195,11 +190,9 @@ var raiseHandGif: FLAnimatedImage? = {
     }
     let imgFL = FLAnimatedImage(animatedGIFData: imageData)
     return imgFL
-}()
+}
 
-
-var openMouthGif: FLAnimatedImage? = {
-    
+func getOpenMouthGif() -> FLAnimatedImage? {
     var imageData:Data? = UserDefaults.standard.object(forKey: keyOpenMouth) as? Data
     if(imageData == nil) {
         
@@ -214,11 +207,9 @@ var openMouthGif: FLAnimatedImage? = {
     }
     let imgFL = FLAnimatedImage(animatedGIFData: imageData)
     return imgFL
-}()
+}
 
-
-var touchNoseGif: FLAnimatedImage? = {
-    
+func getTouchNoseGif() -> FLAnimatedImage? {
     var imageData:Data? = UserDefaults.standard.object(forKey: keyTouchNose) as? Data
     if(imageData == nil) {
         
@@ -233,10 +224,9 @@ var touchNoseGif: FLAnimatedImage? = {
     }
     let imgFL = FLAnimatedImage(animatedGIFData: imageData)
     return imgFL
-}()
+}
 
-var bigAvatarTalking: FLAnimatedImage? = {
-    
+func getBigAvatarTalkingGif() -> FLAnimatedImage? {
     var imageData:Data? = UserDefaults.standard.object(forKey: keyBigAvatarTalking) as? Data
     if(imageData == nil) {
         
@@ -251,7 +241,8 @@ var bigAvatarTalking: FLAnimatedImage? = {
     }
     let imgFL = FLAnimatedImage(animatedGIFData: imageData)
     return imgFL
-}()
+}
+
 
 
 

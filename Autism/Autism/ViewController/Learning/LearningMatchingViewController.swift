@@ -102,7 +102,7 @@ extension LearningMatchingViewController {
         self.isDragCompleted = false
         self.isDragStarted = false
         self.speechTitle.text = ""
-        self.avatarCenterImageView.animatedImage =  idleGif
+        self.avatarCenterImageView.animatedImage =  getIdleGif()
         self.avatarCenterImageView.isHidden = true
         self.commandImgViewLeft.isHidden = true
         self.commandImgViewRight.isHidden = true
@@ -197,7 +197,7 @@ extension LearningMatchingViewController {
       
        self.commandViewModal.waveAvatarClosure = {
             DispatchQueue.main.async {
-                self.avatarCenterImageView.animatedImage =  hurrayGif
+                self.avatarCenterImageView.animatedImage =  getHurrayGif()
             }
        }
         
@@ -213,10 +213,10 @@ extension LearningMatchingViewController {
                 if let option = commandInfo.option {
                     if option.Position == ScriptCommandOptionType.center.rawValue {
                         self.avatarCenterImageView.isHidden = false
-                        self.avatarCenterImageView.animatedImage =  talkingGif
+                        self.avatarCenterImageView.animatedImage =  getTalkingGif()
                     } else if option.Position == ScriptCommandOptionType.bottom.rawValue {
                         self.avatarBottomImageView.isHidden = false
-                        self.avatarBottomImageView.animatedImage =  talkingGif
+                        self.avatarBottomImageView.animatedImage =  getTalkingGif()
                     }
                 }
              }

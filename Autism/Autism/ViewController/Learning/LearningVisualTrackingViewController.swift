@@ -140,7 +140,7 @@ extension LearningVisualTrackingViewController {
         self.timerTime = 0
         timerMaxTime = 0
         self.speechTitle.text = ""
-        self.avatarCenterImageView.animatedImage =  idleGif
+        self.avatarCenterImageView.animatedImage =  getIdleGif()
         self.avatarCenterImageView.isHidden = true
         
         self.playerView.isHidden = true
@@ -181,7 +181,7 @@ extension LearningVisualTrackingViewController {
         self.visualTrackingViewModal.waveAvatarClosure = { [weak self] in
              DispatchQueue.main.async {
                 if let this = self {
-                    this.avatarCenterImageView.animatedImage =  hurrayGif
+                    this.avatarCenterImageView.animatedImage =  getHurrayGif()
                 }
              }
         }
@@ -189,7 +189,7 @@ extension LearningVisualTrackingViewController {
         self.visualTrackingViewModal.talkAvatarClosure = { [weak self] in
               DispatchQueue.main.async {
                 if let this = self {
-                    this.avatarCenterImageView.animatedImage =  talkingGif
+                    this.avatarCenterImageView.animatedImage =  getTalkingGif()
                 }
               }
         }

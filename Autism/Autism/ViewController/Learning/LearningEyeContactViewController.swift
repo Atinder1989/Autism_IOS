@@ -62,9 +62,9 @@ extension LearningEyeContactViewController {
     
     private func customSetting() {
         self.speechTitle.text = ""
-        self.avatarCenterImageView.animatedImage =  talkingGif
-        self.avatarLeftImageView.animatedImage =  talkingGif
-        self.avatarRightImageView.animatedImage =  talkingGif
+        self.avatarCenterImageView.animatedImage =  getTalkingGif()
+        self.avatarLeftImageView.animatedImage =  getTalkingGif()
+        self.avatarRightImageView.animatedImage =  getTalkingGif()
         self.avatarCenterImageView.isHidden = true
         self.avatarLeftImageView.isHidden = true
         self.avatarRightImageView.isHidden = true

@@ -423,26 +423,26 @@ extension TrialBodyTrackingViewController {
             blurEffectView!.removeFromSuperview()
         }
     }
-    
-    func nkjkj()
-    {
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.effect = blurEffect
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(blurEffectView)
 
-    }
+//    func nkjkj()
+//    {
+//        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+//        blurEffectView.effect = blurEffect
+//        blurEffectView.frame = view.bounds
+//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        view.addSubview(blurEffectView)
+//
+//    }
     
     private func customSetting() {
         
         imgViewAvatar.frame = scrlAvatar.bounds
         
         if(self.bodyTrackingQuestionInfo.correct_answer == "4") {
-            self.imgViewAvatar.animatedImage =  raiseHandGif
+            self.imgViewAvatar.animatedImage =  getRaiseHandGif()
         } else {
-            self.imgViewAvatar.animatedImage =  talkingGif
+            self.imgViewAvatar.animatedImage =  getTalkingGif()
         }
         
         self.imgViewAvatar.isHidden = true
@@ -462,7 +462,7 @@ extension TrialBodyTrackingViewController {
         self.successRate = 0
         self.stopTimer()
         self.questionState = .submit
-        self.imgViewAvatar.animatedImage =  talkingGif
+        self.imgViewAvatar.animatedImage =  getTalkingGif()
         SpeechManager.shared.speak(message: message, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
          
@@ -590,14 +590,14 @@ extension TrialBodyTrackingViewController: SpeechManagerDelegate
         self.imgViewAvatar.isHidden = true
         if let type = Utility.getSpeechMessageType(text: speechText) {
             if type != .hurrayGoodJob {
-                self.imgViewAvatar.animatedImage =  idleGif
+                self.imgViewAvatar.animatedImage =  getIdleGif()
             }
         }
         else {
             if(self.bodyTrackingQuestionInfo.correct_answer == "4") {
-                self.imgViewAvatar.animatedImage =  raiseHandGif
+                self.imgViewAvatar.animatedImage =  getRaiseHandGif()
             } else {
-                self.imgViewAvatar.animatedImage =  idleGif
+                self.imgViewAvatar.animatedImage =  getIdleGif()
             }
         }
         

@@ -395,7 +395,7 @@ extension TrialGrabingObjectsViewController {
         isImagesDownloaded = false
         self.bucketView.isHidden = true
       
-        self.avatarBottomImageView.animatedImage =  idleGif
+        self.avatarBottomImageView.animatedImage =  getIdleGif()
         self.avatarBottomImageView.isHidden = false
     }
         
@@ -741,11 +741,11 @@ extension TrialGrabingObjectsViewController: SpeechManagerDelegate {
         
         if let type = Utility.getSpeechMessageType(text: speechText) {
             if type != .hurrayGoodJob {
-                self.avatarBottomImageView.animatedImage =  idleGif
+                self.avatarBottomImageView.animatedImage =  getIdleGif()
             }
         }
         else {
-            self.avatarBottomImageView.animatedImage =  idleGif
+            self.avatarBottomImageView.animatedImage =  getIdleGif()
         }
         
         switch self.questionState {
@@ -787,15 +787,15 @@ extension TrialGrabingObjectsViewController: SpeechManagerDelegate {
         if let type = Utility.getSpeechMessageType(text: speechText) {
             switch type {
             case .hurrayGoodJob:
-                self.avatarBottomImageView.animatedImage =  hurrayGif
+                self.avatarBottomImageView.animatedImage =  getHurrayGif()
                 return
             case .wrongAnswer:
-                self.avatarBottomImageView.animatedImage =  wrongAnswerGif
+                self.avatarBottomImageView.animatedImage =  getWrongAnswerGif()
                 return
             default:
                 break
             }
         }
-        self.avatarBottomImageView.animatedImage =  talkingGif
+        self.avatarBottomImageView.animatedImage =  getTalkingGif()
     }
 }

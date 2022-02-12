@@ -1102,7 +1102,6 @@
 				B22DFA1724FCD38D0063A14E /* TPKeyboardAvoiding */,
 				B2942B1724F68DDE00ED8839 /* Color Picture */,
 				B2E1813B24F262D500484C35 /* Animation */,
-				B21C754C24D7FEE3007AC43D /* Firebase Crashlytics */,
 				B21CF54E24D282F4004D2DA3 /* CircularProgressView */,
 				B2539ADE24C74BDE00A92376 /* DrawnImageView */,
 				B23AE3FA24C546EB009DD695 /* CalenderFiles */,
@@ -1384,13 +1383,6 @@
 				B21C753E24D7C949007AC43D /* Performance.swift */,
 			);
 			path = DashBoard;
-			sourceTree = "<group>";
-		};
-		B21C754C24D7FEE3007AC43D /* Firebase Crashlytics */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Firebase Crashlytics";
 			sourceTree = "<group>";
 		};
 		B21CF54E24D282F4004D2DA3 /* CircularProgressView */ = {
@@ -3073,9 +3065,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 67;
+				CURRENT_PROJECT_VERSION = 68;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 5YVF838RR5;
+				DEVELOPMENT_TEAM = 6NJ7YZH4XS;
 				INFOPLIST_FILE = Autism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3084,7 +3076,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.impute.Autism;
 				PRODUCT_NAME = "Autism Therapy";
-				PROVISIONING_PROFILE_SPECIFIER = AutismDebug;
+				PROVISIONING_PROFILE_SPECIFIER = DevelopmentProfileConsumerApp;
 				SWIFT_OBJC_BRIDGING_HEADER = "Autism/Autism-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -3098,7 +3090,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 67;
+				CURRENT_PROJECT_VERSION = 68;
 				DEVELOPMENT_TEAM = 5YVF838RR5;
 				INFOPLIST_FILE = Autism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;

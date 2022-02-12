@@ -21,11 +21,8 @@ class AvatarDownloader {
 
                 var imageData:Data? = UserDefaults.standard.object(forKey: model.variation_type) as? Data
                 if(imageData == nil) {
-                    
                     let stringSpace = ServiceHelper.baseURL.getMediaBaseUrl() + model.file
                     let urlString = stringSpace.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-
-
                     let url = URL(string: urlString!)!
                     imageData = try? Data(contentsOf: url)
                     UserDefaults.standard.setValue(imageData, forKeyPath: model.variation_type)
@@ -33,7 +30,6 @@ class AvatarDownloader {
                 }
             }
                   Utility.hideLoader()
-            //self.downloadfile(model: model, listCount: list.count)
         }
                 
     }

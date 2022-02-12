@@ -194,13 +194,13 @@ extension LearningEchoicViewController {
         
         self.verbalViewModal.talkAvatarClosure = {
              DispatchQueue.main.async {
-                self.avatarImageView.animatedImage = talkingGif
+                self.avatarImageView.animatedImage = getTalkingGif()
              }
         }
         
         self.verbalViewModal.idleAvatarClosure = {
              DispatchQueue.main.async {
-                self.avatarImageView.animatedImage = idleGif
+                self.avatarImageView.animatedImage = getIdleGif()
              }
         }
         

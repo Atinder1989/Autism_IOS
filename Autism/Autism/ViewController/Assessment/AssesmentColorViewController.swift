@@ -376,10 +376,10 @@ extension AssesmentColorViewController: SpeechManagerDelegate {
 
         if let type = Utility.getSpeechMessageType(text: speechText) {
             if type != .excellentWork {
-                self.avatarImageView.animatedImage =  idleGif
+                self.avatarImageView.animatedImage =  getIdleGif()
             }
         } else {
-                self.avatarImageView.animatedImage =  idleGif
+                self.avatarImageView.animatedImage =  getIdleGif()
         }
         if self.questionState == .submit {
             SpeechManager.shared.setDelegate(delegate: nil)
@@ -395,13 +395,13 @@ extension AssesmentColorViewController: SpeechManagerDelegate {
         if let type = Utility.getSpeechMessageType(text: speechText) {
             switch type {
             case .excellentWork:
-                self.avatarImageView.animatedImage =  excellentGif
+                self.avatarImageView.animatedImage =  getExcellentGif()
                 return
             default:
                 break
             }
         }
-        self.avatarImageView.animatedImage =  talkingGif
+        self.avatarImageView.animatedImage =  getTalkingGif()
     }
 }
 

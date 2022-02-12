@@ -143,11 +143,11 @@ extension AssessmentIntroductionViewController: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
         if let type = Utility.getSpeechMessageType(text: speechText) {
                    if type != .hurrayGoodJob {
-                       self.avatarImageView.animatedImage =  idleGif
+                       self.avatarImageView.animatedImage =  getIdleGif()
                    }
                }
         else {
-                self.avatarImageView.animatedImage =  idleGif
+                self.avatarImageView.animatedImage =  getIdleGif()
         }
         
         switch questionState {
@@ -175,13 +175,13 @@ extension AssessmentIntroductionViewController: SpeechManagerDelegate {
         if let type = Utility.getSpeechMessageType(text: speechText) {
             switch type {
             case .hurrayGoodJob:
-                self.avatarImageView.animatedImage =  hurrayGif
+                self.avatarImageView.animatedImage =  getHurrayGif()
                 return
             default:
                 break
             }
         }
-        self.avatarImageView.animatedImage =  talkingGif
+        self.avatarImageView.animatedImage =  getTalkingGif()
     }
 }
 
