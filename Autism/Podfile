@@ -6,7 +6,6 @@ target 'Autism' do
   use_frameworks!
 
   # Pods for Autism
-
   pod 'MBProgressHUD', '~> 1.0.0'
   pod 'ReachabilitySwift', '~> 3'
   pod 'FBSDKLoginKit'
@@ -15,10 +14,11 @@ target 'Autism' do
   pod 'SwiftyGif'
   pod 'Sketch'
   pod 'FLAnimatedImage'
-  pod 'AppCenter'
   pod 'VariousViewsEffects'
-
-
+  pod 'Firebase/Core'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Messaging'
+  pod 'Crashlytics'
 
   target 'AutismTests' do
     inherit! :search_paths

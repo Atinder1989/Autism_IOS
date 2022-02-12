@@ -601,12 +601,15 @@ extension AssessmentVerbalMultiplesViewController: RecordingManagerDelegate {
                 
                 let answerArray = self.verbalQuestionInfo.image_with_text[currentIndex].name.lowercased().components(separatedBy: ",")
                 if answerArray.count > 0 {
-                    
-                    SpeechManager.shared.speak(message: SpeechMessage.rectifyAnswer.getMessage(self.verbalQuestionInfo.incorrect_text.replacingOccurrences(of: "(correct_answer)", with: answerArray[0])), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-
+                    if(self.verbalQuestionInfo.incorrect_text == "") {
+                        var correct_name:String = self.verbalQuestionInfo.image_with_text[currentIndex].name
+                        correct_name = correct_name.components(separatedBy: ",").first!
+                        
+                        SpeechManager.shared.speak(message: SpeechMessage.rectifyAnswer.getMessage()+correct_name, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    } else {
+                        SpeechManager.shared.speak(message: SpeechMessage.rectifyAnswer.getMessage(self.verbalQuestionInfo.incorrect_text.replacingOccurrences(of: "(correct_answer)", with: answerArray[0])), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    }
                 }
-                
-                
             }
         } else {
             isUserInteraction = true

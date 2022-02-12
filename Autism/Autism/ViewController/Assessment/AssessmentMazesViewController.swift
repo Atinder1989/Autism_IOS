@@ -339,7 +339,12 @@ class AssessmentMazesViewController: UIViewController {
                 let diff = Int(self.cWidth)/12
                 let iX = Int(location.x)%Int(self.cWidth)
                 print("iX = ", iX)
-
+//                print("yCenter384-location.y = ", yCenter384-location.y)
+                let ydiff = yCenter384-location.y
+                if(ydiff < -80 || ydiff > 60) {
+                    return
+                }
+                
                 var yRef:CGFloat = location.y
                 if(iX >= 0*diff && iX <= 1*diff) {
                     self.imgViewObject.transform = CGAffineTransform(rotationAngle: CGFloat(-20 * 3.14159265358979/180))
@@ -395,6 +400,11 @@ class AssessmentMazesViewController: UIViewController {
                 print("iX = ", iX)
                 print("diff = ", diff)
                 
+                let ydiff = yCenter384-location.y
+                if(ydiff < -80 || ydiff > 60) {
+                    return
+                }
+
                 var yRef:CGFloat = location.y
                 if(iX >= 0*diff && iX <= 1*diff) {
                     self.imgViewObject.transform = CGAffineTransform(rotationAngle: CGFloat(-25 * 3.14159265358979/180))
@@ -446,6 +456,11 @@ class AssessmentMazesViewController: UIViewController {
                 let iX = Int(location.x)%Int(self.cWidth)
                 print("iX = ", iX)
                 
+                let ydiff = yCenter384-location.y
+                if(ydiff < -80 || ydiff > 60) {
+                    return
+                }
+
                 if(iX >= 0*diff && iX <= 1*diff) {
                     self.imgViewObject.transform = CGAffineTransform(rotationAngle: CGFloat(-45 * 3.14159265358979/180))
                 } else if(1*diff >= 0 && iX <= 2*diff) {

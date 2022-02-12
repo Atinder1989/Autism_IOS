@@ -219,8 +219,12 @@ extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource,
         } else {
             let name = self.whichTypeQuestionInfo.image_with_text[answerIndex].name
             self.completeRate = 0
-               SpeechManager.shared.speak(message: SpeechMessage.rectifyAnswer.getMessage()+"\(name)", uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
 
+            if(self.whichTypeQuestionInfo.incorrect_text == "") {
+               SpeechManager.shared.speak(message: SpeechMessage.rectifyAnswer.getMessage()+"\(name)", uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            } else {
+                SpeechManager.shared.speak(message: self.whichTypeQuestionInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            }
         }
     }
 }

@@ -524,7 +524,10 @@ extension AssessmentTacting4MMultipleViewController: RecordingManagerDelegate {
                 self.verbalQuestionInfo.imagesList[currentIndex].isCorrectAnswer = false
                 self.isRightAnswer = false
                 
-                SpeechManager.shared.speak(message: SpeechMessage.rectifyAnswer.getMessage()+self.verbalQuestionInfo.imagesList[currentIndex].name, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                var correct_name:String = self.verbalQuestionInfo.imagesList[currentIndex].name
+                    correct_name = correct_name.components(separatedBy: ",").first!
+
+                SpeechManager.shared.speak(message: SpeechMessage.rectifyAnswer.getMessage()+correct_name, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
         } else {
             SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)

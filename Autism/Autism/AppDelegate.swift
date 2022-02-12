@@ -12,13 +12,11 @@ import AVFoundation
 import CoreMotion
 import GoogleSignIn
 import FBSDKCoreKit
-import AppCenter
-import AppCenterAnalytics
-import AppCenterCrashes
+import Firebase
+import FirebaseAnalytics
+import FirebaseMessaging
+
 import ARKit
-
-
-
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -72,11 +70,14 @@ extension AppDelegate {
           ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
+    private func getGoogleInfoPlist() -> String {
+        return Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist")!
+    }
+    
     private func initializeAnalyticsAndCrashlytics() {
-        MSAppCenter.start(AppConstant.analyticsKey.rawValue, withServices:[
-                 MSAnalytics.self,
-                 MSCrashes.self
-               ])
+        let options = FirebaseOptions(contentsOfFile: getGoogleInfoPlist())
+        FirebaseApp.configure(options: options!)
+        FirebaseConfiguration.shared.setLoggerLevel(.min)
     }
     
     private func customSettings() {

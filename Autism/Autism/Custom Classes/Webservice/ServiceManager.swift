@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class ServiceManager: NSObject {
     
     class func processDataFromServer<T:Codable>(service: Service,model:T.Type,isloader:Bool = true,responseProcessingBlock: @escaping (T?,Error?) -> () )
