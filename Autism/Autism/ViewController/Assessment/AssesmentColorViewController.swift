@@ -115,85 +115,66 @@ class AssesmentColorViewController: UIViewController ,UICollectionViewDataSource
     }
     
    func numberOfSections(in collectionView: UICollectionView) -> Int {
-                  return 1
-              }
-              func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-               return arrayOption.count
-              }
-              func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-               
-               
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier:PaintOptionCell.identifier, for: indexPath as IndexPath) as! PaintOptionCell
-             
-                let strOption = arrayOption[indexPath.row]
-                if(strOption == "clear") {
-                    cell.imgOption.image = UIImage(named: "eraser")
-                } else {
-                    cell.imgOption.image = UIImage(named: arrayOption[indexPath.row])
-                }
-               return cell
-             
-               }
-                  
-           
-             
-              
-              func collectionView(_ collectionView: UICollectionView,
-                                  layout collectionViewLayout: UICollectionViewLayout,
-                                  sizeForItemAt indexPath: IndexPath) -> CGSize {
-              
-                  return CGSize(width:110, height:110)
-                 
-               
-              }
-           
-           func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       return 1
+   }
             
-            let strOption = arrayOption[indexPath.row]
-
-            if(strOption == "pen") {
-               sketchView.drawTool = .pen
-            }
-          else if(strOption == "palette") {
-                self.tapPaletteButton()
-            }
-            
-           else if(strOption == "eraser") {
-                        sketchView.drawTool = .eraser
-                   }
-            
-           else if(strOption == "undo") {
-                        sketchView.undo()
-                   }
-            
-           else if(strOption == "redo") {
-                        sketchView.redo()
-                   }
-            
-          else  if(strOption == "figure") {
-                self.tapFigureButton()
-                   }
-            else if(strOption == "filter") {
-                self.tapFilterButton()
-            }
-          else if(strOption == "samp") {
-                     self.tapStampButton()
-                 }
-                
-       
-                
-             else {
-                 sketchView.clear()
-            }
-              
-                collectionOption.reloadData()
-           }
-        func colourDidSelcted(_ colourPadView: ColourPadView, _ color: UIColor) {
-            
-            sketchView.drawTool = .pen
-            self.sketchView.lineColor = color
-        }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+     return arrayOption.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+     
+     
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier:PaintOptionCell.identifier, for: indexPath as IndexPath) as! PaintOptionCell
+   
+      let strOption = arrayOption[indexPath.row]
+      if(strOption == "clear") {
+          cell.imgOption.image = UIImage(named: "eraser")
+      } else {
+          cell.imgOption.image = UIImage(named: arrayOption[indexPath.row])
+      }
+     return cell
+   
+     }
     
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width:110, height:110)
+    }
+ 
+ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+  
+     let strOption = arrayOption[indexPath.row]
+
+     if(strOption == "pen") {
+        sketchView.drawTool = .pen
+     } else if(strOption == "palette") {
+         self.tapPaletteButton()
+     } else if(strOption == "eraser") {
+        sketchView.drawTool = .eraser
+    } else if(strOption == "undo") {
+        sketchView.undo()
+    } else if(strOption == "redo") {
+        sketchView.redo()
+    } else if(strOption == "figure") {
+        self.tapFigureButton()
+    }
+    else if(strOption == "filter") {
+        self.tapFilterButton()
+    } else if(strOption == "samp") {
+        self.tapStampButton()
+    } else {
+        sketchView.clear()
+     }
+
+         collectionOption.reloadData()
+ }
+
+func colourDidSelcted(_ colourPadView: ColourPadView, _ color: UIColor) {
+  
+  sketchView.drawTool = .pen
+  self.sketchView.lineColor = color
+}
         func tapPaletteButton() {
             sketchView.drawTool = .pen
             if(self.viewStamp != nil) {

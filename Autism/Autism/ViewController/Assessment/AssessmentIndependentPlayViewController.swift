@@ -68,10 +68,13 @@ class AssessmentIndependentPlayViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     if let touch = touches.first {
         let location = touch.location(in: self.view)
-        print(location.x)
-        print(location.y)
+        print("location.x", location.x)
+        print("location.y = ",location.y)
         
-        if (self.imgViewObject.frame.contains(location) == true)
+        let carFrame = CGRect(x: self.imgViewObject.frame.origin.x, y: self.imgViewObject.frame.origin.y+40, width: self.imgViewObject.frame.size.width, height: self.imgViewObject.frame.size.height-80)
+        
+//        if (self.imgViewObject.frame.contains(location) == true)
+        if (carFrame.contains(location) == true)
         {
             if(location.x >= maxX) {
                 imgViewObject.center = CGPoint(x: maxX, y: imgViewObject.center.y)
@@ -86,12 +89,16 @@ class AssessmentIndependentPlayViewController: UIViewController {
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
      
+        
         if let touch = touches.first {
             let location = touch.location(in: self.view)
-            print(location.x)
-            print(location.y)
+            print("location.x", location.x)
+            print("location.y = ",location.y)
+//            imgViewObject.backgroundColor = .red
             
-            if (self.imgViewObject.frame.contains(location) == true)
+            let carFrame = CGRect(x: self.imgViewObject.frame.origin.x, y: self.imgViewObject.frame.origin.y+40, width: self.imgViewObject.frame.size.width, height: self.imgViewObject.frame.size.height-80)
+            //if (self.imgViewObject.frame.contains(location) == true)
+            if (carFrame.contains(location) == true)
             {
                 if(location.x >= maxX) {
                     imgViewObject.center = CGPoint(x: maxX, y: imgViewObject.center.y)

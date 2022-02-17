@@ -203,23 +203,22 @@ extension UserProfileViewController : UITableViewDelegate, UITableViewDataSource
         cell.dataTextField?.textColor = .black
         
         if let res = self.userprofileViewModel.labelsResponseVO {
-        if model.title == res.getLiteralof(code: UserProfileLabelCode.dob.rawValue).label_text {
-            cell.popOverButton.isHidden = false
-            cell.popOverTransparentButton.isHidden = false
-            cell.dataTextField.isUserInteractionEnabled = false
-            cell.popOverButton.setBackgroundImage(UIImage.init(named: "calender"), for: .normal)
-        }
-        else if model.title == res.getLiteralof(code: UserProfileLabelCode.country.rawValue).label_text ||  model.title == res.getLiteralof(code: UserProfileLabelCode.state.rawValue).label_text {
-            cell.popOverButton.isHidden = false
-            cell.popOverTransparentButton.isHidden = false
-            cell.dataTextField.isUserInteractionEnabled = false
-            cell.popOverButton.setBackgroundImage(UIImage.init(named: "downarrow"), for: .normal)
-        } else {
-            cell.popOverButton.isHidden = true
-            cell.popOverTransparentButton.isHidden = true
-            cell.dataTextField.isUserInteractionEnabled = true
-            cell.forgotButtonWidth.constant = 0
-        }
+            if model.title == res.getLiteralof(code: UserProfileLabelCode.dob.rawValue).label_text {
+                cell.popOverButton.isHidden = false
+                cell.popOverTransparentButton.isHidden = false
+                cell.dataTextField.isUserInteractionEnabled = false
+                cell.popOverButton.setBackgroundImage(UIImage.init(named: "calender"), for: .normal)
+            } else if model.title == res.getLiteralof(code: UserProfileLabelCode.country.rawValue).label_text ||  model.title == res.getLiteralof(code: UserProfileLabelCode.state.rawValue).label_text {
+                cell.popOverButton.isHidden = false
+                cell.popOverTransparentButton.isHidden = false
+                cell.dataTextField.isUserInteractionEnabled = false
+                cell.popOverButton.setBackgroundImage(UIImage.init(named: "downarrow"), for: .normal)
+            } else {
+                cell.popOverButton.isHidden = true
+                cell.popOverTransparentButton.isHidden = true
+                cell.dataTextField.isUserInteractionEnabled = true
+                cell.forgotButtonWidth.constant = 0
+            }
         }
         return cell
     }
@@ -664,8 +663,7 @@ extension UserProfileViewController: UICollectionViewDataSource, UICollectionVie
             let readyCell = collectionView.dequeueReusableCell(withReuseIdentifier: UserProfileReadyCell.identifier, for: indexPath) as! UserProfileReadyCell
             readyCell.setData(labelsResponseVO: self.userprofileViewModel.labelsResponseVO!, delegate: self)
             return readyCell
-        }
-        else if indexPath.row == 1 {
+        } else if indexPath.row == 1 {
             cell.setData(optionList: response.sensoryIssueList, stageType: .sensoryIssue, list: [], delegate: self, labelResponse: self.userprofileViewModel.labelsResponseVO!)
         } else if indexPath.row == 2 {
             cell.setData(optionList: response.challengingBehaviourList, stageType: .challengingBehaviour, list: [], delegate: self, labelResponse: self.userprofileViewModel.labelsResponseVO!)

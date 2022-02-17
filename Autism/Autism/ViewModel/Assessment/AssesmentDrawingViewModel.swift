@@ -68,6 +68,8 @@ class AssesmentDrawingViewModel:NSObject  {
             Utility.hideLoader()
             if error == nil {
                 self.submitUserAnswer(info: info, timeTaken: timeTaken, imageurl: url, skip: skip, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
+            } else {
+                self.accessmentSubmitResponseVO = nil
             }
         }
     }
