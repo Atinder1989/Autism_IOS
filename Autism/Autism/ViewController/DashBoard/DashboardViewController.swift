@@ -17,8 +17,6 @@ struct DashboardLevel {
 class DashboardViewController: UIViewController {
     private var dashboardViewModel = DashboardViewModel()
     @IBOutlet weak var usernamLbl: UILabel!
-  //  @IBOutlet weak var wishLbl: UILabel!
- //   @IBOutlet weak var performanceLabel: UILabel!
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var resumeAssessmentButton: UIButton!
     @IBOutlet weak var levelCollectionView: UICollectionView!
@@ -46,7 +44,6 @@ class DashboardViewController: UIViewController {
         }
     }
     
-    var isActionPerformed:Bool = false
     private var selectedLevelIndexPath: IndexPath?
     private var selectedHistory: History? = nil {
         didSet{
@@ -111,7 +108,6 @@ class DashboardViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
              super.viewWillAppear(animated)
-       // isActionPerformed = false
         Utility.lockOrientation(UIInterfaceOrientationMask.landscape, andRotateTo: UIInterfaceOrientation.landscapeLeft)
         SpeechManager.shared.setDelegate(delegate: nil)
     }
@@ -163,25 +159,22 @@ class DashboardViewController: UIViewController {
     
     
     @IBAction func resumeAssessmentClicked(_ sender: Any) {
-       // if !isActionPerformed {
-           // isActionPerformed = true
-            if let res = self.dashboardViewModel.dashboardPerformanceResponseVO {
-                if res.assessment_status == ModuleStatus.completed {
-                    self.dashboardViewModel.getLearningAlgoScript()
-                } else {
-                    UserManager.shared.resumeAssessment()
-                }
-            }
-        //}
+       if !self.dashboardViewModel.isActionPerformed() {
+           if let res = self.dashboardViewModel.dashboardPerformanceResponseVO {
+               if res.assessment_status == ModuleStatus.completed {
+                   self.dashboardViewModel.getLearningAlgoScript()
+               } else {
+                   UserManager.shared.resumeAssessment()
+               }
+           }
+        }
+      
     }
     
     @IBAction func resetAssessmentClicked(_ sender: Any) {
-       // if !isActionPerformed {
-          //  isActionPerformed = true
             DispatchQueue.main.async {
                 self.dashboardViewModel.resetAssessment()
             }
-        //}
     }
     
     @IBAction func resetLearningClicked(_ sender: Any) {
@@ -228,7 +221,6 @@ extension DashboardViewController {
         
         self.dashboardViewModel.resetAssessmentClosure = { response in
             DispatchQueue.main.async {
-              //  self.isActionPerformed = false
                 if response.success {
                     UserManager.shared.resetAssessment()
                 }
@@ -236,10 +228,7 @@ extension DashboardViewController {
         }
         
         self.dashboardViewModel.resetLearningClosure = { response in
-            DispatchQueue.main.async {
-                //self.isActionPerformed = false
-               // Utility.sharedInstance.showToast(message: "Learning Reset Successfully")
-            }
+           
         }
         
         self.dashboardViewModel.deleteAccountClosure = { response in
@@ -252,7 +241,6 @@ extension DashboardViewController {
         
         self.dashboardViewModel.learningAlgoClosure = { algoResponse in
             DispatchQueue.main.async {
-                // self.isActionPerformed = false
                 if algoResponse.success {
                     if let data = algoResponse.data {
                         if data.course_type == .none {

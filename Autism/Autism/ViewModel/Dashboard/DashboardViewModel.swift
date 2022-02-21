@@ -19,6 +19,12 @@ class DashboardViewModel:NSObject  {
     var labelsResponseVO: ScreenLabelResponseVO?
     var dashboardPerformanceResponseVO: DashboardPerformanceResponseVO?
    
+    private var isAction: Bool = false
+    
+    func isActionPerformed() -> Bool {
+        return isAction
+    }
+
     func fetchDashboardScreenLabels() {
         
         if !Utility.isNetworkAvailable() {
@@ -35,8 +41,10 @@ class DashboardViewModel:NSObject  {
               ServiceParsingKeys.language.rawValue:user.languageCode
           ]
         }
-          
+        self.isAction = true
           ServiceManager.processDataFromServer(service: service, model: ScreenLabelResponseVO.self) { (responseVo, error) in
+              self.isAction = false
+
               if let e = error {
                   print(e.localizedDescription)
                   self.labelsResponseVO = nil
@@ -59,7 +67,11 @@ class DashboardViewModel:NSObject  {
                 ServiceParsingKeys.language_code.rawValue:user.languageCode
             ]
         }
+        self.isAction = true
+
         ServiceManager.processDataFromServer(service: service, model: DashboardPerformanceResponseVO.self) { (responseVo, error) in
+            self.isAction = false
+
             if let e = error {
                 print("Error = ", e.localizedDescription)
             } else {
@@ -81,7 +93,11 @@ class DashboardViewModel:NSObject  {
             ServiceParsingKeys.user_id.rawValue:user.id,
            ]
         }
+        self.isAction = true
+
         ServiceManager.processDataFromServer(service: service, model: CommonMessageResponseVO.self) { (responseVo, error) in
+            self.isAction = false
+
             if let _ = error {
             } else {
                 if let res = responseVo {
@@ -102,7 +118,11 @@ class DashboardViewModel:NSObject  {
                    ServiceParsingKeys.user_id.rawValue:user.id,
                ]
            }
+        self.isAction = true
+
            ServiceManager.processDataFromServer(service: service, model: CommonMessageResponseVO.self) { (responseVo, error) in
+               self.isAction = false
+
                if let e = error {
                    print("Error = ", e.localizedDescription)
                } else {
@@ -125,7 +145,11 @@ class DashboardViewModel:NSObject  {
 
                ]
            }
+        self.isAction = true
+
            ServiceManager.processDataFromServer(service: service, model: AlgorithmResponseVO.self) { (responseVo, error) in
+               self.isAction = false
+
                if let e = error {
                    print("Error = ", e.localizedDescription)
                     
@@ -147,7 +171,11 @@ class DashboardViewModel:NSObject  {
                    ServiceParsingKeys.user_id.rawValue:user.id,
                ]
            }
+        self.isAction = true
+
            ServiceManager.processDataFromServer(service: service, model: CommonMessageResponseVO.self) { (responseVo, error) in
+               self.isAction = false
+
                if let e = error {
                    print("Error = ", e.localizedDescription)
                } else {
