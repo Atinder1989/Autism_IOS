@@ -11,6 +11,9 @@ import FLAnimatedImage
 
 class AssessmentMatchingOnePairViewController: UIViewController {
     
+    @IBOutlet weak var avatarImageView: FLAnimatedImageView!
+    var shouldShowAvatar = true
+    
     private var matchingObjectInfo: MatchingObjectInfo!
     private let matchingObjectViewModel = AssessmentMatchingObjectViewModel()
     private weak var delegate: AssessmentSubmitDelegate?

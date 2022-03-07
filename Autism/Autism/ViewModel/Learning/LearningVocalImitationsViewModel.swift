@@ -400,6 +400,7 @@ extension LearningVocalImitationsViewModel: SpeechManagerDelegate {
 
 extension LearningVocalImitationsViewModel: ScriptManagerDelegate {
     func get(scriptCommand: ScriptCommand) {
+        print("LVICommand = ", scriptCommand)
         switch scriptCommand {
 //        case .avatar(commandInfo: let commandInfo):
 //            if let info = commandInfo {

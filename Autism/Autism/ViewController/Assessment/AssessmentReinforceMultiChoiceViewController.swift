@@ -99,6 +99,11 @@ extension AssessmentReinforceMultiChoiceViewController {
             self.collectionViewHeightConstraint.constant = 600
         }
         
+        if(self.reinforceMultiChoiceInfo.question_title.contains(",") == true) {
+            let arrTemp = self.reinforceMultiChoiceInfo.question_title.components(separatedBy: ",")
+            self.reinforceMultiChoiceInfo.question_title = arrTemp[0] + "?"
+        }
+        
         self.questionTitle.text = self.reinforceMultiChoiceInfo.question_title
         AutismTimer.shared.initializeTimer(delegate: self)
     }

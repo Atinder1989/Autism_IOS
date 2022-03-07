@@ -226,7 +226,7 @@ extension AssessmentViewController {
                 
                 self.isYoutubeRunning = true
                 self.viewHeaderYT.isHidden = false
-                self.viewHeaderYT.frame = CGRect(x:-1, y:-1, width: UIScreen.main.bounds.size.width+2, height: 64)
+                self.viewHeaderYT.frame = CGRect(x:-1, y:-1, width: UIScreen.main.bounds.size.width+2, height: 54)
                 self.viewHeaderYT.backgroundColor = .white
                 
                 if(self.svc != nil) {

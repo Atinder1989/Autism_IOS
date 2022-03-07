@@ -77,6 +77,7 @@ class UserManager {
     func exitAssessment() {
         SpeechManager.shared.stopSpeech()
         FaceDetection.shared.stopFaceDetectionSession()
+        AutismTimer.shared.stopTimer()
         if !isActionPerformed {
             isActionPerformed = true
             self.updateScreenId(screenid: ScreenRedirection.dashboard.rawValue)
@@ -86,6 +87,7 @@ class UserManager {
     }
     
     func logout() {
+        AutismTimer.shared.stopTimer()
         self.clearCurrentUserData()
         let vc = Utility.getViewController(ofType: LanguageViewController.self)
         self.setRootViewController(vc: vc)
@@ -93,6 +95,7 @@ class UserManager {
     
     func resumeAssessment() {
         DispatchQueue.main.async {
+            AutismTimer.shared.stopTimer()
             self.updateScreenId(screenid: ScreenRedirection.assesment.rawValue)
             let vc = Utility.getViewController(ofType: AssessmentViewController.self)
             self.setRootViewController(vc: vc)
@@ -101,6 +104,7 @@ class UserManager {
     
     func resetAssessment() {
         DispatchQueue.main.async {
+           AutismTimer.shared.stopTimer()
            self.updateScreenId(screenid: ScreenRedirection.assesment.rawValue)
            let vc = Utility.getViewController(ofType: AssessmentViewController.self)
            self.setRootViewController(vc: vc)
@@ -108,6 +112,7 @@ class UserManager {
     }
     
     private func setRootViewController(vc:UIViewController) {
+        AutismTimer.shared.stopTimer()
         let navController = UINavigationController(rootViewController: vc)
            navController.navigationBar.isTranslucent = false
         if let appdel = AppDelegate.shared,let window = appdel.window {

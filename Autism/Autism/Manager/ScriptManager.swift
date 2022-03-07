@@ -602,7 +602,9 @@ extension ScriptManager {
     private func stopTimer() {
         if let timer = self.childActionTimer {
             print("Script Manager Timer Stop ======== ")
-            timer.invalidate()
+            if(timer.isValid == true) {
+                timer.invalidate()
+            }
             self.childActionTimer = nil
             self.childActionWaitingTime = 0
             if let del = self.delegate {

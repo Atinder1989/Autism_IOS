@@ -181,7 +181,8 @@ extension LearningColorViewModel {
         if let commandResponseVO = self.commandResponseVO  {
             if commandResponseVO.command_array.count > 0 {
                 if currentCommandIndex < commandResponseVO.command_array.count {
-                print("currentCommandIndex === \(currentCommandIndex)")
+                    print(commandResponseVO.command_array[currentCommandIndex])
+                    print("currentCommandIndex === \(currentCommandIndex)")
                     self.resetData()
                     let commandInfo = commandResponseVO.command_array[self.currentCommandIndex]
                         self.scriptManager.executeCommand(commandInfo: commandInfo)

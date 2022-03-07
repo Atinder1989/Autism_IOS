@@ -40,8 +40,9 @@ extension GoogleSpeechServiceDelegate {
 //}
 
 let ttsAPIUrl = "https://texttospeech.googleapis.com/v1beta1/text:synthesize"
-let APIKey = "AIzaSyBvXnaW5fIIAcJrgTS8-33MXqGuE2XaG9k"
+//let APIKey = "AIzaSyBvXnaW5fIIAcJrgTS8-33MXqGuE2XaG9k"
 
+let APIKey = "AIzaSyA0XL2RiwSwXOYL1m8NeNH5CNxV8_Kchxg"
 class GoogleSpeechService: NSObject, AVAudioPlayerDelegate {
 
     static let shared = GoogleSpeechService()

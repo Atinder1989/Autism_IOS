@@ -134,7 +134,7 @@ extension LearningVocalImitationsViewController {
         self.playerView.isHidden = true
         self.thumnailImageView.isHidden = true
         self.userAnswer.text = ""
-        self.speechTitle.isHidden = true
+//        self.speechTitle.isHidden = true
         self.bufferLoaderView.isHidden = true
     }
     

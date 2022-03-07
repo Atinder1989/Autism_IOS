@@ -63,6 +63,7 @@ class RecordingManager:NSObject {
 
         self.audioEngine = AVAudioEngine()
         if let engine = self.audioEngine {
+            engine.reset()
         isRecorder = true
         let node = engine.inputNode
         let recordingFormat = node.outputFormat(forBus: 0)
@@ -116,6 +117,7 @@ class RecordingManager:NSObject {
    
      func stopRecording() {
         if let engine = self.audioEngine {
+            engine.reset()
             engine.stop()
             engine.inputNode.removeTap(onBus: 0)
             self.audioEngine = nil
@@ -150,7 +152,9 @@ class RecordingManager:NSObject {
     
     func stopWaitUserAnswerTimer() {
         print("stopWaitUserAnswerTimer ##### ")
-        waitForUserAnswerTimer.invalidate()
+        if(waitForUserAnswerTimer.isValid == true) {
+            waitForUserAnswerTimer.invalidate()
+        }
     }
     
     private func userAnswerRecorded() {

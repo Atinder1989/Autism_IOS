@@ -109,7 +109,16 @@ class DashboardViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
              super.viewWillAppear(animated)
         Utility.lockOrientation(UIInterfaceOrientationMask.landscape, andRotateTo: UIInterfaceOrientation.landscapeLeft)
+//        SpeechManager.shared.setDelegate(delegate: nil)
+        
+        self.stopAllCommands()
+    }
+    
+    func stopAllCommands() {
+        SpeechManager.shared.stopSpeech()
         SpeechManager.shared.setDelegate(delegate: nil)
+        RecordingManager.shared.stopRecording()
+//            self.scriptManager.stopallTimer()
     }
     
     @IBAction func historyClicked(_ sender: UIButton) {

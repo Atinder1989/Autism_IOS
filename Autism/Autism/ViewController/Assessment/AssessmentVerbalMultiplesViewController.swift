@@ -11,12 +11,15 @@ import FLAnimatedImage
 
 
 class AssessmentVerbalMultiplesViewController: UIViewController {
+    
+    @IBOutlet weak var avatarImageView: FLAnimatedImageView!
+    var shouldShowAvatar = true
+
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var questionImageView: FLAnimatedImageView!
-    @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     @IBOutlet weak var containerWidth: NSLayoutConstraint!
-    
+        
     @IBOutlet weak var imgV1: FLAnimatedImageView!
     @IBOutlet weak var imgV2: FLAnimatedImageView!
     @IBOutlet weak var imgV3: FLAnimatedImageView!
@@ -50,6 +53,7 @@ class AssessmentVerbalMultiplesViewController: UIViewController {
     }
     
     private var apiDataState: APIDataState = .notCall
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,7 +135,7 @@ extension AssessmentVerbalMultiplesViewController {
         self.imgV10.layer.borderWidth = 2.0
         self.imgV10.layer.borderColor = UIColor.clear.cgColor
 
-        let xRef:CGFloat = UIScreen.main.bounds.size.width-64-25
+        let xRef:CGFloat = UIScreen.main.bounds.size.width-55
         
         self.imgV2.center = CGPoint(x: xRef, y: self.imgV2.center.y)
         self.imgV3.center = CGPoint(x: xRef, y: self.imgV3.center.y)
@@ -143,7 +147,11 @@ extension AssessmentVerbalMultiplesViewController {
         self.imgV9.center = CGPoint(x: xRef, y: self.imgV9.center.y)
         self.imgV10.center = CGPoint(x: xRef, y: self.imgV10.center.y)
         
-       // ImageDownloader.sharedInstance.makeTotalZero()
+//        self.verbalQuestionInfo.image_with_text.append(self.verbalQuestionInfo.image_with_text[0])
+//        self.verbalQuestionInfo.image_with_text.append(self.verbalQuestionInfo.image_with_text[0])
+//        self.verbalQuestionInfo.image_with_text.append(self.verbalQuestionInfo.image_with_text[0])
+//        self.verbalQuestionInfo.image_with_text.append(self.verbalQuestionInfo.image_with_text[0])
+        
         if(self.verbalQuestionInfo.image.lowercased().contains(".gif") == false) {
 
             if(self.verbalQuestionInfo.image_with_text.count>0){
@@ -234,6 +242,7 @@ extension AssessmentVerbalMultiplesViewController {
     func showNextImage()
     {
         let imgWH:CGFloat = 70
+        let xRef:CGFloat = 40
         let yRef:CGFloat = 80
         let ySpace:CGFloat = 5
         
@@ -246,31 +255,31 @@ extension AssessmentVerbalMultiplesViewController {
                                 options: [],
                              animations: {
                                 if(self.currentIndex == 1) {
-                                    self.imgV1.frame = CGRect(x: 50, y: yRef+(0*imgWH)+(0*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV1.frame = CGRect(x: xRef, y: yRef+(0*imgWH)+(0*ySpace), width: imgWH, height: imgWH)
                                     self.imgV2.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 2) {
-                                    self.imgV2.frame = CGRect(x: 50, y: yRef+(1*imgWH)+(1*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV2.frame = CGRect(x: xRef, y: yRef+(1*imgWH)+(1*ySpace), width: imgWH, height: imgWH)
                                     self.imgV3.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 3) {
-                                    self.imgV3.frame = CGRect(x: 50, y: yRef+(2*imgWH)+(2*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV3.frame = CGRect(x: xRef, y: yRef+(2*imgWH)+(2*ySpace), width: imgWH, height: imgWH)
                                     self.imgV4.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 4) {
-                                    self.imgV4.frame = CGRect(x: 50, y: yRef+(3*imgWH)+(3*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV4.frame = CGRect(x: xRef, y: yRef+(3*imgWH)+(3*ySpace), width: imgWH, height: imgWH)
                                     self.imgV5.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 5) {
-                                    self.imgV5.frame = CGRect(x: 50, y: yRef+(4*imgWH)+(4*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV5.frame = CGRect(x: xRef, y: yRef+(4*imgWH)+(4*ySpace), width: imgWH, height: imgWH)
                                     self.imgV6.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 6) {
-                                    self.imgV6.frame = CGRect(x: 50, y: yRef+(5*imgWH)+(5*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV6.frame = CGRect(x: xRef, y: yRef+(5*imgWH)+(5*ySpace), width: imgWH, height: imgWH)
                                     self.imgV7.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 7) {
-                                    self.imgV7.frame = CGRect(x: 50, y: yRef+(6*imgWH)+(6*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV7.frame = CGRect(x: xRef, y: yRef+(6*imgWH)+(6*ySpace), width: imgWH, height: imgWH)
                                     self.imgV8.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 8) {
-                                    self.imgV8.frame = CGRect(x: 50, y: yRef+(7*imgWH)+(7*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV8.frame = CGRect(x: xRef, y: yRef+(7*imgWH)+(7*ySpace), width: imgWH, height: imgWH)
                                     self.imgV9.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 9) {
-                                    self.imgV9.frame = CGRect(x: 50, y: yRef+(8*imgWH)+(8*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV9.frame = CGRect(x: xRef, y: yRef+(8*imgWH)+(8*ySpace), width: imgWH, height: imgWH)
                                     self.imgV10.frame = self.questionImageView.frame
                                 }
                              }, completion: {_ in
@@ -423,17 +432,16 @@ extension AssessmentVerbalMultiplesViewController {
 // MARK: Speech Manager Delegate Methods
 extension AssessmentVerbalMultiplesViewController: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
-        /*
-        self.avatarImageView.isHidden = true
-        if let type = Utility.getSpeechMessageType(text: speechText) {
-                   if type != .hurrayGoodJob {
-                       self.avatarImageView.animatedImage =  idleGif
-                   }
-               }
-        else {
-                self.avatarImageView.animatedImage =  idleGif
+        if(shouldShowAvatar == true) {
+            self.avatarImageView.isHidden = true
+            if let type = Utility.getSpeechMessageType(text: speechText) {
+                if type != .hurrayGoodJob {
+                    self.avatarImageView.animatedImage =  getIdleGif()
+                }
+            } else {
+                self.avatarImageView.animatedImage =  getIdleGif()
+            }
         }
- */
         
         switch self.questionState {
         case .submit:
@@ -459,23 +467,23 @@ extension AssessmentVerbalMultiplesViewController: SpeechManagerDelegate {
     
     func speechDidStart(speechText:String) {
         self.isUserInteraction = false
-        /*
-        self.avatarImageView.isHidden = false
+        if(shouldShowAvatar == true) {
+            self.avatarImageView.isHidden = false
 
-        if let type = Utility.getSpeechMessageType(text: speechText) {
-            switch type {
-            case .hurrayGoodJob:
-                self.avatarImageView.animatedImage =  hurrayGif
-                return
-            case .wrongAnswer:
-                self.avatarImageView.animatedImage =  wrongAnswerGif
-                return
-            default:
-                break
+            if let type = Utility.getSpeechMessageType(text: speechText) {
+                switch type {
+                case .hurrayGoodJob:
+                    self.avatarImageView.animatedImage =  getHurrayGif()
+                    return
+                case .wrongAnswer:
+                    self.avatarImageView.animatedImage =  getWrongAnswerGif()
+                    return
+                default:
+                    break
+                }
             }
+            self.avatarImageView.animatedImage =  getTalkingGif()
         }
-        self.avatarImageView.animatedImage =  talkingGif
-         */
     }
 }
 

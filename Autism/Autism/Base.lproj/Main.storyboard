@@ -5333,7 +5333,7 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xme-7h-v1N">
                                 <rect key="frame" x="512" y="80" width="0.0" height="0.0"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="35"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="35"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -8453,7 +8453,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bvN-SE-YWD">
-                                <rect key="frame" x="904" y="60" width="70" height="70"/>
+                                <rect key="frame" x="934" y="40" width="70" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="Yhw-97-RTv"/>
                                     <constraint firstAttribute="height" constant="70" id="aq7-8w-x19"/>
@@ -8464,7 +8464,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9B-Fd-zka">
-                                <rect key="frame" x="824" y="60" width="70" height="70"/>
+                                <rect key="frame" x="854" y="40" width="70" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="BwJ-RH-Yel"/>
                                     <constraint firstAttribute="height" constant="70" id="k7v-Nt-0qx"/>
@@ -8475,7 +8475,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9zj-aY-ImB">
-                                <rect key="frame" x="512" y="80" width="0.0" height="0.0"/>
+                                <rect key="frame" x="512" y="50" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="35"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -8550,13 +8550,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="tkX-ou-0dJ" firstAttribute="top" secondItem="u7q-WI-lAl" secondAttribute="top" id="70i-BR-dPc"/>
-                            <constraint firstItem="bvN-SE-YWD" firstAttribute="top" secondItem="NNI-Qf-ynU" secondAttribute="top" constant="40" id="7MZ-Mu-wTi"/>
+                            <constraint firstItem="bvN-SE-YWD" firstAttribute="top" secondItem="NNI-Qf-ynU" secondAttribute="top" constant="20" id="7MZ-Mu-wTi"/>
                             <constraint firstItem="E5e-FG-lCD" firstAttribute="centerX" secondItem="u7q-WI-lAl" secondAttribute="centerX" id="8qo-ZC-j9W"/>
-                            <constraint firstItem="W9B-Fd-zka" firstAttribute="top" secondItem="NNI-Qf-ynU" secondAttribute="top" constant="40" id="AIS-d1-dUU"/>
-                            <constraint firstItem="NNI-Qf-ynU" firstAttribute="trailing" secondItem="bvN-SE-YWD" secondAttribute="trailing" constant="50" id="CuH-7z-B9L"/>
+                            <constraint firstItem="W9B-Fd-zka" firstAttribute="top" secondItem="NNI-Qf-ynU" secondAttribute="top" constant="20" id="AIS-d1-dUU"/>
+                            <constraint firstItem="NNI-Qf-ynU" firstAttribute="trailing" secondItem="bvN-SE-YWD" secondAttribute="trailing" constant="20" id="CuH-7z-B9L"/>
                             <constraint firstItem="YZk-Wh-9AA" firstAttribute="centerX" secondItem="u7q-WI-lAl" secondAttribute="centerX" id="DTo-Et-8Kg"/>
                             <constraint firstItem="NNI-Qf-ynU" firstAttribute="trailing" secondItem="CRI-H9-XKB" secondAttribute="trailing" constant="40" id="Dx7-NR-ZrP"/>
-                            <constraint firstItem="9zj-aY-ImB" firstAttribute="top" secondItem="NNI-Qf-ynU" secondAttribute="top" constant="60" id="EIb-Yf-1Ia"/>
+                            <constraint firstItem="9zj-aY-ImB" firstAttribute="top" secondItem="NNI-Qf-ynU" secondAttribute="top" constant="30" id="EIb-Yf-1Ia"/>
                             <constraint firstAttribute="bottom" secondItem="tkX-ou-0dJ" secondAttribute="bottom" id="SOy-xd-MiZ"/>
                             <constraint firstItem="bvN-SE-YWD" firstAttribute="leading" secondItem="W9B-Fd-zka" secondAttribute="trailing" constant="10" id="WSG-E9-46c"/>
                             <constraint firstItem="tkX-ou-0dJ" firstAttribute="trailing" secondItem="NNI-Qf-ynU" secondAttribute="trailing" id="Zp5-fr-iPo"/>
