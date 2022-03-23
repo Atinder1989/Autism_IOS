@@ -36,7 +36,12 @@ class AutismTimer: NSObject {
          if let timer = self.appTimer {
              timer.invalidate()
             appTimer = nil
+            self.delegate = nil
          }
+    }
+    
+    func isTimerRunning() -> Bool {
+        return self.appTimer == nil ? false : true
     }
 }
 

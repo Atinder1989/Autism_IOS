@@ -31,6 +31,8 @@ class AssessmentViewController: UIViewController, SpeechManagerDelegate {
     private var apiDataState: APIDataState = .notCall
     @IBOutlet weak var skipButton: UIButton!
 
+    var assessmentVC:UIViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -282,6 +284,20 @@ extension AssessmentViewController {
         }
     }
             
+    func presentVC(vc:UIViewController) {
+        
+        //this.present(vc, animated: true, completion: nil)//OLD CODE
+        
+        if(assessmentVC == nil) {
+            assessmentVC = vc
+            self.present(vc, animated: true, completion: nil)
+        } else {
+            assessmentVC.dismiss(animated: false, completion: {
+                self.assessmentVC = vc
+                self.present(vc, animated: true, completion: nil)
+            })
+        }
+    }
     private func moveToNextQuestion(res:AssessmentQuestionResponseVO) {
     //    FaceDetection.shared.stopFaceDetectionSession()
      //   FaceDetection.shared.startFaceDetectionSession()
@@ -298,105 +314,105 @@ extension AssessmentViewController {
                 let vc = Utility.getViewController(ofType: AssessmentBalloonGameViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setBalloonGameQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
         }
         case .intro_video:
             if let info = res.introVideoQuestionInfo {
                 let vc = Utility.getViewController(ofType: AssessmentIntroVideoViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setIntroVideoInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
         }
         case .body_tracking:
             if let info = res.bodyTrackingInfo {
                 let vc = Utility.getViewController(ofType: AssessmentBodyTrackingViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setBodyTrackingQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
         }
         case .face_tracking:
                 if let info = res.faceTrackingInfo {
                               let vc = Utility.getViewController(ofType: AssessmentFaceTrackingViewController.self)
                               vc.modalPresentationStyle = .fullScreen
                               vc.setFaceTrackingQuestionInfo(info: info, delegate: this)
-                    this.present(vc, animated: true, completion: nil)
+                    this.presentVC(vc: vc)
         }
         case .eye_contact:
                 if let info = res.eyeContactQuestionInfo {
                     let vc = Utility.getViewController(ofType: AssessmentEyeContactViewController.self)
                     vc.modalPresentationStyle = .fullScreen
                     vc.setEyeContactQuestionInfo(info: info, delegate: this)
-                    this.present(vc, animated: true, completion: nil)
+                    this.presentVC(vc: vc)
                 }
         case .VerbalResponse,.verbal_actions:
                 if let info = res.verbalQuestionInfo {
                  let vc = Utility.getViewController(ofType: AssessmentVerbalQuestionViewController.self)
                  vc.modalPresentationStyle = .fullScreen
                  vc.setVerbalQuestionInfo(info: info, delegate: this)
-                    this.present(vc, animated: true, completion: nil)
+                    this.presentVC(vc: vc)
                 }
         case .verbal_with_multiple:
             if let info = res.verbalQuestionInfo {
              let vc = Utility.getViewController(ofType: AssessmentVerbalMultiplesViewController.self)
              vc.modalPresentationStyle = .fullScreen
              vc.setVerbalQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .tacting_4m_multiple:
                 if let info = res.tacting4mQuestionInfo {
                  let vc = Utility.getViewController(ofType: AssessmentTacting4MMultipleViewController.self)
                  vc.modalPresentationStyle = .fullScreen
                  vc.setTactingQuestionInfo(info: info, delegate: this)
-                    this.present(vc, animated: true, completion: nil)
+                    this.presentVC(vc: vc)
                 }
         case .puzzle_show_alpha:
                 if let info = res.puzzleQuestionInfo {
                     let vc = Utility.getViewController(ofType: AssessmentPuzzleAlphaViewController.self)
                     vc.modalPresentationStyle = .fullScreen
                     vc.setPuzzleQuestionInfo(info: info, delegate: this)
-                    this.present(vc, animated: true, completion: nil)
+                    this.presentVC(vc: vc)
                 }
         case .Puzzle:
                 if let info = res.puzzleQuestionInfo {
                     let vc = Utility.getViewController(ofType: AssessmentPuzzleViewController.self)
                     vc.modalPresentationStyle = .fullScreen
                     vc.setPuzzleQuestionInfo(info: info, delegate: this)
-                    this.present(vc, animated: true, completion: nil)
+                    this.presentVC(vc: vc)
                 }
         case .reinforce,.reinforce_prefered:
                 if let info = res.reinforcerInfo,let nonPrefferedInfo = res.reinforcerNonPreferredInfo {
                     let vc = Utility.getViewController(ofType: AssessmentReinforcerViewController.self)
                     vc.modalPresentationStyle = .fullScreen
                     vc.setReinforcerInfo(info: info, nonpreferredInfo: nonPrefferedInfo, delegate: this, type: type!)
-                    this.present(vc, animated: true, completion: nil)
+                    this.presentVC(vc: vc)
                 }
         case .reinforce_multi_choice:
             if let info = res.reinforceMultiChoiceInfo {
                 let vc = Utility.getViewController(ofType: AssessmentReinforceMultiChoiceViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .multi_array_question:
         if let info = res.multiArrayQuestionInfo {
             let vc = Utility.getViewController(ofType: AssessmentMultiArrayQuestionViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setQuestionInfo(info: info, delegate: this)
-            this.present(vc, animated: true, completion: nil)
+            this.presentVC(vc: vc)
         }
               case .which_type_question,.PictureArray,.touch_object:
                 if let info = res.which_type_question {
                     let vc = Utility.getViewController(ofType: AssessmentWhichTypeQuestionViewController.self)
                     vc.modalPresentationStyle = .fullScreen
                     vc.setQuestionInfo(info: info, delegate: this)
-                    this.present(vc, animated: true, completion: nil)
+                    this.presentVC(vc: vc)
                 }
         case .sound_imitation:
             if let info = res.soundImitationInfo {
                 let vc = Utility.getViewController(ofType: AssessmentSoundImitationViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
             
         case .Mazes:
@@ -404,84 +420,84 @@ extension AssessmentViewController {
             let vc = Utility.getViewController(ofType: AssessmentMazesViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setMazesQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
              }
         case .independent_play:
             if let info = res.independentPlayInfo {
             let vc = Utility.getViewController(ofType: AssessmentIndependentPlayViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setIndependentPlayQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
          }
        case .Videos:
             if let info = res.videoInfo {
              let vc = Utility.getViewController(ofType: AssessmentVideoControllerVC.self)
              vc.modalPresentationStyle = .fullScreen
              vc.setVideoQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
              }
         case .sort_object:
             if let info = res.sortObject {
              let vc = Utility.getViewController(ofType: AssessmentSortingViewController.self)
              vc.modalPresentationStyle = .fullScreen
              vc.setSortQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
              }
        case .match_count:
             if let info = res.mazeObject {
               let vc = Utility.getViewController(ofType: AssesmentMazeObjectController.self)
               vc.modalPresentationStyle = .fullScreen
               vc.setSortQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .find_object:
             if let info = res.findObject {
                 let vc = Utility.getViewController(ofType: AssesmentFindObjectVC.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setSortQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .calendar:
                if let info = res.matchDate {
                  let vc = Utility.getViewController(ofType: AssesmentMatchDateViewController.self)
                  vc.modalPresentationStyle = .fullScreen
                  vc.setSortQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .arrange_sequence:
             if let info = res.sequenceInfo {
                 let vc = Utility.getViewController(ofType: AsessmentSequenceViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setSequenceQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .add_subs_mathematics:
             if let info = res.mathematicsCalculation {
                 let vc = Utility.getViewController(ofType: AssesmentMathematicsViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setSortQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .spelling:
             if let info = res.matchSpelling {
                 let vc = Utility.getViewController(ofType: AssesmentMatchSpellingViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setSortQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .read_clock:
                if let info = res.readclock {
                    let vc = Utility.getViewController(ofType: AssesmentReadClockViewController.self)
                    vc.modalPresentationStyle = .fullScreen
                    vc.setSortQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
                 }
         case .drawing:
              if let info = res.drawingInfo {
                               let vc = Utility.getViewController(ofType: AssessmentDrawingViewController.self)
                               vc.modalPresentationStyle = .fullScreen
                               vc.setDrawingQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
                                                        
                    }
         case .coloring_picture:
@@ -489,98 +505,98 @@ extension AssessmentViewController {
                 let vc = Utility.getViewController(ofType: AssesmentColorViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setColorQuestionInfo(info: info, delegate: this)
-                            this.present(vc, animated: true, completion: nil)
+                            this.presentVC(vc: vc)
             }
         case .alphabet_learning:
             if let info = res.alphabetLearningInfo {
                 let vc = Utility.getViewController(ofType: AssessmentAlphabetLearningViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setAlphabetLearningInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .matching_object:
             if let info = res.matchingObjectInfo {
                 let vc = Utility.getViewController(ofType: AssessmentMatchingObjectViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setMatchingObjectInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .matching_object_drag:
             if let info = res.matchingObjectInfo {
                 let vc = Utility.getViewController(ofType: AssessmentMatchingObjectDragViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setMatchingObjectInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .match_object_with_messy_array:
             if let info = res.matchingObjectInfo {
                 let vc = Utility.getViewController(ofType: AssessmentMatchObjectWithMessyArrayViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setMatchingObjectInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .make_word:
             if let info = res.makeWorkInfo {
                 let vc = Utility.getViewController(ofType: AssessmentMakeWordViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setMakeWordInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .copy_pattern:
             if let info = res.copyPatternInfo {
                 let vc = Utility.getViewController(ofType: AssessmentCopyPatternViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setCopyPatternInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .block_design:
             if let info = res.blockDesignInfo {
                 let vc = Utility.getViewController(ofType: AssessmentBlockDesignViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setBlockDesignInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .introduction,.introduction_name:
         if let info = res.introductionQInfo {
              let vc = Utility.getViewController(ofType: AssessmentIntroductionViewController.self)
              vc.modalPresentationStyle = .fullScreen
              vc.setIntroductionQuestionInfo(info: info, delegate: this)
-            this.present(vc, animated: true, completion: nil)
+            this.presentVC(vc: vc)
             }
         case .environtmental_sounds:
             if let info = res.environmentalSoundInfo {
                  let vc = Utility.getViewController(ofType: AssessmentEnvironmentalSoundViewController.self)
                  vc.modalPresentationStyle = .fullScreen
                  vc.setIntroductionQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .fill_container:
             if let info = res.fillContainerInfo {
                 let vc = Utility.getViewController(ofType: AssessmentFillContainerViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setFillContainerQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .matching_one_pair, .matching_three_pair:
             if let info = res.matchingObjectInfo {
                 let vc = Utility.getViewController(ofType: AssessmentMatchingOnePairViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setMatchingObjectInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .manding_videos:
             if let info = res.videoInfo {
                 let vc = Utility.getViewController(ofType: AssessmentMandingVdeosViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setVideoQuestionInfo(info: info, delegate: this)
-                this.present(vc, animated: true, completion: nil)
+                this.presentVC(vc: vc)
             }
         case .manding_verbal_video:
                 if let info = res.verbalQuestionInfo {
                  let vc = Utility.getViewController(ofType: AssessmentMandingVerbalVideoViewController.self)
                  vc.modalPresentationStyle = .fullScreen
                  vc.setVerbalQuestionInfo(info: info, delegate: this)
-                    this.present(vc, animated: true, completion: nil)
+                    this.presentVC(vc: vc)
                 }
     
         default:

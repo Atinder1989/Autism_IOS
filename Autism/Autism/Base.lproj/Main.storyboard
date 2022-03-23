@@ -5553,12 +5553,6 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="assessmentBg" translatesAutoresizingMaskIntoConstraints="NO" id="JpI-UK-jxi">
                                 <rect key="frame" x="0.0" y="20" width="1024" height="748"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5iI-vy-IRS">
-                                <rect key="frame" x="170" y="60" width="684" height="0.0"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="35"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CgO-2n-LmP" customClass="FLAnimatedImageView">
                                 <rect key="frame" x="322" y="244" width="300" height="400"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -5590,6 +5584,17 @@
                                     <action selector="exitAssessmentClicked:" destination="sXC-1S-dI1" eventType="touchUpInside" id="pat-Wr-8kn"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IOn-r2-pNq">
+                                <rect key="frame" x="20" y="60" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="3yC-Uk-XgY"/>
+                                    <constraint firstAttribute="height" constant="70" id="5ND-JH-VNs"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="pause"/>
+                                <connections>
+                                    <action selector="pauseClicked:" destination="sXC-1S-dI1" eventType="touchUpInside" id="xft-nO-Xql"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rRX-El-jM2">
                                 <rect key="frame" x="934" y="60" width="70" height="70"/>
                                 <constraints>
@@ -5601,22 +5606,30 @@
                                     <action selector="skipQuestionClicked:" destination="sXC-1S-dI1" eventType="touchUpInside" id="T8x-LI-UqX"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5iI-vy-IRS">
+                                <rect key="frame" x="100" y="75" width="749" height="0.0"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="35"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Hke-if-fLr"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="oBd-TE-FqH" firstAttribute="leading" secondItem="5iI-vy-IRS" secondAttribute="trailing" constant="5" id="0jl-BK-xsO"/>
-                            <constraint firstItem="5iI-vy-IRS" firstAttribute="top" secondItem="Hke-if-fLr" secondAttribute="top" constant="40" id="6AB-3j-hCI"/>
+                            <constraint firstItem="oBd-TE-FqH" firstAttribute="leading" secondItem="5iI-vy-IRS" secondAttribute="trailing" constant="10" id="0dz-OU-ud1"/>
+                            <constraint firstItem="5iI-vy-IRS" firstAttribute="top" secondItem="Hke-if-fLr" secondAttribute="top" constant="55" id="3jO-pU-O7b"/>
                             <constraint firstItem="oBd-TE-FqH" firstAttribute="top" secondItem="Hke-if-fLr" secondAttribute="top" constant="40" id="6MH-2z-dca"/>
                             <constraint firstItem="JpI-UK-jxi" firstAttribute="leading" secondItem="Hke-if-fLr" secondAttribute="leading" id="7MZ-pf-dze"/>
-                            <constraint firstItem="5iI-vy-IRS" firstAttribute="leading" secondItem="Hke-if-fLr" secondAttribute="leading" constant="170" id="BZX-g4-wBB"/>
                             <constraint firstItem="JpI-UK-jxi" firstAttribute="top" secondItem="Hke-if-fLr" secondAttribute="top" id="CIM-sb-TZC"/>
                             <constraint firstItem="JpI-UK-jxi" firstAttribute="trailing" secondItem="Hke-if-fLr" secondAttribute="trailing" id="CMX-WM-ZMJ"/>
+                            <constraint firstItem="IOn-r2-pNq" firstAttribute="top" secondItem="Hke-if-fLr" secondAttribute="top" constant="40" id="Hh5-wi-RDW"/>
                             <constraint firstItem="rRX-El-jM2" firstAttribute="leading" secondItem="oBd-TE-FqH" secondAttribute="trailing" constant="5" id="SYk-nP-1QO"/>
+                            <constraint firstItem="IOn-r2-pNq" firstAttribute="leading" secondItem="Hke-if-fLr" secondAttribute="leading" constant="20" id="TAY-y2-RYF"/>
                             <constraint firstItem="Hke-if-fLr" firstAttribute="trailing" secondItem="rRX-El-jM2" secondAttribute="trailing" constant="20" id="bxW-dg-g54"/>
                             <constraint firstItem="JpI-UK-jxi" firstAttribute="bottom" secondItem="Hke-if-fLr" secondAttribute="bottom" id="e0R-8j-Poz"/>
                             <constraint firstItem="74Y-XU-OEe" firstAttribute="top" secondItem="CgO-2n-LmP" secondAttribute="bottom" constant="50" id="frz-2m-Nkt"/>
                             <constraint firstItem="rRX-El-jM2" firstAttribute="top" secondItem="Hke-if-fLr" secondAttribute="top" constant="40" id="icH-9S-A14"/>
+                            <constraint firstItem="5iI-vy-IRS" firstAttribute="leading" secondItem="IOn-r2-pNq" secondAttribute="trailing" constant="10" id="jEb-o3-JnM"/>
                             <constraint firstItem="74Y-XU-OEe" firstAttribute="centerX" secondItem="lWb-tD-htZ" secondAttribute="centerX" id="kNp-2n-hee"/>
                             <constraint firstItem="CgO-2n-LmP" firstAttribute="centerX" secondItem="lWb-tD-htZ" secondAttribute="centerX" constant="-40" id="m5s-cV-g01"/>
                             <constraint firstItem="CgO-2n-LmP" firstAttribute="centerY" secondItem="lWb-tD-htZ" secondAttribute="centerY" constant="60" id="uee-BI-Ypz"/>
@@ -5624,6 +5637,7 @@
                     </view>
                     <connections>
                         <outlet property="avatarImageView" destination="CgO-2n-LmP" id="HA9-g9-oG2"/>
+                        <outlet property="pauseButton" destination="IOn-r2-pNq" id="scS-AD-BD2"/>
                         <outlet property="questionTitle" destination="5iI-vy-IRS" id="teP-yN-vea"/>
                         <outlet property="userAnswer" destination="74Y-XU-OEe" id="Ejf-MC-BMP"/>
                     </connections>
@@ -13070,6 +13084,7 @@
         <image name="greenTick" width="24" height="24"/>
         <image name="home" width="250" height="250"/>
         <image name="languageBackground" width="768" height="1024"/>
+        <image name="pause" width="256" height="256"/>
         <image name="play" width="19" height="19"/>
         <image name="profileAppLogo" width="285" height="168"/>
         <image name="restartVideo" width="250" height="250"/>

@@ -51,7 +51,16 @@ class StagesViewController: UIViewController {
 extension StagesViewController {
     func setStageScreen(performanceDetail:PerformanceDetail?,algoResponse:AlgorithmResponseVO?,startDate:String,endDate:String,level:String) {
         self.performanceDetail = performanceDetail
+        
         self.algoResponse = algoResponse
+        
+//        if(algoResponse?.skillprogramDetail?.learningProgramList.count == 6) {
+//            self.algoResponse?.skillprogramDetail?.learningProgramList.removeLast()
+//        } else if(algoResponse?.skillprogramDetail?.learningProgramList.count == 7) {
+//            self.algoResponse?.skillprogramDetail?.learningProgramList.removeLast()
+//            self.algoResponse?.skillprogramDetail?.learningProgramList.removeLast()
+//        }
+        
         self.startDate = startDate
         self.endDate = endDate
         self.level = level

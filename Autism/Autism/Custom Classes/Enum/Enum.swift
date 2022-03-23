@@ -363,6 +363,8 @@ enum ProgramCode: String {
     case echoice_4M   = "echoice_4M"
     case echoic_5M   = "echoic_5M"
     case matching_identical   = "matching_identical"
+    case matching_identical_2   = "matching_identical_2"
+    case matching_identical_3   = "matching_identical_3"
     case spelling   = "spelling"
     case matching_three_pair   = "matching_three_pair"
     case tacting_2objects_help   = "tacting_2objects_help"
@@ -379,7 +381,8 @@ enum ProgramCode: String {
     case tacting_6non_favourite_2   = "tacting_6non_favourite_2"
     case tacting_6non_favourite   = "tacting_6non_favourite"
     case expressively_labeling_items   = "expressively_labeling_items"
-    case tacting_10_item   = "tacting_10_item"    
+    case tacting_10_item   = "tacting_10_item"
+    case tacting_2objects_no_help   = "tacting_2objects_no_help"
     case none      = "none"
 }
 

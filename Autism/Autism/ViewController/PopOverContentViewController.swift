@@ -161,7 +161,13 @@ extension PopOverContentViewController : UITableViewDelegate, UITableViewDataSou
                             {
                                 cell.accessoryType = .checkmark;
                             }
-                 cell.textLabel?.text = self.reinforcerList[indexPath.row].name
+            var nameToShow =  self.reinforcerList[indexPath.row].name
+            print("nameToShow = ", nameToShow)
+            let arrTemp = nameToShow.components(separatedBy: ",")
+            if(arrTemp.count > 1) {
+                nameToShow = arrTemp[0]
+            }
+                 cell.textLabel?.text = nameToShow
                  cell.imageView?.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + self.reinforcerList[indexPath.row].image, placeholderImage: "applogo")
         default:
             if self.selectedIndexList.contains(indexPath.row)

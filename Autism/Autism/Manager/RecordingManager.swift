@@ -34,11 +34,9 @@ class RecordingManager:NSObject {
     private var speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: Utility.getLanguageCode()))
     private var recognitionRequest : SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
-   // private let audioEngine = AVAudioEngine()
     private var audioEngine: AVAudioEngine?
 
     private var waitForUserAnswerTimer = Timer()
-    private var isfinalTextTimer: Timer? = nil
 
     private var predictedResult: SFSpeechRecognitionResult? = nil
     private var isRecorder = false
@@ -63,7 +61,7 @@ class RecordingManager:NSObject {
 
         self.audioEngine = AVAudioEngine()
         if let engine = self.audioEngine {
-            engine.reset()
+        engine.reset()
         isRecorder = true
         let node = engine.inputNode
         let recordingFormat = node.outputFormat(forBus: 0)

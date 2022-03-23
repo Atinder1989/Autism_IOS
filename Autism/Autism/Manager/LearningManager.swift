@@ -37,7 +37,7 @@ class LearningManager {
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
             scriptController = vc
-        case .matching_identical:
+        case .matching_identical, .matching_identical_2, .matching_identical_3:
             let vc = Utility.getViewController(ofType: LearningMatchingIdenticalViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
@@ -62,7 +62,7 @@ class LearningManager {
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
             scriptController = vc
-        case .tacting_2objects_help,.vocal_Imitations,.tacting_4object_no_help,.tacting_6non_favourite_2,.tacting_6non_favourite,.tacting_10_item:
+        case .tacting_2objects_help,.vocal_Imitations,.tacting_4object_no_help,.tacting_6non_favourite_2,.tacting_6non_favourite,.tacting_10_item, .tacting_2objects_no_help:
             let vc = Utility.getViewController(ofType: LearningVocalImitationsViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
@@ -330,14 +330,14 @@ class LearningManager {
     static func handleTrialInfo(trialInfo:TrialInfo)
     {
         if let topvc = UIApplication.topViewController() {
-        if let vc = self.getTrialController(info: trialInfo) {
-            topvc.present(vc, animated: true, completion: nil)
-        } else {
-            if(trialInfo.enable_reinforcer == false) {
-                Utility.showAlert(title: "Information", message: "Trail Work under progress")
-                UserManager.shared.exitAssessment()
+            if let vc = self.getTrialController(info: trialInfo) {
+                topvc.present(vc, animated: true, completion: nil)
+            } else {
+                if(trialInfo.enable_reinforcer == false) {
+                    Utility.showAlert(title: "Information", message: "Trail Work under progress")
+                    UserManager.shared.exitAssessment()
+                }
             }
-        }
         }
     }
     

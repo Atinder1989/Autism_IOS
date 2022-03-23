@@ -95,6 +95,7 @@ class AssesmentColorViewController: UIViewController ,UICollectionViewDataSource
     @IBAction func submitClicked(_ sender: Any) {
         self.questionState = .submit
         self.stopTimer()
+        SpeechManager.shared.setDelegate(delegate: self)
         SpeechManager.shared.speak(message:SpeechMessage.excellentWork.getMessage(self.coloringInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
       //  self.colorViewModel.uploadImage(image: self.sketchView.asImage(), timeTaken: self.timeTakenToSolve, info: self.coloringInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
     }

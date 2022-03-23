@@ -155,10 +155,11 @@ extension LoginViewController {
         loginButton.setTitle(labelresponse.getLiteralof(code: LoginLabelCode.login.rawValue).label_text, for: .normal)
         self.screenTitleLbl.text = labelresponse.getLiteralof(code: LoginLabelCode.hello.rawValue).label_text
         self.pleaseLogLbl.text = labelresponse.getLiteralof(code: LoginLabelCode.please_login_to_yr_cc.rawValue).label_text
-        self.notRegisteredUserLbl.text = labelresponse.getLiteralof(code: LoginLabelCode.new_user_signup.rawValue).label_text
-        self.signUpLbl.text = labelresponse.getLiteralof(code: LoginLabelCode.signup.rawValue).label_text
         self.orLbl.text = labelresponse.getLiteralof(code: LoginLabelCode.Or.rawValue).label_text
         self.loginWithLbl.text = labelresponse.getLiteralof(code: LoginLabelCode.Login_with.rawValue).label_text
+
+        self.notRegisteredUserLbl.text = labelresponse.getLiteralof(code: LoginLabelCode.new_user_signup.rawValue).label_text
+        self.signUpLbl.text = labelresponse.getLiteralof(code: LoginLabelCode.signup.rawValue).label_text
     }
     
     private func isAnyMandatoryFieldEmpty() -> (isEmpty:Bool,index:Int) {

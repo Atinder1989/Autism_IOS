@@ -66,6 +66,8 @@ class AssesmentColorViewModel:NSObject  {
             Utility.hideLoader()
             if error == nil {
                 self.submitUserAnswer(successCount: skip ? 0 : 100, info: info, timeTaken: timeTaken, imageurl: url, skip: skip,touchOnEmptyScreenCount:touchOnEmptyScreenCount)
+            } else {
+                self.submitUserAnswer(successCount: 0, info: info, timeTaken: timeTaken, imageurl: url, skip: skip,touchOnEmptyScreenCount:touchOnEmptyScreenCount)
             }
         }
     }

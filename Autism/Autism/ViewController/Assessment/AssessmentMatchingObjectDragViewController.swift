@@ -160,7 +160,7 @@ extension AssessmentMatchingObjectDragViewController {
 
     private func initializeFilledImageView() {
         
-        ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.bg_image, imageView: imageViewBG, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: nil)
+        ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.bg_image, imageView: imageViewBG, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
 
         if(self.matchingObjectInfo.images.count >= 6)
         {
@@ -444,6 +444,7 @@ class ImageViewWithID : UIImageView {
 
 extension AssessmentMatchingObjectDragViewController: ImageDownloaderDelegate {
     func finishDownloading() {
+        print("finishDownloading")
         self.apiDataState = .imageDownloaded
         
         SpeechManager.shared.setDelegate(delegate: self)

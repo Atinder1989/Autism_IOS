@@ -117,21 +117,49 @@ extension StagesViewModel {
     
     // MARK: Animal Stage Methods
     private func getForestStagesListCoordinates() -> [StageModel] {
-        let size = 160
+        let size = UIScreen.main.bounds.size.height * 0.16
+
+        var coordinates = [StageModel]()
+        coordinates = [
+            LearningStage.init(frame: CGRect.init(x: 150, y: 100, width: size, height: size), image: .none, program: nil),
+            LearningStage.init(frame: CGRect.init(x: CGFloat((Int(UIScreen.main.bounds.size.width / 2)-200)), y: 200, width: size, height: size), image: .none, program: nil),
+            LearningStage.init(frame: CGRect.init(x: CGFloat((Int(UIScreen.main.bounds.size.width / 2)+100)), y: 100, width: size, height: size), image: .none, program: nil),
+            LearningStage.init(frame: CGRect.init(x: CGFloat(UIScreen.main.bounds.size.width - 300), y: 200, width: size, height: size), image: .none, program: nil),
+            LearningStage.init(frame: CGRect.init(x: 100 , y: CGFloat(UIScreen.main.bounds.size.height/2), width: size, height: size), image: .none, program: nil),
+            LearningStage.init(frame: CGRect.init(x: 140, y: CGFloat(UIScreen.main.bounds.size.height - 180), width: size, height: size), image: .none, program: nil),
+                        
+        LearningStage.init(frame: CGRect.init(x: CGFloat(UIScreen.main.bounds.size.width/2) - 300, y: CGFloat(UIScreen.main.bounds.size.height/2) + 70, width: size, height: size), image: .none, program: nil),
+
+        LearningStage.init(frame: CGRect.init(x: CGFloat(UIScreen.main.bounds.size.width/2) + 50, y: CGFloat(UIScreen.main.bounds.size.height/2) - 100, width: size, height: size), image: .none, program: nil),
+        
+            LearningStage.init(frame: CGRect.init(x: CGFloat(UIScreen.main.bounds.size.width/2), y: CGFloat(UIScreen.main.bounds.size.height - 180), width: size, height: size), image: .none, program: nil),
+    
+            LearningStage.init(frame: CGRect.init(x: CGFloat(UIScreen.main.bounds.size.width - 300), y: CGFloat(UIScreen.main.bounds.size.height/2) - 100, width: size, height: size), image: .none, program: nil)
+    
+]
+
+
+        
         var list = [StageModel]()
-        list = [
-            LearningStage.init(frame: CGRect.init(x: 20, y: 40, width: size, height: size), image: .start, program: nil),
-            LearningStage.init(frame: CGRect.init(x: (Int(UIScreen.main.bounds.size.width / 2)-100), y: 100, width: size, height: size), image: .none, program: nil),
-            LearningStage.init(frame: CGRect.init(x: Int(UIScreen.main.bounds.size.width - 300), y: 200, width: size, height: size), image: .none, program: nil),
-            LearningStage.init(frame: CGRect.init(x: 100 , y: Int(UIScreen.main.bounds.size.height - 480), width: size, height: size), image: .none, program: nil),
-            LearningStage.init(frame: CGRect.init(x: 140, y: Int(UIScreen.main.bounds.size.height - 180), width: size, height: size), image: .none, program: nil),
-            LearningStage.init(frame: CGRect.init(x: Int(UIScreen.main.bounds.size.width/2), y: Int(UIScreen.main.bounds.size.height/2) + 70, width: size, height: size), image: .none, program: nil),
-            LearningStage.init(frame: CGRect.init(x: Int(UIScreen.main.bounds.size.width - CGFloat((size+20))) , y: Int(UIScreen.main.bounds.size.height - CGFloat((size+20))), width: size, height: size), image: .goal, program: nil)
-        ]
         if let response = self.programResponseVO {
-            let imageArray = ["","cat","lion","panda","rabbit","tortoise",""]
+
+            list.append(LearningStage.init(frame: CGRect.init(x: 20, y: 40, width: size, height: size), image: .start, program: nil))
+            
+            for i in 0...response.learningProgramList.count-1 {
+                list.append(coordinates[i])
+            }
+
+            list.append(LearningStage.init(frame: CGRect.init(x: CGFloat(UIScreen.main.bounds.size.width - CGFloat((size+20))) , y: CGFloat(UIScreen.main.bounds.size.height - CGFloat((size+20))), width: size, height: size), image: .goal, program: nil))
+            
+            
+            
+            let imageArray = ["",
+                              "cat","lion","panda","rabbit","tortoise",
+                              "cat" ,"lion","panda","rabbit","tortoise",
+                              ""]
+            
             var array = [StageModel]()
-            for i in 0...list.count-1 {
+                for i in 0...response.learningProgramList.count + 1 {
                 let model = list[i]
                 if i == 0 || i == list.count - 1 {
                     array.append(model)

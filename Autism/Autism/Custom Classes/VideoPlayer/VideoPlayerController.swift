@@ -30,7 +30,7 @@ var avPlayerController: AVPlayerViewController?
         avPlayerController = AVPlayerViewController()
         if let controller = self.avPlayerController {
             controller.view.backgroundColor = .clear
-        //controller.videoGravity = .resizeAspectFill
+        controller.videoGravity = .resizeAspectFill
             controller.showsPlaybackControls = false
         }
     }

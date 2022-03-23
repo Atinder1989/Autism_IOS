@@ -18,7 +18,8 @@ class AssessmentIntroductionViewController: UIViewController {
     @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var questionImageView: UIImageView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
-    
+    @IBOutlet weak var pauseButton: UIButton!
+
     private var introductionQuestionInfo: IntroductionQuestionInfo!
     private var timeTakenToSolve = 0
     private var completeRate = 0
@@ -39,6 +40,19 @@ class AssessmentIntroductionViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.listenModelClosures()
         self.customSetting()
+    }
+    @IBAction func pauseClicked(_ sender: Any) {
+        if AutismTimer.shared.isTimerRunning() {
+            self.stopTimer()
+            SpeechManager.shared.setDelegate(delegate: nil)
+            RecordingManager.shared.stopRecording()
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "play"), for: .normal)
+        } else {
+            AutismTimer.shared.initializeTimer(delegate: self)
+            SpeechManager.shared.setDelegate(delegate: self)
+            RecordingManager.shared.startRecording(delegate: self)
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "pause"), for: .normal)
+        }
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
@@ -61,6 +75,12 @@ class AssessmentIntroductionViewController: UIViewController {
 
 // MARK: Private Methods
 extension AssessmentIntroductionViewController {
+    private func stopSpeechAndRecorder() {
+        SpeechManager.shared.setDelegate(delegate: nil)
+        RecordingManager.shared.stopRecording()
+        RecordingManager.shared.stopWaitUserAnswerTimer()
+    }
+    
     private func listenModelClosures() {
               self.introductionViewModel.dataClosure = {
                         DispatchQueue.main.async {
@@ -121,11 +141,7 @@ extension AssessmentIntroductionViewController {
     AutismTimer.shared.stopTimer()
    }
     
-    private func stopSpeechAndRecorder() {
-        SpeechManager.shared.setDelegate(delegate: nil)
-        RecordingManager.shared.stopRecording()
-        RecordingManager.shared.stopWaitUserAnswerTimer()
-    }
+    
     
 }
 
