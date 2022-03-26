@@ -3079,7 +3079,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = AutismDebug;
 				SWIFT_OBJC_BRIDGING_HEADER = "Autism/Autism-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -3103,7 +3103,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = AutismAppStore;
 				SWIFT_OBJC_BRIDGING_HEADER = "Autism/Autism-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

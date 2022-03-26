@@ -572,14 +572,14 @@ extension UserProfileViewController: PopOverContentViewControllerDelegate {
                     var newModel = m
                     if selectedList.count > 0,let res = self.userprofileViewModel.dropDownListResponseVO {
                         
-                        let nameToShowSelected = res.reinforcerList[selectedList[0]].name
-                        print("nameToShowSelected = ", nameToShowSelected)
-                        let arrTemp = nameToShowSelected.components(separatedBy: ",")
-                        if(arrTemp.count > 1) {
-                            newModel.text = arrTemp[0]
-                        }
+//                        let nameToShowSelected = res.reinforcerList[selectedList[0]].name
+//                        print("nameToShowSelected = ", nameToShowSelected)
+//                        let arrTemp = nameToShowSelected.components(separatedBy: ",")
+//                        if(arrTemp.count > 1) {
+//                            newModel.text = arrTemp[0]
+//                        }
 
-//                        newModel.text = res.reinforcerList[selectedList[0]].name
+                        newModel.text = res.reinforcerList[selectedList[0]].name
                         newModel.image = res.reinforcerList[selectedList[0]].image
                     }
                     let array = self.reinforcerFormlist.filter{$0.text == newModel.text}

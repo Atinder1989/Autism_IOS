@@ -139,7 +139,6 @@ extension LanguageViewController {
         self.label4.text = self.languageList[3].name
         self.label5.text = self.languageList[4].name
         
-        self.languageView.isHidden = false
         self.continueTologinButton.isHidden = false
         //self.selectLanguageLabel.isHidden = false
         self.chooseLanguageLabel.isHidden = false
@@ -189,12 +188,39 @@ extension LanguageViewController {
     private func showSelectedLanguage(viewTag:Int) {
         for mainSW in self.view.subviews {
              if mainSW.tag == 10000 {
-                for sw in mainSW.subviews {
-                    if sw.tag == viewTag {
-                        sw.backgroundColor = .white
-                        Utility.setView(view: sw, cornerRadius: 13, borderWidth: 0, color: .clear)
-                        break
+                 
+                for sw10 in mainSW.subviews {
+                    if(sw10.tag == 20000) {
+                        sw10.layer.borderColor = UIColor.clear.cgColor
+                        for sw20 in sw10.subviews {
+                            if sw20.tag == viewTag {
+                                sw20.backgroundColor = .white
+                                Utility.setView(view: sw20, cornerRadius: 13, borderWidth: 0, color: .clear)
+                                break
+                            }
+                        }
+                    } else if(sw10.tag == 30000) {
+                        sw10.layer.borderColor = UIColor.clear.cgColor
+
+                        for sw30 in sw10.subviews {
+                            if(sw30.tag == 40000) {
+                                for sw40 in sw30.subviews {
+                                    if sw40.tag == viewTag {
+                                        sw40.backgroundColor = .white
+                                        Utility.setView(view: sw40, cornerRadius: 13, borderWidth: 0, color: .clear)
+                                        //break
+                                    } else {
+                                        sw40.backgroundColor = .clear
+                                    }
+                                }
+                            }
+                        }
                     }
+//                    if sw.tag == viewTag {
+//                        sw.backgroundColor = .white
+//                        Utility.setView(view: sw, cornerRadius: 13, borderWidth: 0, color: .clear)
+//                        break
+//                    }
                 }
             }
         }

@@ -151,7 +151,15 @@ extension ProfileIssueCell : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: UserInfoCell.identifier) as! UserInfoCell
                 cell.selectionStyle = .none
 
-            let model = self.formlist[indexPath.row]
+            var model = self.formlist[indexPath.row]
+            
+            let nameToShowSelected = model.text
+            print("nameToShowSelected = ", nameToShowSelected)
+            let arrTemp = nameToShowSelected.components(separatedBy: ",")
+            if(arrTemp.count > 1) {
+                model.text = arrTemp[0]
+            }
+
             cell.setData(model: model, delegate: self, labelResponse: self.labelResponse)
             cell.titleLabel.textColor = UIColor.init(red: 99/255.0, green: 99/255.0, blue: 99/255.0, alpha: 1)
             cell.dataTextField?.textColor = .black
