@@ -20,7 +20,7 @@ class LearningMatching3PairViewModel: NSObject {
     var makeBiggerClosure : ((_ questionInfo:ScriptCommandInfo) -> Void)?
     var makeImageNormalClosure : ((_ questionInfo:ScriptCommandInfo) -> Void)?
     var blinkAllImagesClosure : ((_ questionInfo:ScriptCommandInfo) -> Void)?
-    var childActionStateClosure : ((Bool) -> Void)?
+    var childActionStateClosure : ((_ state: Bool, _ questionInfo:ScriptCommandInfo?) -> Void)?
     var startDragAnimationClosure : ((_ questionInfo:ScriptCommandInfo) -> Void)?
     var clearScreenClosure : (() -> Void)?
 
@@ -317,7 +317,7 @@ extension LearningMatching3PairViewModel {
         }
         
         if let closure = self.childActionStateClosure {
-            closure(state)
+            closure(state, commandInfo)
         }
     }
     

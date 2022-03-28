@@ -16,11 +16,15 @@ class LearningMatching3PairViewController: UIViewController {
     private var command_array: [ScriptCommandInfo] = []
     
     private var isChildAction = false
+    private var isChildAction1 = false
+    private var isChildAction2 = false
+    private var isChildAction3 = false
   
     private var initialFrameOfDraggableView: CGRect?
+    private var noOfImages: Int = 3
     private var totalImagesMatched: Int = 0 {
         didSet {
-            if self.totalImagesMatched == 3 {
+            if self.totalImagesMatched == noOfImages {
                 self.commandViewModal.calculateChildAction(state: true)
             }
         }
@@ -35,6 +39,10 @@ class LearningMatching3PairViewController: UIViewController {
     @IBOutlet weak var imageViewRight2:  ImageViewWithID!
     @IBOutlet weak var imageViewRight3:  ImageViewWithID!
 
+    private var frameImageViewRight1: CGRect = .zero
+    private var frameImageViewRight2: CGRect = .zero
+    private var frameImageViewRight3: CGRect = .zero
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -49,9 +57,6 @@ class LearningMatching3PairViewController: UIViewController {
         self.commandViewModal.stopAllCommands()
         UserManager.shared.exitAssessment()
     }
-    
-    
-    
 }
 
 //MARK:- Public Methods
@@ -85,6 +90,11 @@ extension LearningMatching3PairViewController {
         imageViewRight1.frame = CGRect(x: rightX, y: (deviceHeight/2) - boxSize - 40, width: boxSize, height: boxSize)
         imageViewRight2.frame = CGRect(x: rightX, y: (deviceHeight/2)-20, width: boxSize, height: boxSize)
         imageViewRight3.frame = CGRect(x: rightX, y: deviceHeight - boxSize - bottomPadding, width: boxSize, height: boxSize)
+        
+        frameImageViewRight1 = imageViewRight1.frame
+        frameImageViewRight2 = imageViewRight2.frame
+        frameImageViewRight3 = imageViewRight3.frame
+        
     }
     
     private func customSetting() {
@@ -119,11 +129,23 @@ extension LearningMatching3PairViewController {
         if !isChildAction {
             return
         }
+        
         print("handlePan Started===== ")
 
         if let currentImageView:ImageViewWithID = gestureRecognizer.view as? ImageViewWithID {
+            
+            if(self.isChildAction1 == true && currentImageView != self.imageViewRight1) {
+                return
+            }
+            if(self.isChildAction2 == true && currentImageView != self.imageViewRight2) {
+                return
+            }
+            if(self.isChildAction3 == true && currentImageView != self.imageViewRight3) {
+                return
+            }
         switch gestureRecognizer.state {
         case .began:
+            
             if self.initialFrameOfDraggableView == nil{
                 self.initialFrameOfDraggableView = currentImageView.frame
             }
@@ -184,10 +206,19 @@ extension LearningMatching3PairViewController {
     
     
     private func handleInvalidDropLocation(currentImageView:ImageViewWithID){
+        
         DispatchQueue.main.async {
-            if let frame = self.initialFrameOfDraggableView {
-                currentImageView.frame = frame
+            if (currentImageView == self.imageViewRight1) {
+                self.imageViewRight1.frame = self.frameImageViewRight1
+            } else if (currentImageView == self.imageViewRight2) {
+                self.imageViewRight2.frame = self.frameImageViewRight2
+            } else if (currentImageView == self.imageViewRight3) {
+                self.imageViewRight3.frame = self.frameImageViewRight3
             }
+            
+//            if let frame = self.initialFrameOfDraggableView {
+//                currentImageView.frame = frame
+//            }
         }
     }
     
@@ -290,21 +321,62 @@ extension LearningMatching3PairViewController {
              }
         }
         
-        self.commandViewModal.childActionStateClosure = { state in
+        self.commandViewModal.childActionStateClosure = { state, questionInfo in
              DispatchQueue.main.async {
                 self.isChildAction = state
-             }
+//                 self.isChildAction1 = state
+                 if let imgview = self.findImageViewWith(id: questionInfo?.value_id ?? "") {
+                     self.isChildAction = state
+                     self.noOfImages = 1
+
+                     self.isChildAction1 = false
+                     self.isChildAction2 = false
+                     self.isChildAction3 = false
+
+                     if(imgview == self.imageViewRight1) {
+                         self.totalImagesMatched = 0
+                         self.isChildAction1 = state
+                     } else if(imgview == self.imageViewRight2) {
+                         self.totalImagesMatched = 0
+                         self.isChildAction2 = state
+                     } else if(imgview == self.imageViewRight3) {
+                         self.totalImagesMatched = 0
+                         self.isChildAction3 = state
+                     }
+                 } else {
+                     if(state == true) {
+                         self.noOfImages = 3
+                         self.isChildAction = state
+                         self.isChildAction1 = false
+                         self.isChildAction2 = false
+                         self.isChildAction3 = false
+                     }
+                 }
+              }
         }
         
         self.commandViewModal.startDragAnimationClosure = { questionInfo in
             DispatchQueue.main.async {
-                if let option = questionInfo.option {
-                    if  option.drag_direction == ScriptCommandOptionType.right_to_left.rawValue  {
-                        var duration = 0
-                        if option.time_in_second.count > 0 {
-                            duration = Int(option.time_in_second) ?? 0
+                
+                if let imgview = self.findImageViewWith(id: questionInfo.value_id) {
+                    if let option = questionInfo.option {
+                        if  option.drag_direction == ScriptCommandOptionType.right_to_left.rawValue  {
+                            var duration = 0
+                            if option.time_in_second.count > 0 {
+                                duration = Int(option.time_in_second) ?? 0
+                            }
+                            self.rightToleftAnimation(duration: duration-2, imageView:imgview)
                         }
-                            self.rightToleftAnimation(duration: duration-2)
+                    }
+                } else {
+                    if let option = questionInfo.option {
+                        if  option.drag_direction == ScriptCommandOptionType.right_to_left.rawValue  {
+                            var duration = 0
+                            if option.time_in_second.count > 0 {
+                                duration = Int(option.time_in_second) ?? 0
+                            }
+                                self.rightToleftAnimation(duration: duration-2)
+                        }
                     }
                 }
              }
@@ -350,7 +422,26 @@ extension LearningMatching3PairViewController {
     }
     
     
-    
+    private func rightToleftAnimation(duration:Int, imageView:UIImageView)
+    {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: TimeInterval(duration*3), animations: {
+                if(imageView == self.imageViewRight1) {
+                    self.imageViewRight1.frame = self.imageViewleft1.frame
+                }
+                if(imageView == self.imageViewRight2) {
+                    self.imageViewRight2.frame = self.imageViewleft2.frame
+                }
+                if(imageView == self.imageViewRight3) {
+                    self.imageViewRight3.frame = self.imageViewleft3.frame
+                }
+                
+            }) {  finished in
+              self.commandViewModal.updateCurrentCommandIndex()
+            }
+        }
+     }
+
      
     private func rightToleftAnimation(duration:Int)
     {
