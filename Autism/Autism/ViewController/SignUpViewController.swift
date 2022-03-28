@@ -16,12 +16,11 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var whiteBackgroundView: UIView!
     @IBOutlet weak var alreadyMemberLbl: UILabel!
     @IBOutlet weak var loginLbl: UILabel!
-   // @IBOutlet weak var termsLbl: UILabel!
     @IBOutlet weak var googleButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var orLbl: UILabel!
     @IBOutlet weak var signupWithLbl: UILabel!
-    @IBOutlet weak var termsTextView: UITextView!
+    @IBOutlet weak var lblterms: UILabel!
 
     private var list = [FormModel]()
     private var socialNetworkManager: SocialNetworkManager = SocialNetworkManager()
@@ -128,7 +127,7 @@ extension SignUpViewController {
         screenDescriptionLabel.text = labelresponse.getLiteralof(code: SignUpLabelCode.register_with_us.rawValue).label_text
         alreadyMemberLbl.text = labelresponse.getLiteralof(code: SignUpLabelCode.already_member.rawValue).label_text
         loginLbl.text = labelresponse.getLiteralof(code: SignUpLabelCode.login.rawValue).label_text
-        termsTextView.text = labelresponse.getLiteralof(code: SignUpLabelCode.terms_condtion_agree_txt.rawValue).label_text.replacingOccurrences(of: "\\n", with: "\n")
+        lblterms.text = labelresponse.getLiteralof(code: SignUpLabelCode.terms_condtion_agree_txt.rawValue).label_text.replacingOccurrences(of: "\\n", with: "\n")
         orLbl.text = labelresponse.getLiteralof(code: SignUpLabelCode.Or.rawValue).label_text
         signupWithLbl.text = labelresponse.getLiteralof(code: SignUpLabelCode.signup_with.rawValue).label_text
     }

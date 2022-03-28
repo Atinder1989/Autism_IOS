@@ -37,9 +37,7 @@ class LoginViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-      //  Utility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
     }
-   
     
     @IBAction func loginClicked(_ sender: Any) {
         self.loginViewModel.checkAllValidationBeforeLogin(list: self.list)
@@ -72,7 +70,7 @@ extension LoginViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.formTableView.frame.size.height / 2
+        return self.formTableView.frame.size.height / 2        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

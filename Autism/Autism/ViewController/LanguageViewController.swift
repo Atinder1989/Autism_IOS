@@ -87,7 +87,13 @@ extension LanguageViewController {
     private func customSetting() {
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        Utility.setView(view: self.continueTologinButton, cornerRadius: 27.5, borderWidth: 0, color: .clear)
+        
+        if Utility.isRunningOnIpad() {
+            Utility.setView(view: self.continueTologinButton, cornerRadius: 37.5, borderWidth: 0, color: .clear)
+        } else {
+            Utility.setView(view: self.continueTologinButton, cornerRadius: 25, borderWidth: 0, color: .clear)
+        }
+        
         let color = UIColor.init(red: 145/255.0, green: 143/255.0, blue: 249/255.0, alpha: 1)
         Utility.setView(view: self.languageView1, cornerRadius: 13, borderWidth: 2, color: color)
         Utility.setView(view: self.languageView2, cornerRadius: 13, borderWidth: 2, color: color)

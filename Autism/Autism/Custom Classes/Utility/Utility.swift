@@ -31,7 +31,10 @@ class Utility {
 
     var reachability: Reachability!
     private init() {}
-    
+
+    static func isRunningOnIpad() -> Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad ? true : false
+    }
     
     // MARK: - Loader Methods
     static func showLoader() {
