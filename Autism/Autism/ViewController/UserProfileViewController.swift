@@ -42,7 +42,7 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var assesmentBG: UIImageView!
 
     @IBOutlet weak var screenTitleLabel: UILabel!
-    @IBOutlet weak var helpUsTextView: UITextView!
+    @IBOutlet weak var helpUsLabel: UILabel!
 
     private var basicInfolist = [FormModel]()
     private var popOverContentType : PopOverContentType = .none
@@ -83,7 +83,6 @@ class UserProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Utility.lockOrientation(UIInterfaceOrientationMask.landscape, andRotateTo: UIInterfaceOrientation.landscapeLeft)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -178,7 +177,7 @@ extension UserProfileViewController : UITableViewDelegate, UITableViewDataSource
         if tableView == subStageMenuTableView {
             return 60
         }
-        return self.profileTableView.frame.size.height / CGFloat(self.basicInfolist.count)
+        return 80
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -226,6 +225,8 @@ extension UserProfileViewController : UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == self.subStageMenuTableView {
             self.currentIndex = indexPath.row
+            let indexPath = IndexPath(row: indexPath.row, section: 0)
+            self.subStageMenuTableView.scrollToRow(at: indexPath, at: .middle, animated: true)
         }
     }
 }
@@ -404,25 +405,27 @@ extension UserProfileViewController {
         subStageMenuTableView.tableFooterView = UIView.init()
          
         Utility.setView(view: self.profileView, cornerRadius: 40, borderWidth: 0, color: .clear)
-        Utility.setView(view: self.basicProfilenextButton, cornerRadius: 30, borderWidth: 0, color: .clear)
-        Utility.setView(view: self.menuBackButton, cornerRadius: 20, borderWidth: 0, color: .clear)
+        if Utility.isRunningOnIpad() {
+            Utility.setView(view: self.basicProfilenextButton, cornerRadius: 50, borderWidth: 0, color: .clear)
+        } else {
+            Utility.setView(view: self.basicProfilenextButton, cornerRadius: 25, borderWidth: 0, color: .clear)
+        }
+        
+        Utility.setView(view: self.menuBackButton, cornerRadius: Utility.isRunningOnIpad() ? 30 : 15, borderWidth: 0, color: .clear)
     }
     
     func setData(){
         subStageMenuView.isHidden = false
         profileView.isHidden = false
         basicProfilenextButton.isHidden = false
-        helpUsTextView.isHidden = false
+        helpUsLabel.isHidden = false
         logo.isHidden = false
         assesmentBG.isHidden = false
     }
     
     private func setLabels(labelresponse:ScreenLabelResponseVO) {
         self.screenTitleLabel.text = labelresponse.getLiteralof(code: UserProfileLabelCode.user_profile.rawValue).label_text
-        self.helpUsTextView.text = labelresponse.getLiteralof(code: UserProfileLabelCode.help_us.rawValue).label_text.replacingOccurrences(of: "\\n", with: "\n")
-       // self.basicProfilenextButton.setTitle(labelresponse.getLiteralof(code: UserProfileLabelCode.next.rawValue).label_text, for: .normal)
-       // self.menuBackButton.setTitle(labelresponse.getLiteralof(code: UserProfileLabelCode.back.rawValue).label_text, for: .normal)
-
+        self.helpUsLabel.text = labelresponse.getLiteralof(code: UserProfileLabelCode.help_us.rawValue).label_text.replacingOccurrences(of: "\\n", with: "\n")
         self.basicInfolist = [
             FormModel.init(title: labelresponse.getLiteralof(code: UserProfileLabelCode.nickname.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.nickname.rawValue).error_text, image: "", placeholder:  labelresponse.getLiteralof(code: UserProfileLabelCode.kid_name.rawValue).label_text),
             
@@ -651,7 +654,7 @@ extension UserProfileViewController: PopOverContentViewControllerDelegate {
 extension UserProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.profileSubStagesCollectionView.frame.width, height: self.profileSubStagesCollectionView.frame.height)
+       return CGSize(width: self.profileSubStagesCollectionView.frame.width, height: self.profileSubStagesCollectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -664,7 +667,6 @@ extension UserProfileViewController: UICollectionViewDataSource, UICollectionVie
     // make a cell for each cell index path
      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileIssueCell.identifier, for: indexPath) as! ProfileIssueCell
-        
         if let response =  self.userprofileViewModel.dropDownListResponseVO {
         
         if indexPath.row == 0 {
@@ -685,9 +687,7 @@ extension UserProfileViewController: UICollectionViewDataSource, UICollectionVie
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-    }
+    
 }
 
 
@@ -734,7 +734,6 @@ extension UserProfileViewController: ProfileIssueCellDelegate {
         
         let sizeText = Utility.getSize(optionModel.info, font: UIFont(name:AppFont.helveticaNeue.rawValue,size:16)!, boundingSize: CGSize(width: popOverWidth, height: 20000.0))
         
-        //let sizeText = Utility.getSize(optionModel.description, font: UIFont(name:AppFont.robotoRegular.rawValue,size:16)!, boundingSize: CGSize(width: popOverWidth, height: 20000.0))
                          vc.modalPresentationStyle = .popover
                     //      vc.preferredContentSize = CGSize(width: 348, height: 350)
         vc.preferredContentSize = CGSize(width: popOverWidth, height: sizeText.height+20)
@@ -827,11 +826,6 @@ extension UserProfileViewController : STCalenderVCDelegate {
                   let updatedModel = FormModel.init(title: res.getLiteralof(code: UserProfileLabelCode.dob.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: dateString, popUpMessage: res.getLiteralof(code: UserProfileLabelCode.dob.rawValue).error_text, image: "", placeholder: "")
                   self.updateForm(updateModel: updatedModel, title: res.getLiteralof(code: UserProfileLabelCode.dob.rawValue).label_text)
             }
-//        } else {
-//            if let response = self.userprofileViewModel.labelsResponseVO {
-//                Utility.showAlert(title: response.getLiteralof(code: UserProfileLabelCode.information.rawValue).label_text, message: response.getLiteralof(code: UserProfileLabelCode.dobValidation.rawValue).label_text)
-//            }
-//        }
     }
     
     private func dateDifference(selectedDate: Date) -> Int {

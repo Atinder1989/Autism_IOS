@@ -57,7 +57,9 @@
                                 <rect key="frame" x="255" y="5.5" width="60" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="Hoy-Wq-TmP"/>
-                                    <constraint firstAttribute="width" constant="60" id="Xvt-iA-oZf"/>
+                                    <constraint firstAttribute="width" constant="90" id="Xvt-iA-oZf">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="60"/>
+                                    </constraint>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                 <state key="normal" title="Forgot ?">

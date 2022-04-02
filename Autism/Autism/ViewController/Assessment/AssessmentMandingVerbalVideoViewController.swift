@@ -86,8 +86,14 @@ class AssessmentMandingVerbalVideoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+//        let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
+//        let screenHeight:CGFloat = min(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
+//
+//        self.questionImageView.frame = CGRect(x: 100, y: 200, width: screenWidth-200, height: screenHeight-200)
+
         self.listenModelClosures()
         self.customSetting()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -213,7 +219,8 @@ extension AssessmentMandingVerbalVideoViewController {
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         self.questionTitle.text = verbalQuestionInfo.question_title
-         
+       
+        
         self.imgV1.frame = self.questionImageView.frame
         self.imgV1.center = view.center
         
@@ -247,7 +254,7 @@ extension AssessmentMandingVerbalVideoViewController {
         self.imgV10.layer.borderWidth = 2.0
         self.imgV10.layer.borderColor = UIColor.clear.cgColor
 
-        let xRef:CGFloat = UIScreen.main.bounds.size.width-64-25
+        let xRef:CGFloat = UIScreen.main.bounds.size.width-50
         
         self.imgV2.center = CGPoint(x: xRef, y: self.imgV2.center.y)
         self.imgV3.center = CGPoint(x: xRef, y: self.imgV3.center.y)
@@ -461,6 +468,7 @@ extension AssessmentMandingVerbalVideoViewController {
 
     func showNextImage()
     {
+        let xRef:CGFloat = 20
         let imgWH:CGFloat = 70
         let yRef:CGFloat = 80
         let ySpace:CGFloat = 5
@@ -475,31 +483,31 @@ extension AssessmentMandingVerbalVideoViewController {
                                 options: [],
                              animations: {
                                 if(self.currentIndex == 1) {
-                                    self.imgV1.frame = CGRect(x: 50, y: yRef+(0*imgWH)+(0*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV1.frame = CGRect(x: xRef, y: yRef+(0*imgWH)+(0*ySpace), width: imgWH, height: imgWH)
                                     self.imgV2.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 2) {
-                                    self.imgV2.frame = CGRect(x: 50, y: yRef+(1*imgWH)+(1*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV2.frame = CGRect(x: xRef, y: yRef+(1*imgWH)+(1*ySpace), width: imgWH, height: imgWH)
                                     self.imgV3.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 3) {
-                                    self.imgV3.frame = CGRect(x: 50, y: yRef+(2*imgWH)+(2*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV3.frame = CGRect(x: xRef, y: yRef+(2*imgWH)+(2*ySpace), width: imgWH, height: imgWH)
                                     self.imgV4.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 4) {
-                                    self.imgV4.frame = CGRect(x: 50, y: yRef+(3*imgWH)+(3*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV4.frame = CGRect(x: xRef, y: yRef+(3*imgWH)+(3*ySpace), width: imgWH, height: imgWH)
                                     self.imgV5.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 5) {
-                                    self.imgV5.frame = CGRect(x: 50, y: yRef+(4*imgWH)+(4*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV5.frame = CGRect(x: xRef, y: yRef+(4*imgWH)+(4*ySpace), width: imgWH, height: imgWH)
                                     self.imgV6.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 6) {
-                                    self.imgV6.frame = CGRect(x: 50, y: yRef+(5*imgWH)+(5*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV6.frame = CGRect(x: xRef, y: yRef+(5*imgWH)+(5*ySpace), width: imgWH, height: imgWH)
                                     self.imgV7.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 7) {
-                                    self.imgV7.frame = CGRect(x: 50, y: yRef+(6*imgWH)+(6*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV7.frame = CGRect(x: xRef, y: yRef+(6*imgWH)+(6*ySpace), width: imgWH, height: imgWH)
                                     self.imgV8.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 8) {
-                                    self.imgV8.frame = CGRect(x: 50, y: yRef+(7*imgWH)+(7*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV8.frame = CGRect(x: xRef, y: yRef+(7*imgWH)+(7*ySpace), width: imgWH, height: imgWH)
                                     self.imgV9.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 9) {
-                                    self.imgV9.frame = CGRect(x: 50, y: yRef+(8*imgWH)+(8*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV9.frame = CGRect(x: xRef, y: yRef+(8*imgWH)+(8*ySpace), width: imgWH, height: imgWH)
                                     self.imgV10.frame = self.questionImageView.frame
                                 }
                              }, completion: {_ in
@@ -523,8 +531,6 @@ extension AssessmentMandingVerbalVideoViewController {
                                 } else if(self.currentIndex == 9) {
                                     self.player10.play()
                                 }
-//                                SpeechManager.shared.setDelegate(delegate: self)
-//                                SpeechManager.shared.speak(message: self.verbalQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                              }
             )
         }

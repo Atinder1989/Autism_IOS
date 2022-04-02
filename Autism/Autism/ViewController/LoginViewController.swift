@@ -80,7 +80,7 @@ extension LoginViewController : UITableViewDelegate, UITableViewDataSource {
             cell.forgotButtonWidth.constant = 0
         if indexPath.row == 1 {
             cell.forgotButton.isHidden = false
-            cell.forgotButtonWidth.constant = 43
+            cell.forgotButtonWidth.constant = 60
         }
         return cell
     }

@@ -23,8 +23,8 @@ class OptionCell: UITableViewCell {
     @IBOutlet weak var yesLabel: UILabel!
     @IBOutlet weak var noLabel: UILabel!
     @IBOutlet weak var dontknowLabel: UILabel!
-    //@IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var titleTextView: UITextView!
+  
+    @IBOutlet weak var titleLabel: UILabel!
 
     @IBOutlet weak var questionButton: UIButton!
     @IBOutlet weak var dontknowButton: UIButton!
@@ -46,7 +46,7 @@ class OptionCell: UITableViewCell {
     func setData(delegate:OptionCellDelegate,model:OptionModel,labelResponse:ScreenLabelResponseVO) {
         self.delegate = delegate
         self.optionModel = model
-        self.titleTextView.text = model.name.replacingOccurrences(of: "\\n", with: "\n")
+        self.titleLabel.text = model.name.replacingOccurrences(of: "\\n", with: "\n")
         let radioOn = UIImage.init(named: "radioOn")
         let radioOff = UIImage.init(named: "radioOff")
         self.yesButton.setBackgroundImage(model.isYes ? radioOn : radioOff, for: .normal)
@@ -56,6 +56,7 @@ class OptionCell: UITableViewCell {
         self.noLabel.text = labelResponse.getLiteralof(code: UserProfileLabelCode.no.rawValue).label_text
         self.dontknowLabel.text = labelResponse.getLiteralof(code: UserProfileLabelCode.dont_know.rawValue).label_text
         self.questionButton.isHidden = model.info.count > 0 ? false : true
+        self.questionButton.isHidden = true
     }
     
     @IBAction func yesClicked(_ sender: UIButton) {

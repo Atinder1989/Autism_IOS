@@ -94,11 +94,14 @@ extension TrialVerbalViewModel {
             if commandResponseVO.prompt_detail.count > 0 {
                 if currentCommandIndex < commandResponseVO.prompt_detail.count {
                 print("currentCommandIndex === \(currentCommandIndex)")
+                    print("commandResponseVO.prompt_detail.count === \(commandResponseVO.prompt_detail.count)")
                     let deadlineTime = DispatchTime.now() + .seconds(learningCommandDelayTime)
                     DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
-                        let commandInfo = commandResponseVO.prompt_detail[self.currentCommandIndex]
-                            self.scriptManager.executeCommand(commandInfo: commandInfo)
                         
+                        if self.currentCommandIndex < commandResponseVO.prompt_detail.count {
+                            let commandInfo = commandResponseVO.prompt_detail[self.currentCommandIndex]
+                            self.scriptManager.executeCommand(commandInfo: commandInfo)
+                        }
                     }
                 } else {
                     print("Main Array khtm ho gya")

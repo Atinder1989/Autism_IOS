@@ -20,6 +20,8 @@ class TrialMatchingObjectViewController: UIViewController {
     private weak var delegate: TrialSubmitDelegate?
     
     @IBOutlet weak var collectionOption: UICollectionView!
+    @IBOutlet weak var collectionWidth: NSLayoutConstraint!
+    
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var imageViewBG:  UIImageView!
         
@@ -121,7 +123,7 @@ internal func collectionView(_ collectionView: UICollectionView, cellForItemAt i
     cell.greenTickImageView.isHidden = true
     var width = self.collectionOption.frame.width-CGFloat((self.matchingObjectInfo.image_with_text.count*20))
     width = width / CGFloat(self.matchingObjectInfo.image_with_text.count)
-    let cornerRadius:CGFloat = width/2.0
+    let cornerRadius:CGFloat = self.collectionOption.frame.height/2.0
     
      if selectedIndex == -1 {
         Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 4, color: .darkGray)
@@ -178,6 +180,9 @@ extension TrialMatchingObjectViewController {
 extension TrialMatchingObjectViewController {
     private func customSetting() {
         
+        if(self.matchingObjectInfo.image_with_text.count == 2) {
+            self.collectionWidth.constant = CGFloat(640)
+        }
         
         labelTitle.isHidden = false
         imageViewBG.isHidden = false

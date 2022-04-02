@@ -317,7 +317,9 @@ extension VideoPlayer: VideoPlayerAssetDelegate {
     func assetConfigurationError (error: NSError?,errorString: String)
     {
         if let e = error {
-        print(e.localizedDescription)
+            print(errorString)
+            print(e.localizedDescription)
+            print(e.code)
         }
     }
 }
