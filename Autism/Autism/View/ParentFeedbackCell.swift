@@ -28,8 +28,8 @@ class ParentFeedbackCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        Utility.setView(view: self.btnNext, cornerRadius: 30, borderWidth: 0.5, color: .darkGray)
-        Utility.setView(view: self.btnPrevious, cornerRadius: 30, borderWidth: 0.5, color: .darkGray)
+        Utility.setView(view: self.btnNext, cornerRadius: Utility.isRunningOnIpad() ? 30 : 20, borderWidth: 0.5, color: .darkGray)
+        Utility.setView(view: self.btnPrevious, cornerRadius: Utility.isRunningOnIpad() ? 30 : 20 , borderWidth: 0.5, color: .darkGray)
         self.levelListTableView.dataSource = self
         self.levelListTableView.delegate = self
         levelListTableView.register(ParentFeebackOptionCell.nib, forCellReuseIdentifier: ParentFeebackOptionCell.identifier)

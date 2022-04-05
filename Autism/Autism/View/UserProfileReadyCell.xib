@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
@@ -18,14 +18,14 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVu-ul-i1j">
-                        <rect key="frame" x="319.5" y="309" width="150" height="150"/>
+                        <rect key="frame" x="334.5" y="324" width="120" height="120"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="150" id="As6-Bk-VQa">
-                                <variation key="heightClass=compact-widthClass=regular" constant="80"/>
+                            <constraint firstAttribute="height" constant="80" id="As6-Bk-VQa">
+                                <variation key="heightClass=regular-widthClass=regular" constant="120"/>
                             </constraint>
-                            <constraint firstAttribute="width" constant="150" id="e01-j6-5Ds">
-                                <variation key="heightClass=compact-widthClass=regular" constant="80"/>
+                            <constraint firstAttribute="width" constant="80" id="e01-j6-5Ds">
+                                <variation key="heightClass=regular-widthClass=regular" constant="120"/>
                             </constraint>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
@@ -36,15 +36,6 @@
                             <action selector="readyClicked:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Igb-ad-vI5"/>
                         </connections>
                     </button>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="parentchild" translatesAutoresizingMaskIntoConstraints="NO" id="C4M-Ta-hrt">
-                        <rect key="frame" x="369" y="518" width="400" height="250"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="400" id="HYr-dl-HxN"/>
-                            <constraint firstAttribute="height" constant="250" id="Rmv-s5-wVk">
-                                <variation key="heightClass=compact-widthClass=regular" constant="180"/>
-                            </constraint>
-                        </constraints>
-                    </imageView>
                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label gyhgh hgkjbjk kjbjkhjk kjhjkbjk kjbjkb kjbjkbjk kjbjkbj kbjkbkbk kgb ghjkb j" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tvr-Z0-1tB">
                         <rect key="frame" x="100" y="225" width="589" height="67"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -55,14 +46,25 @@
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                         </variation>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="parentchild" translatesAutoresizingMaskIntoConstraints="NO" id="C4M-Ta-hrt">
+                        <rect key="frame" x="369" y="448" width="400" height="300"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="300" id="DCG-41-Sox">
+                                <variation key="heightClass=regular-widthClass=regular" constant="400"/>
+                            </constraint>
+                            <constraint firstAttribute="height" constant="200" id="ZDZ-Ya-tk4">
+                                <variation key="heightClass=regular-widthClass=regular" constant="300"/>
+                            </constraint>
+                        </constraints>
+                    </imageView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="C4M-Ta-hrt" secondAttribute="bottom" id="FVy-ey-3r0"/>
+                <constraint firstAttribute="trailing" secondItem="C4M-Ta-hrt" secondAttribute="trailing" constant="20" id="4DD-gF-A8M"/>
                 <constraint firstItem="eVu-ul-i1j" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="Xo9-xf-s86"/>
-                <constraint firstAttribute="trailing" secondItem="C4M-Ta-hrt" secondAttribute="trailing" constant="20" id="iRj-LY-jHm"/>
+                <constraint firstAttribute="bottom" secondItem="C4M-Ta-hrt" secondAttribute="bottom" constant="20" id="jDi-Cd-b7T"/>
                 <constraint firstItem="eVu-ul-i1j" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="xi1-AF-a1V"/>
             </constraints>
             <connections>

@@ -21,7 +21,7 @@ class UserProfileReadyCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        Utility.setView(view: self.readyButton, cornerRadius: Utility.isRunningOnIpad() ? 75 : 40, borderWidth: 0.5, color: .darkGray)
+        Utility.setView(view: self.readyButton, cornerRadius: Utility.isRunningOnIpad() ? 60 : 40, borderWidth: 0.5, color: .darkGray)
     }
     func setData(labelsResponseVO: ScreenLabelResponseVO,delegate:UserProfileReadyCellDelegate) {
         self.delegate = delegate

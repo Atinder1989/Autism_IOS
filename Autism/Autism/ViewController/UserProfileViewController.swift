@@ -405,11 +405,7 @@ extension UserProfileViewController {
         subStageMenuTableView.tableFooterView = UIView.init()
          
         Utility.setView(view: self.profileView, cornerRadius: 40, borderWidth: 0, color: .clear)
-        if Utility.isRunningOnIpad() {
-            Utility.setView(view: self.basicProfilenextButton, cornerRadius: 50, borderWidth: 0, color: .clear)
-        } else {
-            Utility.setView(view: self.basicProfilenextButton, cornerRadius: 25, borderWidth: 0, color: .clear)
-        }
+        Utility.setView(view: self.basicProfilenextButton, cornerRadius:  Utility.isRunningOnIpad() ? 30 : 20, borderWidth: 0, color: .clear)
         
         Utility.setView(view: self.menuBackButton, cornerRadius: Utility.isRunningOnIpad() ? 30 : 15, borderWidth: 0, color: .clear)
     }
@@ -427,20 +423,20 @@ extension UserProfileViewController {
         self.screenTitleLabel.text = labelresponse.getLiteralof(code: UserProfileLabelCode.user_profile.rawValue).label_text
         self.helpUsLabel.text = labelresponse.getLiteralof(code: UserProfileLabelCode.help_us.rawValue).label_text.replacingOccurrences(of: "\\n", with: "\n")
         self.basicInfolist = [
-            FormModel.init(title: labelresponse.getLiteralof(code: UserProfileLabelCode.nickname.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.nickname.rawValue).error_text, image: "", placeholder:  labelresponse.getLiteralof(code: UserProfileLabelCode.kid_name.rawValue).label_text),
+            FormModel.init(title: labelresponse.getLiteralof(code: UserProfileLabelCode.nickname.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "sadg", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.nickname.rawValue).error_text, image: "", placeholder:  labelresponse.getLiteralof(code: UserProfileLabelCode.kid_name.rawValue).label_text),
             
-            FormModel.init(title: labelresponse.getLiteralof(code: UserProfileLabelCode.dob.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.dob.rawValue).error_text, image: "", placeholder: labelresponse.getLiteralof(code: UserProfileLabelCode.dob_text.rawValue).label_text),
+            FormModel.init(title: labelresponse.getLiteralof(code: UserProfileLabelCode.dob.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "sdga", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.dob.rawValue).error_text, image: "", placeholder: labelresponse.getLiteralof(code: UserProfileLabelCode.dob_text.rawValue).label_text),
                    
-            FormModel.init(title:labelresponse.getLiteralof(code: UserProfileLabelCode.guardian_name.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.guardian_name.rawValue).error_text, image: "", placeholder:  labelresponse.getLiteralof(code: UserProfileLabelCode.guardian_text.rawValue).label_text),
+            FormModel.init(title:labelresponse.getLiteralof(code: UserProfileLabelCode.guardian_name.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "asdgsa", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.guardian_name.rawValue).error_text, image: "", placeholder:  labelresponse.getLiteralof(code: UserProfileLabelCode.guardian_text.rawValue).label_text),
                    
 
-            FormModel.init(title: labelresponse.getLiteralof(code: UserProfileLabelCode.country.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.country.rawValue).error_text, image: "", placeholder: labelresponse.getLiteralof(code: UserProfileLabelCode.country_text.rawValue).label_text),
+            FormModel.init(title: labelresponse.getLiteralof(code: UserProfileLabelCode.country.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "asdg", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.country.rawValue).error_text, image: "", placeholder: labelresponse.getLiteralof(code: UserProfileLabelCode.country_text.rawValue).label_text),
             
-            FormModel.init(title: labelresponse.getLiteralof(code: UserProfileLabelCode.state.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.state.rawValue).error_text, image: "", placeholder: labelresponse.getLiteralof(code: UserProfileLabelCode.state.rawValue).label_text),
+            FormModel.init(title: labelresponse.getLiteralof(code: UserProfileLabelCode.state.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "asdga", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.state.rawValue).error_text, image: "", placeholder: labelresponse.getLiteralof(code: UserProfileLabelCode.state.rawValue).label_text),
                    
-            FormModel.init(title: labelresponse.getLiteralof(code: UserProfileLabelCode.city.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.city.rawValue).error_text, image: "", placeholder: labelresponse.getLiteralof(code: UserProfileLabelCode.city_text.rawValue).label_text),
+            FormModel.init(title: labelresponse.getLiteralof(code: UserProfileLabelCode.city.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "asdga", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.city.rawValue).error_text, image: "", placeholder: labelresponse.getLiteralof(code: UserProfileLabelCode.city_text.rawValue).label_text),
                    
-            FormModel.init(title: labelresponse.getLiteralof(code: UserProfileLabelCode.parent_contact_number.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.parent_contact_number.rawValue).error_text, image: "", placeholder: labelresponse.getLiteralof(code: UserProfileLabelCode.parents_phonenumber.rawValue).label_text)
+            FormModel.init(title: labelresponse.getLiteralof(code: UserProfileLabelCode.parent_contact_number.rawValue).label_text, isSecureTextEntry: false, isMandatory: true, text: "1234567890", popUpMessage: labelresponse.getLiteralof(code: UserProfileLabelCode.parent_contact_number.rawValue).error_text, image: "", placeholder: labelresponse.getLiteralof(code: UserProfileLabelCode.parents_phonenumber.rawValue).label_text)
                ]
         
         reinforcerFormlist = [

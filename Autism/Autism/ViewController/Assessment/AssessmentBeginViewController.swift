@@ -30,7 +30,7 @@ class AssessmentBeginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
-    Utility.lockOrientation(UIInterfaceOrientationMask.landscape, andRotateTo: UIInterfaceOrientation.landscapeLeft)
+  //  Utility.lockOrientation(UIInterfaceOrientationMask.landscape, andRotateTo: UIInterfaceOrientation.landscapeLeft)
 
     }
     

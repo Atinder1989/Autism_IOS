@@ -47,7 +47,7 @@ class AvatarSelectionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
              super.viewWillAppear(animated)
-             Utility.lockOrientation(UIInterfaceOrientationMask.landscape, andRotateTo: UIInterfaceOrientation.landscapeLeft)
+          //   Utility.lockOrientation(UIInterfaceOrientationMask.landscape, andRotateTo: UIInterfaceOrientation.landscapeLeft)
     }
     
     @IBAction func continuetClicked(_ sender: Any) {
@@ -68,7 +68,7 @@ class AvatarSelectionViewController: UIViewController {
 extension AvatarSelectionViewController {
       private func customSetting() {
           self.navigationController?.navigationBar.isHidden = true
-        Utility.setView(view: self.continueBtn, cornerRadius: 45, borderWidth: 0, color: .clear)
+          Utility.setView(view: self.continueBtn, cornerRadius: Utility.isRunningOnIpad() ? 30 : 20, borderWidth: 0, color: .clear)
       }
     
     private func setImageView() {
@@ -116,13 +116,16 @@ extension AvatarSelectionViewController {
          for mainSW in self.view.subviews {
                        if mainSW.tag == 15000 {
                            for sw in mainSW.subviews {
-                               for subvw in sw.subviews {
-                                   if subvw.tag == 1000 {
-                                        if let tickImageView = subvw as? UIImageView {
-                                               tickImageView.isHidden = true
-                                        }
-                                   }
-                               }
+                               for subVW in sw.subviews {
+                                      for imgView in subVW.subviews {
+                                          if imgView.tag == 1000 {
+                                              if let tickImageView = imgView as? UIImageView {
+                                                      tickImageView.isHidden = true
+                                              }
+                                              break
+                                          }
+                                      }
+                              }
                            }
                        }
                    }
@@ -132,18 +135,19 @@ extension AvatarSelectionViewController {
         for mainSW in self.view.subviews {
              if mainSW.tag == 15000 {
                 for sw in mainSW.subviews {
-                    if sw.tag == viewTag {
-                        print(sw.tag)
-                        for subVW in sw.subviews {
-                            print(subVW.tag)
-                            if subVW.tag == 1000 {
-                                if let tickImageView = subVW as? UIImageView {
-                                        tickImageView.isHidden = false
+                         for subVW in sw.subviews {
+                            if subVW.tag == viewTag {
+                                for imgView in subVW.subviews {
+                                    if imgView.tag == 1000 {
+                                        if let tickImageView = imgView as? UIImageView {
+                                                tickImageView.isHidden = false
+                                        }
+                                        break
+                                    }
                                 }
-                                break
+
                             }
                         }
-                    }
                 }
             }
         }

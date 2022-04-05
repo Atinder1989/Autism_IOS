@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="ipad9_7" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
@@ -108,16 +108,16 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="geB-9d-y4N">
-                        <rect key="frame" x="0.0" y="0.0" width="39.5" height="60"/>
+                        <rect key="frame" x="5" y="0.0" width="52" height="60"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
-                        <variation key="heightClass=compact-widthClass=regular">
-                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <variation key="heightClass=regular-widthClass=regular">
+                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
                         </variation>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJI-89-SEG">
-                        <rect key="frame" x="47.5" y="17.5" width="25" height="25"/>
+                        <rect key="frame" x="65" y="17.5" width="25" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="GVy-VK-BVm"/>
                             <constraint firstAttribute="width" constant="25" id="HNg-zs-z4o"/>
@@ -134,7 +134,7 @@
                     <constraint firstItem="0v1-Kv-k8K" firstAttribute="leading" secondItem="9my-uD-dIo" secondAttribute="trailing" id="3wC-dH-iLq"/>
                     <constraint firstAttribute="bottom" secondItem="Zew-ab-3tT" secondAttribute="bottom" id="6Xg-e9-RcB"/>
                     <constraint firstAttribute="bottom" secondItem="geB-9d-y4N" secondAttribute="bottom" id="9aW-bZ-3BW"/>
-                    <constraint firstItem="geB-9d-y4N" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Cv1-ZR-ivV"/>
+                    <constraint firstItem="geB-9d-y4N" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="Cv1-ZR-ivV"/>
                     <constraint firstItem="geB-9d-y4N" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Fbt-NZ-akG"/>
                     <constraint firstItem="9my-uD-dIo" firstAttribute="leading" secondItem="Zew-ab-3tT" secondAttribute="trailing" id="HTV-76-FBt"/>
                     <constraint firstAttribute="bottom" secondItem="9my-uD-dIo" secondAttribute="bottom" id="OcK-vy-cCx"/>

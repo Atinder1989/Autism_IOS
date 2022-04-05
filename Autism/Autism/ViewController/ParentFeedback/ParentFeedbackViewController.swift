@@ -35,7 +35,7 @@ class ParentFeedbackViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
-            Utility.lockOrientation(UIInterfaceOrientationMask.landscape, andRotateTo: UIInterfaceOrientation.landscapeLeft)
+           // Utility.lockOrientation(UIInterfaceOrientationMask.landscape, andRotateTo: UIInterfaceOrientation.landscapeLeft)
      }
     
     @IBAction func feedbackMessageNextClicked(_ sender: Any) {
@@ -69,8 +69,8 @@ extension ParentFeedbackViewController {
         self.navigationController?.navigationBar.isHidden = true
          feedbackCollectionView.register(ParentFeedbackCell.nib, forCellWithReuseIdentifier: ParentFeedbackCell.identifier)
         Utility.setView(view: self.feedbackCollectionView, cornerRadius: 10, borderWidth: 0, color: .clear)
-        Utility.setView(view: self.feedbackMessageNextButton, cornerRadius: 35, borderWidth: 0, color: .clear)
-        Utility.setView(view: self.feedbackThanksMessageNextButton, cornerRadius: 30, borderWidth: 0.5, color: .darkGray)
+        Utility.setView(view: self.feedbackMessageNextButton, cornerRadius: Utility.isRunningOnIpad() ? 30 : 20, borderWidth: 0, color: .clear)
+        Utility.setView(view: self.feedbackThanksMessageNextButton, cornerRadius: Utility.isRunningOnIpad() ? 30 : 20, borderWidth: 0.5, color: .darkGray)
         Utility.setView(view: self.thanksMessageView, cornerRadius: 10, borderWidth: 0, color: .clear)
     }
     
