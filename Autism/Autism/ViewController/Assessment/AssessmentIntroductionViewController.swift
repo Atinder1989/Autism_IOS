@@ -20,6 +20,9 @@ class AssessmentIntroductionViewController: UIViewController {
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     @IBOutlet weak var pauseButton: UIButton!
 
+    @IBOutlet weak var widthAvatar: NSLayoutConstraint!
+    @IBOutlet weak var heightAvatar: NSLayoutConstraint!
+    
     private var introductionQuestionInfo: IntroductionQuestionInfo!
     private var timeTakenToSolve = 0
     private var completeRate = 0
@@ -98,6 +101,15 @@ extension AssessmentIntroductionViewController {
     }
     
     private func customSetting() {
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            widthAvatar.constant = 300
+            heightAvatar.constant = 400
+        } else {
+            widthAvatar.constant = 150
+            heightAvatar.constant = 200
+        }
+        
+        
         if let user = UserManager.shared.getUserInfo() {
             isUserInteraction = false
             SpeechManager.shared.setDelegate(delegate: self)

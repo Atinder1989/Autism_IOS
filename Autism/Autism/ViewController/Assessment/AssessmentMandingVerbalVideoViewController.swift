@@ -16,7 +16,9 @@ class AssessmentMandingVerbalVideoViewController: UIViewController {
     @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var questionImageView: FLAnimatedImageView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
+    
     @IBOutlet weak var containerWidth: NSLayoutConstraint!
+    @IBOutlet weak var containerHeight: NSLayoutConstraint!
     
     @IBOutlet weak var imgV1: FLAnimatedImageView!
     @IBOutlet weak var imgV2: FLAnimatedImageView!
@@ -197,22 +199,22 @@ class AssessmentMandingVerbalVideoViewController: UIViewController {
 // MARK: Private Methods
 extension AssessmentMandingVerbalVideoViewController {
     private func listenModelClosures() {
-              self.verbalViewModel.dataClosure = {
-                        DispatchQueue.main.async {
-                            if let res = self.verbalViewModel.accessmentSubmitResponseVO {
-                                if res.success {
-                                    if let ob = self.observer {
-                                        NotificationCenter.default.removeObserver(ob)
-                                    }
-                                    self.dismiss(animated: true) {
-                                        if let del = self.delegate {
-                                             del.submitQuestionResponse(response: res)
-                                        }
-                                    }
-                                }
+        self.verbalViewModel.dataClosure = {
+            DispatchQueue.main.async {
+                if let res = self.verbalViewModel.accessmentSubmitResponseVO {
+                    if res.success {
+                        if let ob = self.observer {
+                            NotificationCenter.default.removeObserver(ob)
+                        }
+                        self.dismiss(animated: true) {
+                            if let del = self.delegate {
+                                 del.submitQuestionResponse(response: res)
                             }
                         }
-               }
+                    }
+                }
+            }
+        }
     }
     
     private func customSetting() {
@@ -220,7 +222,10 @@ extension AssessmentMandingVerbalVideoViewController {
         SpeechManager.shared.setDelegate(delegate: self)
         self.questionTitle.text = verbalQuestionInfo.question_title
        
+        self.setCenterVideoFrame()
         
+        
+                
         self.imgV1.frame = self.questionImageView.frame
         self.imgV1.center = view.center
         
@@ -468,14 +473,28 @@ extension AssessmentMandingVerbalVideoViewController {
 
     func showNextImage()
     {
-        let xRef:CGFloat = 20
-        let imgWH:CGFloat = 70
-        let yRef:CGFloat = 80
-        let ySpace:CGFloat = 5
+//        let xRef:CGFloat = 10
+//        let imgWH:CGFloat = 44
+//        let yRef:CGFloat = 80
+//        let ySpace:CGFloat = 5
+        
+        var imgWH:CGFloat = 70
+        var xRef:CGFloat = 30
+        var yRef:CGFloat = 80
+        var ySpace:CGFloat = 5
+
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            imgWH = 40
+            xRef = 50
+            yRef = 80
+            ySpace = 5
+        }
         
         self.isRightAnswer = false
         userAnswer.text = ""
 
+        self.setCenterVideoFrame()
+        
         if(currentIndex < self.verbalQuestionInfo.image_with_text.count) {
             
             UIView.animate(withDuration: 0.5,
@@ -534,6 +553,13 @@ extension AssessmentMandingVerbalVideoViewController {
                              }
             )
         }
+    }
+    
+    func setCenterVideoFrame() {
+        let h:CGFloat = UIScreen.main.bounds.size.height-200
+        let w:CGFloat = 3.0*(h/2.0)
+        self.questionImageView.frame = CGRect(x: (UIScreen.main.bounds.size.width-w)/2.0, y: 120, width: w, height: h)
+        print("self.questionImageView.frame = ", self.questionImageView.frame)
     }
     
     private func setBorderForIndex(index:Int)

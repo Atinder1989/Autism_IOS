@@ -18,7 +18,9 @@ class AssessmentVerbalMultiplesViewController: UIViewController {
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var questionImageView: FLAnimatedImageView!
-    @IBOutlet weak var containerWidth: NSLayoutConstraint!
+    
+//    @IBOutlet weak var widthImageCenter: NSLayoutConstraint!
+//    @IBOutlet weak var heightImageCenter: NSLayoutConstraint!
         
     @IBOutlet weak var imgV1: FLAnimatedImageView!
     @IBOutlet weak var imgV2: FLAnimatedImageView!
@@ -62,6 +64,18 @@ class AssessmentVerbalMultiplesViewController: UIViewController {
         self.customSetting()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+//        if(UIDevice.current.userInterfaceIdiom == .pad) {
+//            widthImageCenter.constant = 460
+//            heightImageCenter.constant = 460
+//        } else {
+//            widthImageCenter.constant = 240
+//            heightImageCenter.constant = 240
+//        }
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchOnEmptyScreenCount += 1
     }
@@ -98,6 +112,18 @@ extension AssessmentVerbalMultiplesViewController {
     }
     
     private func customSetting() {
+        
+        let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
+        let screenHeight:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.height)
+        
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            let wh:CGFloat = 460.0
+            self.questionImageView.frame = CGRect(x: (screenWidth-wh)/2.0, y: (screenHeight-wh)/2.0, width: wh, height: wh)
+        } else {
+            let wh:CGFloat = 240.0
+            self.questionImageView.frame = CGRect(x: (screenWidth-wh)/2.0, y: (screenHeight-wh)/2.0, width: wh, height: wh)
+        }
+        
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         self.questionTitle.text = verbalQuestionInfo.question_title
@@ -135,8 +161,8 @@ extension AssessmentVerbalMultiplesViewController {
         self.imgV10.layer.borderWidth = 2.0
         self.imgV10.layer.borderColor = UIColor.clear.cgColor
 
-        let xRef:CGFloat = UIScreen.main.bounds.size.width-55
-        
+        let xRef:CGFloat = UIScreen.main.bounds.size.width-90
+
         self.imgV2.center = CGPoint(x: xRef, y: self.imgV2.center.y)
         self.imgV3.center = CGPoint(x: xRef, y: self.imgV3.center.y)
         self.imgV4.center = CGPoint(x: xRef, y: self.imgV4.center.y)
@@ -147,10 +173,6 @@ extension AssessmentVerbalMultiplesViewController {
         self.imgV9.center = CGPoint(x: xRef, y: self.imgV9.center.y)
         self.imgV10.center = CGPoint(x: xRef, y: self.imgV10.center.y)
         
-//        self.verbalQuestionInfo.image_with_text.append(self.verbalQuestionInfo.image_with_text[0])
-//        self.verbalQuestionInfo.image_with_text.append(self.verbalQuestionInfo.image_with_text[0])
-//        self.verbalQuestionInfo.image_with_text.append(self.verbalQuestionInfo.image_with_text[0])
-//        self.verbalQuestionInfo.image_with_text.append(self.verbalQuestionInfo.image_with_text[0])
         
         if(self.verbalQuestionInfo.image.lowercased().contains(".gif") == false) {
 
@@ -241,13 +263,31 @@ extension AssessmentVerbalMultiplesViewController {
 
     func showNextImage()
     {
-        let imgWH:CGFloat = 70
-        let xRef:CGFloat = 40
-        let yRef:CGFloat = 80
-        let ySpace:CGFloat = 5
+        var imgWH:CGFloat = 70
+        var xRef:CGFloat = 30
+        var yRef:CGFloat = 80
+        var ySpace:CGFloat = 5
+
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            imgWH = 40
+            xRef = 50
+            yRef = 80
+            ySpace = 5
+        }
         
         self.isRightAnswer = false
         userAnswer.text = ""
+        
+        let frame1 = self.imgV1.frame
+        let frame2 = self.imgV2.frame
+        let frame3 = self.imgV3.frame
+        let frame4 = self.imgV4.frame
+        let frame5 = self.imgV5.frame
+        let frame6 = self.imgV6.frame
+        let frame7 = self.imgV7.frame
+        let frame8 = self.imgV8.frame
+        let frame9 = self.imgV9.frame
+        
         if(currentIndex < self.verbalQuestionInfo.image_with_text.count) {
             
             UIView.animate(withDuration: 0.5,
@@ -257,21 +297,66 @@ extension AssessmentVerbalMultiplesViewController {
                                 if(self.currentIndex == 1) {
                                     self.imgV1.frame = CGRect(x: xRef, y: yRef+(0*imgWH)+(0*ySpace), width: imgWH, height: imgWH)
                                     self.imgV2.frame = self.questionImageView.frame
+                                    
+                                    self.imgV3.frame = frame2
+                                    self.imgV4.frame = frame3
+                                    self.imgV5.frame = frame4
+                                    self.imgV6.frame = frame5
+                                    self.imgV7.frame = frame6
+                                    self.imgV8.frame = frame7
+                                    self.imgV9.frame = frame8
+                                    self.imgV10.frame = frame9
+                                    
                                 } else if(self.currentIndex == 2) {
                                     self.imgV2.frame = CGRect(x: xRef, y: yRef+(1*imgWH)+(1*ySpace), width: imgWH, height: imgWH)
                                     self.imgV3.frame = self.questionImageView.frame
+                                    
+                                    self.imgV4.frame = frame3
+                                    self.imgV5.frame = frame4
+                                    self.imgV6.frame = frame5
+                                    self.imgV7.frame = frame6
+                                    self.imgV8.frame = frame7
+                                    self.imgV9.frame = frame8
+                                    self.imgV10.frame = frame9
+
                                 } else if(self.currentIndex == 3) {
                                     self.imgV3.frame = CGRect(x: xRef, y: yRef+(2*imgWH)+(2*ySpace), width: imgWH, height: imgWH)
                                     self.imgV4.frame = self.questionImageView.frame
+                                    
+                                    self.imgV5.frame = frame4
+                                    self.imgV6.frame = frame5
+                                    self.imgV7.frame = frame6
+                                    self.imgV8.frame = frame7
+                                    self.imgV9.frame = frame8
+                                    self.imgV10.frame = frame9
+
                                 } else if(self.currentIndex == 4) {
                                     self.imgV4.frame = CGRect(x: xRef, y: yRef+(3*imgWH)+(3*ySpace), width: imgWH, height: imgWH)
                                     self.imgV5.frame = self.questionImageView.frame
+                                    
+                                    self.imgV6.frame = frame5
+                                    self.imgV7.frame = frame6
+                                    self.imgV8.frame = frame7
+                                    self.imgV9.frame = frame8
+                                    self.imgV10.frame = frame9
+
                                 } else if(self.currentIndex == 5) {
                                     self.imgV5.frame = CGRect(x: xRef, y: yRef+(4*imgWH)+(4*ySpace), width: imgWH, height: imgWH)
                                     self.imgV6.frame = self.questionImageView.frame
+                                    
+                                    self.imgV7.frame = frame6
+                                    self.imgV8.frame = frame7
+                                    self.imgV9.frame = frame8
+                                    self.imgV10.frame = frame9
+
                                 } else if(self.currentIndex == 6) {
                                     self.imgV6.frame = CGRect(x: xRef, y: yRef+(5*imgWH)+(5*ySpace), width: imgWH, height: imgWH)
                                     self.imgV7.frame = self.questionImageView.frame
+                                    
+                                    self.imgV8.frame = frame7
+                                    self.imgV9.frame = frame8
+                                    self.imgV10.frame = frame9
+
                                 } else if(self.currentIndex == 7) {
                                     self.imgV7.frame = CGRect(x: xRef, y: yRef+(6*imgWH)+(6*ySpace), width: imgWH, height: imgWH)
                                     self.imgV8.frame = self.questionImageView.frame

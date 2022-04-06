@@ -12,12 +12,16 @@ import FLAnimatedImage
 class AssessmentTacting4MMultipleViewController: UIViewController {
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var userAnswer: UILabel!
+    
     @IBOutlet weak var questionImageView: FLAnimatedImageView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
-    @IBOutlet weak var containerWidth: NSLayoutConstraint!
+    
+//    @IBOutlet weak var containerWidth: NSLayoutConstraint!
+//    @IBOutlet weak var containerHeight: NSLayoutConstraint!
     
     @IBOutlet weak var imgV1: FLAnimatedImageView!
     @IBOutlet weak var imgV2: FLAnimatedImageView!
+    
 //    @IBOutlet weak var imgV3: FLAnimatedImageView!
 //    @IBOutlet weak var imgV4: FLAnimatedImageView!
 //    @IBOutlet weak var imgV5: FLAnimatedImageView!
@@ -28,7 +32,7 @@ class AssessmentTacting4MMultipleViewController: UIViewController {
 //    @IBOutlet weak var imgV10: FLAnimatedImageView!
     
     private var verbalQuestionInfo: Tacting4mMultipleQuestionInfo!
-    //private var answerResponseTimer: Timer? = nil
+    
     private var timeTakenToSolve = 0
     private var completeRate = 0
     private var tacting4mViewmodel = AssessmentTacting4mMultipleViewModel()
@@ -36,16 +40,14 @@ class AssessmentTacting4MMultipleViewController: UIViewController {
     private var questionState: QuestionState = .inProgress
     private var skipQuestion = false
     private var touchOnEmptyScreenCount = 0
-
     
     var currentIndex:Int = 0
-    
     var isRightAnswer:Bool = false
     
     private var isUserInteraction = false {
-           didSet {
-               self.view.isUserInteractionEnabled = isUserInteraction
-           }
+        didSet {
+            self.view.isUserInteractionEnabled = isUserInteraction
+        }
     }
     
     private var apiDataState: APIDataState = .notCall
@@ -93,10 +95,32 @@ extension AssessmentTacting4MMultipleViewController {
     }
     
     private func customSetting() {
+        
+        let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
+        let screenHeight:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.height)
+        
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            let wh:CGFloat = 460.0
+            self.questionImageView.frame = CGRect(x: (screenWidth-wh)/2.0, y: (screenHeight-wh)/2.0, width: wh, height: wh)
+        } else {
+            let wh:CGFloat = 240.0
+            self.questionImageView.frame = CGRect(x: (screenWidth-wh)/2.0, y: (screenHeight-wh)/2.0, width: wh, height: wh)
+        }
+
+        
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         self.questionTitle.text = verbalQuestionInfo.question_title
          
+//        if(UIDevice.current.userInterfaceIdiom == .pad) {
+//            containerWidth.constant = 460
+//            containerHeight.constant = 460
+//        } else {
+//            containerWidth.constant = 220
+//            containerHeight.constant = 220
+//        }
+//
+        
         self.imgV1.frame = self.questionImageView.frame
         self.imgV1.center = view.center
         
@@ -130,7 +154,7 @@ extension AssessmentTacting4MMultipleViewController {
         self.imgV10.layer.borderWidth = 2.0
         self.imgV10.layer.borderColor = UIColor.clear.cgColor
 */
-        let xRef:CGFloat = UIScreen.main.bounds.size.width-64-25
+        let xRef:CGFloat = UIScreen.main.bounds.size.width-90
         
         self.imgV2.center = CGPoint(x: xRef, y: self.imgV2.center.y)
         /*
@@ -155,9 +179,17 @@ extension AssessmentTacting4MMultipleViewController {
 
     func showNextImage()
     {
-        let imgWH:CGFloat = 80
-        let yRef:CGFloat = 120
-        let ySpace:CGFloat = 5
+        var imgWH:CGFloat = 80
+        var xRef:CGFloat = 40
+        var yRef:CGFloat = 120
+        var ySpace:CGFloat = 5
+        
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            imgWH = 60
+            xRef = 50
+            yRef = 80
+            ySpace = 5
+        }
         
         self.isRightAnswer = false
         userAnswer.text = ""
@@ -169,10 +201,10 @@ extension AssessmentTacting4MMultipleViewController {
                                 options: [],
                              animations: {
                                 if(self.currentIndex == 1) {
-                                    self.imgV1.frame = CGRect(x: 50, y: yRef+(0*imgWH)+(0*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV1.frame = CGRect(x: xRef, y: yRef+(0*imgWH)+(0*ySpace), width: imgWH, height: imgWH)
                                     self.imgV2.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 2) {
-                                    self.imgV2.frame = CGRect(x: 50, y: yRef+(1*imgWH)+(1*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV2.frame = CGRect(x: xRef, y: yRef+(1*imgWH)+(1*ySpace), width: imgWH, height: imgWH)
                                    // self.imgV3.frame = self.questionImageView.frame
                                 }
                                 /*

@@ -13,10 +13,11 @@ import FLAnimatedImage
 class AssessmentMandingVdeosViewController: UIViewController {
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var userAnswer: UILabel!
-//    @IBOutlet weak var questionImageView: FLAnimatedImageView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
-    @IBOutlet weak var containerWidth: NSLayoutConstraint!
     @IBOutlet weak var videoPreviewLayer: UIView!
+    
+    @IBOutlet weak var containerWidth: NSLayoutConstraint!
+    @IBOutlet weak var containerHeight: NSLayoutConstraint!
     
     private var player: AVPlayer!
     private var playerLayer: AVPlayerLayer!

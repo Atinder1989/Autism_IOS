@@ -10,10 +10,13 @@ import UIKit
 import FLAnimatedImage
 
 class AssessmentReinforceMultiChoiceViewController: UIViewController {
+    
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var imagesCollectionView: UICollectionView!
+    
     @IBOutlet weak var collectionViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     
     private weak var delegate: AssessmentSubmitDelegate?
@@ -85,18 +88,21 @@ extension AssessmentReinforceMultiChoiceViewController {
         SpeechManager.shared.setDelegate(delegate: self)
         imagesCollectionView.register(ImageCell.nib, forCellWithReuseIdentifier: ImageCell.identifier)
         
-        
-        if(self.reinforceMultiChoiceInfo.imagesList.count <= 4) {
-            print("UIScreen.main.bounds.size.width = ", UIScreen.main.bounds.size.width)
-            if(UIScreen.main.bounds.size.width > 1100){
-                self.collectionViewWidthConstraint.constant = CGFloat(self.reinforceMultiChoiceInfo.imagesList.count * 300)
-                self.collectionViewHeightConstraint.constant = 340
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            if(self.reinforceMultiChoiceInfo.imagesList.count <= 4) {
+                if(UIScreen.main.bounds.size.width > 1100){
+                    self.collectionViewWidthConstraint.constant = CGFloat(self.reinforceMultiChoiceInfo.imagesList.count * 300)
+                    self.collectionViewHeightConstraint.constant = 340
+                } else {
+                    self.collectionViewWidthConstraint.constant = CGFloat(self.reinforceMultiChoiceInfo.imagesList.count * 240)
+                    self.collectionViewHeightConstraint.constant = 300
+                }
             } else {
-                self.collectionViewWidthConstraint.constant = CGFloat(self.reinforceMultiChoiceInfo.imagesList.count * 240)
-                self.collectionViewHeightConstraint.constant = 300
+                self.collectionViewHeightConstraint.constant = 600
             }
         } else {
-            self.collectionViewHeightConstraint.constant = 600
+            self.collectionViewWidthConstraint.constant = CGFloat(self.reinforceMultiChoiceInfo.imagesList.count * 140)
+            self.collectionViewHeightConstraint.constant = 180
         }
         
         if(self.reinforceMultiChoiceInfo.question_title.contains(",") == true) {
@@ -156,32 +162,70 @@ extension AssessmentReinforceMultiChoiceViewController {
 extension AssessmentReinforceMultiChoiceViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if(self.reinforceMultiChoiceInfo.imagesList.count == 3) {
-            self.collectionViewWidthConstraint.constant = CGFloat(3 * 320)
-            self.collectionViewHeightConstraint.constant = 300
-            return CGSize.init(width: 300, height: 300)
-        } else if(self.reinforceMultiChoiceInfo.imagesList.count == 6) {
-            self.collectionViewWidthConstraint.constant = CGFloat(3 * 280)
-            self.collectionViewHeightConstraint.constant = 600
-            return CGSize.init(width: 260, height: 260)
-        } else if(self.reinforceMultiChoiceInfo.imagesList.count == 4) {
-            if(UIScreen.main.bounds.size.width > 1100){
-                self.collectionViewWidthConstraint.constant = CGFloat(4 * 300)
-                self.collectionViewHeightConstraint.constant = 340
-                return CGSize.init(width: 280, height: 280)
-            } else {
+        
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            if(self.reinforceMultiChoiceInfo.imagesList.count == 3) {
+                self.collectionViewWidthConstraint.constant = CGFloat(3 * 320)
+                self.collectionViewHeightConstraint.constant = 300
+                return CGSize.init(width: 300, height: 300)
+            } else if(self.reinforceMultiChoiceInfo.imagesList.count == 6) {
+                self.collectionViewWidthConstraint.constant = CGFloat(3 * 280)
+                self.collectionViewHeightConstraint.constant = 600
+                return CGSize.init(width: 260, height: 260)
+            } else if(self.reinforceMultiChoiceInfo.imagesList.count == 4) {
+                if(UIScreen.main.bounds.size.width > 1100){
+                    self.collectionViewWidthConstraint.constant = CGFloat(4 * 300)
+                    self.collectionViewHeightConstraint.constant = 340
+                    return CGSize.init(width: 280, height: 280)
+                } else {
+                    self.collectionViewWidthConstraint.constant = CGFloat(4 * 240)
+                    self.collectionViewHeightConstraint.constant = 300
+                    return CGSize.init(width: 220, height: 220)
+                }
+            } else if(self.reinforceMultiChoiceInfo.imagesList.count == 8) {
                 self.collectionViewWidthConstraint.constant = CGFloat(4 * 240)
+                self.collectionViewHeightConstraint.constant = 500
+                return CGSize.init(width: 220, height: 220)
+            } else {
+                self.collectionViewWidthConstraint.constant = CGFloat(self.reinforceMultiChoiceInfo.imagesList.count * 240)
                 self.collectionViewHeightConstraint.constant = 300
                 return CGSize.init(width: 220, height: 220)
             }
-        } else if(self.reinforceMultiChoiceInfo.imagesList.count == 8) {
-            self.collectionViewWidthConstraint.constant = CGFloat(4 * 240)
-            self.collectionViewHeightConstraint.constant = 500
-            return CGSize.init(width: 220, height: 220)
         } else {
-            self.collectionViewWidthConstraint.constant = CGFloat(self.reinforceMultiChoiceInfo.imagesList.count * 240)
-            self.collectionViewHeightConstraint.constant = 300
-            return CGSize.init(width: 220, height: 220)
+            if(self.reinforceMultiChoiceInfo.imagesList.count == 3) {
+                self.collectionViewWidthConstraint.constant = CGFloat(3 * 200)
+                self.collectionViewHeightConstraint.constant = 200
+                return CGSize.init(width: 180, height: 180)
+            } else if(self.reinforceMultiChoiceInfo.imagesList.count == 4) {
+                self.collectionViewWidthConstraint.constant = CGFloat(4 * 160)
+                self.collectionViewHeightConstraint.constant = 180
+                return CGSize.init(width: 140, height: 140)
+            } else if(self.reinforceMultiChoiceInfo.imagesList.count == 6) {
+                if(UIScreen.main.bounds.size.width > 700) {
+                    self.collectionViewWidthConstraint.constant = CGFloat(6 * 120)
+                    self.collectionViewHeightConstraint.constant = 140
+                    return CGSize.init(width: 110, height: 110)
+                } else {
+                    self.collectionViewWidthConstraint.constant = CGFloat(3 * 140)
+                    self.collectionViewHeightConstraint.constant = 260
+                    return CGSize.init(width: 120, height: 120)
+                }
+            } else if(self.reinforceMultiChoiceInfo.imagesList.count == 8) {
+                
+                if(UIScreen.main.bounds.size.width > 900) {
+                    self.collectionViewWidthConstraint.constant = CGFloat(6 * 120)
+                    self.collectionViewHeightConstraint.constant = 140
+                    return CGSize.init(width: 110, height: 110)
+                } else {
+                    self.collectionViewWidthConstraint.constant = CGFloat(4 * 140)
+                    self.collectionViewHeightConstraint.constant = 260
+                    return CGSize.init(width: 120, height: 120)
+                }
+            } else {
+                self.collectionViewWidthConstraint.constant = CGFloat(self.reinforceMultiChoiceInfo.imagesList.count * 160)
+                self.collectionViewHeightConstraint.constant = 200
+                return CGSize.init(width: 180, height: 180)
+            }
         }
     }
     
