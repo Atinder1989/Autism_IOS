@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,45 +22,53 @@
                 <rect key="frame" x="0.0" y="0.0" width="297" height="110"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Learning Readiness" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvt-AY-y8c">
+                        <rect key="frame" x="15" y="10" width="217" height="90"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" name="MaisonNeue-Bold" family="Maison Neue" pointSize="15"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E0u-HQ-dFF" customClass="CircularProgressView" customModule="Autism_Therapy" customModuleProvider="target">
-                        <rect key="frame" x="197" y="15" width="80" height="80"/>
+                        <rect key="frame" x="242" y="35" width="40" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HZJ-RW-uFL">
-                                <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
-                                <fontDescription key="fontDescription" name="MaisonNeue-Bold" family="Maison Neue" pointSize="20"/>
+                                <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                <fontDescription key="fontDescription" name="MaisonNeue-Bold" family="Maison Neue" pointSize="14"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="HZJ-RW-uFL" firstAttribute="top" secondItem="E0u-HQ-dFF" secondAttribute="top" id="6i1-Bc-X4U"/>
-                            <constraint firstAttribute="height" constant="80" id="ANc-eu-84D"/>
-                            <constraint firstItem="HZJ-RW-uFL" firstAttribute="leading" secondItem="E0u-HQ-dFF" secondAttribute="leading" id="KaI-Iz-N28"/>
-                            <constraint firstAttribute="bottom" secondItem="HZJ-RW-uFL" secondAttribute="bottom" id="X3V-xN-cJk"/>
-                            <constraint firstAttribute="trailing" secondItem="HZJ-RW-uFL" secondAttribute="trailing" id="v3X-uT-lmk"/>
-                            <constraint firstAttribute="width" constant="80" id="yow-Jc-UuN"/>
+                            <constraint firstAttribute="height" constant="40" id="3CB-uh-LVV"/>
+                            <constraint firstAttribute="trailing" secondItem="HZJ-RW-uFL" secondAttribute="trailing" id="J4M-oZ-Rkd"/>
+                            <constraint firstAttribute="width" constant="40" id="TMt-xU-RB7"/>
+                            <constraint firstItem="HZJ-RW-uFL" firstAttribute="leading" secondItem="E0u-HQ-dFF" secondAttribute="leading" id="ZRG-Mf-taf"/>
+                            <constraint firstItem="HZJ-RW-uFL" firstAttribute="top" secondItem="E0u-HQ-dFF" secondAttribute="top" id="cE8-2L-asd"/>
+                            <constraint firstAttribute="bottom" secondItem="HZJ-RW-uFL" secondAttribute="bottom" id="fjD-JN-vDx"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Learning Readiness" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvt-AY-y8c">
-                        <rect key="frame" x="15" y="10" width="174" height="90"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <fontDescription key="fontDescription" name="MaisonNeue-Bold" family="Maison Neue" pointSize="18"/>
-                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="applogo" translatesAutoresizingMaskIntoConstraints="NO" id="pbe-Ec-mON" userLabel="logo">
-                        <rect key="frame" x="238" y="35" width="40" height="40"/>
+                        <rect key="frame" x="252" y="40" width="30" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="Epy-3E-Ybo"/>
-                            <constraint firstAttribute="height" constant="40" id="aj6-2l-o5m"/>
+                            <constraint firstAttribute="width" constant="40" id="Epy-3E-Ybo">
+                                <variation key="heightClass=regular-widthClass=compact" constant="30"/>
+                            </constraint>
+                            <constraint firstAttribute="height" constant="40" id="aj6-2l-o5m">
+                                <variation key="heightClass=regular-widthClass=compact" constant="30"/>
+                            </constraint>
                         </constraints>
                     </imageView>
                     <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock" translatesAutoresizingMaskIntoConstraints="NO" id="WWX-y0-wuU">
-                        <rect key="frame" x="238" y="35" width="40" height="40"/>
+                        <rect key="frame" x="252" y="40" width="30" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="40" id="h4O-AB-MQK"/>
-                            <constraint firstAttribute="width" constant="40" id="no0-Ap-9hT"/>
+                            <constraint firstAttribute="height" constant="40" id="h4O-AB-MQK">
+                                <variation key="heightClass=regular-widthClass=compact" constant="30"/>
+                            </constraint>
+                            <constraint firstAttribute="width" constant="40" id="no0-Ap-9hT">
+                                <variation key="heightClass=regular-widthClass=compact" constant="30"/>
+                            </constraint>
                         </constraints>
                     </imageView>
                 </subviews>
@@ -69,14 +77,14 @@
             <color key="backgroundColor" red="0.95686274509803915" green="0.95686274509803915" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="cvt-AY-y8c" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="981-iX-5zI"/>
-                <constraint firstAttribute="trailing" secondItem="WWX-y0-wuU" secondAttribute="trailing" constant="19" id="DTM-kw-SxX"/>
+                <constraint firstAttribute="trailing" secondItem="WWX-y0-wuU" secondAttribute="trailing" constant="15" id="DTM-kw-SxX"/>
                 <constraint firstItem="WWX-y0-wuU" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="DTk-Zd-mku"/>
-                <constraint firstItem="E0u-HQ-dFF" firstAttribute="leading" secondItem="cvt-AY-y8c" secondAttribute="trailing" constant="8" id="QOS-Bl-j02"/>
+                <constraint firstItem="E0u-HQ-dFF" firstAttribute="leading" secondItem="cvt-AY-y8c" secondAttribute="trailing" constant="10" id="KpV-KN-oCf"/>
+                <constraint firstAttribute="trailing" secondItem="E0u-HQ-dFF" secondAttribute="trailing" constant="15" id="SCN-dk-aaw"/>
                 <constraint firstAttribute="bottom" secondItem="cvt-AY-y8c" secondAttribute="bottom" constant="10" id="Xy6-Xz-Ez1"/>
-                <constraint firstAttribute="trailing" secondItem="pbe-Ec-mON" secondAttribute="trailing" constant="19" id="bp6-jT-mbo"/>
-                <constraint firstAttribute="trailing" secondItem="E0u-HQ-dFF" secondAttribute="trailing" constant="20" id="meF-Gb-wcn"/>
-                <constraint firstItem="E0u-HQ-dFF" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="pIn-CU-iZl"/>
+                <constraint firstAttribute="trailing" secondItem="pbe-Ec-mON" secondAttribute="trailing" constant="15" id="bp6-jT-mbo"/>
                 <constraint firstItem="pbe-Ec-mON" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="qyP-Ry-cny"/>
+                <constraint firstItem="E0u-HQ-dFF" firstAttribute="centerY" secondItem="cvt-AY-y8c" secondAttribute="centerY" id="wjG-Jb-v4c"/>
                 <constraint firstItem="cvt-AY-y8c" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="xq0-Bv-hIf"/>
             </constraints>
             <size key="customSize" width="297" height="102"/>
@@ -87,7 +95,7 @@
                 <outlet property="percentlabel" destination="HZJ-RW-uFL" id="Bm7-2w-ups"/>
                 <outlet property="textlabel" destination="cvt-AY-y8c" id="f6W-DI-sCV"/>
             </connections>
-            <point key="canvasLocation" x="131.15942028985509" y="77.678571428571431"/>
+            <point key="canvasLocation" x="246" y="76"/>
         </collectionViewCell>
     </objects>
     <resources>
