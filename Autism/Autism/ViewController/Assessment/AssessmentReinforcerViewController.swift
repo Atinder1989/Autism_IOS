@@ -116,14 +116,27 @@ extension AssessmentReinforcerViewController {
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         self.questionTitle.text = self.reinforcerInfo.questionTitle
-        self.preferredLabel.text = self.reinforcerInfo.name
+
+        var arrString = self.reinforcerInfo.name.components(separatedBy: ",")
+        if(arrString.count > 0) {
+            self.preferredLabel.text = arrString.first
+        } else {
+            self.preferredLabel.text = self.reinforcerInfo.name
+        }
+                        
+        arrString = self.nonPreferredReinforcerInfo.name.components(separatedBy: ",")
+        if(arrString.count > 0) {
+            self.nonPreferredLabel.text = arrString.first
+        } else {
+            self.nonPreferredLabel.text = self.nonPreferredReinforcerInfo.name
+        }
+        
         Utility.setView(view: self.preferredLabel, cornerRadius: 5, borderWidth: 2, color: .white)
         Utility.setView(view: self.nonPreferredLabel, cornerRadius: 5, borderWidth: 2, color: .white)
         Utility.setView(view: self.preferredImageView, cornerRadius: 5, borderWidth: 2, color: .darkGray)
         Utility.setView(view: self.nonPreferredImageView, cornerRadius: 5, borderWidth: 2, color: .darkGray)
         ImageDownloader.sharedInstance.downloadImage(urlString: self.reinforcerInfo.image, imageView: self.preferredImageView, callbackAfterNoofImages: 2, delegate: self)
-        
-        self.nonPreferredLabel.text = self.nonPreferredReinforcerInfo.name
+
         
         ImageDownloader.sharedInstance.downloadImage(urlString: self.nonPreferredReinforcerInfo.image, imageView: self.nonPreferredImageView, callbackAfterNoofImages: 2, delegate: self)
         //self.nonPreferredImageView.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + self.nonPreferredReinforcerInfo.image)

@@ -269,7 +269,7 @@ extension AssessmentVerbalMultiplesViewController {
         var ySpace:CGFloat = 5
 
         if(UIDevice.current.userInterfaceIdiom != .pad) {
-            imgWH = 40
+            imgWH = 50
             xRef = 50
             yRef = 80
             ySpace = 5

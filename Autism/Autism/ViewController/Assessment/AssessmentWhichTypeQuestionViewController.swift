@@ -13,8 +13,10 @@ class AssessmentWhichTypeQuestionViewController: UIViewController {
     
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var imagesCollectionView: UICollectionView!
-    @IBOutlet weak var collectionViewWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
+    
+//    @IBOutlet weak var collectionViewWidthConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     
     private weak var delegate: AssessmentSubmitDelegate?
@@ -87,35 +89,38 @@ extension AssessmentWhichTypeQuestionViewController {
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         imagesCollectionView.register(ImageCell.nib, forCellWithReuseIdentifier: ImageCell.identifier)
+                
+        let c:CGFloat = CGFloat(self.whichTypeQuestionInfo.image_with_text.count)
+        let sWidth:CGFloat = self.view.frame.size.width//UIScreen.main.bounds.width
+        let sHeight:CGFloat = self.view.frame.size.height//UIScreen.main.bounds.width
         
-        let size:CGFloat = UIScreen.main.bounds.width / CGFloat(self.whichTypeQuestionInfo.image_with_text.count)
-        self.collectionViewHeightConstraint.constant = size
-        self.collectionViewWidthConstraint.constant = UIScreen.main.bounds.width
+        
+        let size:CGFloat = self.getLayoutHeightWidth()
+        let cWidth:CGFloat = (size*c) + 20*c
+        let cHeight:CGFloat = size+20
+        
+        self.imagesCollectionView.frame = CGRect(x: (sWidth-cWidth)/2.0, y: (sHeight-cHeight)/2.0, width: cWidth, height: size+20)
         
         self.questionTitle.text = self.whichTypeQuestionInfo.question_title
         AutismTimer.shared.initializeTimer(delegate: self)
     }
     
     private func listenModelClosures() {
-            self.navigationController?.navigationBar.isHidden = true
-            self.whichTypeViewModel.dataClosure = {
-                DispatchQueue.main.async {
-                    if let res = self.whichTypeViewModel.accessmentSubmitResponseVO {
-                        if res.success {
-                            self.dismiss(animated: true) {
-                                if let del = self.delegate {
-                                    del.submitQuestionResponse(response: res)
-                                }
+        self.navigationController?.navigationBar.isHidden = true
+        self.whichTypeViewModel.dataClosure = {
+            DispatchQueue.main.async {
+                if let res = self.whichTypeViewModel.accessmentSubmitResponseVO {
+                    if res.success {
+                        self.dismiss(animated: true) {
+                            if let del = self.delegate {
+                                del.submitQuestionResponse(response: res)
                             }
                         }
                     }
                 }
             }
+        }
     }
-    
-//    private func initializeTimer() {
-//        answerResponseTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(calculateTimeTaken), userInfo: nil, repeats: true)
-//    }
     
     @objc private func calculateTimeTaken() {
         if !Utility.isNetworkAvailable() {
@@ -139,15 +144,33 @@ extension AssessmentWhichTypeQuestionViewController {
     
     func stopTimer() {
         AutismTimer.shared.stopTimer()
-
     }
 }
 
 extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size:CGFloat = UIScreen.main.bounds.width / CGFloat(self.whichTypeQuestionInfo.image_with_text.count) - 20
+        
+        let size:CGFloat = self.getLayoutHeightWidth()
         return CGSize.init(width: size, height: size)
+    }
+    
+    func getLayoutHeightWidth() -> CGFloat {
+        
+        let c:CGFloat = CGFloat(self.whichTypeQuestionInfo.image_with_text.count)
+        let widthScreen:CGFloat = UIScreen.main.bounds.width
+
+        if(c < 3){
+            let size:CGFloat = (widthScreen / CGFloat(3)) - (10*CGFloat(3))
+            return size
+        }
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            let size:CGFloat = (UIScreen.main.bounds.width / c) - (10*c)
+            return size //CGSize.init(width: size, height: size)
+        } else {
+            let size:CGFloat = (UIScreen.main.bounds.width / c) - (15*c)
+            return size //CGSize.init(width: size, height: size)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -158,9 +181,6 @@ extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource,
     internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
         let model = self.whichTypeQuestionInfo.image_with_text[indexPath.row]
-       // cell.setData(model: model)
-        
-     //   ImageDownloader.sharedInstance.downloadImage(urlString: model.image, imageView: cell.dataImageView, callbackAfterNoofImages: self.whichTypeQuestionInfo.image_with_text.count, delegate: self)
         
         cell.dataImageView.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + model.image, placeholderImage: "")
         
@@ -203,12 +223,7 @@ extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-//        if !isImagesDownloaded {
-//            return
-//        }
-        
-        
+
         self.selectedIndex = indexPath.row
         self.questionState = .submit
         let answerIndex = Int(self.whichTypeQuestionInfo.correct_answer)! - 1

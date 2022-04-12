@@ -27,7 +27,7 @@ enum AppConstant:String {
     case appicationEncryptDecryptKey = "Aq3t6w9y$C&E)H@LcQfTjNnZr4u7x!A%"
     case passwordLength = "8"
     case webviewTimer = "120"
-    case speakUtteranceNormalRate = "0.3"
+    case speakUtteranceNormalRate = "0.4"
     case postUtteranceDelay = "0.06"
     case screenloadQuestionSpeakTimeDelay = "2"
     case youtubeApiKey = "AIzaSyA0XL2RiwSwXOYL1m8NeNH5CNxV8_Kchxg"//

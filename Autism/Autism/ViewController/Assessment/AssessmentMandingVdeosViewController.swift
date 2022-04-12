@@ -137,9 +137,17 @@ extension AssessmentMandingVdeosViewController {
     }
     
     private func customSetting() {
+        self.setCenterVideoFrame()
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         self.questionTitle.text = videoQuestionInfo.question_title
+    }
+
+    func setCenterVideoFrame() {
+        let h:CGFloat = UIScreen.main.bounds.size.height-200
+        let w:CGFloat = 3.0*(h/2.0)
+        self.videoPreviewLayer.frame = CGRect(x: (UIScreen.main.bounds.size.width-w)/2.0, y: 120, width: w, height: h)
+        print("self.videoPreviewLayer.frame = ", self.videoPreviewLayer.frame)
     }
 
    private func initializeTimer() {

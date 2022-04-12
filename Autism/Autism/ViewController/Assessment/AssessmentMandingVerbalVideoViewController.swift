@@ -223,9 +223,7 @@ extension AssessmentMandingVerbalVideoViewController {
         self.questionTitle.text = verbalQuestionInfo.question_title
        
         self.setCenterVideoFrame()
-        
-        
-                
+                        
         self.imgV1.frame = self.questionImageView.frame
         self.imgV1.center = view.center
         
@@ -259,7 +257,11 @@ extension AssessmentMandingVerbalVideoViewController {
         self.imgV10.layer.borderWidth = 2.0
         self.imgV10.layer.borderColor = UIColor.clear.cgColor
 
-        let xRef:CGFloat = UIScreen.main.bounds.size.width-50
+        var xRef:CGFloat = UIScreen.main.bounds.size.width-90
+        
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            xRef = UIScreen.main.bounds.size.width-50
+        }
         
         self.imgV2.center = CGPoint(x: xRef, y: self.imgV2.center.y)
         self.imgV3.center = CGPoint(x: xRef, y: self.imgV3.center.y)
@@ -479,12 +481,12 @@ extension AssessmentMandingVerbalVideoViewController {
 //        let ySpace:CGFloat = 5
         
         var imgWH:CGFloat = 70
-        var xRef:CGFloat = 30
+        var xRef:CGFloat = 15
         var yRef:CGFloat = 80
         var ySpace:CGFloat = 5
 
         if(UIDevice.current.userInterfaceIdiom != .pad) {
-            imgWH = 40
+            imgWH = 60
             xRef = 50
             yRef = 80
             ySpace = 5
