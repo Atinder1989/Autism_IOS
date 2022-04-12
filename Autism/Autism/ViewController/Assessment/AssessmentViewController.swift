@@ -54,7 +54,7 @@ class AssessmentViewController: UIViewController, SpeechManagerDelegate {
             super.viewWillAppear(animated)
         if !isLandscape {
             isLandscape = true
-            Utility.lockOrientation(UIInterfaceOrientationMask.landscape, andRotateTo: UIInterfaceOrientation.landscapeLeft)
+          //  Utility.lockOrientation(UIInterfaceOrientationMask.landscape, andRotateTo: UIInterfaceOrientation.landscapeLeft)
            self.handleAssessmentScreenFlow()
         }
     }

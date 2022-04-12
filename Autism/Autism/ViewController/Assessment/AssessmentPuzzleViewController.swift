@@ -35,7 +35,6 @@ class AssessmentPuzzleViewController: UIViewController, UIDragInteractionDelegat
     @IBOutlet weak var emptyImageView3: PuzzleCustomImageView!
     @IBOutlet weak var emptyImageView4: PuzzleCustomImageView!
     @IBOutlet weak var emptyImageView5: PuzzleCustomImageView!
-    @IBOutlet weak var emptyBgView: UIView!
     @IBOutlet weak var emptyBgImageView: UIImageView!
     
     var selectedPuzzle: PuzzleCustomImageView!
@@ -117,16 +116,12 @@ extension AssessmentPuzzleViewController {
     private func customSetting() {
             isUserInteraction = false
             SpeechManager.shared.setDelegate(delegate: self)
-          //  emptyBgView.transform = CGAffineTransform(rotationAngle: -.pi / 30.0)
         if self.puzzleQuestionInfo.frame_image.count > 0 {
             self.noOfImagesToDownload = 1 + (self.puzzleQuestionInfo.block.count * 2)
         }
         
         ImageDownloader.sharedInstance.downloadImage(urlString:  self.puzzleQuestionInfo.frame_image, imageView: emptyBgImageView, callbackAfterNoofImages: self.noOfImagesToDownload, delegate: self)
         
-          //  self.emptyBgImageView.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + self.puzzleQuestionInfo.frame_image)
-        
-         //   self.screenTitle.text = self.puzzleQuestionInfo.question_title
             self.initializeEmptyImageView()
             self.initializeFilledImageView()
             self.addPanGesture()
