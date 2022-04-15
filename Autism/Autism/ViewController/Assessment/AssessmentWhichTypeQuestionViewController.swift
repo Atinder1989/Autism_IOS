@@ -99,7 +99,7 @@ extension AssessmentWhichTypeQuestionViewController {
         let cWidth:CGFloat = (size*c) + 20*c
         let cHeight:CGFloat = size+20
         
-        self.imagesCollectionView.frame = CGRect(x: (sWidth-cWidth)/2.0, y: (sHeight-cHeight)/2.0, width: cWidth, height: size+20)
+        self.imagesCollectionView.frame = CGRect(x: (sWidth-cWidth)/2.0, y: ((sHeight-cHeight)/2.0)+20, width: cWidth, height: size+20)
         
         self.questionTitle.text = self.whichTypeQuestionInfo.question_title
         AutismTimer.shared.initializeTimer(delegate: self)
@@ -168,8 +168,13 @@ extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource,
             let size:CGFloat = (UIScreen.main.bounds.width / c) - (10*c)
             return size //CGSize.init(width: size, height: size)
         } else {
-            let size:CGFloat = (UIScreen.main.bounds.width / c) - (15*c)
-            return size //CGSize.init(width: size, height: size)
+            if(c == 3){
+                let size:CGFloat = (UIScreen.main.bounds.width / c) - (20*c)
+                return size //CGSize.init(width: size, height: size)
+            } else {
+                let size:CGFloat = (UIScreen.main.bounds.width / c) - (15*c)
+                return size //CGSize.init(width: size, height: size)
+            }
         }
     }
     

@@ -3063,16 +3063,16 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 87;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 6NJ7YZH4XS;
+				DEVELOPMENT_TEAM = 5YVF838RR5;
 				INFOPLIST_FILE = Autism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tataaig.ios.uat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.impute.Autism;
 				PRODUCT_NAME = "Autism Therapy";
-				PROVISIONING_PROFILE_SPECIFIER = DevelopmentProfileConsumerApp;
+				PROVISIONING_PROFILE_SPECIFIER = AutismDebug;
 				SWIFT_OBJC_BRIDGING_HEADER = "Autism/Autism-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

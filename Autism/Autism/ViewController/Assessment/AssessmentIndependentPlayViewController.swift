@@ -147,6 +147,9 @@ extension AssessmentIndependentPlayViewController {
         minX = imgViewObject.center.x
         maxX = imgViewGoal.center.x - 150
         
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            imgViewGoal.frame = CGRect(x:UIScreen.main.bounds.size.width-imgWH-30, y:yPos-20, width:imgWH, height:imgWH)
+        }
     }
     
     func reDownloadImages()
