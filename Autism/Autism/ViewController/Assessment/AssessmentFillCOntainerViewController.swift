@@ -26,7 +26,6 @@ class AssessmentFillContainerViewController: UIViewController, UIDragInteraction
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var bucketView1: BucketView!
     
-    @IBOutlet weak var bucketTitle1: UILabel!
     @IBOutlet weak var imgViewBucket: UIImageView!
 
     @IBOutlet weak var filledImageView1: FillContainerImageView!
@@ -138,34 +137,12 @@ extension AssessmentFillContainerViewController {
         SpeechManager.shared.setDelegate(delegate: self)
         if self.fillContainerInfo.bucketList.count >= 1 {
             self.bucketView1.iModel = self.fillContainerInfo.bucketList[0]
-            self.bucketTitle1.text = self.fillContainerInfo.bucketList[0].name
             AutismTimer.shared.initializeTimer(delegate: self)
         }
     }
     
 
     private func initializeFilledImageView() {
-        self.filledImageView1.layer.cornerRadius = 70
-        self.filledImageView2.layer.cornerRadius = 70
-        self.filledImageView3.layer.cornerRadius = 70
-//        self.filledImageView4.layer.cornerRadius = 70
-//        self.filledImageView5.layer.cornerRadius = 70
-//        self.filledImageView6.layer.cornerRadius = 70
-        
-        //self.previewImageView1.alpha = 0.2
-        
-//        var index = -1
-//        for list in self.fillContainerInfo.bucketList {
-//            for model in self.fillContainerInfo.imagesList {
-//                if model.name == list.name {
-//                    index = index + 1
-//                    if index == 0 {
-//                         //self.previewImageView1.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + model.image)
-//                    }
-//                    break
-//                }
-//            }
-//        }
         
         ImageDownloader.sharedInstance.downloadImage(urlString:  self.fillContainerInfo.bg_image, imageView: imgViewBucket, callbackAfterNoofImages: self.fillContainerInfo.imagesList.count, delegate: nil)
 
