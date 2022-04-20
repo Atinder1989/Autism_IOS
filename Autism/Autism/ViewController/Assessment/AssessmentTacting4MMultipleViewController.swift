@@ -469,13 +469,13 @@ extension AssessmentTacting4MMultipleViewController: RecordingManagerDelegate {
                     self.isRightAnswer = true
                     SpeechManager.shared.speak(message: SpeechMessage.excellentWork.getMessage(self.verbalQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 } else {
-                    if(currentIndex == 1){
-                        self.imgV1.layer.cornerRadius = self.imgV1.frame.size.width/2.0
-                        self.imgV1.layer.borderColor = UIColor.systemGreen.cgColor
-                    } else if(currentIndex == 2){
-                        self.imgV2.layer.cornerRadius = self.imgV2.frame.size.width/2.0
-                        self.imgV2.layer.borderColor = UIColor.systemGreen.cgColor
-                    }
+//                    if(currentIndex == 1){
+//                        self.imgV1.layer.cornerRadius = self.imgV1.frame.size.width/2.0
+//                        self.imgV1.layer.borderColor = UIColor.systemGreen.cgColor
+//                    } else if(currentIndex == 2){
+//                        self.imgV2.layer.cornerRadius = self.imgV2.frame.size.width/2.0
+//                        self.imgV2.layer.borderColor = UIColor.systemGreen.cgColor
+//                    }
                     /*
                     
                     else if(currentIndex == 3){
@@ -513,13 +513,13 @@ extension AssessmentTacting4MMultipleViewController: RecordingManagerDelegate {
                 if(currentIndex == self.verbalQuestionInfo.imagesList.count-1) {
                     
                     currentIndex = currentIndex+1
-                    if(currentIndex == 1){
-                        self.imgV1.layer.cornerRadius = self.imgV1.frame.size.width/2.0
-                        self.imgV1.layer.borderColor = UIColor.systemRed.cgColor
-                    } else if(currentIndex == 2){
-                        self.imgV2.layer.cornerRadius = self.imgV2.frame.size.width/2.0
-                        self.imgV2.layer.borderColor = UIColor.systemRed.cgColor
-                    }
+//                    if(currentIndex == 1){
+//                        self.imgV1.layer.cornerRadius = self.imgV1.frame.size.width/2.0
+//                        self.imgV1.layer.borderColor = UIColor.systemRed.cgColor
+//                    } else if(currentIndex == 2){
+//                        self.imgV2.layer.cornerRadius = self.imgV2.frame.size.width/2.0
+//                        self.imgV2.layer.borderColor = UIColor.systemRed.cgColor
+//                    }
                     
                     /*
                     else if(currentIndex == 3){

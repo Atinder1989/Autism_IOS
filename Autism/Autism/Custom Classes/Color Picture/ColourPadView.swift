@@ -37,12 +37,17 @@ public class ColourPadView: UIView {
         super.init(frame: frame)
         
         var yRef:CGFloat = 20.0
-        let ySpace:CGFloat = 2.0
+        var ySpace:CGFloat = 2.0
         
         let pWidth:CGFloat = frame.size.width
         let halfWidth:CGFloat = frame.size.width/2.0
-        let pHeight:CGFloat = 40.0
         
+        var pHeight:CGFloat = 24.0
+        
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            ySpace = 1.0
+            pHeight = 40.0
+        }
         btnViewBlack.frame = CGRect(x: -halfWidth, y: yRef, width: pWidth, height: pHeight)
         btnViewBlack.backgroundColor = .black
         btnViewBlack.setTitleColor(.black, for: .normal)
@@ -146,12 +151,18 @@ public class ColourPadView: UIView {
     @objc func btnColourClicked(_ sender:UIButton) {
 
         var yRef:CGFloat = 20.0
-        let ySpace:CGFloat = 2.0
+        var ySpace:CGFloat = 2.0
         
         let pWidth:CGFloat = frame.size.width
         let halfWidth:CGFloat = frame.size.width/2.0
-        let pHeight:CGFloat = 40.0
         
+        var pHeight:CGFloat = 24.0
+        
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            ySpace = 1.0
+            pHeight = 40.0
+        }
+
         UIView.animate(withDuration: 0.1,
                    delay: 0.1,
                    options: UIView.AnimationOptions.curveEaseIn,

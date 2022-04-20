@@ -84,7 +84,8 @@ extension AssessmentMatchingObjectViewController: UICollectionViewDataSource, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            var width = self.collectionOption.frame.width-CGFloat((self.matchingObjectInfo.image_with_text.count*20))
+            
+        var width = self.collectionOption.frame.width-CGFloat((self.matchingObjectInfo.image_with_text.count*20))
             width = width / CGFloat(self.matchingObjectInfo.image_with_text.count)
         print("width = ", width)
         
@@ -94,8 +95,8 @@ extension AssessmentMatchingObjectViewController: UICollectionViewDataSource, UI
             }
         }
         
-            return CGSize.init(width:width, height: width)
-       }
+        return CGSize.init(width:width, height: width)
+    }
 
 // make a cell for each cell index path
 internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -170,10 +171,27 @@ extension AssessmentMatchingObjectViewController {
         SpeechManager.shared.speak(message:  matchingObjectInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         collectionOption.register(UINib(nibName: MatchingObjectCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MatchingObjectCollectionViewCell.identifier)
         labelTitle.text = matchingObjectInfo.question_title
-        self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
-        self.imageViewBG.addDashedBorder(cornerRadius: 155, linewidth: 8, color: .darkGray, dashpattern: [6,3])
+
+        let screenW:CGFloat = UIScreen.main.bounds.width
+        let screenH:CGFloat = UIScreen.main.bounds.height
+
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            self.imageViewBG.frame = CGRect(x: (screenW-310)/2.0, y: 120, width: 310, height: 310)
+            self.collectionOption.frame = CGRect(x: (screenW-960)/2.0, y: screenH-320, width: 960, height: 300)
+
+            self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
+            self.imageViewBG.addDashedBorder(cornerRadius: 155, linewidth: 8, color: .darkGray, dashpattern: [6,3])
+        } else {
+            self.imageViewBG.frame = CGRect(x: (screenW-100)/2.0, y: 100, width: 100, height: 100)
+            self.collectionOption.frame = CGRect(x: (screenW-360)/2.0, y: screenH-130, width: 360, height: 100)
+
+            self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
+            self.imageViewBG.addDashedBorder(cornerRadius: 50, linewidth: 3, color: .darkGray, dashpattern: [6,3])
+        }
+        
         AutismTimer.shared.initializeTimer(delegate: self)
     }
+    
     private func listenModelClosures() {
        self.matchingObjectViewModel.dataClosure = {
           DispatchQueue.main.async {

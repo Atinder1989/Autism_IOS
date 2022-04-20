@@ -80,6 +80,18 @@ extension AssessmentVerbalQuestionViewController {
     }
     
     private func customSetting() {
+        
+        let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
+        let screenHeight:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.height)
+        var wh:CGFloat = 0.0
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            wh = 460.0
+            self.questionImageView.frame = CGRect(x: (screenWidth-wh)/2.0, y: (screenHeight-wh)/2.0, width: wh, height: wh)
+        } else {
+            wh = 240.0
+            self.questionImageView.frame = CGRect(x: (screenWidth-wh)/2.0, y: (screenHeight-wh)/2.0, width: wh, height: wh)
+        }
+
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         self.questionTitle.text = verbalQuestionInfo.question_title
@@ -88,8 +100,8 @@ extension AssessmentVerbalQuestionViewController {
             Utility.setView(view: self.questionImageView, cornerRadius: 0, borderWidth: 0, color: .clear)
             self.containerWidth.constant = CGFloat(900)
         } else {
-            self.containerWidth.constant = CGFloat(460)
-            Utility.setView(view: self.questionImageView, cornerRadius: 230, borderWidth: 2, color: .clear)
+//            self.containerWidth.constant = CGFloat(460)
+            Utility.setView(view: self.questionImageView, cornerRadius: wh/2.0, borderWidth: 2, color: .clear)
         }
         
         

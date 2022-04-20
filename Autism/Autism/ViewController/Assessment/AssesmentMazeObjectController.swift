@@ -64,9 +64,15 @@ class AssesmentMazeObjectController: UIViewController {
 extension AssesmentMazeObjectController : UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+         if(UIDevice.current.userInterfaceIdiom == .pad) {
            var size = self.answerCollectionView.frame.width/CGFloat(self.mazeObjectQuestionInfo.answers.count)
            size = size - 15
            return CGSize.init(width: size, height: size)
+         } else {
+             var size = self.answerCollectionView.frame.width/CGFloat(self.mazeObjectQuestionInfo.answers.count)
+             size = size - 15
+             return CGSize.init(width: size, height: 40)
+         }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -146,6 +152,11 @@ extension AssesmentMazeObjectController {
 
 extension AssesmentMazeObjectController {
     private func customSetting() {
+        
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            lblTitle.font = UIFont.init(name: AppFont.helveticaNeue.rawValue, size: 30)
+            lblTitle.adjustsFontSizeToFitWidth = true
+        }
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         answerCollectionView.register(UINib(nibName: OptionTextCell.identifier, bundle: nil), forCellWithReuseIdentifier: OptionTextCell.identifier)

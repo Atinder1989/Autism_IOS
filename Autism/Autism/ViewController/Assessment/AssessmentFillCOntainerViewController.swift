@@ -31,9 +31,6 @@ class AssessmentFillContainerViewController: UIViewController, UIDragInteraction
     @IBOutlet weak var filledImageView1: FillContainerImageView!
     @IBOutlet weak var filledImageView2: FillContainerImageView!
     @IBOutlet weak var filledImageView3: FillContainerImageView!
-//    @IBOutlet weak var filledImageView4: FillContainerImageView!
-//    @IBOutlet weak var filledImageView5: FillContainerImageView!
-//    @IBOutlet weak var filledImageView6: FillContainerImageView!
     
     var isPan:Bool = true
     var selectedObject:FillContainerImageView!

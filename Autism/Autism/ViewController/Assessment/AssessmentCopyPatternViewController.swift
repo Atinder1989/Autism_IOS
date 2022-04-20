@@ -126,11 +126,15 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
             self.labelTitle.text = self.copyPatternInfo.question_title
             
             let space:CGFloat = 20.0
-            let cWH:CGFloat = 150.0
+            var cWH:CGFloat = 150.0
             
             var xRef:CGFloat = 100.0
             var yRef:CGFloat = 200.0
-            
+            if(UIDevice.current.userInterfaceIdiom != .pad) {
+                xRef = 50.0
+                yRef = 100.0
+                cWH = 75
+            }
             let totalInPattern:Int = self.copyPatternInfo.repeat_count*self.copyPatternInfo.image_count
             let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
             
@@ -155,9 +159,9 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
                 xRef = xRef+space+cWH
             }
                         
-            yRef = 380
+            yRef = yRef+cWH+30
                         
-            let widthHeight:CGFloat = 150
+            let widthHeight:CGFloat = cWH
 
             xRef = (screenWidth-(CGFloat(totalInPattern-1)*space)-(CGFloat(totalInPattern)*widthHeight))/2.0
             
@@ -187,9 +191,14 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
         private func initializeFilledPattern() {
             
             var xRef:CGFloat = 40.90
-            let yRef:CGFloat = 580.90
+            var yRef:CGFloat = 580.90
             let space:CGFloat = 20.0
-            let widthHeight:CGFloat = 150
+            
+            var widthHeight:CGFloat = 150
+            if(UIDevice.current.userInterfaceIdiom != .pad) {
+                
+                widthHeight = 75
+            }
             
             let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
             xRef = (screenWidth-(CGFloat(self.copyPatternInfo.images.count-1)*space)-(CGFloat(self.copyPatternInfo.images.count)*widthHeight))/2.0

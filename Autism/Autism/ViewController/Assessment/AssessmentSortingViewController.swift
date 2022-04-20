@@ -45,6 +45,10 @@ class AssessmentSortingViewController: UIViewController, UIDragInteractionDelega
     @IBOutlet weak var filledImageView5: SortingCustomImageView!
     @IBOutlet weak var filledImageView6: SortingCustomImageView!
     
+    @IBOutlet weak var widthBucket1: NSLayoutConstraint!
+    @IBOutlet weak var widthBucket2: NSLayoutConstraint!
+    @IBOutlet weak var widthBucket3: NSLayoutConstraint!
+    
     var isPan:Bool = true
     var selectedObject:SortingCustomImageView!
     
@@ -146,6 +150,7 @@ extension AssessmentSortingViewController {
     }
     
     private func customSetting() {
+                
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         if self.sortObjectInfo.bucketList.count == 3 {
@@ -175,10 +180,54 @@ extension AssessmentSortingViewController {
             AutismTimer.shared.initializeTimer(delegate: self)
         }
     }
-    
 
     private func initializeFilledImageView() {
-        let cornerRadius:CGFloat = 70.0
+        
+        var wh:CGFloat = 140.0
+        var xSpace:CGFloat = 20.0
+        
+        var xRef:CGFloat = (UIScreen.main.bounds.width-((wh*6)+(xSpace*5)))/2.0
+        var yRef:CGFloat = UIScreen.main.bounds.height-wh-20
+        
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+        } else {
+        }
+
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            wh = 70.0
+            xSpace = 10.0
+            
+            xRef = (UIScreen.main.bounds.width-((wh*6)+(xSpace*5)))/2.0
+            yRef = UIScreen.main.bounds.height-wh-20
+
+            widthBucket1.constant = 140
+            widthBucket2.constant = 140
+            widthBucket3.constant = 140
+        } else {
+            widthBucket1.constant = 280
+            widthBucket2.constant = 280
+            widthBucket3.constant = 280
+        }
+        
+        self.filledImageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+xSpace+wh
+
+        self.filledImageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+xSpace+wh
+
+        self.filledImageView3.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+xSpace+wh
+
+        self.filledImageView4.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+xSpace+wh
+
+        self.filledImageView5.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+xSpace+wh
+
+        self.filledImageView6.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+xSpace+wh
+
+        let cornerRadius:CGFloat = wh/2.0
         self.filledImageView1.layer.cornerRadius = cornerRadius
         self.filledImageView2.layer.cornerRadius = cornerRadius
         self.filledImageView3.layer.cornerRadius = cornerRadius
@@ -196,12 +245,9 @@ extension AssessmentSortingViewController {
             bucket3.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + sortObjectInfo.bg_image)
         } else if(sortObjectInfo.bucketList.count == 2) {
             bucket1.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + sortObjectInfo.bg_image)
-        //    bucket2.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + sortObjectInfo.bg_image)
             bucket3.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + sortObjectInfo.bg_image)
         } else if(sortObjectInfo.bucketList.count == 1) {
-//            bucket1.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + sortObjectInfo.bg_image)
             bucket2.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + sortObjectInfo.bg_image)
-//            bucket3.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + sortObjectInfo.bg_image)
         }
         
         var index = -1
@@ -233,32 +279,24 @@ extension AssessmentSortingViewController {
                 }
             }
         }
-        
          
         filledImageView1.iModel = self.sortObjectInfo.imagesList[0]
-       // filledImageView1.setImageWith(urlString:ServiceHelper.baseURL.getMediaBaseUrl() + self.sortObjectInfo.imagesList[0].image, placeholderImage: "")
         ImageDownloader.sharedInstance.downloadImage(urlString:  self.sortObjectInfo.imagesList[0].image, imageView: filledImageView1, callbackAfterNoofImages: self.sortObjectInfo.imagesList.count, delegate: self)
         
         filledImageView2.iModel = self.sortObjectInfo.imagesList[1]
-       // filledImageView2.setImageWith(urlString:ServiceHelper.baseURL.getMediaBaseUrl() + self.sortObjectInfo.imagesList[1].image, placeholderImage: "")
-        
         ImageDownloader.sharedInstance.downloadImage(urlString: self.sortObjectInfo.imagesList[1].image, imageView: filledImageView2, callbackAfterNoofImages: self.sortObjectInfo.imagesList.count, delegate: self)
                
         
         filledImageView3.iModel = self.sortObjectInfo.imagesList[2]
-      //  filledImageView3.setImageWith(urlString:ServiceHelper.baseURL.getMediaBaseUrl() + self.sortObjectInfo.imagesList[2].image, placeholderImage: "")
         ImageDownloader.sharedInstance.downloadImage(urlString: self.sortObjectInfo.imagesList[2].image, imageView: filledImageView3, callbackAfterNoofImages: self.sortObjectInfo.imagesList.count, delegate: self)
         
         filledImageView4.iModel = self.sortObjectInfo.imagesList[3]
-      //  filledImageView4.setImageWith(urlString:ServiceHelper.baseURL.getMediaBaseUrl() + self.sortObjectInfo.imagesList[3].image, placeholderImage: "")
         ImageDownloader.sharedInstance.downloadImage(urlString:  self.sortObjectInfo.imagesList[3].image, imageView: filledImageView4, callbackAfterNoofImages: self.sortObjectInfo.imagesList.count, delegate: self)
 
         filledImageView5.iModel = self.sortObjectInfo.imagesList[4]
-    //    filledImageView5.setImageWith(urlString:ServiceHelper.baseURL.getMediaBaseUrl() + self.sortObjectInfo.imagesList[4].image, placeholderImage: "")
         ImageDownloader.sharedInstance.downloadImage(urlString:  self.sortObjectInfo.imagesList[4].image, imageView: filledImageView5, callbackAfterNoofImages: self.sortObjectInfo.imagesList.count, delegate: self)
         
         filledImageView6.iModel = self.sortObjectInfo.imagesList[5]
-      //  filledImageView6.setImageWith(urlString:ServiceHelper.baseURL.getMediaBaseUrl() + self.sortObjectInfo.imagesList[5].image, placeholderImage: "")
          ImageDownloader.sharedInstance.downloadImage(urlString:  self.sortObjectInfo.imagesList[5].image, imageView: filledImageView6, callbackAfterNoofImages: self.sortObjectInfo.imagesList.count, delegate: self)
     }
 
@@ -549,13 +587,6 @@ extension AssessmentSortingViewController: NetworkRetryViewDelegate {
         
         if Utility.isNetworkAvailable() {
             Utility.hideRetryView()
-//            if(self.apiDataState == .notCall) {
-//                self.listenModelClosures()
-//            } else if(self.apiDataState == .dataFetched) {
-//                self.initializeFilledImageView()
-//            } else {
-//
-//            }
             SpeechManager.shared.setDelegate(delegate: self)
         }
     }

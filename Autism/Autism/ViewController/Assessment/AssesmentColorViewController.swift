@@ -24,6 +24,7 @@ class AssesmentColorViewController: UIViewController ,UICollectionViewDataSource
 
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     @IBOutlet weak var collectionOption: UICollectionView!
+    @IBOutlet weak var xCollection: NSLayoutConstraint!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var sketchView: SketchView!
     @IBOutlet weak var lblTitle: UILabel!
@@ -183,7 +184,10 @@ func colourDidSelcted(_ colourPadView: ColourPadView, _ color: UIColor) {
             }
             
             if(viewColourPad == nil) {
-                viewColourPad = ColourPadView.init(frame: CGRect(x: 0, y: 140, width: 200, height: 524))
+                if(UIDevice.current.userInterfaceIdiom != .pad) {
+                    self.xCollection.constant = 120
+                }
+                viewColourPad = ColourPadView.init(frame: CGRect(x: 0, y: 0, width: 200, height: 524))
                 viewColourPad.delegate = self
                 viewColourPad.backgroundColor = .clear
                 self.view.addSubview(viewColourPad)
@@ -195,9 +199,15 @@ func colourDidSelcted(_ colourPadView: ColourPadView, _ color: UIColor) {
                            animations: { () -> Void in
 
                             if(self.viewColourPad.frame.origin.x == 0) {
-                                self.viewColourPad.frame = CGRect(x: -200, y: self.viewColourPad.frame.origin.y, width: 200, height: self.viewColourPad.frame.size.height)
+                                if(UIDevice.current.userInterfaceIdiom != .pad) {
+                                    self.xCollection.constant = 0
+                                }
+                                self.viewColourPad.frame = CGRect(x: -200, y: self.viewColourPad.frame.origin.y, width: self.viewColourPad.frame.size.width, height: self.viewColourPad.frame.size.height)
                             } else {
-                                self.viewColourPad.frame = CGRect(x: 0, y: self.viewColourPad.frame.origin.y, width: 200, height: self.viewColourPad.frame.size.height)
+                                if(UIDevice.current.userInterfaceIdiom != .pad) {
+                                    self.xCollection.constant = 120
+                                }
+                                self.viewColourPad.frame = CGRect(x: 0, y: self.viewColourPad.frame.origin.y, width: self.viewColourPad.frame.size.width, height: self.viewColourPad.frame.size.height)
                             }
 
                 }, completion: { (finished) -> Void in

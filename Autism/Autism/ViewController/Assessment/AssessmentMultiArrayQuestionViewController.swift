@@ -92,10 +92,16 @@ extension AssessmentMultiArrayQuestionViewController {
         imagesCollectionView3.register(ImageCell.nib, forCellWithReuseIdentifier: ImageCell.identifier)
         imagesCollectionView4.register(ImageCell.nib, forCellWithReuseIdentifier: ImageCell.identifier)
         
-        let w:CGFloat = self.view.frame.size.width-200
-        let h:CGFloat = 300
+        var w:CGFloat = self.view.frame.size.width-200
+        var h:CGFloat = 300
+        var yRef:CGFloat = 400
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            yRef = 150
+            h = 100
+            w = 360
+        }
         if(currentIndex == 0) {
-            imagesCollectionView0.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: 400, width: w, height: h)
+            imagesCollectionView0.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
 
             imagesCollectionView1.frame = CGRect(x: self.view.frame.size.width-200, y: 150, width: 200, height: 40)
             imagesCollectionView2.frame = CGRect(x: self.view.frame.size.width-200, y: 200, width: 200, height: 40)
@@ -121,11 +127,21 @@ extension AssessmentMultiArrayQuestionViewController {
     
     func showNextImage()
     {
-        
-        let w:CGFloat = self.view.frame.size.width-200
-        let h:CGFloat = 300
+            
+        var w:CGFloat = self.view.frame.size.width-200
+        var h:CGFloat = 300
         let xRef:CGFloat = (self.view.frame.size.width-w)/2.0
         
+        var yDiff:CGFloat = 0
+        
+        var yRef:CGFloat = 400
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            yRef = 150
+            h = 100
+            w = 360
+            yDiff = -50.0 //
+        }
+
         self.isRightAnswer = false
         currentIndex = currentIndex+1
         if(currentIndex < self.whichTypeQuestionInfo.blocks.count) {
@@ -136,28 +152,28 @@ extension AssessmentMultiArrayQuestionViewController {
                                 options: [],
                              animations: {
                                 if(self.currentIndex == 0) {
-                                    self.imagesCollectionView0.frame = CGRect(x: xRef, y: 400, width: w, height: h)
+                                    self.imagesCollectionView0.frame = CGRect(x: xRef, y: yRef, width: w, height: h)
                                 } else if(self.currentIndex == 1) {
-                                    self.imagesCollectionView1.frame = CGRect(x: xRef, y: 400, width: w, height: h)
-                                    self.imagesCollectionView0.frame = CGRect(x: 10, y: 150, width: 200, height: 40)
+                                    self.imagesCollectionView1.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
+                                    self.imagesCollectionView0.frame = CGRect(x: 10, y: 150+yDiff, width: 200, height: 40)
                                     
                                     self.imagesCollectionView0.reloadData()
                                     self.imagesCollectionView1.reloadData()
                                 } else if(self.currentIndex == 2) {
-                                    self.imagesCollectionView2.frame = CGRect(x: xRef, y: 400, width: w, height: h)
-                                    self.imagesCollectionView1.frame = CGRect(x: 10, y: 200, width: 200, height: 40)
+                                    self.imagesCollectionView2.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
+                                    self.imagesCollectionView1.frame = CGRect(x: 10, y: 200+yDiff, width: 200, height: 40)
                                     
                                     self.imagesCollectionView1.reloadData()
                                     self.imagesCollectionView2.reloadData()
                                 } else if(self.currentIndex == 3) {
-                                    self.imagesCollectionView3.frame = CGRect(x: xRef, y: 400, width: w, height: h)
-                                    self.imagesCollectionView2.frame = CGRect(x: 10, y: 250, width: 200, height: 40)
+                                    self.imagesCollectionView3.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
+                                    self.imagesCollectionView2.frame = CGRect(x: 10, y: 250+yDiff, width: 200, height: 40)
                                     
                                     self.imagesCollectionView2.reloadData()
                                     self.imagesCollectionView3.reloadData()
                                 } else if(self.currentIndex == 4) {
-                                    self.imagesCollectionView4.frame = CGRect(x: xRef, y: 400, width: w, height: h)
-                                    self.imagesCollectionView3.frame = CGRect(x: 10, y: 300, width: 200, height: 40)
+                                    self.imagesCollectionView4.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
+                                    self.imagesCollectionView3.frame = CGRect(x: 10, y: 300+yDiff, width: 200, height: 40)
                                     
                                     self.imagesCollectionView3.reloadData()
                                     self.imagesCollectionView4.reloadData()
@@ -234,8 +250,11 @@ extension AssessmentMultiArrayQuestionViewController: UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let w:CGFloat = self.view.frame.size.width-224
-        let layWH:CGFloat = (w-80)/4.0
+        var layWH:CGFloat = (w-80)/4.0
         
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            layWH = 80.0
+        }
         if(currentIndex == 0 && collectionView == imagesCollectionView0) {
             return CGSize.init(width: layWH, height: layWH)
         } else if(currentIndex == 1 && collectionView == imagesCollectionView1) {
@@ -247,43 +266,11 @@ extension AssessmentMultiArrayQuestionViewController: UICollectionViewDataSource
         } else if(currentIndex == 4 && collectionView == imagesCollectionView4) {
             return CGSize.init(width: layWH, height: layWH)
         } else {
+            if(UIDevice.current.userInterfaceIdiom != .pad) {
+                return CGSize.init(width: 30, height: 30)
+            }
             return CGSize.init(width: 40, height: 40)
         }
-        
-        if(w == 800) {
-            if(currentIndex == 0 && collectionView == imagesCollectionView0) {
-                return CGSize.init(width: 180, height: 180)
-            } else if(currentIndex == 1 && collectionView == imagesCollectionView1) {
-                return CGSize.init(width: 180, height: 180)
-            } else if(currentIndex == 2 && collectionView == imagesCollectionView2) {
-                return CGSize.init(width: 180, height: 180)
-            } else if(currentIndex == 3 && collectionView == imagesCollectionView3) {
-                return CGSize.init(width: 180, height: 180)
-            } else if(currentIndex == 4 && collectionView == imagesCollectionView4) {
-                return CGSize.init(width: 180, height: 180)
-            } else {
-                return CGSize.init(width: 40, height: 40)
-            }
-        } else {
-            if(currentIndex == 0 && collectionView == imagesCollectionView0) {
-                return CGSize.init(width: 220, height: 220)
-            } else if(currentIndex == 1 && collectionView == imagesCollectionView1) {
-                return CGSize.init(width: 220, height: 220)
-            } else if(currentIndex == 2 && collectionView == imagesCollectionView2) {
-                return CGSize.init(width: 220, height: 220)
-            } else if(currentIndex == 3 && collectionView == imagesCollectionView3) {
-                return CGSize.init(width: 220, height: 220)
-            } else if(currentIndex == 4 && collectionView == imagesCollectionView4) {
-                return CGSize.init(width: 220, height: 220)
-            } else {
-                return CGSize.init(width: 40, height: 40)
-            }
-        }
-        
-        
-//        self.collectionViewWidthConstraint.constant = CGFloat(4 * 240)
-//        self.collectionViewHeightConstraint.constant = 300
-//        return CGSize.init(width: 40, height: 40)
         
     }
     

@@ -76,6 +76,19 @@ extension AssessmentEnvironmentalSoundViewController {
     }
     
     private func customSetting() {
+        
+        let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
+        let screenHeight:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.height)
+        var wh:CGFloat = 0.0
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            wh = 460.0
+            self.questionImageView.frame = CGRect(x: (screenWidth-wh)/2.0, y: (screenHeight-wh)/2.0, width: wh, height: wh)
+        } else {
+            self.questionTitle.adjustsFontSizeToFitWidth = true
+            wh = 240.0
+            self.questionImageView.frame = CGRect(x: (screenWidth-wh)/2.0, y: (screenHeight-wh)/2.0, width: wh, height: wh)
+        }
+
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         ImageDownloader.sharedInstance.downloadImage(urlString: self.environmentQuestionInfo.video_url, imageView: self.questionImageView, callbackAfterNoofImages: 1, delegate: self)
