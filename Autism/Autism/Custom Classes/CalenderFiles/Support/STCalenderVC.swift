@@ -70,11 +70,16 @@ class STCalenderVC: UIViewController {
         }
         
         objSTCalenderVC.fsMaxYearDateWithCurrentDayMonth = Calendar.current.date(byAdding: .year, value: maximum, to: Date())!
-        let maxYearyear = Calendar.current.component(.year, from: objSTCalenderVC.fsMaxYearDateWithCurrentDayMonth)
-        if let firstOfNextYear = Calendar.current.date(from: DateComponents(year: maxYearyear + 1, month: 1, day: 1)) {
-            // Get the last day of the year
-            objSTCalenderVC.fsMaxiDateWithLastDayOfYear = Calendar.current.date(byAdding: .day, value: -1, to: firstOfNextYear)
-        }
+         objSTCalenderVC.fsMaxiDateWithLastDayOfYear = Date()
+
+         // let maxYearyear = Calendar.current.component(.year, from: objSTCalenderVC.fsMaxYearDateWithCurrentDayMonth)
+
+//        if let firstOfNextYear = Calendar.current.date(from: DateComponents(year: maxYearyear + 1, month: 1, day: 1)) {
+//            // Get the last day of the year
+//           // objSTCalenderVC.fsMaxiDateWithLastDayOfYear = Calendar.current.date(byAdding: .day, value: -1, to: firstOfNextYear)
+//
+//
+//        }
         
         objSTCalenderVC.delegate = delegate
         onSourceViewController.navigationController?.present(objSTCalenderVC, animated: true, completion: nil)
