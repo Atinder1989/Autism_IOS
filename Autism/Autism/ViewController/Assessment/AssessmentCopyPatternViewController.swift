@@ -126,14 +126,16 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
             self.labelTitle.text = self.copyPatternInfo.question_title
             
             let space:CGFloat = 20.0
+            var ySpace:CGFloat = 30.0
             var cWH:CGFloat = 150.0
             
             var xRef:CGFloat = 100.0
             var yRef:CGFloat = 200.0
             if(UIDevice.current.userInterfaceIdiom != .pad) {
                 xRef = 50.0
-                yRef = 100.0
-                cWH = 75
+                yRef = 90.0
+                cWH = 70
+                ySpace = 10.0
             }
             let totalInPattern:Int = self.copyPatternInfo.repeat_count*self.copyPatternInfo.image_count
             let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
@@ -159,7 +161,7 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
                 xRef = xRef+space+cWH
             }
                         
-            yRef = yRef+cWH+30
+            yRef = yRef+cWH+ySpace
                         
             let widthHeight:CGFloat = cWH
 
@@ -197,7 +199,8 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
             var widthHeight:CGFloat = 150
             if(UIDevice.current.userInterfaceIdiom != .pad) {
                 
-                widthHeight = 75
+                widthHeight = 70
+                yRef = 250
             }
             
             let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
