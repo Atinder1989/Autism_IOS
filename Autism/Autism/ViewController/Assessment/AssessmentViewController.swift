@@ -285,9 +285,6 @@ extension AssessmentViewController {
     }
             
     func presentVC(vc:UIViewController) {
-        
-        //this.present(vc, animated: true, completion: nil)//OLD CODE
-        
         if(assessmentVC == nil) {
             assessmentVC = vc
             self.present(vc, animated: true, completion: nil)
@@ -299,8 +296,6 @@ extension AssessmentViewController {
         }
     }
     private func moveToNextQuestion(res:AssessmentQuestionResponseVO) {
-    //    FaceDetection.shared.stopFaceDetectionSession()
-     //   FaceDetection.shared.startFaceDetectionSession()
         DispatchQueue.main.async { [weak self] in
             
             if let this = self {
