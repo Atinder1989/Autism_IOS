@@ -123,7 +123,37 @@ extension AssessmentMatchingOnePairViewController {
           
     }
     
+    func initilizeFramming() {
+    
+        var wh:CGFloat = 180
+        var yRef:CGFloat = 180
+        var ySpace:CGFloat = 40
+        let xSpace:CGFloat = 60
+        
+        yRef = 100
+        wh = 70
+        ySpace = 10
+                
+        imageViewBG3.frame = CGRect(x: xSpace, y: yRef, width: wh, height: wh)
+        imageView3.frame = CGRect(x: UIScreen.main.bounds.width-wh-xSpace, y: yRef, width: wh, height: wh)
+        
+        yRef = yRef+wh+ySpace
+        
+        imageViewBG1.frame = CGRect(x: xSpace, y: yRef, width: wh, height: wh)
+        imageView1.frame = CGRect(x: UIScreen.main.bounds.width-wh-xSpace, y: yRef, width: wh, height: wh)
+
+        yRef = yRef+wh+ySpace
+        
+        imageViewBG2.frame = CGRect(x: xSpace, y: yRef, width: wh, height: wh)
+        imageView2.frame = CGRect(x: UIScreen.main.bounds.width-wh-xSpace, y: yRef, width: wh, height: wh)
+
+        yRef = yRef+wh+ySpace
+    }
+    
     private func customSetting() {
+
+        self.initilizeFramming()
+        
         self.isUserInteraction = false
         
         labelTitle.text = matchingObjectInfo.question_title
