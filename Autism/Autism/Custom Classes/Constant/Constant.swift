@@ -22,6 +22,12 @@ import FLAnimatedImage
 //Youtube Quote
 //https://stackoverflow.com/questions/47408723/youtube-quotas-exceeded
 
+var safeArealLeft:CGFloat = 0
+var safeArealRight:CGFloat = 0
+var safeArealTop:CGFloat = 0
+var safeArealBottom:CGFloat = 0
+
+
 enum AppConstant:String {
     case gmailClientID = "611305546671-4c9j5kh6gsag53qj1qkn38qpfmtcl66i.apps.googleusercontent.com"
     case appicationEncryptDecryptKey = "Aq3t6w9y$C&E)H@LcQfTjNnZr4u7x!A%"

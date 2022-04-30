@@ -20,6 +20,8 @@ class AssessmentMazesViewController: UIViewController {
     @IBOutlet weak var lblTitle: UILabel!
     
     @IBOutlet weak var imgViewBG: UIImageView!
+    @IBOutlet weak var heightImgViewBG: NSLayoutConstraint!
+    
     @IBOutlet weak var imgViewObject: UIImageView!
     @IBOutlet weak var imgViewGoal: UIImageView!
     
@@ -504,11 +506,18 @@ extension AssessmentMazesViewController {
         lblTitle.text = mazeQuestionInfo.question_title
         self.reDownloadImages()
         
-        let imgWH:CGFloat = 220
-        let yPos:CGFloat = (UIScreen.main.bounds.size.height-imgWH)/2.0
+        var imgWH:CGFloat = 220
+        var yPos:CGFloat = (UIScreen.main.bounds.size.height-imgWH)/2.0
         
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            imgWH = 140
+            yPos = (UIScreen.main.bounds.size.height-imgWH)/2.0
+        }
         imgViewObject.frame = CGRect(x:0, y:yPos, width:imgWH, height:imgWH)
         imgViewGoal.frame = CGRect(x:UIScreen.main.bounds.size.width-imgWH, y:yPos, width:imgWH, height:imgWH)
+        
+        heightImgViewBG.constant = imgWH
+        
     }
     
     func reDownloadImages()

@@ -136,6 +136,9 @@ class Utility {
     }
     
     func stopMonitoring() {
+        if(reachability == nil) {
+            return
+        }
         reachability.stopNotifier()
         NotificationCenter.default.removeObserver(self, name: ReachabilityChangedNotification, object: reachability)
     }

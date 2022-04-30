@@ -101,12 +101,24 @@ extension AssessmentMultiArrayQuestionViewController {
             w = 360
         }
         if(currentIndex == 0) {
+//            imagesCollectionView0.backgroundColor = .red
+//            imagesCollectionView1.backgroundColor = .red
+//            imagesCollectionView2.backgroundColor = .red
+//            imagesCollectionView3.backgroundColor = .red
+//            imagesCollectionView4.backgroundColor = .red
             imagesCollectionView0.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
 
-            imagesCollectionView1.frame = CGRect(x: self.view.frame.size.width-200, y: 150, width: 200, height: 40)
-            imagesCollectionView2.frame = CGRect(x: self.view.frame.size.width-200, y: 200, width: 200, height: 40)
-            imagesCollectionView3.frame = CGRect(x: self.view.frame.size.width-200, y: 250, width: 200, height: 40)
-            imagesCollectionView4.frame = CGRect(x: self.view.frame.size.width-200, y: 300, width: 200, height: 40)
+            if(safeArealLeft == 0 && safeArealRight == 0) {
+                imagesCollectionView1.frame = CGRect(x: self.view.frame.size.width-160, y: 150, width: 200, height: 40)
+                imagesCollectionView2.frame = CGRect(x: self.view.frame.size.width-160, y: 200, width: 200, height: 40)
+                imagesCollectionView3.frame = CGRect(x: self.view.frame.size.width-160, y: 250, width: 200, height: 40)
+                imagesCollectionView4.frame = CGRect(x: self.view.frame.size.width-160, y: 300, width: 200, height: 40)
+            } else {
+                imagesCollectionView1.frame = CGRect(x: self.view.frame.size.width-200, y: 150, width: 200, height: 40)
+                imagesCollectionView2.frame = CGRect(x: self.view.frame.size.width-200, y: 200, width: 200, height: 40)
+                imagesCollectionView3.frame = CGRect(x: self.view.frame.size.width-200, y: 250, width: 200, height: 40)
+                imagesCollectionView4.frame = CGRect(x: self.view.frame.size.width-200, y: 300, width: 200, height: 40)
+            }
         } else if(currentIndex == 1) {
             imagesCollectionView1.bounds = CGRect(x: 0, y: 0, width: w, height: h)
             imagesCollectionView1.center = self.view.center
@@ -155,25 +167,25 @@ extension AssessmentMultiArrayQuestionViewController {
                                     self.imagesCollectionView0.frame = CGRect(x: xRef, y: yRef, width: w, height: h)
                                 } else if(self.currentIndex == 1) {
                                     self.imagesCollectionView1.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
-                                    self.imagesCollectionView0.frame = CGRect(x: 10, y: 150+yDiff, width: 200, height: 40)
+                                    self.imagesCollectionView0.frame = CGRect(x: 10, y: 150+yDiff, width: 160, height: 40)
                                     
                                     self.imagesCollectionView0.reloadData()
                                     self.imagesCollectionView1.reloadData()
                                 } else if(self.currentIndex == 2) {
                                     self.imagesCollectionView2.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
-                                    self.imagesCollectionView1.frame = CGRect(x: 10, y: 200+yDiff, width: 200, height: 40)
+                                    self.imagesCollectionView1.frame = CGRect(x: 10, y: 200+yDiff, width: 160, height: 40)
                                     
                                     self.imagesCollectionView1.reloadData()
                                     self.imagesCollectionView2.reloadData()
                                 } else if(self.currentIndex == 3) {
                                     self.imagesCollectionView3.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
-                                    self.imagesCollectionView2.frame = CGRect(x: 10, y: 250+yDiff, width: 200, height: 40)
+                                    self.imagesCollectionView2.frame = CGRect(x: 10, y: 250+yDiff, width: 160, height: 40)
                                     
                                     self.imagesCollectionView2.reloadData()
                                     self.imagesCollectionView3.reloadData()
                                 } else if(self.currentIndex == 4) {
                                     self.imagesCollectionView4.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
-                                    self.imagesCollectionView3.frame = CGRect(x: 10, y: 300+yDiff, width: 200, height: 40)
+                                    self.imagesCollectionView3.frame = CGRect(x: 10, y: 300+yDiff, width: 160, height: 40)
                                     
                                     self.imagesCollectionView3.reloadData()
                                     self.imagesCollectionView4.reloadData()

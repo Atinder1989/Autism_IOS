@@ -32,6 +32,13 @@ class AssessmentFillContainerViewController: UIViewController, UIDragInteraction
     @IBOutlet weak var filledImageView2: FillContainerImageView!
     @IBOutlet weak var filledImageView3: FillContainerImageView!
     
+    @IBOutlet weak var widthHeightBall: NSLayoutConstraint!
+        
+    @IBOutlet weak var bottom1: NSLayoutConstraint!
+//    @IBOutlet weak var trail1: NSLayoutConstraint!
+    @IBOutlet weak var bottom2: NSLayoutConstraint!
+    @IBOutlet weak var bottom3: NSLayoutConstraint!
+    
     var isPan:Bool = true
     var selectedObject:FillContainerImageView!
     
@@ -114,22 +121,34 @@ extension AssessmentFillContainerViewController {
     }
     
     private func listenModelClosures() {
-           self.fillContainerViewModel.dataClosure = {
-               DispatchQueue.main.async {
-                   if let res = self.fillContainerViewModel.accessmentSubmitResponseVO {
-                           if res.success {
-                            self.dismiss(animated: true) {
-                                if let del = self.delegate {
-                                    del.submitQuestionResponse(response: res)
-                                }
-                            }
-                       }
-                   }
-               }
-           }
+        self.fillContainerViewModel.dataClosure = {
+            DispatchQueue.main.async {
+                if let res = self.fillContainerViewModel.accessmentSubmitResponseVO {
+                        if res.success {
+                         self.dismiss(animated: true) {
+                             if let del = self.delegate {
+                                 del.submitQuestionResponse(response: res)
+                             }
+                         }
+                    }
+                }
+            }
+        }
     }
     
     private func customSetting() {
+        
+//        if(UIDevice.current.userInterfaceIdiom == .pad) {
+//
+//            self.widthHeightBall.constant = 80
+//        } else {
+//            self.widthHeightBall.constant = 30
+//
+//            self.bottom1.constant = 40
+//            self.bottom2.constant = 70
+//            self.bottom3.constant = 50
+//        }
+        
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         if self.fillContainerInfo.bucketList.count >= 1 {

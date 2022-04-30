@@ -130,10 +130,11 @@ extension AssessmentMatchingOnePairViewController {
         var ySpace:CGFloat = 40
         let xSpace:CGFloat = 60
         
-        yRef = 100
-        wh = 70
-        ySpace = 10
-                
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            yRef = 100
+            wh = 70
+            ySpace = 10
+        }
         imageViewBG3.frame = CGRect(x: xSpace, y: yRef, width: wh, height: wh)
         imageView3.frame = CGRect(x: UIScreen.main.bounds.width-wh-xSpace, y: yRef, width: wh, height: wh)
         

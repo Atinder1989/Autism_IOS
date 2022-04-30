@@ -25,11 +25,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var orientationLock = UIInterfaceOrientationMask.landscape
     
+    
      func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.initializeAnalyticsAndCrashlytics()
         self.initializeSocialNetwork(application, didFinishLaunchingWithOptions: launchOptions)
         self.customSettings()
         self.checkExistingUser()
+         
+         let wd = UIApplication.shared.keyWindow
+         safeArealLeft = wd?.safeAreaInsets.left ?? 0
+         safeArealRight = wd?.safeAreaInsets.right ?? 0
+         safeArealTop = wd?.safeAreaInsets.top ?? 0
+         safeArealBottom = wd?.safeAreaInsets.bottom ?? 0
+
         return true
     }
 

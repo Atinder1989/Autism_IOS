@@ -14,7 +14,7 @@ class AssessmentEnvironmentalSoundViewController: UIViewController {
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var questionImageView: UIImageView!
-    //@IBOutlet weak var avatarImageView: FLAnimatedImageView!
+    @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     
     private var environmentQuestionInfo: EnvironmentalSoundQuestionInfo!
     private var timeTakenToSolve = 0
@@ -36,8 +36,6 @@ class AssessmentEnvironmentalSoundViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.listenModelClosures()
         self.customSetting()
-        
-       
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -91,6 +89,7 @@ extension AssessmentEnvironmentalSoundViewController {
 
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
+        
         ImageDownloader.sharedInstance.downloadImage(urlString: self.environmentQuestionInfo.video_url, imageView: self.questionImageView, callbackAfterNoofImages: 1, delegate: self)
     }
 
@@ -145,14 +144,14 @@ extension AssessmentEnvironmentalSoundViewController {
 extension AssessmentEnvironmentalSoundViewController: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
 
-//        if let type = Utility.getSpeechMessageType(text: speechText) {
-//                   if type != .hurrayGoodJob {
-//                       self.avatarImageView.animatedImage =  idleGif
-//                   }
-//               }
-//        else {
-//                self.avatarImageView.animatedImage =  idleGif
-//        }
+        if let type = Utility.getSpeechMessageType(text: speechText) {
+                   if type != .hurrayGoodJob {
+                       self.avatarImageView.animatedImage =  getIdleGif()
+                   }
+               }
+        else {
+                self.avatarImageView.animatedImage =  getIdleGif()
+        }
         
         if speechText == self.environmentQuestionInfo.question_title {
             SpeechManager.shared.speak(message: self.environmentQuestionInfo.sound_of_animal, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
@@ -175,16 +174,16 @@ extension AssessmentEnvironmentalSoundViewController: SpeechManagerDelegate {
     func speechDidStart(speechText:String) {
         self.isUserInteraction = false
 
-//        if let type = Utility.getSpeechMessageType(text: speechText) {
-//            switch type {
-//            case .hurrayGoodJob:
-//                self.avatarImageView.animatedImage =  hurrayGif
-//                return
-//            default:
-//                break
-//            }
-//        }
-        //self.avatarImageView.animatedImage =  talkingGif
+        if let type = Utility.getSpeechMessageType(text: speechText) {
+            switch type {
+            case .hurrayGoodJob:
+                self.avatarImageView.animatedImage =  getHurrayGif()
+                return
+            default:
+                break
+            }
+        }
+        self.avatarImageView.animatedImage =  getTalkingGif()
     }
 }
 
