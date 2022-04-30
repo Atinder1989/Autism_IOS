@@ -50,6 +50,7 @@ class AssesmentMatchSpellingViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchOnEmptyScreenCount += 1
+        self.view.endEditing(true)
     }
     
     @objc func keyboardWillShow(notification: Notification) {
@@ -93,12 +94,8 @@ extension AssesmentMatchSpellingViewController {
     private func customSetting() {
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
-        
-        
         Utility.setView(view: txtAnwere, cornerRadius: 5, borderWidth: 2, color: UIColor.purpleBorderColor)
-        Utility.setView(view: self.pictureImageView, cornerRadius: 150, borderWidth: 2, color: .darkGray)
-        //Utility.setView(view: self.submitButton, cornerRadius: 5, borderWidth: 0, color: .clear)
-       // lblTitle.text = matchSpellingQuestionInfo.question_title
+        Utility.setView(view: self.pictureImageView, cornerRadius: Utility.isRunningOnIpad() ? 225 : 80, borderWidth: 2, color: .darkGray)
         let array = matchSpellingQuestionInfo.question_title.components(separatedBy: "<br>")
         if array.count == 2 {
             lblTitle.text = array[0]
