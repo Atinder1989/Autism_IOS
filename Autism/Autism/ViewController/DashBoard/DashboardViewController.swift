@@ -387,7 +387,7 @@ extension DashboardViewController: UICollectionViewDataSource, UICollectionViewD
             return CGSize.init(width: width - 20 , height: self.levelCollectionView.frame.height)
             }
         }
-        return CGSize.init(width: (self.performanceCollectionView.frame.width / 3) - 15, height: 110)
+        return CGSize.init(width: (self.performanceCollectionView.frame.width / 3) - 15, height: Utility.isRunningOnIpad() ? 85 : 60)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -134,6 +134,19 @@ extension UserInfoCell : UITextFieldDelegate {
             }
         }
         
+        if self.labelResponse.getLiteralof(code: SignUpLabelCode.name.rawValue).label_text == formModel.title {
+            if string.count <= 30 {
+                let set = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ ")
+                if let _ = string.rangeOfCharacter(from: set) {
+                     return true
+                } else {
+                     return false
+                }
+            } else {
+                return false
+            }
+        }
+        
         if self.labelResponse.getLiteralof(code: UserProfileLabelCode.city.rawValue).label_text == formModel.title {
             let set = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ ")
             if let _ = string.rangeOfCharacter(from: set) {

@@ -49,6 +49,8 @@ class LearningFollowingInstructionsViewModel: NSObject {
     }
     
     func setScriptResponse(command_array:[ScriptCommandInfo],questionid:String,program: LearningProgramModel,skillDomainId: String) {
+        self.program = program
+        self.skillDomainId = skillDomainId
         var response = ScriptResponseVO.init()
         response.success = true
         response.statuscode = 200
@@ -56,8 +58,6 @@ class LearningFollowingInstructionsViewModel: NSObject {
         response.command_array = command_array
         response.question_id = questionid
         self.commandResponseVO = response
-        self.program = program
-        self.skillDomainId = skillDomainId
     }
     
   

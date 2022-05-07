@@ -134,6 +134,8 @@ class LearningVocalImitationsViewModel: NSObject {
     }
     
     func setScriptResponse(command_array:[ScriptCommandInfo],questionid:String,program: LearningProgramModel,skillDomainId: String) {
+        self.skillDomainId = skillDomainId
+        self.program = program
         var response = ScriptResponseVO.init()
         response.success = true
         response.statuscode = 200
@@ -141,8 +143,6 @@ class LearningVocalImitationsViewModel: NSObject {
         response.command_array = command_array
         response.question_id = questionid
         self.commandResponseVO = response
-        self.program = program
-        self.skillDomainId = skillDomainId
     }
     
     func getCurrentCommandInfo() -> ScriptCommandInfo? {
