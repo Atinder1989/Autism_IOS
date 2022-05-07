@@ -39,7 +39,7 @@ extension AssessmentCompleteViewController {
     private func customSetting() {
             self.navigationController?.navigationBar.isHidden = true
         Utility.setView(view: self.whiteBackgroundView, cornerRadius: 10, borderWidth: 0, color: .clear)
-        Utility.setView(view: self.nextBtn, cornerRadius: 30, borderWidth: 0.5, color: .darkGray)
+        Utility.setView(view: self.nextBtn, cornerRadius: self.nextBtn.frame.size.width/2.0, borderWidth: 0.5, color: .darkGray)
     }
     
     private func listenModelClosures() {

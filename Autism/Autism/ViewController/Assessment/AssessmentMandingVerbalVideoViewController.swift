@@ -87,15 +87,9 @@ class AssessmentMandingVerbalVideoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-//        let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
-//        let screenHeight:CGFloat = min(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
-//
-//        self.questionImageView.frame = CGRect(x: 100, y: 200, width: screenWidth-200, height: screenHeight-200)
 
         self.listenModelClosures()
         self.customSetting()
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -558,9 +552,15 @@ extension AssessmentMandingVerbalVideoViewController {
     }
     
     func setCenterVideoFrame() {
-        let h:CGFloat = UIScreen.main.bounds.size.height-200
-        let w:CGFloat = 3.0*(h/2.0)
-        self.questionImageView.frame = CGRect(x: (UIScreen.main.bounds.size.width-w)/2.0, y: 120, width: w, height: h)
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            let h:CGFloat = UIScreen.main.bounds.size.height-200
+            let w:CGFloat = 4.0*(h/3.0)
+            self.questionImageView.frame = CGRect(x: (UIScreen.main.bounds.size.width-w)/2.0, y: 100, width: w, height: h)
+        } else {
+            let h:CGFloat = UIScreen.main.bounds.size.height-150
+            let w:CGFloat = 4.0*(h/3.0)
+            self.questionImageView.frame = CGRect(x: (UIScreen.main.bounds.size.width-w)/2.0, y: 75, width: w, height: h)
+        }
         print("self.questionImageView.frame = ", self.questionImageView.frame)
     }
     

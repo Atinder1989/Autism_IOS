@@ -167,25 +167,25 @@ extension AssessmentMultiArrayQuestionViewController {
                                     self.imagesCollectionView0.frame = CGRect(x: xRef, y: yRef, width: w, height: h)
                                 } else if(self.currentIndex == 1) {
                                     self.imagesCollectionView1.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
-                                    self.imagesCollectionView0.frame = CGRect(x: 10, y: 150+yDiff, width: 160, height: 40)
+                                    self.imagesCollectionView0.frame = CGRect(x: 10, y: 150+yDiff, width: 200, height: 40)
                                     
                                     self.imagesCollectionView0.reloadData()
                                     self.imagesCollectionView1.reloadData()
                                 } else if(self.currentIndex == 2) {
                                     self.imagesCollectionView2.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
-                                    self.imagesCollectionView1.frame = CGRect(x: 10, y: 200+yDiff, width: 160, height: 40)
+                                    self.imagesCollectionView1.frame = CGRect(x: 10, y: 200+yDiff, width: 200, height: 40)
                                     
                                     self.imagesCollectionView1.reloadData()
                                     self.imagesCollectionView2.reloadData()
                                 } else if(self.currentIndex == 3) {
                                     self.imagesCollectionView3.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
-                                    self.imagesCollectionView2.frame = CGRect(x: 10, y: 250+yDiff, width: 160, height: 40)
+                                    self.imagesCollectionView2.frame = CGRect(x: 10, y: 250+yDiff, width: 200, height: 40)
                                     
                                     self.imagesCollectionView2.reloadData()
                                     self.imagesCollectionView3.reloadData()
                                 } else if(self.currentIndex == 4) {
                                     self.imagesCollectionView4.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
-                                    self.imagesCollectionView3.frame = CGRect(x: 10, y: 300+yDiff, width: 160, height: 40)
+                                    self.imagesCollectionView3.frame = CGRect(x: 10, y: 300+yDiff, width: 200, height: 40)
                                     
                                     self.imagesCollectionView3.reloadData()
                                     self.imagesCollectionView4.reloadData()

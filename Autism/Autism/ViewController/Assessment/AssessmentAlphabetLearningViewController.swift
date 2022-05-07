@@ -76,6 +76,7 @@ extension AssessmentAlphabetLearningViewController {
 
 extension AssessmentAlphabetLearningViewController {
     private func customSetting() {
+        
         self.isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         SpeechManager.shared.speak(message:  alphabetLearningInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
@@ -85,38 +86,42 @@ extension AssessmentAlphabetLearningViewController {
         let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
         
         var xRef:CGFloat = 100.00
-                    let yRef:CGFloat = 280.0
-                    let space:CGFloat = 40.0
-                    
-                    let widthHeight:CGFloat = 200
-                    
-                    let totalSpace = CGFloat(CGFloat(self.alphabetLearningInfo.option.count)*widthHeight) + CGFloat(CGFloat(self.alphabetLearningInfo.option.count-1)*space)
-                    xRef = (screenWidth-totalSpace)/2.0
-                    
-                    for i in 0..<self.alphabetLearningInfo.option.count {
-                        
-                        let opt = alphabetLearningInfo.option[i]
-                        
-                        let btnAlphabet: AlphabetButtonView = AlphabetButtonView()
-                        btnAlphabet.tag = i
-                        btnAlphabet.name = opt.name
-                        btnAlphabet.setTitle(opt.name, for: .normal)
-                        btnAlphabet.frame = CGRect(x:xRef, y:yRef, width:widthHeight, height:widthHeight)
-                        btnAlphabet.backgroundColor = .white
-        //                lblAlphabet.layer.borderWidth = 5.0
-        //                lblAlphabet.layer.borderColor = AppColor.purpleBorderColor.cgColor
-                        btnAlphabet.layer.cornerRadius  = 30.0
-                        btnAlphabet.clipsToBounds = true
-                        btnAlphabet.setTitleColor(UIColor.purpleBorderColor, for: .normal)
-                        
-                        btnAlphabet.titleLabel!.font = UIFont.boldSystemFont(ofSize:widthHeight/2.0)
-                        btnAlphabet.addTarget(self, action: #selector(btnAlphabetClicked(_ :)), for: .touchUpInside)
-                        self.view.addSubview(btnAlphabet)
-                        
-                        xRef = xRef+widthHeight+space
-                    }
-
+        
+        var yRef:CGFloat = 280.0
+        var space:CGFloat = 40.0
+        var widthHeight:CGFloat = 200
+        
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            yRef = 140
+            space = 30
+            widthHeight = 120
+        }
+        
+        let totalSpace = CGFloat(CGFloat(self.alphabetLearningInfo.option.count)*widthHeight) + CGFloat(CGFloat(self.alphabetLearningInfo.option.count-1)*space)
+        xRef = (screenWidth-totalSpace)/2.0
+        
+        for i in 0..<self.alphabetLearningInfo.option.count {
+            
+            let opt = alphabetLearningInfo.option[i]
+            
+            let btnAlphabet: AlphabetButtonView = AlphabetButtonView()
+            btnAlphabet.tag = i
+            btnAlphabet.name = opt.name
+            btnAlphabet.setTitle(opt.name, for: .normal)
+            btnAlphabet.frame = CGRect(x:xRef, y:yRef, width:widthHeight, height:widthHeight)
+            btnAlphabet.backgroundColor = .white
+            btnAlphabet.layer.cornerRadius  = 30.0
+            btnAlphabet.clipsToBounds = true
+            btnAlphabet.setTitleColor(UIColor.purpleBorderColor, for: .normal)
+            
+            btnAlphabet.titleLabel!.font = UIFont.boldSystemFont(ofSize:widthHeight/2.0)
+            btnAlphabet.addTarget(self, action: #selector(btnAlphabetClicked(_ :)), for: .touchUpInside)
+            self.view.addSubview(btnAlphabet)
+            
+            xRef = xRef+widthHeight+space
+        }
     }
+    
     @objc func btnAlphabetClicked(_ sender: AlphabetButtonView) {
 
         if(isAnswered == false) {

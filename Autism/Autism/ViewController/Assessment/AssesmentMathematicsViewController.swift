@@ -92,7 +92,8 @@ extension AssesmentMathematicsViewController {
         Utility.setView(view: self.txtAnwere, cornerRadius: 5, borderWidth: 1, color: UIColor.purpleBorderColor)
         SpeechManager.shared.setDelegate(delegate: self)
         lblQuestionTitle.text = mathematicsCalculationQuestionInfo.question_title
-        Utility.setView(view: self.submitBtn, cornerRadius: 10, borderWidth: 1, color: .lightGray)
+        
+        Utility.setView(view: self.submitBtn, cornerRadius: self.submitBtn.frame.size.height/2.0, borderWidth: 1, color: .lightGray)
         let questionString = self.mathematicsCalculationQuestionInfo.first_digit + " " + self.mathematicsCalculationQuestionInfo.operatorString + " " + self.mathematicsCalculationQuestionInfo.second_digit
         lblQuestionData.text = questionString
         AutismTimer.shared.initializeTimer(delegate: self)

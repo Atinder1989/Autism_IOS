@@ -36,6 +36,7 @@ class AssesmentMazeObjectController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .black
         self.customSetting()
         self.listenModelClosures()
     }
@@ -84,6 +85,8 @@ extension AssesmentMazeObjectController : UICollectionViewDelegate, UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OptionTextCell.identifier, for: indexPath as IndexPath) as! OptionTextCell
         let content = mazeObjectQuestionInfo.answers[indexPath.row]
         cell.setData(model: content)
+        
+        cell.imgView.isHidden = true
         
         if(selectedIndex == -1) {
             cell.imgView.isHidden = true
