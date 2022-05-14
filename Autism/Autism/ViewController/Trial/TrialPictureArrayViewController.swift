@@ -51,11 +51,6 @@ class TrialPictureArrayViewController: UIViewController {
         super.viewDidLoad()
         collectionOption.register(UINib(nibName: MatchingObjectCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MatchingObjectCollectionViewCell.identifier)
 
-//        if self.matchingObjectInfo.prompt_detail.count > 0 {
-//            self.matchingObjectViewModel.setQuestionInfo(info:matchingObjectInfo)
-//        } else {
-//            self.customSetting()
-//        }
         self.customSetting()
         self.listenModelClosures()
         
@@ -192,18 +187,14 @@ extension TrialPictureArrayViewController {
         collectionOption.register(UINib(nibName: MatchingObjectCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MatchingObjectCollectionViewCell.identifier)
         labelTitle.text = matchingObjectInfo.question_title
         self.initializeTimer()
-        
-        
-        
+                
 
         if(self.matchingObjectInfo.image_with_text.count == 2) {
-//            let size:CGFloat = UIScreen.main.bounds.width / CGFloat(self.matchingObjectInfo.image_with_text.count)
-//            self.collectionViewHeightConstraint.constant = size
-            self.collectionViewWidthConstraint.constant = 620
-        } else {
-//            let size:CGFloat = UIScreen.main.bounds.width / CGFloat(self.matchingObjectInfo.image_with_text.count)
-//            self.collectionViewHeightConstraint.constant = size
-//            self.collectionViewWidthConstraint.constant = UIScreen.main.bounds.width
+            if(UIDevice.current.userInterfaceIdiom == .pad) {
+                self.collectionViewWidthConstraint.constant = 620
+            } else {
+                self.collectionViewWidthConstraint.constant = 320
+            }
         }
         
         if self.matchingObjectInfo.prompt_detail.count > 0 {

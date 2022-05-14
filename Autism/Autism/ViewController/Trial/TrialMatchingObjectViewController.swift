@@ -105,10 +105,11 @@ extension TrialMatchingObjectViewController: UICollectionViewDataSource, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            var width = self.collectionOption.frame.width-CGFloat((self.matchingObjectInfo.image_with_text.count*20))
-            width = width / CGFloat(self.matchingObjectInfo.image_with_text.count)
-            return CGSize.init(width:width, height: width)
-       }
+            
+        var width = self.collectionOption.frame.width-CGFloat((self.matchingObjectInfo.image_with_text.count*20))
+        width = width / CGFloat(self.matchingObjectInfo.image_with_text.count)
+        return CGSize.init(width:width, height: width)
+    }
 
 // make a cell for each cell index path
 internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -181,7 +182,11 @@ extension TrialMatchingObjectViewController {
     private func customSetting() {
         
         if(self.matchingObjectInfo.image_with_text.count == 2) {
-            self.collectionWidth.constant = CGFloat(640)
+            if(UIDevice.current.userInterfaceIdiom == .pad) {
+                self.collectionWidth.constant = CGFloat(640)
+            } else {
+                self.collectionWidth.constant = CGFloat(340)
+            }
         }
         
         labelTitle.isHidden = false

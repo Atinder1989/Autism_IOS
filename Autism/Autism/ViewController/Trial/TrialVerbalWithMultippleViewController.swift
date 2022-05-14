@@ -114,29 +114,6 @@ class TrialVerbalWithMultippleViewController: UIViewController {
             LearningManager.submitTrialMatchingAnswer(parameters: parameters)
         }
         
-//        if let user = UserManager.shared.getUserInfo() {
-//
-//            let parameters: [String : Any] = [
-//               ServiceParsingKeys.user_id.rawValue :user.id,
-//               ServiceParsingKeys.question_type.rawValue :info.question_type,
-//               ServiceParsingKeys.time_taken.rawValue :self.timeTakenToSolve,
-//               ServiceParsingKeys.complete_rate.rawValue :completeRate,
-//               ServiceParsingKeys.success_count.rawValue : completeRate,
-//               ServiceParsingKeys.question_id.rawValue :info.id,
-//               ServiceParsingKeys.language.rawValue:user.languageCode,
-//               ServiceParsingKeys.req_no.rawValue:info.req_no,
-//               ServiceParsingKeys.skill_domain_id.rawValue:info.skill_domain_id,
-//               ServiceParsingKeys.level.rawValue:info.level,
-//               ServiceParsingKeys.skip.rawValue:skipQuestion,
-//                ServiceParsingKeys.program_id.rawValue:info.program_id,
-//
-////                ServiceParsingKeys.faceDetectionTime.rawValue:FaceDetection.shared.getFaceDetectionTime(),
-////                ServiceParsingKeys.faceNotDetectionTime.rawValue:FaceDetection.shared.getFaceNotDetectionTime(),
-//                ServiceParsingKeys.touchOnEmptyScreenCount.rawValue:touchOnEmptyScreenCount
-//            ]
-//            LearningManager.submitTrialMatchingAnswer(parameters: parameters)
-//        }
-//        }
     }
     
     func startRec()
@@ -162,13 +139,6 @@ extension TrialVerbalWithMultippleViewController {
                                 }
                             }
                         }
-//                        else {
-//                            self.dismiss(animated: true) {
-//                                if let del = self.delegate {
-//                                    del.submitQuestionResponse(response: res)
-//                                }
-//                            }
-//                        }
                     }
                 }
                }

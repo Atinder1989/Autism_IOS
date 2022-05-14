@@ -97,14 +97,24 @@ extension TrialVerbalQuestionViewController {
         SpeechManager.shared.setDelegate(delegate: self)
         self.questionTitle.text = verbalQuestionInfo.question_title
         
-        if (self.verbalQuestionInfo.question_type == AssessmentQuestionType.verbal_actions.rawValue) {
-            Utility.setView(view: self.questionImageView, cornerRadius: 0, borderWidth: 0, color: .darkGray)
-            self.containerWidth.constant = CGFloat(900)
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            if (self.verbalQuestionInfo.question_type == AssessmentQuestionType.verbal_actions.rawValue) {
+                Utility.setView(view: self.questionImageView, cornerRadius: 0, borderWidth: 0, color: .darkGray)
+                self.containerWidth.constant = CGFloat(900)
+            } else {
+                self.containerWidth.constant = CGFloat(460)
+                Utility.setView(view: self.questionImageView, cornerRadius: 230, borderWidth: 4, color: .darkGray)
+            }
         } else {
-            self.containerWidth.constant = CGFloat(460)
-            Utility.setView(view: self.questionImageView, cornerRadius: 230, borderWidth: 4, color: .darkGray)
+            if (self.verbalQuestionInfo.question_type == AssessmentQuestionType.verbal_actions.rawValue) {
+                Utility.setView(view: self.questionImageView, cornerRadius: 0, borderWidth: 0, color: .darkGray)
+                self.containerWidth.constant = CGFloat(460)
+            } else {
+                self.containerWidth.constant = CGFloat(240)
+                Utility.setView(view: self.questionImageView, cornerRadius: 120, borderWidth: 4, color: .darkGray)
+            }
+
         }
-        
         
         if(self.verbalQuestionInfo.image.lowercased().contains(".gif") == false) {
             ImageDownloader.sharedInstance.downloadImage(urlString: self.verbalQuestionInfo.image, imageView: self.questionImageView, callbackAfterNoofImages: 1, delegate: self)

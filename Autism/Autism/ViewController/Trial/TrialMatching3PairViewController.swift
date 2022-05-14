@@ -100,41 +100,79 @@ class TrialMatching3PairViewController: UIViewController {
 }
     
 extension TrialMatching3PairViewController {
-    private func initializeFrame()
-    {
-        let tW:CGFloat = UIScreen.main.bounds.width
-        let tH:CGFloat = UIScreen.main.bounds.height
-        let topSpace:CGFloat = 140
-        let imgWH:CGFloat = 180
-        let ySpace:CGFloat = (tH-topSpace-(3*imgWH))/3
+    
+    func initializeFrame() {
+    
+        var wh:CGFloat = 180
+        var yRef:CGFloat = 180
+        var ySpace:CGFloat = 40
+        let xSpace:CGFloat = 60
         
-        var yRef:CGFloat = topSpace
-        
-        commandImgViewLeft1.frame = CGRect(x:50, y:yRef, width:imgWH, height:imgWH)
-        initialRightImageViewFrame1 = CGRect(x:tW-imgWH-50, y:yRef, width:imgWH, height:imgWH)
-        commandImgViewRight1.frame = initialRightImageViewFrame1
-        dragAnimationView1.frame = initialRightImageViewFrame1
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            yRef = 100
+            wh = 70
+            ySpace = 10
+        }
+        commandImgViewLeft3.frame = CGRect(x: xSpace, y: yRef, width: wh, height: wh)
+        initialRightImageViewFrame3 = CGRect(x: UIScreen.main.bounds.width-wh-xSpace, y: yRef, width: wh, height: wh)
 
-        yRef = yRef+imgWH+ySpace
-        
-        commandImgViewLeft2.frame = CGRect(x:50, y:yRef, width:imgWH, height:imgWH)
-        initialRightImageViewFrame2 = CGRect(x:tW-imgWH-50, y:yRef, width:imgWH, height:imgWH)
-        commandImgViewRight2.frame = initialRightImageViewFrame2
-        dragAnimationView2.frame = initialRightImageViewFrame2
-
-        yRef = yRef+imgWH+ySpace
-        
-        commandImgViewLeft3.frame = CGRect(x:50, y:yRef, width:imgWH, height:imgWH)
-        initialRightImageViewFrame3 = CGRect(x:tW-imgWH-50, y:yRef, width:imgWH, height:imgWH)
         commandImgViewRight3.frame = initialRightImageViewFrame3
         dragAnimationView3.frame = initialRightImageViewFrame3
 
+        yRef = yRef+wh+ySpace
         
-//        commandImgViewLeft.frame = CGRect(x:50, y:(topSpace)/2.0, width:imgWH, height:imgWH)
-//        initialRightImageViewFrame1 = CGRect(x:tW-imgWH-50, y:(tH-imgWH)/2.0, width:imgWH, height:imgWH)
-//        commandImgViewRight.frame = initialRightImageViewFrame
-//        dragAnimationView.frame = initialRightImageViewFrame
+        commandImgViewLeft1.frame = CGRect(x: xSpace, y: yRef, width: wh, height: wh)
+        initialRightImageViewFrame1 = CGRect(x: UIScreen.main.bounds.width-wh-xSpace, y: yRef, width: wh, height: wh)
+
+        commandImgViewRight1.frame = initialRightImageViewFrame1
+        dragAnimationView1.frame = initialRightImageViewFrame1
+
+        yRef = yRef+wh+ySpace
+        
+        commandImgViewLeft2.frame = CGRect(x: xSpace, y: yRef, width: wh, height: wh)
+        initialRightImageViewFrame2 = CGRect(x: UIScreen.main.bounds.width-wh-xSpace, y: yRef, width: wh, height: wh)
+
+        commandImgViewRight2.frame = initialRightImageViewFrame2
+        dragAnimationView2.frame = initialRightImageViewFrame2
+
+        yRef = yRef+wh+ySpace
     }
+    
+//    private func initializeFrame()
+//    {
+//        let tW:CGFloat = UIScreen.main.bounds.width
+//        let tH:CGFloat = UIScreen.main.bounds.height
+//        let topSpace:CGFloat = 140
+//        let imgWH:CGFloat = 180
+//        let ySpace:CGFloat = (tH-topSpace-(3*imgWH))/3
+//
+//        var yRef:CGFloat = topSpace
+//
+//        commandImgViewLeft1.frame = CGRect(x:50, y:yRef, width:imgWH, height:imgWH)
+//        initialRightImageViewFrame1 = CGRect(x:tW-imgWH-50, y:yRef, width:imgWH, height:imgWH)
+//        commandImgViewRight1.frame = initialRightImageViewFrame1
+//        dragAnimationView1.frame = initialRightImageViewFrame1
+//
+//        yRef = yRef+imgWH+ySpace
+//
+//        commandImgViewLeft2.frame = CGRect(x:50, y:yRef, width:imgWH, height:imgWH)
+//        initialRightImageViewFrame2 = CGRect(x:tW-imgWH-50, y:yRef, width:imgWH, height:imgWH)
+//        commandImgViewRight2.frame = initialRightImageViewFrame2
+//        dragAnimationView2.frame = initialRightImageViewFrame2
+//
+//        yRef = yRef+imgWH+ySpace
+//
+//        commandImgViewLeft3.frame = CGRect(x:50, y:yRef, width:imgWH, height:imgWH)
+//        initialRightImageViewFrame3 = CGRect(x:tW-imgWH-50, y:yRef, width:imgWH, height:imgWH)
+//        commandImgViewRight3.frame = initialRightImageViewFrame3
+//        dragAnimationView3.frame = initialRightImageViewFrame3
+//
+//
+////        commandImgViewLeft.frame = CGRect(x:50, y:(topSpace)/2.0, width:imgWH, height:imgWH)
+////        initialRightImageViewFrame1 = CGRect(x:tW-imgWH-50, y:(tH-imgWH)/2.0, width:imgWH, height:imgWH)
+////        commandImgViewRight.frame = initialRightImageViewFrame
+////        dragAnimationView.frame = initialRightImageViewFrame
+//    }
     
     private func customSetting() {
         self.initializeFrame()

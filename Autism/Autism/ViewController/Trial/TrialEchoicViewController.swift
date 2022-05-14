@@ -13,7 +13,6 @@ class TrialEchoicViewController: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var userAnswer: UILabel!
-//    @IBOutlet weak var questionImageView: FLAnimatedImageView!
     @IBOutlet weak var scrlAvatar: UIScrollView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     @IBOutlet weak var containerWidth: NSLayoutConstraint!
@@ -191,23 +190,7 @@ extension TrialEchoicViewController {
 
         self.apiDataState = .imageDownloaded
         SpeechManager.shared.speak(message: self.verbalQuestionInfo.question_title, uttrenceRate: 0.35)
-
-        
-//        if (self.verbalQuestionInfo.question_type == AssessmentQuestionType.verbal_actions.rawValue) {
-//            Utility.setView(view: self.questionImageView, cornerRadius: 0, borderWidth: 0, color: .darkGray)
-//            self.containerWidth.constant = CGFloat(900)
-//        } else {
-//            self.containerWidth.constant = CGFloat(460)
-//            Utility.setView(view: self.questionImageView, cornerRadius: 230, borderWidth: 2, color: .darkGray)
-//        }
-        
-        
-//        if(self.verbalQuestionInfo.image.lowercased().contains(".gif") == false) {
-//            ImageDownloader.sharedInstance.downloadImage(urlString: self.verbalQuestionInfo.image, imageView: self.questionImageView, callbackAfterNoofImages: 1, delegate: self)
-//        } else {
-//            ImageDownloader.sharedInstance.downloadGIFImage(urlString: self.verbalQuestionInfo.image, imageView: self.questionImageView, callbackAfterNoofImages: 1, delegate: self)
-//        }
-                
+                        
     }
 
    private func initializeTimer() {
