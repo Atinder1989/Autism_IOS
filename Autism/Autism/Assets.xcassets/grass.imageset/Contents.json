@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Group-484.png",
+      "filename" : "grass.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Group-482.png",
+      "filename" : "grass-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Group-483.png",
+      "filename" : "grass-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

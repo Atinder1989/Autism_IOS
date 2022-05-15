@@ -38,7 +38,6 @@ class LearningMatchingIdenticalViewController: UIViewController {
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var commandImgViewTop: ScriptCommandImageView!
-    @IBOutlet weak var skipLearningButton: UIButton!
     @IBOutlet weak var view_Left: UIView!
     @IBOutlet weak var view_Right: UIView!
     @IBOutlet weak var view_Center: UIView!
@@ -48,7 +47,6 @@ class LearningMatchingIdenticalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.skipLearningButton.isHidden = isSkipLearningHidden
         self.addTapGesture()
         self.customSetting()
         if self.command_array.count == 0 {
@@ -56,15 +54,9 @@ class LearningMatchingIdenticalViewController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-           super.viewDidLayoutSubviews()
-          
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         self.stopPlayer()
         self.hideBufferLoader()
-
     }
     
     @IBAction func restartVideoClicked(_ sender: Any) {

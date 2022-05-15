@@ -20,7 +20,7 @@ class TrialMatchingObjectViewController: UIViewController {
     private weak var delegate: TrialSubmitDelegate?
     
     @IBOutlet weak var collectionOption: UICollectionView!
-    @IBOutlet weak var collectionWidth: NSLayoutConstraint!
+    //@IBOutlet weak var collectionWidth: NSLayoutConstraint!
     
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var imageViewBG:  UIImageView!
@@ -181,13 +181,13 @@ extension TrialMatchingObjectViewController {
 extension TrialMatchingObjectViewController {
     private func customSetting() {
         
-        if(self.matchingObjectInfo.image_with_text.count == 2) {
-            if(UIDevice.current.userInterfaceIdiom == .pad) {
-                self.collectionWidth.constant = CGFloat(640)
-            } else {
-                self.collectionWidth.constant = CGFloat(340)
-            }
-        }
+//        if(self.matchingObjectInfo.image_with_text.count == 2) {
+//            if(UIDevice.current.userInterfaceIdiom == .pad) {
+//                self.collectionWidth.constant = CGFloat(640)
+//            } else {
+//                self.collectionWidth.constant = CGFloat(340)
+//            }
+//        }
         
         labelTitle.isHidden = false
         imageViewBG.isHidden = false

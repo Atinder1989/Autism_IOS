@@ -42,14 +42,12 @@ class LearningSpellingViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var questionImageView: UIImageView!
     @IBOutlet weak var txtAnswer: UITextField!
-    @IBOutlet weak var skipLearningButton: UIButton!
     @IBOutlet weak var bufferLoaderView: UIView!
     private var bufferLoaderTimer: Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.skipLearningButton.isHidden = isSkipLearningHidden
         self.customSetting()
         if self.command_array.count == 0 {
             self.spellingViewModel.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)

@@ -42,7 +42,6 @@ class LearningVocalImitationsViewController: UIViewController {
     @IBOutlet weak var questionImageView: ScriptCommandImageView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     @IBOutlet weak var userAnswer: UILabel!
-    @IBOutlet weak var skipLearningButton: UIButton!
     
     @IBOutlet weak var bufferLoaderView: UIView!
 
@@ -50,7 +49,6 @@ class LearningVocalImitationsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.skipLearningButton.isHidden = isSkipLearningHidden
         self.customSetting()
         if self.command_array.count == 0 {
             self.verbalViewModal.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)
