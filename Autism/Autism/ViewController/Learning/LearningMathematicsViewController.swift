@@ -66,7 +66,6 @@ class LearningMathematicsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var txtAnswer: UITextField!
-    @IBOutlet weak var skipLearningButton: UIButton!
     @IBOutlet weak var bufferLoaderView: UIView!
     private var bufferLoaderTimer: Timer?
     
@@ -74,7 +73,6 @@ class LearningMathematicsViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.txtAnswer.delegate = self
-        self.skipLearningButton.isHidden = isSkipLearningHidden
         self.registerCell()
         self.customSetting()
         if self.command_array.count == 0 {

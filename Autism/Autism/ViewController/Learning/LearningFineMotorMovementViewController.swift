@@ -42,14 +42,12 @@ class LearningFineMotorMovementViewController: UIViewController {
     @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
-    @IBOutlet weak var skipLearningButton: UIButton!
     @IBOutlet weak var bufferLoaderView: UIView!
     private var bufferLoaderTimer: Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.skipLearningButton.isHidden = isSkipLearningHidden
         sceneView.delegate = self
         self.addTapGesture()
         self.customSetting()

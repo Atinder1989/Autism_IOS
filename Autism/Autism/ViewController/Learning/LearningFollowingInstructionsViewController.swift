@@ -64,8 +64,8 @@ extension LearningFollowingInstructionsViewController {
         imagesCollectionView.register(ImageCell.nib, forCellWithReuseIdentifier: ImageCell.identifier)
     }
     private func initializeFrame() {
-        let width:CGFloat = 300
-        let height:CGFloat = 360
+        let width:CGFloat = Utility.isRunningOnIpad() ? 300 : 220
+        let height:CGFloat = Utility.isRunningOnIpad() ? 360 : 170
         let xAxis:CGFloat = (UIScreen.main.bounds.width/2) - (width/2)
         let yAxis:CGFloat = (UIScreen.main.bounds.height/2) - (height/2)
         self.avatarCenterImageView.frame = CGRect.init(x: xAxis, y: yAxis, width: width, height: height)

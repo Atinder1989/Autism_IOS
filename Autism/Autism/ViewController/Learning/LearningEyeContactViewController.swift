@@ -20,12 +20,10 @@ class LearningEyeContactViewController: UIViewController {
     @IBOutlet weak var avatarLeftImageView: FLAnimatedImageView!
     @IBOutlet weak var avatarRightImageView: FLAnimatedImageView!
 
-    @IBOutlet weak var skipLearningButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.skipLearningButton.isHidden = isSkipLearningHidden
         self.customSetting()
         if self.command_array.count == 0 {
             self.eyeContactViewModal.fetchLearningQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)

@@ -15,21 +15,8 @@ class LearningManding2WordsViewController: UIViewController {
     private var program: LearningProgramModel!
     private var skillDomainId: String!
     private var command_array: [ScriptCommandInfo] = []
-    
     private var videoItem: VideoItem?
     private var bufferLoaderTimer: Timer?
-
-
-//    private var isChildActionCompleted = false {
-//        didSet {
-//            if isChildActionCompleted {
-//                DispatchQueue.main.async {
-//                   // self.manding2WordsViewModal.calculateChildAction(state: self.isChildActionCompleted)
-//                }
-//            }
-//        }
-//    }
-    
     private var thumbnailImage: UIImage?
     private var videoFinishTimer: Timer? = nil
     private var videoFinishWaitingTime = 0
@@ -42,7 +29,6 @@ class LearningManding2WordsViewController: UIViewController {
     @IBOutlet weak var questionImageView: ScriptCommandImageView!
     //@IBOutlet weak var avatarImageView: FLAnimatedImageView!
     @IBOutlet weak var userAnswer: UILabel!
-    @IBOutlet weak var skipLearningButton: UIButton!
     
     @IBOutlet weak var bufferLoaderView: UIView!
   
@@ -50,7 +36,6 @@ class LearningManding2WordsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.skipLearningButton.isHidden = isSkipLearningHidden
         self.customSetting()
         if self.command_array.count == 0 {
             self.manding2WordsViewModal.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)
