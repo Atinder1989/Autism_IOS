@@ -265,7 +265,7 @@ extension LearningVocalImitationsViewController {
             if let avplayerController = playerController.avPlayerController {
                 self.playerView.isHidden = false
                 self.playerView.addSubview(avplayerController.view)
-                avplayerController.view.frame = self.playerView.frame
+                avplayerController.view.frame = self.playerView.bounds
                 self.videoItem = VideoItem.init(url: string)
                 self.playVideo()
                 self.thumbnailImage = Utility.getThumbnailImage(urlString: string, time: CMTimeMake(value: 5, timescale: 2))

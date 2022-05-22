@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class LearningMathematicsViewController: UIViewController {
+class LearningMathematicsViewController: UIViewController, UITextFieldDelegate {
     private let mathematicsViewModel: LearningMathematicsViewModel = LearningMathematicsViewModel()
     private var program: LearningProgramModel!
     private var skillDomainId: String!
@@ -73,6 +73,7 @@ class LearningMathematicsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.txtAnswer.delegate = self
         self.skipLearningButton.isHidden = isSkipLearningHidden
         self.registerCell()
         self.customSetting()
@@ -124,7 +125,20 @@ class LearningMathematicsViewController: UIViewController {
         if !isChildAction {
             return
         }
-        self.mathematicsViewModel.handleUserAnswer(text: self.txtAnswer.text!)
+        self.txtAnswer.text = self.txtAnswer.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+        if(self.txtAnswer.text == "") {
+            
+        } else {
+            self.mathematicsViewModel.handleUserAnswer(text: self.txtAnswer.text!)
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string.rangeOfCharacter(from: .decimalDigits) != nil || string == ""{
+            return true
+        }else {
+            return false
+        }
     }
 }
 
@@ -286,7 +300,7 @@ extension LearningMathematicsViewController {
             if let avplayerController = playerController.avPlayerController {
                 self.playerView.isHidden = false
                 self.playerView.addSubview(avplayerController.view)
-                avplayerController.view.frame = self.playerView.frame
+                avplayerController.view.frame = self.playerView.bounds
                 self.videoItem = VideoItem.init(url: string)
                 self.playVideo()
                 self.thumbnailImage = Utility.getThumbnailImage(urlString: string, time: CMTimeMake(value: 5, timescale: 2))

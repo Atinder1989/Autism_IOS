@@ -9,7 +9,7 @@
 import UIKit
 import FLAnimatedImage
 
-class AssesmentMatchSpellingViewController: UIViewController {
+class AssesmentMatchSpellingViewController: UIViewController, UITextFieldDelegate {
        @IBOutlet weak var avatarImageView: FLAnimatedImageView!
        @IBOutlet weak var pictureImageView: UIImageView!
        @IBOutlet weak var lblTitle: UILabel!
@@ -31,9 +31,10 @@ class AssesmentMatchSpellingViewController: UIViewController {
         }
     
     private var apiDataState: APIDataState = .notCall
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        txtAnwere.delegate = self
         self.customSetting()
         self.listenModelClosures()
     }
@@ -80,6 +81,15 @@ class AssesmentMatchSpellingViewController: UIViewController {
            self.moveToNextQuestion()
         }
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string.rangeOfCharacter(from: .letters) != nil || string == ""{
+            return true
+        }else {
+            return false
+        }
+    }
+
 }
 
 extension AssesmentMatchSpellingViewController {

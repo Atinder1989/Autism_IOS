@@ -131,7 +131,7 @@ extension AssessmentMatchingOnePairViewController {
         let xSpace:CGFloat = 60
         
         if(UIDevice.current.userInterfaceIdiom != .pad) {
-            yRef = 100
+            yRef = 80
             wh = 70
             ySpace = 10
         }

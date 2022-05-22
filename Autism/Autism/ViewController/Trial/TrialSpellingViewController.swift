@@ -9,7 +9,7 @@
 import UIKit
 import FLAnimatedImage
 
-class TrialSpellingViewController: UIViewController {
+class TrialSpellingViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     @IBOutlet weak var pictureImageView: UIImageView!
@@ -42,8 +42,8 @@ class TrialSpellingViewController: UIViewController {
  override func viewDidLoad() {
      super.viewDidLoad()
         
-    txtAnwere.text = ""
-    
+     txtAnwere.text = ""
+     txtAnwere.delegate = self
      self.customSetting()
      self.listenModelClosures()
     
@@ -159,7 +159,14 @@ class TrialSpellingViewController: UIViewController {
         }
         
     }
-    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string.rangeOfCharacter(from: .letters) != nil || string == ""{
+            return true
+        }else {
+            return false
+        }
+    }
+
 }
 
 extension TrialSpellingViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {

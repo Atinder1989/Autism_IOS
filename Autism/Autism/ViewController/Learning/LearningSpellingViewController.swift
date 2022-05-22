@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import FLAnimatedImage
 
-class LearningSpellingViewController: UIViewController {
+class LearningSpellingViewController: UIViewController, UITextFieldDelegate {
     private let spellingViewModel: LearningSpellingViewModel = LearningSpellingViewModel()
     private var program: LearningProgramModel!
     private var skillDomainId: String!
@@ -48,6 +48,7 @@ class LearningSpellingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.txtAnswer.delegate = self
         self.customSetting()
         if self.command_array.count == 0 {
             self.spellingViewModel.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)
@@ -100,6 +101,15 @@ class LearningSpellingViewController: UIViewController {
         self.spellingViewModel.handleUserAnswer(text: self.txtAnswer.text!)
 
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string.rangeOfCharacter(from: .letters) != nil || string == ""{
+            return true
+        }else {
+            return false
+        }
+    }
+
 }
 
 //MARK:- Public Methods
@@ -227,7 +237,7 @@ extension LearningSpellingViewController {
             if let avplayerController = playerController.avPlayerController {
                 self.playerView.isHidden = false
                 self.playerView.addSubview(avplayerController.view)
-                avplayerController.view.frame = self.playerView.frame
+                avplayerController.view.frame = self.playerView.bounds
                 self.videoItem = VideoItem.init(url: string)
                 self.playVideo()
                 self.thumbnailImage = Utility.getThumbnailImage(urlString: string, time: CMTimeMake(value: 5, timescale: 2))

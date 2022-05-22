@@ -31,7 +31,7 @@ class LearningColorViewController: UIViewController {
     private var skillDomainId: String!
     private var command_array: [ScriptCommandInfo] = []
 
-    private let itemSize:CGFloat = 266
+    private var itemSize:CGFloat = 266
     private var isTouch = false
     private var isImagesDownloaded = false
     private var isChildAction = false
@@ -78,6 +78,10 @@ class LearningColorViewController: UIViewController {
      
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            itemSize = 140
+        }
         // Do any additional setup after loading the view.
 //crash resolved        self.skipLearningButton.isHidden = isSkipLearningHidden
         self.customSetting()
@@ -311,7 +315,7 @@ extension LearningColorViewController {
             if let avplayerController = playerController.avPlayerController {
                 self.playerView.isHidden = false
                 self.playerView.addSubview(avplayerController.view)
-                avplayerController.view.frame = self.playerView.frame
+                avplayerController.view.frame = self.playerView.bounds
                 self.videoItem = VideoItem.init(url: string)
                 self.playVideo()
                 self.thumbnailImage = Utility.getThumbnailImage(urlString: string, time: CMTimeMake(value: 5, timescale: 2))
@@ -413,7 +417,8 @@ extension LearningColorViewController: UICollectionViewDataSource, UICollectionV
     internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
         let model = self.imageList[indexPath.row]
-        let cornerRadius = cell.frame.size.width / 2
+        
+        let cornerRadius = (itemSize-20)/2.0//cell.frame.size.width / 2
         let borderWidth:CGFloat = 2
         
         if model.isCircleShape != "no" {

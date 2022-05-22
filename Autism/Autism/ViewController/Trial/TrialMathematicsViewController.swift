@@ -9,7 +9,7 @@
 import UIKit
 import FLAnimatedImage
 
-class TrialMathematicsViewController: UIViewController {
+class TrialMathematicsViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     @IBOutlet weak var pictureImageView1: UIImageView!
@@ -47,8 +47,8 @@ class TrialMathematicsViewController: UIViewController {
  override func viewDidLoad() {
      super.viewDidLoad()
         
-    txtAnwere.text = ""
-    
+     txtAnwere.text = ""
+     txtAnwere.delegate = self
      self.customSetting()
      self.listenModelClosures()
     
@@ -133,12 +133,6 @@ class TrialMathematicsViewController: UIViewController {
      }
     
     func submitTrialMatchingAnswer(info:MathematicsCalculation) {
-//        if !Utility.isNetworkAvailable() {
-//            if let noNetwork = self.noNetWorkClosure {
-//                noNetwork()
-//            }
-//            return
-//        }
 
         if let user = UserManager.shared.getUserInfo() {
 
@@ -167,6 +161,14 @@ class TrialMathematicsViewController: UIViewController {
         }
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string.rangeOfCharacter(from: .decimalDigits) != nil || string == ""{
+            return true
+        }else {
+            return false
+        }
+    }
+
 }
 
 extension TrialMathematicsViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -461,15 +463,17 @@ extension TrialMathematicsViewController {
     
     @IBAction func callDone(sender: UIButton) {
         self.questionState = .submit
+        self.txtAnwere.text = self.txtAnwere.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+        if(txtAnwere.text == "") {
+            return
+        }
         if txtAnwere.text?.lowercased() == mathematicsQuestionInfo.correct_value.lowercased() {
             self.completeRate = 100
             SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-
-        }
-        else {
-                self.completeRate = 0
+        } else {
+            self.completeRate = 0
             SpeechManager.shared.speak(message: SpeechMessage.wrongAnswer.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-                                }
+        }
     }
 }
 

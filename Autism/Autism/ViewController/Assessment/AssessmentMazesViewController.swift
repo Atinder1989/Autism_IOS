@@ -112,8 +112,8 @@ class AssessmentMazesViewController: UIViewController {
             
         } else if(mazeQuestionInfo.maze_id == "2") {
             
-            imgViewObject.center = CGPoint(x: imgViewObject.center.x-30, y: (self.view.frame.size.height/2.0)-20/*365*/)
-            imgViewObject.bounds = CGRect(x: 0, y: 0, width: 190, height: 190)
+            imgViewObject.center = CGPoint(x: imgViewObject.center.x, y: (self.view.frame.size.height/2.0)-20/*365*/)
+//            imgViewObject.bounds = CGRect(x: 0, y: 0, width: 190, height: 190)
             imgViewObject.transform = CGAffineTransform(rotationAngle: CGFloat(-20 * 3.14159265358979/180))
             
             minX = imgViewObject.center.x
@@ -343,9 +343,10 @@ class AssessmentMazesViewController: UIViewController {
                 print("iX = ", iX)
 //                print("yCenter384-location.y = ", yCenter384-location.y)
                 let ydiff = yCenter384-location.y
-                if(ydiff < -80 || ydiff > 60) {
+                if(ydiff < -40 || ydiff > 40) {
                     return
                 }
+                print("ydiff = ", ydiff)
                 
                 var yRef:CGFloat = location.y
                 if(iX >= 0*diff && iX <= 1*diff) {
@@ -391,7 +392,9 @@ class AssessmentMazesViewController: UIViewController {
                 if(12*diff < Int(location.x)) {
                     //self.imgViewObject.center = CGPoint(x:CGFloat(12*diff), y:yRef)
                 } else {
-                    self.imgViewObject.center = CGPoint(x:location.x, y:yRef)
+                    if(location.x > 100) {
+                        self.imgViewObject.center = CGPoint(x:location.x, y:yRef)
+                    }
                 }
             } else if(self.mazeQuestionInfo.maze_id == "2") {
                 
@@ -403,7 +406,7 @@ class AssessmentMazesViewController: UIViewController {
                 print("diff = ", diff)
                 
                 let ydiff = yCenter384-location.y
-                if(ydiff < -80 || ydiff > 60) {
+                if(ydiff < -50 || ydiff > 50) {
                     return
                 }
 
@@ -449,7 +452,9 @@ class AssessmentMazesViewController: UIViewController {
                 if(12*diff < Int(location.x)) {
                     //self.imgViewObject.center = CGPoint(x:CGFloat(12*diff), y:yRef)
                 } else {
-                    self.imgViewObject.center = CGPoint(x:location.x, y:yRef)
+                    if(location.x > 100) {
+                        self.imgViewObject.center = CGPoint(x:location.x, y:yRef)
+                    }
                 }
             } else  if(self.mazeQuestionInfo.maze_id == "3") {
                 

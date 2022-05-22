@@ -76,20 +76,32 @@ extension LearningMatching3PairViewController {
 extension LearningMatching3PairViewController {
     private func initializeFrame()
     {
-        let centerY:CGFloat = ((self.view.frame.size.height-180)/2.0)
-        let rightX:CGFloat = self.view.frame.size.width-200
+        var wh:CGFloat = 180
+        var yRef:CGFloat = 180
+        var ySpace:CGFloat = 40
+        let xSpace:CGFloat = 60
         
-        let boxSize:CGFloat = 180.0
-        let deviceHeight:CGFloat = UIScreen.main.bounds.height
-        let bottomPadding:CGFloat = 44
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            yRef = 80
+            wh = 70
+            ySpace = 10
+        }
         
-        imageViewleft1.frame = CGRect(x: 20, y: (deviceHeight/2) - boxSize - 40, width: boxSize, height: boxSize)
-        imageViewleft2.frame = CGRect(x: 20, y: (deviceHeight/2)-20, width: boxSize, height: boxSize)
-        imageViewleft3.frame = CGRect(x: 20, y: deviceHeight - boxSize - bottomPadding , width: boxSize, height: boxSize)
+        imageViewleft1.frame = CGRect(x: xSpace, y: yRef, width: wh, height: wh)
+        imageViewRight1.frame = CGRect(x: UIScreen.main.bounds.width-wh-xSpace, y: yRef, width: wh, height: wh)
         
-        imageViewRight1.frame = CGRect(x: rightX, y: (deviceHeight/2) - boxSize - 40, width: boxSize, height: boxSize)
-        imageViewRight2.frame = CGRect(x: rightX, y: (deviceHeight/2)-20, width: boxSize, height: boxSize)
-        imageViewRight3.frame = CGRect(x: rightX, y: deviceHeight - boxSize - bottomPadding, width: boxSize, height: boxSize)
+        yRef = yRef+wh+ySpace
+        
+        imageViewleft2.frame = CGRect(x: xSpace, y: yRef, width: wh, height: wh)
+        imageViewRight2.frame = CGRect(x: UIScreen.main.bounds.width-wh-xSpace, y: yRef, width: wh, height: wh)
+
+        yRef = yRef+wh+ySpace
+        
+        imageViewleft3.frame = CGRect(x: xSpace, y: yRef, width: wh, height: wh)
+        imageViewRight3.frame = CGRect(x: UIScreen.main.bounds.width-wh-xSpace, y: yRef, width: wh, height: wh)
+
+        yRef = yRef+wh+ySpace
+
         
         frameImageViewRight1 = imageViewRight1.frame
         frameImageViewRight2 = imageViewRight2.frame
@@ -159,15 +171,6 @@ extension LearningMatching3PairViewController {
             gestureRecognizer.setTranslation(CGPoint.zero, in: self.view)
             break
         case .ended:
-               // let dropLocation = gestureRecognizer.location(in: view)
-//                if commandImgViewLeft.frame.contains(dropLocation) {
-//                    isDragCompleted = true
-//                    self.commandImgViewRight.frame = self.commandImgViewLeft.frame
-//
-//                } else {
-//                    self.commandImgViewRight.frame = initialRightImageViewFrame
-//                }
-           // self.handleInvalidDropLocation(currentImageView: currentImageView)
             self.handlaDropLocation(gestureRecognizer: gestureRecognizer, currentImageView: currentImageView)
         default:break
         }
@@ -215,10 +218,6 @@ extension LearningMatching3PairViewController {
             } else if (currentImageView == self.imageViewRight3) {
                 self.imageViewRight3.frame = self.frameImageViewRight3
             }
-            
-//            if let frame = self.initialFrameOfDraggableView {
-//                currentImageView.frame = frame
-//            }
         }
     }
     

@@ -109,10 +109,10 @@ extension AssessmentMultiArrayQuestionViewController {
             imagesCollectionView0.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
 
             if(safeArealLeft == 0 && safeArealRight == 0) {
-                imagesCollectionView1.frame = CGRect(x: self.view.frame.size.width-160, y: 150, width: 200, height: 40)
-                imagesCollectionView2.frame = CGRect(x: self.view.frame.size.width-160, y: 200, width: 200, height: 40)
-                imagesCollectionView3.frame = CGRect(x: self.view.frame.size.width-160, y: 250, width: 200, height: 40)
-                imagesCollectionView4.frame = CGRect(x: self.view.frame.size.width-160, y: 300, width: 200, height: 40)
+                imagesCollectionView1.frame = CGRect(x: self.view.frame.size.width-200, y: 150, width: 200, height: 40)
+                imagesCollectionView2.frame = CGRect(x: self.view.frame.size.width-200, y: 200, width: 200, height: 40)
+                imagesCollectionView3.frame = CGRect(x: self.view.frame.size.width-200, y: 250, width: 200, height: 40)
+                imagesCollectionView4.frame = CGRect(x: self.view.frame.size.width-200, y: 300, width: 200, height: 40)
             } else {
                 imagesCollectionView1.frame = CGRect(x: self.view.frame.size.width-200, y: 150, width: 200, height: 40)
                 imagesCollectionView2.frame = CGRect(x: self.view.frame.size.width-200, y: 200, width: 200, height: 40)

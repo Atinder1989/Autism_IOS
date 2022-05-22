@@ -1019,11 +1019,11 @@
 				1C3E73C62549D84800B43704 /* TrialVerbalQuestionViewController.swift */,
 				1C3896C82571465800DA3899 /* TrialMatchingOnePairViewController.swift */,
 				1C3BA195257FEACC004CF7B6 /* TrialPictureArrayViewController.swift */,
+				1C3DD6772620B9DC009D73A3 /* TrialMatching3PairViewController.swift */,
 				1C41D93B25907A590025E542 /* TrialSoundOfAnimalsViewController.swift */,
 				1C40E12C25EE2BE1007B2F97 /* TrialEchoicViewController.swift */,
 				1C3BE3F325F80D8B00BD84EA /* TrialVerbalWithMultippleViewController.swift */,
 				1CECC74826147AC400DB2773 /* TrialSpellingViewController.swift */,
-				1C3DD6772620B9DC009D73A3 /* TrialMatching3PairViewController.swift */,
 				1CE79B522626C12100173D1A /* TrialMathematicsViewController.swift */,
 				1C3D4665265F720E008C16BC /* TrialBalloonGameViewController.swift */,
 				1C1C60D32667BA0A00156F50 /* TrialBodyTrackingViewController.swift */,
@@ -2981,6 +2981,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -3041,7 +3042,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -3069,9 +3071,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 95;
+				CURRENT_PROJECT_VERSION = 96;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5YVF838RR5;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Autism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3094,8 +3097,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 95;
+				CURRENT_PROJECT_VERSION = 96;
 				DEVELOPMENT_TEAM = 5YVF838RR5;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Autism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (

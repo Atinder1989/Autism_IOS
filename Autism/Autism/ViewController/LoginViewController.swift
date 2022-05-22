@@ -9,6 +9,7 @@
 import UIKit
 
 class LoginViewController: UIViewController {
+    
     @IBOutlet weak var formTableView: UITableView!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var googleButton: UIButton!
@@ -24,13 +25,20 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginWithLbl: UILabel!
     @IBOutlet weak var languageImageView: UIImageView!
     @IBOutlet weak var languageName: UILabel!
-
+    
+    @IBOutlet weak var heighhtConstraint: NSLayoutConstraint!
+    
     private var list = [FormModel]()
     private var socialNetworkManager: SocialNetworkManager = SocialNetworkManager()
     private var loginViewModel = LoginViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+//        print("heighhtConstraint.constant  = ",heighhtConstraint)
+//        if(UIDevice.current.userInterfaceIdiom != .pad) {
+//            heighhtConstraint.constant = self.view.frame.size.height-safeArealBottom-safeArealBottom-safeArealTop-
+//        }
+
         self.listenModelClosures()
         self.loginViewModel.fetchLoginScreenLabels()
         self.customSetting()

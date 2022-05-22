@@ -30,7 +30,6 @@ class TrialVerbalWithMultippleViewController: UIViewController {
     @IBOutlet weak var imgV10: FLAnimatedImageView!
     
     private var verbalQuestionInfo: VerbalQuestionInfo!
-    //private var answerResponseTimer: Timer? = nil
     private var timeTakenToSolve = 0
     private var completeRate = 0
     private var verbalViewModel = TrialVerbalViewModel()
@@ -81,12 +80,6 @@ class TrialVerbalWithMultippleViewController: UIViewController {
     }
     
     func submitTrialMatchingAnswer(info:VerbalQuestionInfo) {
-//        if !Utility.isNetworkAvailable() {
-//            if let noNetwork = self.noNetWorkClosure {
-//                noNetwork()
-//            }
-//            return
-//        }
 
         if let user = UserManager.shared.getUserInfo() {
 
@@ -153,7 +146,6 @@ extension TrialVerbalWithMultippleViewController {
 
         self.verbalViewModel.playNotificationSoundClosure = { questionInfo in
             DispatchQueue.main.async {
-                //self.playSound()
                 AudioServicesPlayAlertSound(SystemSoundID(1322))
             }
         }
@@ -175,14 +167,6 @@ extension TrialVerbalWithMultippleViewController {
                 self.childActionStart(questionInfo)
             }
         }
-//
-//        self.verbalViewModel.zoomOnAvatarFaceClosure = {
-//            DispatchQueue.main.async {
-//                self.zoomAvatarFace()
-//            }
-//        }
-//
-//
         self.verbalViewModel.showImageClosure = { questionInfo in
             DispatchQueue.main.async {
                 self.showImage()
@@ -214,19 +198,6 @@ extension TrialVerbalWithMultippleViewController {
                 }
             }
         }
-//
-//        self.verbalViewModel.showTextClosure = { questionInfo in
-//            DispatchQueue.main.async {
-//                self.showText(questionInfo)
-//            }
-//        }
-//
-//        self.verbalViewModel.childActionClosure = { questionInfo in
-//            DispatchQueue.main.async {
-//                self.childActionStart(questionInfo)
-//            }
-//        }
-        
     }
     
     private func childActionStart(_ questionInfo:ScriptCommandInfo) {
@@ -295,6 +266,18 @@ extension TrialVerbalWithMultippleViewController {
     }
     
     private func customSetting() {
+        
+        let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
+        let screenHeight:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.height)
+        
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            let wh:CGFloat = 460.0
+            self.questionImageView.frame = CGRect(x: (screenWidth-wh)/2.0, y: (screenHeight-wh)/2.0, width: wh, height: wh)
+        } else {
+            let wh:CGFloat = 240.0
+            self.questionImageView.frame = CGRect(x: (screenWidth-wh)/2.0, y: (screenHeight-wh)/2.0, width: wh, height: wh)
+        }
+        
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         self.questionTitle.text = verbalQuestionInfo.question_title
@@ -332,8 +315,8 @@ extension TrialVerbalWithMultippleViewController {
         self.imgV10.layer.borderWidth = 2.0
         self.imgV10.layer.borderColor = UIColor.clear.cgColor
 
-        let xRef:CGFloat = UIScreen.main.bounds.size.width-64-25
-        
+        let xRef:CGFloat = UIScreen.main.bounds.size.width-90
+
         self.imgV2.center = CGPoint(x: xRef, y: self.imgV2.center.y)
         self.imgV3.center = CGPoint(x: xRef, y: self.imgV3.center.y)
         self.imgV4.center = CGPoint(x: xRef, y: self.imgV4.center.y)
@@ -351,12 +334,11 @@ extension TrialVerbalWithMultippleViewController {
                 let index = Int(strIndex ?? "0") ?? 0
                 self.verbalQuestionInfo.image_with_text.removeAll()
                 self.verbalQuestionInfo.image_with_text.append(self.verbalQuestionInfo.reinforce[index])
-                //self.verbalQuestionInfo.image_with_text = self.verbalQuestionInfo.reinforce
             } else {
                 self.verbalQuestionInfo.image_with_text.append(self.verbalQuestionInfo.reinforce[0])
             }
         }
-       // ImageDownloader.sharedInstance.makeTotalZero()
+        
         if(self.verbalQuestionInfo.image.lowercased().contains(".gif") == false) {
 
             if(self.verbalQuestionInfo.image_with_text.count>0){
@@ -398,8 +380,6 @@ extension TrialVerbalWithMultippleViewController {
             if(self.verbalQuestionInfo.image_with_text.count>9){
                 ImageDownloader.sharedInstance.downloadImage(urlString: self.verbalQuestionInfo.image_with_text[9].image, imageView: self.imgV10, callbackAfterNoofImages: self.verbalQuestionInfo.image_with_text.count, delegate: self)
             }
-
-            
         } else {
             
             if(self.verbalQuestionInfo.image_with_text.count>0){
@@ -568,17 +548,16 @@ extension TrialVerbalWithMultippleViewController {
     }
         
    private func initializeTimer() {
-    AutismTimer.shared.initializeTimer(delegate: self)
+       AutismTimer.shared.initializeTimer(delegate: self)
     }
     
     private func moveToNextQuestion() {
         self.stopTimer()
-                   RecordingManager.shared.stopRecording()
-                   RecordingManager.shared.stopWaitUserAnswerTimer()
-                   self.completeRate = 0
-                   self.questionState = .submit
-                   SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-       
+        RecordingManager.shared.stopRecording()
+        RecordingManager.shared.stopWaitUserAnswerTimer()
+        self.completeRate = 0
+        self.questionState = .submit
+        SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
     
     @objc private func calculateTimeTaken() {
@@ -773,7 +752,6 @@ extension TrialVerbalWithMultippleViewController: RecordingManagerDelegate {
                     }
                     
                     self.questionState = .submit
-                    //self.imgV6.la
                     SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 }
             } else {
@@ -816,8 +794,6 @@ extension TrialVerbalWithMultippleViewController: RecordingManagerDelegate {
                     }
                     
                     currentIndex = currentIndex-1
-//                    self.imgV6.layer.cornerRadius = self.imgV6.frame.size.width/2.0
-//                    self.imgV6.layer.borderColor = UIColor.systemRed.cgColor
                 }
                 self.verbalQuestionInfo.image_with_text[currentIndex].isCorrectAnswer = false
                 self.isRightAnswer = false

@@ -9,7 +9,7 @@
 import UIKit
 import FLAnimatedImage
 
-class AssesmentMathematicsViewController: UIViewController {
+class AssesmentMathematicsViewController: UIViewController, UITextFieldDelegate {
     
     private var mathematicsCalculationQuestionInfo: MathematicsCalculation!
     private weak var delegate: AssessmentSubmitDelegate?
@@ -31,8 +31,10 @@ class AssesmentMathematicsViewController: UIViewController {
     @IBOutlet weak var submitBtn: UIButton!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.txtAnwere.delegate = self
         self.customSetting()
         self.listenModelClosures()
         
@@ -75,6 +77,13 @@ class AssesmentMathematicsViewController: UIViewController {
         }
     }
 
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string.rangeOfCharacter(from: .decimalDigits) != nil || string == ""{
+            return true
+        }else {
+            return false
+        }
+    }
 }
 extension AssesmentMathematicsViewController {
         func setSortQuestionInfo(info:MathematicsCalculation,delegate:AssessmentSubmitDelegate) {

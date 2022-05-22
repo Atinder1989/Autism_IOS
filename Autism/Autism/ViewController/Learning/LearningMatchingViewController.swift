@@ -89,7 +89,11 @@ extension LearningMatchingViewController {
     {
         let tW:CGFloat = UIScreen.main.bounds.width
         let tH:CGFloat = UIScreen.main.bounds.height
-        let imgWH:CGFloat = 220
+        
+        var imgWH:CGFloat = 220
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            imgWH = 120
+        }
         commandImgViewLeft.frame = CGRect(x:50, y:(tH-imgWH)/2.0, width:imgWH, height:imgWH)
         initialRightImageViewFrame = CGRect(x:tW-imgWH-50, y:(tH-imgWH)/2.0, width:imgWH, height:imgWH)
         commandImgViewRight.frame = initialRightImageViewFrame
@@ -244,7 +248,11 @@ extension LearningMatchingViewController {
                     }
                     
                     if option.image_border == ScriptCommandOptionType.yes.rawValue {
-                        Utility.setView(view: self.commandImgViewLeft, cornerRadius: 110, borderWidth: 3, color: .greenBorderColor)
+                        if(UIDevice.current.userInterfaceIdiom == .pad) {
+                            Utility.setView(view: self.commandImgViewLeft, cornerRadius: 110, borderWidth: 3, color: .greenBorderColor)
+                        } else {
+                            Utility.setView(view: self.commandImgViewLeft, cornerRadius: 60, borderWidth: 2, color: .greenBorderColor)
+                        }
                     }
                 }
             }

@@ -122,8 +122,16 @@ extension AssessmentIntroductionViewController {
                 self.questionTitle.text = ""
             }
        
-        SpeechManager.shared.speak(message: title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-        AutismTimer.shared.initializeTimer(delegate: self)
+            if self.introductionQuestionInfo.question_type == "introduction_name" {
+                SpeechManager.shared.speak(message: title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                AutismTimer.shared.initializeTimer(delegate: self)
+            } else {
+                self.userAnswer.text = ""
+                questionState = .submit
+                self.completeRate = 100
+                SpeechManager.shared.speak(message: title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                AutismTimer.shared.initializeTimer(delegate: self)
+            }
         }
     }
     
