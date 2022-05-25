@@ -30,6 +30,10 @@ class LearningEyeContactViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.eyeContactViewModal.stopAllCommands()
+    }
+    
     @IBAction func exitAssessmentClicked(_ sender: Any) {
         self.eyeContactViewModal.stopAllCommands()
         UserManager.shared.exitAssessment()
@@ -66,9 +70,7 @@ extension LearningEyeContactViewController {
         self.avatarCenterImageView.isHidden = true
         self.avatarLeftImageView.isHidden = true
         self.avatarRightImageView.isHidden = true
-
     }
-    
     
     private func listenModelClosures() {
        self.eyeContactViewModal.clearScreenClosure = {

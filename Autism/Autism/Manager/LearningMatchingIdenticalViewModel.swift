@@ -17,11 +17,8 @@ class LearningMatchingIdenticalViewModel: NSObject {
     var noNetWorkClosure: (() -> Void)?
     var showVideoClosure : ((_ urlString:String) -> Void)?
     var showSpeechTextClosure : ((_ text: String) -> Void)?
-//    var clearSpeechTextClosure : (() -> Void)?
-//    var resetDataClosure : (() -> Void)?
     var clearScreenClosure : (() -> Void)?
     var showImageClosure  : ((_ questionInfo:ScriptCommandInfo) -> Void)?
-//    var showFingerClosure : (() -> Void)?
     var showTapFingerAnimationClosure : ((_ questionInfo:ScriptCommandInfo) -> Void)?
     var childActionStateClosure : ((Bool) -> Void)?
     var bufferLoaderClosure : (() -> Void)?

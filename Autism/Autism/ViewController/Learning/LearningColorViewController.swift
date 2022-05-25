@@ -90,14 +90,10 @@ class LearningColorViewController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-           super.viewDidLayoutSubviews()
-
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         self.stopPlayer()
         self.hideBufferLoader()
+        self.commandSolidViewModal.stopAllCommands()
     }
     
     @IBAction func restartVideoClicked(_ sender: Any) {

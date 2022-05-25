@@ -57,6 +57,7 @@ class LearningMatchingIdenticalViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.stopPlayer()
         self.hideBufferLoader()
+        self.matchingIdenticalViewModal.stopAllCommands()
     }
     
     @IBAction func restartVideoClicked(_ sender: Any) {
@@ -68,11 +69,6 @@ class LearningMatchingIdenticalViewController: UIViewController {
     @IBAction func nextClicked(_ sender: Any) {
         self.moveToNextCommand()
     }
-    
-//    @IBAction func backClicked(_ sender: Any) {
-//        self.matchingIdenticalViewModal.stopAllCommands()
-//        self.dismiss(animated: true, completion: nil)
-//    }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
         self.stopTimer()

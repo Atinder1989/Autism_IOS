@@ -56,14 +56,11 @@ class LearningFineMotorMovementViewController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-           super.viewDidLayoutSubviews()
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         self.sceneView = nil
         self.stopPlayer()
         self.hideBufferLoader()
+        self.fineMotorViewModel.stopAllCommands()
     }
  
     @IBAction func restartVideoClicked(_ sender: Any) {

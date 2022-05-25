@@ -26,7 +26,6 @@ class LearningMathematicsViewController: UIViewController, UITextFieldDelegate {
             if isChildAction {
                 self.txtAnswer.isHidden = !isChildAction
                 self.submitButton.isHidden = !isChildAction
-                //self.txtAnswer.becomeFirstResponder()
             } else {
                 self.txtAnswer.resignFirstResponder()
             }
@@ -51,16 +50,12 @@ class LearningMathematicsViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var firstCollectionView: UICollectionView!
     @IBOutlet weak var firstCollectionViewWidth: NSLayoutConstraint!
-
     @IBOutlet weak var secondCollectionView: UICollectionView!
     @IBOutlet weak var secondCollectionViewWidth: NSLayoutConstraint!
-
     @IBOutlet weak var speechTitle: UILabel!
     @IBOutlet weak var firstLabel: UILabel!
     @IBOutlet weak var secondLabel: UILabel!
-
     @IBOutlet weak var thumnailImageView: UIImageView!
-
     @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
@@ -80,10 +75,6 @@ class LearningMathematicsViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-           super.viewDidLayoutSubviews()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(AssesmentMatchSpellingViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(AssesmentMatchSpellingViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -94,10 +85,9 @@ class LearningMathematicsViewController: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         self.stopPlayer()
         self.hideBufferLoader()
-
+        self.mathematicsViewModel.stopAllCommands()
     }
  
-    
     @IBAction func restartVideoClicked(_ sender: Any) {
         self.stopTimer()
         self.mathematicsViewModel.seekToTimePlayer(time: CMTime.zero)

@@ -55,15 +55,10 @@ class LearningVocalImitationsViewController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-           super.viewDidLayoutSubviews()
-          
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         self.stopPlayer()
         self.hideBufferLoader()
-
+        self.verbalViewModal.stopAllCommands()
     }
     
     @IBAction func restartVideoClicked(_ sender: Any) {
@@ -75,12 +70,6 @@ class LearningVocalImitationsViewController: UIViewController {
     @IBAction func nextClicked(_ sender: Any) {
         self.moveToNextCommand()
     }
-    
-//    @IBAction func backClicked(_ sender: Any) {
-//       // self.view.isUserInteractionEnabled = false
-//        self.verbalViewModal.stopAllCommands()
-//        self.dismiss(animated: true, completion: nil)
-//    }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
         self.stopTimer()

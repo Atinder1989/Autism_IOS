@@ -53,10 +53,9 @@ class LearningMatchingViewController: UIViewController {
         }
     }
     
-//    @IBAction func backClicked(_ sender: Any) {
-//        self.commandViewModal.stopAllCommands()
-//        self.dismiss(animated: true, completion: nil)
-//    }
+    override func viewWillDisappear(_ animated: Bool) {
+        self.commandViewModal.stopAllCommands()
+    }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
         self.commandViewModal.stopAllCommands()

@@ -27,9 +27,7 @@ class LearningManding2WordsViewController: UIViewController {
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var questionImageView: ScriptCommandImageView!
-    //@IBOutlet weak var avatarImageView: FLAnimatedImageView!
     @IBOutlet weak var userAnswer: UILabel!
-    
     @IBOutlet weak var bufferLoaderView: UIView!
   
 
@@ -42,15 +40,10 @@ class LearningManding2WordsViewController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-           super.viewDidLayoutSubviews()
-          
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         self.stopPlayer()
         self.hideBufferLoader()
-
+        self.manding2WordsViewModal.stopAllCommands()
     }
     
     @IBAction func restartVideoClicked(_ sender: Any) {
@@ -62,12 +55,6 @@ class LearningManding2WordsViewController: UIViewController {
     @IBAction func nextClicked(_ sender: Any) {
         self.moveToNextCommand()
     }
-    
-//    @IBAction func backClicked(_ sender: Any) {
-//       // self.view.isUserInteractionEnabled = false
-//        self.manding2WordsViewModal.stopAllCommands()
-//        self.dismiss(animated: true, completion: nil)
-//    }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
         self.stopTimer()

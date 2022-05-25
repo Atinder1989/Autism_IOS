@@ -68,6 +68,7 @@ class LearningGrabingObjectsViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.stopPlayer()
         self.hideBufferLoader()
+        self.grabingObjectViewModel.stopAllCommands()
     }
     
     @IBAction func restartVideoClicked(_ sender: Any) {

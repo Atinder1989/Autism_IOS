@@ -53,6 +53,10 @@ class LearningMatching3PairViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.commandViewModal.stopAllCommands()
+    }
+    
     @IBAction func exitAssessmentClicked(_ sender: Any) {
         self.commandViewModal.stopAllCommands()
         UserManager.shared.exitAssessment()

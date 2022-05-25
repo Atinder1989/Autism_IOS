@@ -55,10 +55,6 @@ class LearningSpellingViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-           super.viewDidLayoutSubviews()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(AssesmentMatchSpellingViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(AssesmentMatchSpellingViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -69,9 +65,8 @@ class LearningSpellingViewController: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         self.stopPlayer()
         self.hideBufferLoader()
-
+        self.spellingViewModel.stopAllCommands()
     }
- 
     
     @IBAction func restartVideoClicked(_ sender: Any) {
         self.stopTimer()

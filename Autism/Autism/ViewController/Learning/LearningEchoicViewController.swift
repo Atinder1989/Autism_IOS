@@ -39,10 +39,8 @@ class LearningEchoicViewController: UIViewController {
     @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
-   // @IBOutlet weak var questionImageView: ScriptCommandImageView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     @IBOutlet weak var userAnswer: UILabel!
-    
     @IBOutlet weak var bufferLoaderView: UIView!
 
 
@@ -55,15 +53,10 @@ class LearningEchoicViewController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-           super.viewDidLayoutSubviews()
-          
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         self.stopPlayer()
         self.hideBufferLoader()
-
+        self.verbalViewModal.stopAllCommands()
     }
     
     @IBAction func restartVideoClicked(_ sender: Any) {
@@ -75,12 +68,6 @@ class LearningEchoicViewController: UIViewController {
     @IBAction func nextClicked(_ sender: Any) {
         self.moveToNextCommand()
     }
-    
-//    @IBAction func backClicked(_ sender: Any) {
-//       // self.view.isUserInteractionEnabled = false
-//        self.verbalViewModal.stopAllCommands()
-//        self.dismiss(animated: true, completion: nil)
-//    }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
         self.stopTimer()

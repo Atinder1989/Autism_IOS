@@ -71,6 +71,10 @@ class LearningVisualTrackingViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.visualTrackingViewModal.stopAllCommands()
+    }
+    
     @IBAction func exitAssessmentClicked(_ sender: Any) {
         self.stopTimer()
         self.visualTrackingViewModal.stopAllCommands()
