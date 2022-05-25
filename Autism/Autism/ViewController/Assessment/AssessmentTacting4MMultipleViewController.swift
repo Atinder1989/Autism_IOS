@@ -16,8 +16,6 @@ class AssessmentTacting4MMultipleViewController: UIViewController {
     @IBOutlet weak var questionImageView: FLAnimatedImageView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     
-//    @IBOutlet weak var containerWidth: NSLayoutConstraint!
-//    @IBOutlet weak var containerHeight: NSLayoutConstraint!
     
     @IBOutlet weak var imgV1: FLAnimatedImageView!
     @IBOutlet weak var imgV2: FLAnimatedImageView!
@@ -111,15 +109,6 @@ extension AssessmentTacting4MMultipleViewController {
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         self.questionTitle.text = verbalQuestionInfo.question_title
-         
-//        if(UIDevice.current.userInterfaceIdiom == .pad) {
-//            containerWidth.constant = 460
-//            containerHeight.constant = 460
-//        } else {
-//            containerWidth.constant = 220
-//            containerHeight.constant = 220
-//        }
-//
         
         self.imgV1.frame = self.questionImageView.frame
         self.imgV1.center = view.center

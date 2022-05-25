@@ -49,6 +49,11 @@ class TrialPictureArrayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let layout = collectionOption.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+        }
+
         collectionOption.register(UINib(nibName: MatchingObjectCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MatchingObjectCollectionViewCell.identifier)
 
         self.customSetting()
@@ -95,35 +100,34 @@ extension TrialPictureArrayViewController: UICollectionViewDataSource, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let size:CGFloat = UIScreen.main.bounds.width / CGFloat(self.matchingObjectInfo.image_with_text.count) - 20
-        return CGSize.init(width: size, height: size)
 
-//            var width = self.collectionOption.frame.width-CGFloat((self.matchingObjectInfo.image_with_text.count*20))
-//            width = width / CGFloat(self.matchingObjectInfo.image_with_text.count)
-//            return CGSize.init(width:width, height: width)
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            return CGSize.init(width: 260, height: 260)
+        } else {
+            return CGSize.init(width: 140, height: 140)
+        }
        }
 
 // make a cell for each cell index path
 internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier:MatchingObjectCollectionViewCell.identifier, for: indexPath as IndexPath) as! MatchingObjectCollectionViewCell
-    
-    //cell.contentView.clipToBounds = false
-    
+    cell.clipsToBounds = true
     let optionSelected = self.matchingObjectInfo.image_with_text[indexPath.row]
     let urlString = ServiceHelper.baseURL.getMediaBaseUrl() + optionSelected.image
     cell.imageObject.setImageWith(urlString: urlString)
     cell.greenTickImageView.isHidden = true
     
-//    var width = self.collectionOption.frame.width-CGFloat((self.matchingObjectInfo.image_with_text.count*20))
-//    width = width / CGFloat(self.matchingObjectInfo.image_with_text.count)
-
+    if(UIDevice.current.userInterfaceIdiom == .pad) {
+        cell.imageObject.frame = CGRect(x: 0, y: 0, width: 260, height: 260)
+    } else {
+        cell.imageObject.frame = CGRect(x: 0, y: 0, width: 140, height: 140)
+    }
     cell.imageObject.transform = CGAffineTransform.identity.scaledBy(x: 1, y: 1) // Scale your image
     cell.imageObject.backgroundColor = .clear
     
      if selectedIndex == -1 {
-        //Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 4, color: .darkGray)
+
      } else {
         if indexPath.row == answerIndex {
             if(is_green_circle == false) {
@@ -132,7 +136,6 @@ internal func collectionView(_ collectionView: UICollectionView, cellForItemAt i
             }
             
             if(selectedIndex == answerIndex) {
-              //  Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 4, color: .greenBorderColor)
             } else {
                 Animations.shake(on: cell)
             }
@@ -142,10 +145,8 @@ internal func collectionView(_ collectionView: UICollectionView, cellForItemAt i
             
             cell.greenTickImageView.isHidden = false
             cell.greenTickImageView.image = UIImage.init(named: "cross")
-           // Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 4, color: .redBorderColor)
         } else {
             cell.fingerImageView.isHidden = true
-            //Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 4, color: .darkGray)
         }
     }
 
@@ -189,14 +190,13 @@ extension TrialPictureArrayViewController {
         self.initializeTimer()
                 
 
-        if(self.matchingObjectInfo.image_with_text.count == 2) {
-            if(UIDevice.current.userInterfaceIdiom == .pad) {
-                self.collectionViewWidthConstraint.constant = 620
-            } else {
-                self.collectionViewWidthConstraint.constant = 320
-            }
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            self.collectionViewWidthConstraint.constant = CGFloat(280*self.matchingObjectInfo.image_with_text.count)
+        } else {
+            self.collectionViewWidthConstraint.constant = CGFloat(150*self.matchingObjectInfo.image_with_text.count)
         }
-        
+
+        collectionOption.clipsToBounds = true
         if self.matchingObjectInfo.prompt_detail.count > 0 {
             self.matchingObjectViewModel.setQuestionInfo(info:matchingObjectInfo)
         }

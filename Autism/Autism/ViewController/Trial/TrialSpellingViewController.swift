@@ -50,8 +50,8 @@ class TrialSpellingViewController: UIViewController, UITextFieldDelegate {
     var countDouble:Int = self.matchSpellingQuestionInfo.arrKeys.count/2
     countDouble = countDouble+self.matchSpellingQuestionInfo.arrKeys.count%2
     
-    collectionWidth.constant = CGFloat(countDouble*100)
-    
+     collectionWidth.constant = CGFloat(countDouble*100)
+
  }
  
     @objc func btnKeyClicked(_ sender:UIButton) {
@@ -176,7 +176,11 @@ extension TrialSpellingViewController: UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
             return CGSize.init(width:80, height: 80)
+        } else {
+            return CGSize.init(width:40, height: 40)
+        }
        }
 
     internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -188,6 +192,11 @@ extension TrialSpellingViewController: UICollectionViewDataSource, UICollectionV
         cell.btnKey.setTitle(strKey, for: .normal)
         cell.btnKey.addTarget(self, action: #selector(btnKeyClicked(_:)), for: .touchDown)
         
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            cell.btnKey.frame = CGRect(x: 5, y: 5, width: 70, height: 70)
+        } else {
+            cell.btnKey.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        }
         let cornerRadius:CGFloat = 10.0
         Utility.setView(view: cell.btnKey, cornerRadius: cornerRadius, borderWidth: 0.5, color: .lightGray)
 

@@ -100,18 +100,20 @@ extension TrialVerbalQuestionViewController {
         if(UIDevice.current.userInterfaceIdiom == .pad) {
             if (self.verbalQuestionInfo.question_type == AssessmentQuestionType.verbal_actions.rawValue) {
                 Utility.setView(view: self.questionImageView, cornerRadius: 0, borderWidth: 0, color: .darkGray)
-                self.containerWidth.constant = CGFloat(900)
+//                self.containerWidth.constant = CGFloat(900)
             } else {
-                self.containerWidth.constant = CGFloat(460)
-                Utility.setView(view: self.questionImageView, cornerRadius: 230, borderWidth: 4, color: .darkGray)
+//                self.containerWidth.constant = CGFloat(460)
+                Utility.setView(view: self.questionImageView, cornerRadius: self.questionImageView.frame.size.width/2.0, borderWidth: 4, color: .darkGray)
             }
         } else {
             if (self.verbalQuestionInfo.question_type == AssessmentQuestionType.verbal_actions.rawValue) {
                 Utility.setView(view: self.questionImageView, cornerRadius: 0, borderWidth: 0, color: .darkGray)
-                self.containerWidth.constant = CGFloat(460)
+//                self.containerWidth.constant = CGFloat(460)
             } else {
-                self.containerWidth.constant = CGFloat(240)
-                Utility.setView(view: self.questionImageView, cornerRadius: 120, borderWidth: 4, color: .darkGray)
+//                self.containerWidth.constant = CGFloat(240)
+                //Utility.setView(view: self.questionImageView, cornerRadius: self.questionImageView.frame.size.width/2.0, borderWidth: 2, color: .darkGray)
+//                Utility.setView(view: self.questionImageView, cornerRadius: self.questionImageView.frame.size.height/2.0, borderWidth: 2, color: .darkGray)
+                Utility.setView(view: self.questionImageView, cornerRadius: 0.0, borderWidth: 0, color: .darkGray)
             }
 
         }

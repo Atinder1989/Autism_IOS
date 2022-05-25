@@ -17,7 +17,6 @@ class AssessmentMandingVerbalVideoViewController: UIViewController {
     @IBOutlet weak var questionImageView: FLAnimatedImageView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     
-    @IBOutlet weak var containerWidth: NSLayoutConstraint!
     @IBOutlet weak var containerHeight: NSLayoutConstraint!
     
     @IBOutlet weak var imgV1: FLAnimatedImageView!

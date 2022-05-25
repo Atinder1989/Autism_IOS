@@ -57,8 +57,12 @@ class TrialMathematicsViewController: UIViewController, UITextFieldDelegate {
     
     var countDouble:Int = self.mathematicsQuestionInfo.arrKeys.count/2
     countDouble = countDouble+self.mathematicsQuestionInfo.arrKeys.count%2
-    
-    collectionWidth.constant = CGFloat(countDouble*100)
+     
+     if(UIDevice.current.userInterfaceIdiom == .pad) {
+         collectionWidth.constant = CGFloat(countDouble*100)
+     } else {
+         collectionWidth.constant = CGFloat(countDouble*50)
+     }
     
  }
  
@@ -178,7 +182,11 @@ extension TrialMathematicsViewController: UICollectionViewDataSource, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
             return CGSize.init(width:80, height: 80)
+        } else {
+            return CGSize.init(width:40, height: 40)
+        }
        }
 
     internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -189,6 +197,12 @@ extension TrialMathematicsViewController: UICollectionViewDataSource, UICollecti
         
         cell.btnKey.setTitle(strKey, for: .normal)
         cell.btnKey.addTarget(self, action: #selector(btnKeyClicked(_:)), for: .touchDown)
+        
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            cell.btnKey.frame = CGRect(x: 5, y: 5, width: 70, height: 70)
+        } else {
+            cell.btnKey.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        }
         
         let cornerRadius:CGFloat = 10.0
         Utility.setView(view: cell.btnKey, cornerRadius: cornerRadius, borderWidth: 0.5, color: .lightGray)

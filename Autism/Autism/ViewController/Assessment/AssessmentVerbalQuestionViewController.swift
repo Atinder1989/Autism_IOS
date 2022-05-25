@@ -18,7 +18,6 @@ class AssessmentVerbalQuestionViewController: UIViewController {
     @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var questionImageView: FLAnimatedImageView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
-    @IBOutlet weak var containerWidth: NSLayoutConstraint!
     
     private var verbalQuestionInfo: VerbalQuestionInfo!
     private var timeTakenToSolve = 0
@@ -98,9 +97,7 @@ extension AssessmentVerbalQuestionViewController {
         
         if (self.verbalQuestionInfo.question_type == AssessmentQuestionType.verbal_actions.rawValue) {
             Utility.setView(view: self.questionImageView, cornerRadius: 0, borderWidth: 0, color: .clear)
-//            self.containerWidth.constant = CGFloat(900)
         } else {
-//            self.containerWidth.constant = CGFloat(460)
             Utility.setView(view: self.questionImageView, cornerRadius: wh/2.0, borderWidth: 2, color: .clear)
         }
         

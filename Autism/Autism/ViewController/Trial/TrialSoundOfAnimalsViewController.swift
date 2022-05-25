@@ -14,7 +14,6 @@ class TrialSoundOfAnimalsViewController: UIViewController {
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
-    @IBOutlet weak var containerWidth: NSLayoutConstraint!
     
     private var verbalQuestionInfo: VerbalQuestionInfo!
     private var answerResponseTimer: Timer? = nil

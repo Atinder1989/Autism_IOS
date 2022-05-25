@@ -213,7 +213,7 @@ extension TrialViewController {
                 vc.setMatchingObjectInfo(info: info, delegate: self)
                 self.present(vc, animated: true, completion: nil)
             }
-        case .PictureArray:
+        case .PictureArray://, .colors, .shapes, .solid_colors:
             if let info = res.matchingObjectInfo {
                 let vc = Utility.getViewController(ofType: TrialPictureArrayViewController.self)
                 vc.modalPresentationStyle = .fullScreen

@@ -15,7 +15,6 @@ class TrialEchoicViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var scrlAvatar: UIScrollView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
-    @IBOutlet weak var containerWidth: NSLayoutConstraint!
     
     private var verbalQuestionInfo: VerbalQuestionInfo!
     private var answerResponseTimer: Timer? = nil
@@ -41,10 +40,7 @@ class TrialEchoicViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         scrlAvatar.clipsToBounds = false
-        self.userAnswer.isHidden = true
-//        scrlAvatar.delegate = self
-//        scrlAvatar.minimumZoomScale = 1.0
-//        scrlAvatar.maximumZoomScale = 20.0
+//        self.userAnswer.isHidden = true
         
         avatarImageView.frame = scrlAvatar.bounds
         self.listenModelClosures()

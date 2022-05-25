@@ -16,7 +16,6 @@ class TrialVerbalWithMultippleViewController: UIViewController {
     @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var questionImageView: FLAnimatedImageView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
-    @IBOutlet weak var containerWidth: NSLayoutConstraint!
     
     @IBOutlet weak var imgV1: FLAnimatedImageView!
     @IBOutlet weak var imgV2: FLAnimatedImageView!
