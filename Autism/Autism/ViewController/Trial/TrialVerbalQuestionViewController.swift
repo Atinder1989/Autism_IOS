@@ -47,6 +47,10 @@ class TrialVerbalQuestionViewController: UIViewController {
         touchOnEmptyScreenCount += 1
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.verbalViewModel.stopAllCommands()
+    }
+    
     @IBAction func exitTrialClicked(_ sender: Any) {
           self.stopTimer()
           self.stopSpeechAndRecorder()

@@ -46,6 +46,10 @@ class TrialSoundOfAnimalsViewController: UIViewController {
         touchOnEmptyScreenCount += 1
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.echoicViewModel.stopAllCommands()
+    }
+    
     @IBAction func exitTrialClicked(_ sender: Any) {
           self.stopTimer()
           self.stopSpeechAndRecorder()

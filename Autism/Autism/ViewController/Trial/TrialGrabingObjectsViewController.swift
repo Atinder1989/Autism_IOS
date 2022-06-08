@@ -22,16 +22,7 @@ class TrialGrabingObjectsViewController: UIViewController {
     private var isImagesDownloaded = false
     private var isChildAction = false
     private var videoItem: VideoItem?
-//    private var isChildActionCompleted = false {
-//        didSet {
-//            if isChildActionCompleted {
-//                DispatchQueue.main.async {
-//                    self.grabingObjectViewModel.calculateChildAction(state: self.isChildActionCompleted)
-//
-//                }
-//            }
-//        }
-//    }
+
     private var dragImageCount = 0
     private var thumbnailImage: UIImage?
     private var videoFinishTimer: Timer? = nil
@@ -54,15 +45,7 @@ class TrialGrabingObjectsViewController: UIViewController {
     @IBOutlet weak var filledImageView3: FillContainerImageView!
     @IBOutlet weak var filledImageView4: FillContainerImageView!
     @IBOutlet weak var filledImageView5: FillContainerImageView!
-    
-//    @IBOutlet weak var imgH1: FillContainerImageView!
-//    @IBOutlet weak var imgH2: FillContainerImageView!
-//    @IBOutlet weak var imgH3: FillContainerImageView!
-//    @IBOutlet weak var imgH4: FillContainerImageView!
-//    @IBOutlet weak var imgH5: FillContainerImageView!
-    
     @IBOutlet weak var handImageview: UIImageView!
-
     @IBOutlet weak var avatarBottomImageView: FLAnimatedImageView!
 
     var mazeInfo:MazesInfo?
@@ -88,6 +71,7 @@ class TrialGrabingObjectsViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.stopPlayer()
         self.hideBufferLoader()
+        self.grabingObjectViewModel.stopAllCommands()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -95,28 +79,22 @@ class TrialGrabingObjectsViewController: UIViewController {
     }
     @IBAction func restartVideoClicked(_ sender: Any) {
         self.stopTimer()
-//        self.grabingObjectViewModel.seekToTimePlayer(time: CMTime.zero)
         self.playVideo()
     }
     
     @IBAction func nextClicked(_ sender: Any) {
         if !skipQuestion {
-//            self.imageView.layer.removeAllAnimations()
             self.skipQuestion = true
             self.moveToNextQuestion()
         }
-        //self.moveToNextCommand()
     }
 
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-//        self.grabingObjectViewModel.pausePlayer()
-//        self.grabingObjectViewModel.stopAllCommands()
         UserManager.shared.exitAssessment()
     }
     
     @IBAction func skipQuestionClicked(_ sender: Any) {
         if !skipQuestion {
-//            self.imageView.layer.removeAllAnimations()
             self.skipQuestion = true
             self.moveToNextQuestion()
         }
@@ -134,15 +112,11 @@ extension TrialGrabingObjectsViewController {
         self.apiDataState = .dataFetched
         self.mazeInfo = info
         self.delegate = delegate
-        
-//        self.initializeFilledImageView()
     }
     
     func setQuestionInfo(info:MazesInfo) {
         self.apiDataState = .dataFetched
         self.mazeInfo = info
-        
-//        self.initializeFilledImageView()
     }
 }
 
@@ -171,7 +145,6 @@ extension TrialGrabingObjectsViewController {
 //                    self.initializeTimer()
                 }
             }
-        //blink_all_images
         
         self.grabingObjectViewModel.blinkAllImageClosure = { questioninfo in
             DispatchQueue.main.async { [self] in
@@ -188,35 +161,7 @@ extension TrialGrabingObjectsViewController {
         
         self.grabingObjectViewModel.blinkImageClosure = { questioninfo in
             DispatchQueue.main.async { [self] in
-
                 self.blink(filledImageView1, count: 3)
-
-//                for i in 0..<self.matchingObjectInfo.image_with_text.count {
-//                    let img = self.matchingObjectInfo.image_with_text[i]
-//                    if(img.id == questioninfo.value_id) {
-//
-//                        //Image 1
-//                        if(img.name == "Left") {
-//                            self.blink(commandImgViewLeft1, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.blink(commandImgViewRight1, count: 3)
-//                        }
-//
-//                        //Image 2
-//                        if(img.name == "Left") {
-//                            self.blink(commandImgViewLeft2, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.blink(commandImgViewRight2, count: 3)
-//                        }
-//
-//                        //Image 3
-//                        if(img.name == "Left") {
-//                            self.blink(commandImgViewLeft3, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.blink(commandImgViewRight3, count: 3)
-//                        }
-//                    }
-//                }
              }
         }
                         
@@ -228,52 +173,11 @@ extension TrialGrabingObjectsViewController {
                 self.showFingerOnImage(questioninfo, count: 3)
              }
         }
-               
-            
-//        self.grabingObjectViewModel.dragTransparentImageClosure = { questionInfo in
-//            DispatchQueue.main.async {
-//
-//                //Image 1
-//                if let option = questionInfo.option {
-//                    if  option.drag_direction == ScriptCommandOptionType.right_to_left.rawValue  {
-//                        var duration = 0
-//                        if option.time_in_second.count > 0 {
-//                            duration = Int(option.time_in_second) ?? 0
-//                        }
-//                        self.isDragStarted = false
-//                        self.dragAnimationView1.isHidden = false
-//                        self.dragAnimationView1.isUserInteractionEnabled = false
-//                        if !self.isDragCompleted {
-//                            self.rightToleftTransparentAnimation(duration: duration-2)
-//                        }
-//                    } else {
-//                        var duration = 0
-//                        if option.time_in_second.count > 0 {
-//                            duration = Int(option.time_in_second) ?? 0
-//                        }
-//                        self.isDragStarted = false
-//                        self.dragAnimationView1.isHidden = false
-//                        self.dragAnimationView1.isUserInteractionEnabled = false
-//                        if !self.isDragCompleted {
-//                            self.rightToleftTransparentAnimation(duration: duration-2)
-//                        }
-//                    }
-//                }
-//             }
-//        }
-                
-        
+                       
         self.grabingObjectViewModel.showImageClosure = { questionInfo in
             DispatchQueue.main.async {
             }
         }
-        
-//        self.grabingObjectViewModel.dragImageClosure = { questionInfo in
-//            DispatchQueue.main.async {
-//                self.dragImageRightToLeft(duration: 1)
-//            }
-//        }
-        
                     
    }
     
@@ -441,9 +345,7 @@ extension TrialGrabingObjectsViewController {
     private func initializeFilledImageView() {
         
         let intCount = Int(self.mazeInfo?.goal_image ?? "0")
-        
-        //objectImagesCount = intCount
-        
+                
         self.bucketView.isHidden = false
         self.filledImageView1.isHidden = false
         self.filledImageView2.isHidden = false
@@ -481,9 +383,6 @@ extension TrialGrabingObjectsViewController {
     }
     
     @IBAction func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {
-//        if !isChildAction {
-//            return
-//        }
         
         switch gestureRecognizer.state {
             
@@ -571,16 +470,10 @@ extension TrialGrabingObjectsViewController {
             
             self.dragImageCount += 1
             print("########### count is == \(self.dragImageCount)")
-            if self.dragImageCount < self.objectImagesCount {
-                } else {
-//                    self.isChildActionCompleted = true
-                }
+          
             
         }
     }
-
-    
-    
     
     //MARK:- Helper
     private func handleInvalidDropLocation(currentImageView:FillContainerImageView){
@@ -596,18 +489,7 @@ extension TrialGrabingObjectsViewController {
     
     
     private func addPlayer(urlString:String) {
-//        let string = ServiceHelper.baseURL.getMediaBaseUrl() + urlString
-//        if let playerController = grabingObjectViewModel.playerController {
-//            if let avplayerController = playerController.avPlayerController {
-//                self.playerView.isHidden = false
-//                self.playerView.addSubview(avplayerController.view)
-//                avplayerController.view.frame = self.playerView.frame
-//                self.videoItem = VideoItem.init(url: string)
-//                self.playVideo()
-//                self.thumbnailImage = Utility.getThumbnailImage(urlString: string, time: CMTimeMake(value: 5, timescale: 2))
-//            }
-//        }
-        
+
     }
     
     private func showBufferLoader() {
@@ -641,16 +523,10 @@ extension TrialGrabingObjectsViewController {
     
     
     private func playVideo() {
-//        if let item = self.videoItem {
-//        grabingObjectViewModel.playVideo(item: item)
-//        self.nextButton.isHidden = true
-//        self.restartButton.isHidden = true
-//        self.thumnailImageView.isHidden = true
-//        }
+
     }
     
     func stopPlayer() {
-//        self.grabingObjectViewModel.stopVideo()
     }
     
     private func videoFinished() {
@@ -668,14 +544,7 @@ extension TrialGrabingObjectsViewController {
     }
     
     @objc private func calculateTimeTaken()  {
-//        videoFinishWaitingTime += 1
-//        print("Video Finish Timer Start == \(videoFinishWaitingTime)")
-//        if let info = self.grabingObjectViewModel.getCurrentCommandInfo(),let option = info.option {
-//            let time = Int(option.switch_command_time) ?? 0
-//            if self.videoFinishWaitingTime >= time  {
-//                self.moveToNextCommand()
-//            }
-//        }
+
     }
     
     private func stopTimer() {
@@ -688,12 +557,6 @@ extension TrialGrabingObjectsViewController {
     }
     
     func submitTrialMatchingAnswer(info:BalloonGameQuestionInfo) {
-//        if !Utility.isNetworkAvailable() {
-//            if let noNetwork = self.noNetWorkClosure {
-//                noNetwork()
-//            }
-//            return
-//        }
 
         if let user = UserManager.shared.getUserInfo() {
 
@@ -736,7 +599,6 @@ extension TrialGrabingObjectsViewController: ImageDownloaderDelegate {
         if !isImagesDownloaded {
             SpeechManager.shared.speak(message: self.mazeInfo!.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             self.isImagesDownloaded = true
-            //self.grabingObjectViewModel.updateCurrentCommandIndex()
         }
     }
 }
@@ -758,7 +620,6 @@ extension TrialGrabingObjectsViewController: SpeechManagerDelegate {
         switch self.questionState {
         case .submit:
             self.stopTimer()
-//            self.stopSpeechAndRecorder()
             if(self.isFromLearning == false) {
                 self.grabingObjectViewModel.submitMazesQuestionDetails(info: self.mazeInfo!, completeRate: self.completeRate, timetaken: self.timeTakenToSolve, skip: self.skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
             } else {
@@ -772,7 +633,6 @@ extension TrialGrabingObjectsViewController: SpeechManagerDelegate {
                     apiDataState = .comandRunning
                     self.grabingObjectViewModel.setQuestionInfo(info:self.mazeInfo!)
                 } else {
-//                    self.startRec()
                     self.grabingObjectViewModel.setQuestionInfo(info:self.mazeInfo!)
                 }
             } else if(apiDataState == .comandRunning) {
@@ -780,7 +640,6 @@ extension TrialGrabingObjectsViewController: SpeechManagerDelegate {
                     self.grabingObjectViewModel.updateCurrentCommandIndex()
                 }
             } else if(apiDataState == .comandFinished) {
-                //self.startRec()
             }
             
             break
@@ -788,9 +647,7 @@ extension TrialGrabingObjectsViewController: SpeechManagerDelegate {
     }
     
     func speechDidStart(speechText:String) {
-        //self.isUserInteraction = true
         self.avatarBottomImageView.isHidden = false
-
         if let type = Utility.getSpeechMessageType(text: speechText) {
             switch type {
             case .hurrayGoodJob:

@@ -65,6 +65,7 @@ class TrialMathematicsViewController: UIViewController, UITextFieldDelegate {
      }
     
  }
+    
  
     @objc func btnKeyClicked(_ sender:UIButton) {
                 
@@ -79,17 +80,16 @@ class TrialMathematicsViewController: UIViewController, UITextFieldDelegate {
             txtAnwere.text = txtAnwere.text! + keyText
         }
         
-        
-        
-        
     }
     
  override func viewWillAppear(_ animated: Bool) {
      NotificationCenter.default.addObserver(self, selector: #selector(TrialMathematicsViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
      NotificationCenter.default.addObserver(self, selector: #selector(TrialMathematicsViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
  }
+    
  override func viewWillDisappear(_ animated: Bool) {
-     
+     self.mathematicsViewModel.stopAllCommands()
+
      NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
      NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
  }

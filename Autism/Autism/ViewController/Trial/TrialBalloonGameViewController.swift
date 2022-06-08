@@ -79,6 +79,10 @@ class TrialBalloonGameViewController: UIViewController {
         self.customSetting()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.balloonViewModel.stopAllCommands()
+    }
+    
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !isGame {
            return

@@ -41,6 +41,13 @@ class TrialEchoicViewModel:NSObject {
         SpeechManager.shared.setDelegate(delegate: self)
     }
     
+    func stopAllCommands() {
+        SpeechManager.shared.stopSpeech()
+        SpeechManager.shared.setDelegate(delegate: nil)
+        RecordingManager.shared.stopRecording()
+        self.scriptManager.stopallTimer()
+    }
+    
     func setQuestionInfo(info: VerbalQuestionInfo) {
         self.verbalQuestionInfo = info
     }

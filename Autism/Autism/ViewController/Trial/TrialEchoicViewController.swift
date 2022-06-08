@@ -47,6 +47,10 @@ class TrialEchoicViewController: UIViewController, UIScrollViewDelegate {
         self.customSetting()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.verbalViewModel.stopAllCommands()
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchOnEmptyScreenCount += 1
     }
@@ -80,13 +84,7 @@ extension TrialEchoicViewController {
                                 }
                             }
                         }
-//                        else {
-//                            self.dismiss(animated: true) {
-//                                if let del = self.delegate {
-//                                    del.submitQuestionResponse(response: res)
-//                                }
-//                            }
-//                        }
+
                     }
                 }
                }
@@ -218,7 +216,7 @@ extension TrialEchoicViewController {
     
    private func stopTimer() {
         if let timer = self.answerResponseTimer {
-            self.answerResponseTimer!.invalidate()
+            timer.invalidate()
             answerResponseTimer = nil
         }
    }
@@ -231,12 +229,6 @@ extension TrialEchoicViewController {
     }
     
     func submitTrialMatchingAnswer(info:VerbalQuestionInfo) {
-//        if !Utility.isNetworkAvailable() {
-//            if let noNetwork = self.noNetWorkClosure {
-//                noNetwork()
-//            }
-//            return
-//        }
 
         if let user = UserManager.shared.getUserInfo() {
 
@@ -263,30 +255,6 @@ extension TrialEchoicViewController {
             ]
             LearningManager.submitTrialMatchingAnswer(parameters: parameters)
         }
-        
-//        if let user = UserManager.shared.getUserInfo() {
-//
-//            let parameters: [String : Any] = [
-//               ServiceParsingKeys.user_id.rawValue :user.id,
-//               ServiceParsingKeys.question_type.rawValue :info.question_type,
-//               ServiceParsingKeys.time_taken.rawValue :self.timeTakenToSolve,
-//               ServiceParsingKeys.complete_rate.rawValue :completeRate,
-//               ServiceParsingKeys.success_count.rawValue : completeRate,
-//               ServiceParsingKeys.question_id.rawValue :info.id,
-//               ServiceParsingKeys.language.rawValue:user.languageCode,
-//               ServiceParsingKeys.req_no.rawValue:info.req_no,
-//               ServiceParsingKeys.skill_domain_id.rawValue:info.skill_domain_id,
-//               ServiceParsingKeys.level.rawValue:info.level,
-//               ServiceParsingKeys.skip.rawValue:skipQuestion,
-//                ServiceParsingKeys.program_id.rawValue:info.program_id,
-//
-////                ServiceParsingKeys.faceDetectionTime.rawValue:FaceDetection.shared.getFaceDetectionTime(),
-////                ServiceParsingKeys.faceNotDetectionTime.rawValue:FaceDetection.shared.getFaceNotDetectionTime(),
-//                ServiceParsingKeys.touchOnEmptyScreenCount.rawValue:touchOnEmptyScreenCount
-//            ]
-//            LearningManager.submitTrialMatchingAnswer(parameters: parameters)
-//        }
-//        }
     }
 }
 
@@ -376,12 +344,7 @@ extension TrialEchoicViewController: SpeechManagerDelegate {
 extension TrialEchoicViewController: RecordingManagerDelegate {
     func recordingSpeechData(text:String) {
         self.userAnswer.text = text
-//        if(text != "") {
-//            RecordingManager.shared.stopRecording()
-//            self.checkUserAnswer(text: text)
-//        } else {
-//            self.startRec()
-//        }
+
     }
     
     func recordingStart() {
@@ -422,10 +385,6 @@ extension TrialEchoicViewController: RecordingManagerDelegate {
     func startRec()
     {
         RecordingManager.shared.startRecording(delegate: self)
-//        DispatchQueue.main.async {
-//            print("startRec")
-//            RecordingManager.shared.startRecording(delegate: self)
-//        }
     }
 }
 

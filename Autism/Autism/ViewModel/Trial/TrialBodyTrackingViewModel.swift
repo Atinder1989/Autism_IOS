@@ -55,6 +55,13 @@ class TrialBodyTrackingViewModel: NSObject {
         self.BodyTrackingQuestionInfo = info
     }
     
+    func stopAllCommands() {
+        SpeechManager.shared.stopSpeech()
+        SpeechManager.shared.setDelegate(delegate: nil)
+        RecordingManager.shared.stopRecording()
+        self.scriptManager.stopallTimer()
+    }
+    
     
     func submitFaceTrackDetails(info:BodyTrackingQuestionInfo,completeRate:Int,timetaken:Int,skip:Bool,touchOnEmptyScreenCount:Int) {
         var service = Service.init(httpMethod: .POST)

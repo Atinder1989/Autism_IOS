@@ -26,6 +26,7 @@ class LearningManager {
     
     static func getLearningScriptController(skill_domain_id:String,program: LearningProgramModel,command_array: [ScriptCommandInfo],questionId:String) -> UIViewController?  {
         var scriptController: UIViewController? = nil
+        print("#program.label_code ==== \(program.label_code)")
         switch program.label_code {
         case .following_instructions:
             let vc = Utility.getViewController(ofType: LearningFollowingInstructionsViewController.self)

@@ -29,18 +29,7 @@ class TrialViewController: UIViewController, SpeechManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.reloadData()
-    }
-
-    private func reloadData()
-    {
         self.listenModelClosures()
-//        if DatabaseManager.sharedInstance.getUnDownloadedAvatarVariationList().count > 0
-//        {
-//            Utility.showLoader()
-//            AvatarDownloader.sharedInstance.downloadAvatarVariationList(list: DatabaseManager.sharedInstance.getUnDownloadedAvatarVariationList())
-//        } else {
-//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,24 +41,8 @@ class TrialViewController: UIViewController, SpeechManagerDelegate {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        
-    }
-    
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-//           self.stopQuestionCompletionTimer()
-//           SpeechManager.shared.setDelegate(delegate: nil)
            UserManager.shared.exitAssessment()
-    }
-    
-    @IBAction func skipQuestionClicked(_ sender: Any) {
-//        if !skipQuestion {
-//            self.skipQuestion = true
-//            if let res = self.trialViewModel.questionResponseVo,let info = res.bodyTrackingInfo {
-//                self.skipButton.isHidden = true
-//                self.trialViewModel.skipQuestion(info: info, completeRate: 0, timetaken: 4, skip: true)
-//            }
-//        }
     }
     
 }
@@ -355,7 +328,6 @@ extension TrialViewController: NetworkRetryViewDelegate {
         if Utility.isNetworkAvailable() {
             Utility.hideRetryView()
             if(self.apiDataState == .notCall) {
-                self.reloadData()
                 self.handleTrialScreenFlow()
             }
         }

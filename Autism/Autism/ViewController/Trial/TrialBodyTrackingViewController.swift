@@ -12,14 +12,6 @@ import UIKit
 import VideoToolbox
 import FLAnimatedImage
 
-//enum BodyTrackAnswerTag: Int {
-//    case raiseHands = 4
-//    case clapYourHands = 5
-//    case waiveYourHands = 6
-//    case none = 0
-//}
-
-
 class TrialBodyTrackingViewController: UIViewController {
     /// The view the controller uses to visualize the detected poses.
     @IBOutlet private var previewImageView: PoseImageView!
@@ -99,6 +91,8 @@ class TrialBodyTrackingViewController: UIViewController {
     
     
     override func viewWillDisappear(_ animated: Bool) {
+        self.bodyTrackingViewModel.stopAllCommands()
+
         videoCapture.stopCapturing {
             super.viewWillDisappear(animated)
         }
@@ -424,17 +418,6 @@ extension TrialBodyTrackingViewController {
         }
     }
 
-//    func nkjkj()
-//    {
-//        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-//        blurEffectView.effect = blurEffect
-//        blurEffectView.frame = view.bounds
-//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        view.addSubview(blurEffectView)
-//
-//    }
-    
     private func customSetting() {
         
         imgViewAvatar.frame = scrlAvatar.bounds
@@ -543,13 +526,6 @@ extension TrialBodyTrackingViewController: PoseNetDelegate {
     }
     
     func submitTrialMatchingAnswer(info:BodyTrackingQuestionInfo) {
-//        if !Utility.isNetworkAvailable() {
-//            if let noNetwork = self.noNetWorkClosure {
-//                noNetwork()
-//            }
-//            return
-//        }
-
         if let user = UserManager.shared.getUserInfo() {
 
             let parameters: [String : Any] = [
@@ -604,10 +580,8 @@ extension TrialBodyTrackingViewController: SpeechManagerDelegate
         switch self.questionState {
         case .submit:
             self.stopTimer()
-//            self.stopSpeechAndRecorder()
             if(self.isFromLearning == false) {
                 self.bodyTrackingViewModel.submitFaceTrackDetails(info: self.bodyTrackingQuestionInfo, completeRate: completeRate, timetaken: self.timeTakenToSolve, skip: self.skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
-//                self.bodyTrackingViewModel.submitBalloonGameQuestionDetails(info: self.balloonGameQuestionInfo, completeRate: self.completeRate, timetaken: self.timeTakenToSolve, skip: self.skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
             } else {
                 self.submitTrialMatchingAnswer(info: self.bodyTrackingQuestionInfo)
             }

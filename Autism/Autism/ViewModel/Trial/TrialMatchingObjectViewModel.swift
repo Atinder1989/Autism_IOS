@@ -58,6 +58,13 @@ class TrialMatchingObjectViewModel: NSObject {
         self.matchingObjectInfo = info
     }
     
+    func stopAllCommands() {
+        SpeechManager.shared.stopSpeech()
+        SpeechManager.shared.setDelegate(delegate: nil)
+        RecordingManager.shared.stopRecording()
+        self.scriptManager.stopallTimer()
+    }
+    
     func submitUserAnswer(successCount:Int,info:MatchingObjectInfo,timeTaken:Int,skip:Bool,touchOnEmptyScreenCount:Int,selectedIndex:Int) {
         var service = Service.init(httpMethod: .POST)
         service.url = ServiceHelper.trialQuestionSubmitUrl()
@@ -231,13 +238,7 @@ extension TrialMatchingObjectViewModel {
     
     private func handleTextToSpeechCommand(commandInfo:ScriptCommandInfo) {
         let message = commandInfo.value
-//        if let option = commandInfo.option {
-//            if option.variables_text == ScriptCommandOptionType.child_name.rawValue {
-//                if let user = UserManager.shared.getUserInfo() {
-//                    message =  message + " \(user.nickname)"
-//                }
-//            }
-//        }
+
         if let option = commandInfo.option {
             
             if(option.sound == "slow") {
@@ -254,7 +255,6 @@ extension TrialMatchingObjectViewModel {
     }
     
     func updateCurrentCommandIndex() {
-        //isAnimationCommand = false
         self.currentCommandIndex += 1
     }
 }
@@ -268,9 +268,7 @@ extension TrialMatchingObjectViewModel: SpeechManagerDelegate {
     }
     
     func speechDidStart(speechText:String) {
-//        if let closure = self.showSpeechTextClosure {
-//            closure(speechText)
-//        }
+
     }
 }
 

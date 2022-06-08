@@ -68,6 +68,10 @@ class TrialMatchingObjectViewController: UIViewController {
         answerIndex = Int(self.matchingObjectInfo.correct_answer)!-1
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.matchingObjectViewModel.stopAllCommands()
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchOnEmptyScreenCount += 1
     }

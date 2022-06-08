@@ -66,6 +66,10 @@ class TrialPictureArrayViewController: UIViewController {
         touchOnEmptyScreenCount += 1
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.matchingObjectViewModel.stopAllCommands()
+    }
+    
     @IBAction func exitAssessmentClicked(_ sender: Any) {
            self.stopQuestionCompletionTimer()
            SpeechManager.shared.setDelegate(delegate: nil)

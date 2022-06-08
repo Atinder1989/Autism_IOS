@@ -51,6 +51,13 @@ class TrialVerbalViewModel:NSObject {
         self.verbalQuestionInfo = info
     }
     
+    func stopAllCommands() {
+        SpeechManager.shared.stopSpeech()
+        SpeechManager.shared.setDelegate(delegate: nil)
+        RecordingManager.shared.stopRecording()
+        self.scriptManager.stopallTimer()
+    }
+    
     func submitVerbalQuestionDetails(info:VerbalQuestionInfo,completeRate:Int,timetaken:Int,skip:Bool,touchOnEmptyScreenCount:Int) {
         var service = Service.init(httpMethod: .POST)
         service.url = ServiceHelper.trialQuestionSubmitUrl()

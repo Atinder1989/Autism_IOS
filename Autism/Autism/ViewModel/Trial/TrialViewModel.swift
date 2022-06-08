@@ -42,17 +42,7 @@ class TrialViewModel {
     }
     
     func fetchQuestion() {
-        
-//        {
-//        "language": "en",
-//        "user_id" : "605259c69bba502a9e6708b6",
-//        "skill_domain_id" : "5f3a5ad1bc50f14d79d3c25f",
-//        "program_id" : "5feeea5693180b4349b079ca",
-//        "req_no" : "SD3P3L1",
-//        "table_name" : "matching_object"
-//        }
-        
-        
+         
         var service = Service.init(httpMethod: .POST)
         service.url = ServiceHelper.getTrailQuestion()
 
@@ -60,10 +50,6 @@ class TrialViewModel {
             service.params = [
                 ServiceParsingKeys.language.rawValue:user.languageCode,
                 ServiceParsingKeys.user_id.rawValue:user.id,
-//                ServiceParsingKeys.skill_domain_id.rawValue:"5f411915d7f42669b982e4c6",
-//                ServiceParsingKeys.program_id.rawValue:"5f411953d7f42669b982e4c7",
-//                ServiceParsingKeys.req_no.rawValue:"SD4P6L1",
-//                ServiceParsingKeys.table_name.rawValue:"body_tracking"
                 ServiceParsingKeys.skill_domain_id.rawValue:trial_skill_domain_id_value,
                 ServiceParsingKeys.program_id.rawValue:trial_program_id_value,
                 ServiceParsingKeys.req_no.rawValue:trial_req_no_value,

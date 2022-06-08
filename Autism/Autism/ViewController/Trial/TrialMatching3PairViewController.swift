@@ -78,11 +78,14 @@ class TrialMatching3PairViewController: UIViewController {
         self.customSetting()
         self.addGesture()
         self.listenModelClosures()
-//        self.commandViewModal.fetchLearningQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchOnEmptyScreenCount += 1
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.matchingObjectViewModel.stopAllCommands()
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
@@ -138,42 +141,7 @@ extension TrialMatching3PairViewController {
         yRef = yRef+wh+ySpace
     }
     
-//    private func initializeFrame()
-//    {
-//        let tW:CGFloat = UIScreen.main.bounds.width
-//        let tH:CGFloat = UIScreen.main.bounds.height
-//        let topSpace:CGFloat = 140
-//        let imgWH:CGFloat = 180
-//        let ySpace:CGFloat = (tH-topSpace-(3*imgWH))/3
-//
-//        var yRef:CGFloat = topSpace
-//
-//        commandImgViewLeft1.frame = CGRect(x:50, y:yRef, width:imgWH, height:imgWH)
-//        initialRightImageViewFrame1 = CGRect(x:tW-imgWH-50, y:yRef, width:imgWH, height:imgWH)
-//        commandImgViewRight1.frame = initialRightImageViewFrame1
-//        dragAnimationView1.frame = initialRightImageViewFrame1
-//
-//        yRef = yRef+imgWH+ySpace
-//
-//        commandImgViewLeft2.frame = CGRect(x:50, y:yRef, width:imgWH, height:imgWH)
-//        initialRightImageViewFrame2 = CGRect(x:tW-imgWH-50, y:yRef, width:imgWH, height:imgWH)
-//        commandImgViewRight2.frame = initialRightImageViewFrame2
-//        dragAnimationView2.frame = initialRightImageViewFrame2
-//
-//        yRef = yRef+imgWH+ySpace
-//
-//        commandImgViewLeft3.frame = CGRect(x:50, y:yRef, width:imgWH, height:imgWH)
-//        initialRightImageViewFrame3 = CGRect(x:tW-imgWH-50, y:yRef, width:imgWH, height:imgWH)
-//        commandImgViewRight3.frame = initialRightImageViewFrame3
-//        dragAnimationView3.frame = initialRightImageViewFrame3
-//
-//
-////        commandImgViewLeft.frame = CGRect(x:50, y:(topSpace)/2.0, width:imgWH, height:imgWH)
-////        initialRightImageViewFrame1 = CGRect(x:tW-imgWH-50, y:(tH-imgWH)/2.0, width:imgWH, height:imgWH)
-////        commandImgViewRight.frame = initialRightImageViewFrame
-////        dragAnimationView.frame = initialRightImageViewFrame
-//    }
-    
+
     private func customSetting() {
         self.initializeFrame()
         self.isDragCompleted = false
@@ -477,34 +445,6 @@ extension TrialMatching3PairViewController {
                           
                 self.green_circle(commandImgViewLeft1, count: 3)
                 self.green_circle(commandImgViewRight1, count: 3)
-                
-//                for i in 0..<self.matchingObjectInfo.image_with_text.count {
-//                    let img = self.matchingObjectInfo.image_with_text[i]
-//                    //DILIP self.green_circle(commandImgViewRight, count: 3)
-//                    if(img.id == questioninfo.value_id) {
-//
-//                        //Image 1
-//                        if(img.name == "Left") {
-//                            self.green_circle(commandImgViewLeft1, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.green_circle(commandImgViewRight1, count: 3)
-//                        }
-//
-//                        //Image 2
-//                        if(img.name == "Left") {
-//                            self.green_circle(commandImgViewLeft2, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.green_circle(commandImgViewRight2, count: 3)
-//                        }
-//
-//                        //Image 3
-//                        if(img.name == "Left") {
-//                            self.green_circle(commandImgViewLeft3, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.green_circle(commandImgViewRight3, count: 3)
-//                        }
-//                    }
-//                }
              }
         }
         
@@ -525,36 +465,7 @@ extension TrialMatching3PairViewController {
                 //self.show_finger_on_image(commandImgViewLeft1, count: 3)
                 self.show_finger_on_image(commandImgViewRight1, count: 3)
                 
-//                for i in 0..<self.matchingObjectInfo.image_with_text.count {
-//                    let img = self.matchingObjectInfo.image_with_text[i]
-//
-//                    //Image 1
-//                    if(img.id == questioninfo.value_id) {
-//                        if(img.name == "Left") {
-//                            self.show_finger_on_image(commandImgViewLeft1, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.show_finger_on_image(commandImgViewRight1, count: 3)
-//                        }
-//                    }
-//
-//                    //Image 2
-//                    if(img.id == questioninfo.value_id) {
-//                        if(img.name == "Left") {
-//                            self.show_finger_on_image(commandImgViewLeft2, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.show_finger_on_image(commandImgViewRight2, count: 3)
-//                        }
-//                    }
-//
-//                    //Image 3
-//                    if(img.id == questioninfo.value_id) {
-//                        if(img.name == "Left") {
-//                            self.show_finger_on_image(commandImgViewLeft3, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.show_finger_on_image(commandImgViewRight3, count: 3)
-//                        }
-//                    }
-//                }
+
              }
         }
         
@@ -565,33 +476,7 @@ extension TrialMatching3PairViewController {
                 self.show_tap_fingure_animation(commandImgViewLeft1, count: 3)
                 self.show_tap_fingure_animation(commandImgViewRight1, count: 3)
                 
-//                for i in 0..<self.matchingObjectInfo.image_with_text.count {
-//                    let img = self.matchingObjectInfo.image_with_text[i]
-//
-//                    if(img.id == questioninfo.value_id) {
-//
-//                        //Image 1
-//                        if(img.name == "Left") {
-//                            self.show_tap_fingure_animation(commandImgViewLeft1, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.show_tap_fingure_animation(commandImgViewRight1, count: 3)
-//                        }
-//
-//                        //Image 2
-//                        if(img.name == "Left") {
-//                            self.show_tap_fingure_animation(commandImgViewLeft2, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.show_tap_fingure_animation(commandImgViewRight2, count: 3)
-//                        }
-//
-//                        //Image 3
-//                        if(img.name == "Left") {
-//                            self.show_tap_fingure_animation(commandImgViewLeft3, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.show_tap_fingure_animation(commandImgViewRight3, count: 3)
-//                        }
-//                    }
-//                }
+
              }
         }
         
@@ -602,48 +487,7 @@ extension TrialMatching3PairViewController {
                 Animations.makeBiggerAnimation(imageView: commandImgViewLeft1, questionInfo: questioninfo, completion: { (finished) in
                     self.matchingObjectViewModel.updateCurrentCommandIndex()
                 })
-//                for i in 0..<self.matchingObjectInfo.image_with_text.count {
-//                    let img = self.matchingObjectInfo.image_with_text[i]
-//
-//                    //Image 1
-//                    if(img.id == questioninfo.value_id) {
-//                        if(img.name == "Left") {
-//                            Animations.makeBiggerAnimation(imageView: commandImgViewLeft1, questionInfo: questioninfo, completion: { (finished) in
-//                                self.matchingObjectViewModel.updateCurrentCommandIndex()
-//                            })
-//                        } else if(img.name == "Right") {
-//                            Animations.makeBiggerAnimation(isLeft:false, imageView: commandImgViewRight1, questionInfo: questioninfo, completion: { (finished) in
-//                                self.matchingObjectViewModel.updateCurrentCommandIndex()
-//                            })
-//                        }
-//                    }
-//
-//                    //Image 2
-//                    if(img.id == questioninfo.value_id) {
-//                        if(img.name == "Left") {
-//                            Animations.makeBiggerAnimation(imageView: commandImgViewLeft2, questionInfo: questioninfo, completion: { (finished) in
-//                                self.matchingObjectViewModel.updateCurrentCommandIndex()
-//                            })
-//                        } else if(img.name == "Right") {
-//                            Animations.makeBiggerAnimation(isLeft:false, imageView: commandImgViewRight2, questionInfo: questioninfo, completion: { (finished) in
-//                                self.matchingObjectViewModel.updateCurrentCommandIndex()
-//                            })
-//                        }
-//                    }
-//
-//                    //Image 3
-//                    if(img.id == questioninfo.value_id) {
-//                        if(img.name == "Left") {
-//                            Animations.makeBiggerAnimation(imageView: commandImgViewLeft3, questionInfo: questioninfo, completion: { (finished) in
-//                                self.matchingObjectViewModel.updateCurrentCommandIndex()
-//                            })
-//                        } else if(img.name == "Right") {
-//                            Animations.makeBiggerAnimation(isLeft:false, imageView: commandImgViewRight3, questionInfo: questioninfo, completion: { (finished) in
-//                                self.matchingObjectViewModel.updateCurrentCommandIndex()
-//                            })
-//                        }
-//                    }
-//                }
+
              }
         }
         
@@ -655,48 +499,7 @@ extension TrialMatching3PairViewController {
                     self.matchingObjectViewModel.updateCurrentCommandIndex()
                 }
                 
-//                for i in 0..<self.matchingObjectInfo.image_with_text.count {
-//                    let img = self.matchingObjectInfo.image_with_text[i]
-//
-//                    //Image 1
-//                    if(img.id == questioninfo.value_id) {
-//                        if(img.name == "Left") {
-//                            Animations.normalImageAnimation(imageView: commandImgViewLeft1, questionInfo: questioninfo) { (finished) in
-//                                self.matchingObjectViewModel.updateCurrentCommandIndex()
-//                            }
-//                        } else if(img.name == "Right") {
-//                            Animations.normalImageAnimation(isLeft:false, imageView: commandImgViewRight1, questionInfo: questioninfo) { (finished) in
-//                                self.matchingObjectViewModel.updateCurrentCommandIndex()
-//                            }
-//                            }
-//                        }
-//
-//                    //Image 2
-//                    if(img.id == questioninfo.value_id) {
-//                        if(img.name == "Left") {
-//                            Animations.normalImageAnimation(imageView: commandImgViewLeft2, questionInfo: questioninfo) { (finished) in
-//                                self.matchingObjectViewModel.updateCurrentCommandIndex()
-//                            }
-//                        } else if(img.name == "Right") {
-//                            Animations.normalImageAnimation(isLeft:false, imageView: commandImgViewRight2, questionInfo: questioninfo) { (finished) in
-//                                self.matchingObjectViewModel.updateCurrentCommandIndex()
-//                            }
-//                            }
-//                        }
-//
-//                    //Image 3
-//                    if(img.id == questioninfo.value_id) {
-//                        if(img.name == "Left") {
-//                            Animations.normalImageAnimation(imageView: commandImgViewLeft3, questionInfo: questioninfo) { (finished) in
-//                                self.matchingObjectViewModel.updateCurrentCommandIndex()
-//                            }
-//                        } else if(img.name == "Right") {
-//                            Animations.normalImageAnimation(isLeft:false, imageView: commandImgViewRight3, questionInfo: questioninfo) { (finished) in
-//                                self.matchingObjectViewModel.updateCurrentCommandIndex()
-//                            }
-//                            }
-//                        }
-//                    }
+
                 }
              }
         
@@ -730,59 +533,7 @@ extension TrialMatching3PairViewController {
                     }
                 }
                 
-//                //Image 2
-//                if let option = questionInfo.option {
-//                    if  option.drag_direction == ScriptCommandOptionType.right_to_left.rawValue  {
-//                        var duration = 0
-//                        if option.time_in_second.count > 0 {
-//                            duration = Int(option.time_in_second) ?? 0
-//                        }
-//                        self.isDragStarted = false
-//                        self.dragAnimationView2.isHidden = false
-//                        self.dragAnimationView2.isUserInteractionEnabled = false
-//                        if !self.isDragCompleted {
-//                            self.rightToleftTransparentAnimation(duration: duration-2)
-//                        }
-//                    } else {
-//                        var duration = 0
-//                        if option.time_in_second.count > 0 {
-//                            duration = Int(option.time_in_second) ?? 0
-//                        }
-//                        self.isDragStarted = false
-//                        self.dragAnimationView2.isHidden = false
-//                        self.dragAnimationView2.isUserInteractionEnabled = false
-//                        if !self.isDragCompleted {
-//                            self.rightToleftTransparentAnimation(duration: duration-2)
-//                        }
-//                    }
-//                }
-//
-//                //Image 3
-//                if let option = questionInfo.option {
-//                    if  option.drag_direction == ScriptCommandOptionType.right_to_left.rawValue  {
-//                        var duration = 0
-//                        if option.time_in_second.count > 0 {
-//                            duration = Int(option.time_in_second) ?? 0
-//                        }
-//                        self.isDragStarted = false
-//                        self.dragAnimationView3.isHidden = false
-//                        self.dragAnimationView3.isUserInteractionEnabled = false
-//                        if !self.isDragCompleted {
-//                            self.rightToleftTransparentAnimation(duration: duration-2)
-//                        }
-//                    } else {
-//                        var duration = 0
-//                        if option.time_in_second.count > 0 {
-//                            duration = Int(option.time_in_second) ?? 0
-//                        }
-//                        self.isDragStarted = false
-//                        self.dragAnimationView3.isHidden = false
-//                        self.dragAnimationView3.isUserInteractionEnabled = false
-//                        if !self.isDragCompleted {
-//                            self.rightToleftTransparentAnimation(duration: duration-2)
-//                        }
-//                    }
-//                }
+
              }
         }
         
@@ -805,37 +556,7 @@ extension TrialMatching3PairViewController {
                     }
                 }
                 
-//                //Image 2
-//                if let option = questionInfo.option {
-//                    if  option.drag_direction == ScriptCommandOptionType.right_to_left.rawValue  {
-//                        var duration = 0
-//                        if option.time_in_second.count > 0 {
-//                            duration = Int(option.time_in_second) ?? 0
-//                        }
-//                        self.isDragStarted = false
-//                        self.dragAnimationView2.isHidden = false
-//                        self.dragAnimationView2.isUserInteractionEnabled = false
-//                        if !self.isDragCompleted {
-//                            self.rightToleftAnimation(duration: duration)
-//                        }
-//                    }
-//                }
-//                
-//                //Image 3
-//                if let option = questionInfo.option {
-//                    if  option.drag_direction == ScriptCommandOptionType.right_to_left.rawValue  {
-//                        var duration = 0
-//                        if option.time_in_second.count > 0 {
-//                            duration = Int(option.time_in_second) ?? 0
-//                        }
-//                        self.isDragStarted = false
-//                        self.dragAnimationView3.isHidden = false
-//                        self.dragAnimationView3.isUserInteractionEnabled = false
-//                        if !self.isDragCompleted {
-//                            self.rightToleftAnimation(duration: duration)
-//                        }
-//                    }
-//                }
+
              }
         }
         
@@ -866,10 +587,7 @@ extension TrialMatching3PairViewController {
     
     
     private func blinkAllImages(count: Int) {
-//        if count == 0 {
-//            self.commandViewModal.updateCurrentCommandIndex()
-//            return
-//        }
+
                 UIView.animate(withDuration: 1, animations: {
                     for subview in self.view.subviews {
                         if let cmdImageView = subview as? ScriptCommandImageView {
@@ -883,7 +601,6 @@ extension TrialMatching3PairViewController {
                         }
                     }
                     self.blinkAllImages(count: count - 1)
-                    //self.commandViewModal.updateCurrentCommandIndex()
                 }
         
     }
@@ -912,20 +629,7 @@ extension TrialMatching3PairViewController {
     
     //P2
     private func green_circle(_ imageView: UIImageView, count: Int) {
-//        if count == 0 {
-//            self.matchingObjectViewModel.updateCurrentCommandIndex()
-//            return
-//        }
-//        self.is_green_circle = true
-//        self.selectedIndex = self.answerIndex
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
-//            self.is_green_circle = false
-//            self.selectedIndex = -1
-//        })
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0, execute: {
-//            self.green_circle(imageView, count: count - 1)
-//        })
+
     }
     
     
@@ -936,27 +640,15 @@ extension TrialMatching3PairViewController {
             return
         }
          
-//        let width = imageView.frame.size.width
-//        let widthHalf = width/2.0
-//
-//        let height = imageView.frame.height
-//        let heightHalf = height/2.0
+
         
         //Image 1
-//        self.imgViewFinger1.frame = CGRect(x: imageView.frame.origin.x+(widthHalf/2), y: imageView.frame.origin.y+(heightHalf+30), width: widthHalf, height: widthHalf)
         self.imgViewFinger1.isHidden =  false
         dragAnimationView1.isHidden = false
         dragAnimationView1.backgroundColor = .clear
         
         self.perform(#selector(hideImage(_:)), with: imgViewFinger1, afterDelay: TimeInterval(count))
         self.perform(#selector(hideView(_:)), with: imgViewFinger1, afterDelay: TimeInterval(count))
-//        //Image 2
-//        self.imgViewFinger2.frame = CGRect(x: imageView.frame.origin.x+(widthHalf/2), y: imageView.frame.origin.y+(heightHalf+30), width: widthHalf, height: widthHalf)
-//        self.imgViewFinger2.isHidden =  false
-//
-//        //Image 3
-//        self.imgViewFinger3.frame = CGRect(x: imageView.frame.origin.x+(widthHalf/2), y: imageView.frame.origin.y+(heightHalf+30), width: widthHalf, height: widthHalf)
-//        self.imgViewFinger3.isHidden =  false
 
     }
     @objc func hideImage(_ imgView:UIImageView) {
@@ -1019,33 +711,7 @@ extension TrialMatching3PairViewController {
                 }
             }
             
-//            //Image 2
-//            self.commandImgViewRightCopy2.alpha = 0.5
-//            self.commandImgViewRight2.isHidden = false
-//            UIView.animate(withDuration: 3, animations: {
-//                self.dragAnimationView2.frame = self.commandImgViewLeft2.frame
-//            }) {  finished in
-//                if !self.isDragCompleted && !self.isDragStarted {
-//                    self.dragAnimationView2.frame = self.initialRightImageViewFrame2
-//                    self.rightToleftTransparentAnimation(duration: duration-1)
-//                } else if !self.isDragCompleted && self.isDragStarted   {
-//                    self.dragAnimationView2.isHidden = true
-//                }
-//            }
-//
-//            //Image 3
-//            self.commandImgViewRightCopy3.alpha = 0.5
-//            self.commandImgViewRight3.isHidden = false
-//            UIView.animate(withDuration: 3, animations: {
-//                self.dragAnimationView3.frame = self.commandImgViewLeft3.frame
-//            }) {  finished in
-//                if !self.isDragCompleted && !self.isDragStarted {
-//                    self.dragAnimationView3.frame = self.initialRightImageViewFrame3
-//                    self.rightToleftTransparentAnimation(duration: duration-1)
-//                } else if !self.isDragCompleted && self.isDragStarted   {
-//                    self.dragAnimationView3.isHidden = true
-//                }
-//            }
+
         }
      }
 
@@ -1073,35 +739,7 @@ extension TrialMatching3PairViewController {
                 }
             }
             
-//            //Image 2
-//            self.commandImgViewRightCopy2.alpha = 1.0
-//            self.commandImgViewRight2.isHidden = true
-//            UIView.animate(withDuration: 3, animations: {
-//                self.dragAnimationView2.frame = self.commandImgViewLeft2.frame
-//            }) {  finished in
-//                self.commandImgViewRight2.isHidden = false
-//                if !self.isDragCompleted && !self.isDragStarted {
-//                    self.dragAnimationView2.frame = self.initialRightImageViewFrame2
-//                    self.rightToleftAnimation(duration: duration-1)
-//                } else if !self.isDragCompleted && self.isDragStarted   {
-//                    self.dragAnimationView2.isHidden = true
-//                }
-//            }
-//
-//            //Image 3
-//            self.commandImgViewRightCopy3.alpha = 1.0
-//            self.commandImgViewRight3.isHidden = true
-//            UIView.animate(withDuration: 3, animations: {
-//                self.dragAnimationView3.frame = self.commandImgViewLeft3.frame
-//            }) {  finished in
-//                self.commandImgViewRight3.isHidden = false
-//                if !self.isDragCompleted && !self.isDragStarted {
-//                    self.dragAnimationView3.frame = self.initialRightImageViewFrame3
-//                    self.rightToleftAnimation(duration: duration-1)
-//                } else if !self.isDragCompleted && self.isDragStarted   {
-//                    self.dragAnimationView3.isHidden = true
-//                }
-//            }
+
         }
      }
     
@@ -1181,32 +819,8 @@ extension TrialMatching3PairViewController {
 }
     
     func submitTrialMatchingAnswer(info:MatchingObjectInfo) {
-//        if !Utility.isNetworkAvailable() {
-//            if let noNetwork = self.noNetWorkClosure {
-//                noNetwork()
-//            }
-//            return
-//        }
 
         if let user = UserManager.shared.getUserInfo() {
-
-//            {
-//                "user_id":"5f857e8af43653754167c1c6",
-//                "question_id":"5f97a65b7ea8177fddb09944",
-//                "question_type":"color_trace_table",
-//                "skill_domain_id" : "5f3696756a47807a001de5b1",
-//                "program_id" : "5f3684ba05bde342aec23ffc",
-//                "level" : "1",
-//                "complete_rate":80,
-//                "language":"en",
-//                "course_type" : "Trial",
-//                "req_no" : "SD3P3L1",
-//                "time_taken":"17",
-//                "image_url" : "",
-//                "skip" : false,
-//                "prompt_type" : ""
-//
-//            }
             let parameters: [String : Any] = [
                ServiceParsingKeys.user_id.rawValue :user.id,
                 ServiceParsingKeys.question_id.rawValue :info.id,

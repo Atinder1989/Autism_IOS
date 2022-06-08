@@ -77,7 +77,8 @@ class TrialSpellingViewController: UIViewController, UITextFieldDelegate {
      NotificationCenter.default.addObserver(self, selector: #selector(TrialSpellingViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
  }
  override func viewWillDisappear(_ animated: Bool) {
-     
+     self.matchSpellingViewModel.stopAllCommands()
+
      NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
      NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
  }
