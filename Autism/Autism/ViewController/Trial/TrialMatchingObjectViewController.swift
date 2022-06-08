@@ -150,13 +150,14 @@ internal func collectionView(_ collectionView: UICollectionView, cellForItemAt i
     let cornerRadius:CGFloat = width/2.0
     print("width 2 = ", width)
 
+    cell.greenTickImageView.isHidden = true
      if selectedIndex == -1 {
         Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 4, color: .darkGray)
      } else {
         if indexPath.row == answerIndex {
             if(is_green_circle == false) {
-            cell.greenTickImageView.isHidden = false
-            cell.greenTickImageView.image = UIImage.init(named: "greenTick")
+                cell.greenTickImageView.isHidden = false
+                cell.greenTickImageView.image = UIImage.init(named: "greenTick")
             }
             
             if(selectedIndex == answerIndex) {
@@ -164,8 +165,7 @@ internal func collectionView(_ collectionView: UICollectionView, cellForItemAt i
             } else {
                 Animations.shake(on: cell)
             }
-        }
-        else if selectedIndex == indexPath.row {
+        } else if selectedIndex == indexPath.row {
             cell.fingerImageView.isHidden = true
             
             cell.greenTickImageView.isHidden = false
@@ -219,9 +219,11 @@ extension TrialMatchingObjectViewController {
         
         self.isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
-        SpeechManager.shared.speak(message:  matchingObjectInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        
+        
         collectionOption.register(UINib(nibName: MatchingObjectCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MatchingObjectCollectionViewCell.identifier)
         labelTitle.text = matchingObjectInfo.question_title
+        
         self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
 
         let layout = UICollectionViewFlowLayout()
@@ -236,14 +238,12 @@ extension TrialMatchingObjectViewController {
             self.imageViewBG.frame = CGRect(x: (screenW-310)/2.0, y: 120, width: 310, height: 310)
             self.collectionOption.frame = CGRect(x: (screenW-960)/2.0, y: screenH-320, width: 960, height: 300)
 
-            self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
             self.imageViewBG.addDashedBorder(cornerRadius: 155, linewidth: 8, color: .darkGray, dashpattern: [6,3])
         } else {
             self.imageViewBG.frame = CGRect(x: (screenW-100)/2.0, y: 100, width: 100, height: 100)
             let w:CGFloat = CGFloat(self.matchingObjectInfo.image_with_text.count*(120))
             self.collectionOption.frame = CGRect(x: 20+((screenW-w)/2.0), y: screenH-130, width: w, height: 100)
 
-            self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
             self.imageViewBG.addDashedBorder(cornerRadius: 50, linewidth: 3, color: .darkGray, dashpattern: [6,3])
         }
         //////
@@ -251,6 +251,10 @@ extension TrialMatchingObjectViewController {
         
         if self.matchingObjectInfo.prompt_detail.count > 0 {            
             self.matchingObjectViewModel.setQuestionInfo(info:matchingObjectInfo)
+        }
+        
+        DispatchQueue.main.async {
+            SpeechManager.shared.speak(message:  self.matchingObjectInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
     

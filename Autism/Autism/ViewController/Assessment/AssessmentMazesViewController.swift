@@ -519,7 +519,7 @@ extension AssessmentMazesViewController {
             yPos = (UIScreen.main.bounds.size.height-imgWH)/2.0
         }
         imgViewObject.frame = CGRect(x:0, y:yPos, width:imgWH, height:imgWH)
-        imgViewGoal.frame = CGRect(x:UIScreen.main.bounds.size.width-imgWH, y:yPos, width:imgWH, height:imgWH)
+        imgViewGoal.frame = CGRect(x:UIScreen.main.bounds.size.width-220, y:yPos, width:imgWH, height:imgWH)
         
         heightImgViewBG.constant = imgWH
         

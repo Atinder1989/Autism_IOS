@@ -359,9 +359,16 @@ extension TrialGrabingObjectsViewController {
         self.filledImageView5.isHidden = true
         self.handImageview.isHidden = true
         
-        let imageViewsize = 140
-        let yAxis:CGFloat = 100
-        let padding = 40
+        var imageViewsize = 140
+        var yAxis:CGFloat = 100
+        var padding = 40
+        
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            imageViewsize = 70
+            yAxis = 50
+            padding = 20
+        }
+        
         filledImageView3.frame = CGRect(x:(Int(UIScreen.main.bounds.width)/2) - (imageViewsize/2), y:Int(yAxis), width:imageViewsize, height:imageViewsize)
         
         filledImageView2.frame = CGRect(x:Int(filledImageView3.frame.origin.x) - padding - imageViewsize, y:Int(yAxis), width:imageViewsize, height:imageViewsize)

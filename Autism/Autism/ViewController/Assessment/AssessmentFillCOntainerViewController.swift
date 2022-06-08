@@ -60,7 +60,20 @@ class AssessmentFillContainerViewController: UIViewController, UIDragInteraction
         } else {
             self.addDragInteraction()
         }
+        let notificationCenter = NotificationCenter.default
+        
+        notificationCenter.addObserver(self, selector: #selector(appCameToForeground), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
+    
+   @objc func appCameToForeground() {
+       print("app enters foreground")
+       if let frame = self.initialFrame {
+           self.selectedObject.frame = frame
+           self.initialFrame = nil
+           self.selectedObject = nil
+       }
+   }
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchOnEmptyScreenCount += 1
     }

@@ -221,15 +221,16 @@ extension AssessmentMultiArrayQuestionViewController {
         if !Utility.isNetworkAvailable() {
             return
         }
-        
+//        "time_interval" = 20;
+//        "trial_time" = 60;
+//        "completion_time" = 120;
         self.timeTakenToSolve += 1
         trailPromptTimeForUser += 1
 
         if self.timeTakenToSolve == Int(AppConstant.screenloadQuestionSpeakTimeDelay.rawValue) {
              self.questionTitle.text = self.whichTypeQuestionInfo.blocks[currentIndex].question_title
             SpeechManager.shared.speak(message:  self.whichTypeQuestionInfo.blocks[currentIndex].question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-        } else if trailPromptTimeForUser == whichTypeQuestionInfo.trial_time && self.timeTakenToSolve < whichTypeQuestionInfo.completion_time
-        {
+        } else if (trailPromptTimeForUser == whichTypeQuestionInfo.trial_time && self.timeTakenToSolve < whichTypeQuestionInfo.completion_time) {
             if(isUserInteraction == false) {
                 return
             }
@@ -240,9 +241,11 @@ extension AssessmentMultiArrayQuestionViewController {
                 return
             }
             let time_inteval = whichTypeQuestionInfo.time_interval+(currentIndex*whichTypeQuestionInfo.time_interval)
+            print("time_inteval = ", time_inteval)
+            print("timeTakenToSolve = ", self.timeTakenToSolve)
             if (self.timeTakenToSolve >= time_inteval) {
                 isUserInteraction = false
-                if(currentIndex < self.whichTypeQuestionInfo.blocks.count) {
+                if(currentIndex < self.whichTypeQuestionInfo.blocks.count-1) {
                     self.showNextImage()
                 } else {
                     self.moveToNextQuestion()
@@ -346,14 +349,19 @@ extension AssessmentMultiArrayQuestionViewController: UICollectionViewDataSource
     internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
-        
+        if(collectionView.frame.size.width == 200) {
+            cell.setLayouts(wh: 20, t: 0, l: 0)
+        } else {
+            cell.setLayouts(wh: 32, t: 20, l: 20)
+        }
+
         var model:ImageModel!
         if(collectionView.tag < self.whichTypeQuestionInfo.blocks.count) {
             model = self.whichTypeQuestionInfo.blocks[collectionView.tag].imagesList[indexPath.row]
         } else{
             return cell
         }
-                
+                        
         cell.greenTickImageView.isHidden = true
         cell.greenTickImageView.image = nil
         
@@ -393,6 +401,11 @@ extension AssessmentMultiArrayQuestionViewController: UICollectionViewDataSource
              } else {
                  Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .darkGray)
              }
+        }
+        if(collectionView.frame.size.width == 200) {
+            cell.setLayouts(wh: 20, t: 0, l: 0)
+        } else {
+            cell.setLayouts(wh: 32, t: 20, l: 20)
         }
       return cell
     }

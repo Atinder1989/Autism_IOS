@@ -118,16 +118,17 @@ internal func collectionView(_ collectionView: UICollectionView, cellForItemAt i
         Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 2, color: .darkGray)
      } else {
         if indexPath.row == answerIndex {
-            if(selectedIndex != answerIndex){
+            if(selectedIndex != answerIndex) {
                 Animations.shake(on: cell)
             }
             cell.greenTickImageView.isHidden = false
             cell.greenTickImageView.image = UIImage.init(named: "greenTick")
             Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 2, color: .greenBorderColor)
-        }
-        else if selectedIndex == indexPath.row {
-            cell.greenTickImageView.isHidden = false
-            cell.greenTickImageView.image = UIImage.init(named: "cross")
+        } else if selectedIndex == indexPath.row {
+            if(selectedIndex != answerIndex) {
+                cell.greenTickImageView.isHidden = false
+                cell.greenTickImageView.image = UIImage.init(named: "cross")
+            }
             Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 2, color: .redBorderColor)
         } else {
             Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 2, color: .darkGray)

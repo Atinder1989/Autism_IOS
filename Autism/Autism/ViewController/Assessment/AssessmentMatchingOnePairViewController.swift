@@ -126,7 +126,7 @@ extension AssessmentMatchingOnePairViewController {
     func initilizeFramming() {
     
         var wh:CGFloat = 180
-        var yRef:CGFloat = 180
+        var yRef:CGFloat = 100
         var ySpace:CGFloat = 40
         let xSpace:CGFloat = 60
         

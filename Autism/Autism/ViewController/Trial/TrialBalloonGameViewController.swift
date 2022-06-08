@@ -63,15 +63,20 @@ class TrialBalloonGameViewController: UIViewController {
     private var totalBalloonInGame = 0
     private var speedBreaker = 0
     
+    var padding:CGFloat = 50
+    var baloonWH:CGFloat = 220
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-            self.listenModelClosures()
-        self.customSetting()
         
-//        if(self.balloonGameQuestionInfo.prompt_detail.count == 0) {
-//            self.startGame()
-//        }
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            baloonWH = 110
+            padding = 25
+        }
+
+        self.listenModelClosures()
+        self.customSetting()
     }
     
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -109,19 +114,12 @@ class TrialBalloonGameViewController: UIViewController {
     
     @IBAction func skipQuestionClicked(_ sender: Any) {
         if !skipQuestion {
-//            self.imageView.layer.removeAllAnimations()
             self.skipQuestion = true
             self.moveToNextQuestion()
         }
     }
 
     func submitTrialMatchingAnswer(info:BalloonGameQuestionInfo) {
-//        if !Utility.isNetworkAvailable() {
-//            if let noNetwork = self.noNetWorkClosure {
-//                noNetwork()
-//            }
-//            return
-//        }
 
         if let user = UserManager.shared.getUserInfo() {
 
@@ -314,7 +312,6 @@ extension TrialBalloonGameViewController {
             return
         }
         DispatchQueue.main.async {
-            
             if(questionInfo.value == "first_image") {
                 self.imgH1.isHidden = false
                 self.perform(#selector(self.hideImage(_:)), with: self.imgH1, afterDelay: TimeInterval(count))
@@ -328,7 +325,6 @@ extension TrialBalloonGameViewController {
                 self.imgH4.isHidden = false
                 self.perform(#selector(self.hideImage(_:)), with: self.imgH4, afterDelay: TimeInterval(count))
             }
-                        
         }
     }
     
@@ -358,7 +354,6 @@ extension TrialBalloonGameViewController {
                 self.imageView3.isHidden = true
             }
         }
-
         self.balloonViewModel.updateCurrentCommandIndex()
     }
     
@@ -384,23 +379,21 @@ extension TrialBalloonGameViewController {
         self.imageView4.isHidden = false
         
         let yAxis:CGFloat = UIScreen.main.bounds.height
-        let size:CGFloat = 220
-        let padding:CGFloat = 50
-        imageView1.frame = CGRect(x:padding, y:yAxis, width:size, height:size)
-        imageView2.frame = CGRect(x:(UIScreen.main.bounds.width/2) - (size), y:yAxis, width:size, height:size)
-        imageView3.frame = CGRect(x:(UIScreen.main.bounds.width/2) + (size/2), y:yAxis, width:size, height:size)
-        imageView4.frame = CGRect(x:UIScreen.main.bounds.width - padding - size, y:yAxis, width:size, height:size)
-//        imageViewHandNew.frame = CGRect(x:(UIScreen.main.bounds.width/2) - (size/2) , y:yAxis, width:size, height:size)
         
-        imgH1.frame = CGRect(x:0 , y:0, width:size, height:size)
-        imgH2.frame = CGRect(x:0 , y:0, width:size, height:size)
-        imgH3.frame = CGRect(x:0 , y:0, width:size, height:size)
-        imgH4.frame = CGRect(x:0 , y:0, width:size, height:size)
+        imageView1.frame = CGRect(x:padding, y:yAxis, width:baloonWH, height:baloonWH)
+        imageView2.frame = CGRect(x:(UIScreen.main.bounds.width/2) - (baloonWH), y:yAxis, width:baloonWH, height:baloonWH)
+        imageView3.frame = CGRect(x:(UIScreen.main.bounds.width/2) + (baloonWH/2), y:yAxis, width:baloonWH, height:baloonWH)
+        imageView4.frame = CGRect(x:UIScreen.main.bounds.width - padding - baloonWH, y:yAxis, width:baloonWH, height:baloonWH)
         
-        imgB1.frame = CGRect(x:0 , y:0, width:size, height:size)
-        imgB2.frame = CGRect(x:0 , y:0, width:size, height:size)
-        imgB3.frame = CGRect(x:0 , y:0, width:size, height:size)
-        imgB4.frame = CGRect(x:0 , y:0, width:size, height:size)
+        imgH1.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
+        imgH2.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
+        imgH3.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
+        imgH4.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
+        
+        imgB1.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
+        imgB2.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
+        imgB3.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
+        imgB4.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
   }
 
     private func initializeFrame1()
@@ -408,12 +401,10 @@ extension TrialBalloonGameViewController {
         self.imageView1.isHidden = false
         
         let yAxis:CGFloat = UIScreen.main.bounds.height
-        let size:CGFloat = 220
-        let padding:CGFloat = 50
         
-        imageView1.frame = CGRect(x:padding, y:yAxis, width:size, height:size)
-        imgH1.frame = CGRect(x:0 , y:0, width:size, height:size)
-        imgB1.frame = CGRect(x:0 , y:0, width:size, height:size)
+        imageView1.frame = CGRect(x:padding, y:yAxis, width:baloonWH, height:baloonWH)
+        imgH1.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
+        imgB1.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
   }
 
     private func initializeFrame2()
@@ -421,14 +412,10 @@ extension TrialBalloonGameViewController {
         self.imageView2.isHidden = false
 
         let yAxis:CGFloat = UIScreen.main.bounds.height
-        let size:CGFloat = 220
-        let padding:CGFloat = 50
 
-        imageView2.frame = CGRect(x:(UIScreen.main.bounds.width/2) - (size), y:yAxis, width:size, height:size)
-
-        imgH2.frame = CGRect(x:0 , y:0, width:size, height:size)
-
-        imgB2.frame = CGRect(x:0 , y:0, width:size, height:size)
+        imageView2.frame = CGRect(x:(UIScreen.main.bounds.width/2) - (baloonWH), y:yAxis, width:baloonWH, height:baloonWH)
+        imgH2.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
+        imgB2.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
   }
 
     private func initializeFrame3()
@@ -436,13 +423,11 @@ extension TrialBalloonGameViewController {
         self.imageView3.isHidden = false
         
         let yAxis:CGFloat = UIScreen.main.bounds.height
-        let size:CGFloat = 220
-        let padding:CGFloat = 50
 
-        imageView3.frame = CGRect(x:(UIScreen.main.bounds.width/2) + (size/2), y:yAxis, width:size, height:size)
+        imageView3.frame = CGRect(x:(UIScreen.main.bounds.width/2) + (baloonWH/2), y:yAxis, width:baloonWH, height:baloonWH)
 
-        imgH3.frame = CGRect(x:0 , y:0, width:size, height:size)
-        imgB3.frame = CGRect(x:0 , y:0, width:size, height:size)
+        imgH3.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
+        imgB3.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
   }
 
     private func initializeFrame4()
@@ -451,12 +436,10 @@ extension TrialBalloonGameViewController {
         self.imageView4.isHidden = false
         
         let yAxis:CGFloat = UIScreen.main.bounds.height
-        let size:CGFloat = 220
-        let padding:CGFloat = 50
 
-        imageView4.frame = CGRect(x:UIScreen.main.bounds.width - padding - size, y:yAxis, width:size, height:size)
-        imgH4.frame = CGRect(x:0 , y:0, width:size, height:size)
-        imgB4.frame = CGRect(x:0 , y:0, width:size, height:size)
+        imageView4.frame = CGRect(x:UIScreen.main.bounds.width - padding - baloonWH, y:yAxis, width:baloonWH, height:baloonWH)
+        imgH4.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
+        imgB4.frame = CGRect(x:0 , y:0, width:baloonWH, height:baloonWH)
   }
 
     func pauseLayer(layer: CALayer) {
@@ -475,71 +458,62 @@ extension TrialBalloonGameViewController {
     }
 
     private func startGame() {
+        
         self.isGameStart = true
         print("startGame()")
         self.timerMaxTime = self.balloonGameQuestionInfo.completion_time
         self.totalBalloonInGame += noOfBalloonsAtTime
+        
         UIView.animate(withDuration: TimeInterval(7+speedBreaker), delay: 0, options: [.allowUserInteraction, .allowAnimatedContent, .repeat]) { [weak self] in
+        
             if let this = self {
                 this.imageView1.frame = CGRect(x: this.imageView1.frame.origin.x, y: -this.imageView1.frame.height, width: this.imageView1.frame.height, height: this.imageView1.frame.height)
             }
                    
-                } completion: { (isCompleted) in
-//                    if self.timeTakenToSolve < self.timerMaxTime {
-//                        self.initializeFrame1()
-//                    }
-                }
-        
-        UIView.animate(withDuration: TimeInterval(9+speedBreaker), delay: 0, options: [.allowUserInteraction, .allowAnimatedContent, .repeat]) { [weak self] in
-            if let this = self {
-                this.imageView2.frame = CGRect(x: this.imageView2.frame.origin.x, y: -this.imageView2.frame.height, width: this.imageView2.frame.height, height: this.imageView2.frame.height)
+            } completion: { (isCompleted) in
             }
-                } completion: { (isCompleted) in
-                    
-//                        if self.timeTakenToSolve < self.timerMaxTime {
-//                            self.initializeFrame2()
-//                        }
-                    
+        
+            UIView.animate(withDuration: TimeInterval(9+speedBreaker), delay: 0, options: [.allowUserInteraction, .allowAnimatedContent, .repeat]) { [weak self] in
+                if let this = self {
+                    this.imageView2.frame = CGRect(x: this.imageView2.frame.origin.x, y: -this.imageView2.frame.height, width: this.imageView2.frame.height, height: this.imageView2.frame.height)
                 }
+            } completion: { (isCompleted) in
+                                        
+            }
         
         UIView.animate(withDuration: TimeInterval(7+speedBreaker), delay: 0, options: [.allowUserInteraction, .allowAnimatedContent, .repeat]) { [weak self] in
             if let this = self {
                 this.imageView3.frame = CGRect(x: this.imageView3.frame.origin.x, y: -this.imageView3.frame.height, width: this.imageView3.frame.height, height: this.imageView3.frame.height)
             }
-                } completion: { (isCompleted) in
+            } completion: { (isCompleted) in
                     
-//                        if self.timeTakenToSolve < self.timerMaxTime {
-//                            self.initializeFrame3()
-//                        }
-                    
-                }
-        
+            }
         
         UIView.animate(withDuration: TimeInterval(12+speedBreaker), delay: 0, options: [.allowUserInteraction, .allowAnimatedContent, .repeat]) { [weak self] in
             if let this = self {
                 this.imageView4.frame = CGRect(x: this.imageView4.frame.origin.x, y: -this.imageView4.frame.height, width: this.imageView4.frame.height, height: this.imageView4.frame.height)
             }
-                } completion: {[weak self] (isCompleted) in
-                    if let this = self {
-                        if this.timeTakenToSolve < this.timerMaxTime {
-                            this.initializeFrame()
-                            //this.startGame()
-                        } else {
-                            print("balloonTapCount = \(this.balloonTapCount)")
-                            print("totalBalloonInGame = \(this.totalBalloonInGame)")
-                            let rate:Double = Double(this.balloonTapCount) / Double(this.totalBalloonInGame)
-                            this.isGame = false
+        } completion: {[weak self] (isCompleted) in
+            if let this = self {
+                if this.timeTakenToSolve < this.timerMaxTime {
+                    this.initializeFrame()
+                    //this.startGame()
+                } else {
+                    print("balloonTapCount = \(this.balloonTapCount)")
+                    print("totalBalloonInGame = \(this.totalBalloonInGame)")
+                    let rate:Double = Double(this.balloonTapCount) / Double(this.totalBalloonInGame)
+                    this.isGame = false
 
-                            this.completeRate = 0
-                            this.questionState = .submit
-                            SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-                        }
-                    }
-                    
-                    
+                    this.completeRate = 0
+                    this.questionState = .submit
+                    SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 }
+            }
+        }
     }
+    
     private func customSetting() {
+        
         self.imgH1.isHidden = true
         self.imgH2.isHidden = true
         self.imgH3.isHidden = true
@@ -554,9 +528,7 @@ extension TrialBalloonGameViewController {
         self.speechTitle.text = ""
         self.avatarCenterImageView.animatedImage =  getIdleGif()
         self.avatarCenterImageView.isHidden = true
-//    }
-//    private func customSetting() {
-//        self.initializeFrame()
+
         animationFrameList = [
             CGPoint.init(x: UIScreen.main.bounds.width - imageViewsize, y: (UIScreen.main.bounds.height / 2) - (imageViewsize/2)),
             CGPoint.init(x: (UIScreen.main.bounds.width/2) - (imageViewsize/2) , y: 0),
@@ -565,13 +537,9 @@ extension TrialBalloonGameViewController {
         ]
 
         self.isUserInteraction = false
-        if self.balloonGameQuestionInfo.image_with_text.count > 0 {
-//            self.imageView.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + self.balloonGameQuestionInfo.image_with_text[0].image)
-        }
         speechTitle.text = self.balloonGameQuestionInfo.question_title
         SpeechManager.shared.setDelegate(delegate: self)
         SpeechManager.shared.speak(message: self.balloonGameQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-//        AutismTimer.shared.initializeTimer(delegate: self)
     }
     
     private func calculateTimeTaken() {
@@ -620,7 +588,6 @@ extension TrialBalloonGameViewController: SpeechManagerDelegate {
         switch self.questionState {
         case .submit:
             self.stopTimer()
-//            self.stopSpeechAndRecorder()
             if(self.isFromLearning == false) {
                 self.balloonViewModel.submitBalloonGameQuestionDetails(info: self.balloonGameQuestionInfo, completeRate: self.completeRate, timetaken: self.timeTakenToSolve, skip: self.skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
             } else {
@@ -634,7 +601,6 @@ extension TrialBalloonGameViewController: SpeechManagerDelegate {
                     apiDataState = .comandRunning
                     self.balloonViewModel.setQuestionInfo(info:self.balloonGameQuestionInfo)
                 } else {
-//                    self.startRec()
                     self.balloonViewModel.setQuestionInfo(info:self.balloonGameQuestionInfo)
                 }
             } else if(apiDataState == .comandRunning) {
@@ -642,7 +608,7 @@ extension TrialBalloonGameViewController: SpeechManagerDelegate {
                     self.balloonViewModel.updateCurrentCommandIndex()
                 }
             } else if(apiDataState == .comandFinished) {
-                //self.startRec()
+
             }
             
             break
@@ -650,7 +616,7 @@ extension TrialBalloonGameViewController: SpeechManagerDelegate {
     }
     
     func speechDidStart(speechText:String) {
-        //self.isUserInteraction = true
+
         self.avatarCenterImageView.isHidden = false
 
         if let type = Utility.getSpeechMessageType(text: speechText) {

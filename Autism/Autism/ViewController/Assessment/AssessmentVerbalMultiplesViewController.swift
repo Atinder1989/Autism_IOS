@@ -67,13 +67,6 @@ class AssessmentVerbalMultiplesViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-//        if(UIDevice.current.userInterfaceIdiom == .pad) {
-//            widthImageCenter.constant = 460
-//            heightImageCenter.constant = 460
-//        } else {
-//            widthImageCenter.constant = 240
-//            heightImageCenter.constant = 240
-//        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -161,7 +154,27 @@ extension AssessmentVerbalMultiplesViewController {
         self.imgV10.layer.borderWidth = 2.0
         self.imgV10.layer.borderColor = UIColor.clear.cgColor
 
-        let xRef:CGFloat = UIScreen.main.bounds.size.width-90
+        var xRef:CGFloat = UIScreen.main.bounds.size.width-90
+
+        var imgWH:CGFloat = 70
+//        var xRef:CGFloat = 20
+//        var yRef:CGFloat = 80
+//        var ySpace:CGFloat = 5
+//
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            imgWH = 50
+            xRef = UIScreen.main.bounds.size.width-70-safeArealRight
+        }
+
+        self.imgV2.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
+        self.imgV3.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
+        self.imgV4.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
+        self.imgV5.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
+        self.imgV6.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
+        self.imgV7.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
+        self.imgV8.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
+        self.imgV9.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
+        self.imgV10.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
 
         self.imgV2.center = CGPoint(x: xRef, y: self.imgV2.center.y)
         self.imgV3.center = CGPoint(x: xRef, y: self.imgV3.center.y)
@@ -264,13 +277,13 @@ extension AssessmentVerbalMultiplesViewController {
     func showNextImage()
     {
         var imgWH:CGFloat = 70
-        var xRef:CGFloat = 30
+        var xRef:CGFloat = 20
         var yRef:CGFloat = 80
         var ySpace:CGFloat = 5
 
         if(UIDevice.current.userInterfaceIdiom != .pad) {
             imgWH = 50
-            xRef = 50
+            xRef = 20+safeArealLeft
             yRef = 80
             ySpace = 5
         }

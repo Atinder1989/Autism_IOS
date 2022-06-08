@@ -165,11 +165,19 @@ extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource,
             return size
         }
         if(UIDevice.current.userInterfaceIdiom == .pad) {
-            let size:CGFloat = (UIScreen.main.bounds.width / c) - (10*c)
-            return size //CGSize.init(width: size, height: size)
+            if(c == 6){
+                let size:CGFloat = (UIScreen.main.bounds.width / c) - 20
+                return size //CGSize.init(width: size, height: size)
+            } else {
+                let size:CGFloat = (UIScreen.main.bounds.width / c) - (10*c)
+                return size //CGSize.init(width: size, height: size)
+            }
         } else {
             if(c == 3){
                 let size:CGFloat = (UIScreen.main.bounds.width / c) - (20*c)
+                return size //CGSize.init(width: size, height: size)
+            } else if(c == 6){
+                let size:CGFloat = (UIScreen.main.bounds.width / c) - (10*c)
                 return size //CGSize.init(width: size, height: size)
             } else {
                 let size:CGFloat = (UIScreen.main.bounds.width / c) - (15*c)

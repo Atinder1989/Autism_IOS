@@ -9,6 +9,7 @@
 import UIKit
 
 class AssessmentBalloonGameViewController: UIViewController {
+    
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var questionTitle: UILabel!
 
@@ -21,7 +22,7 @@ class AssessmentBalloonGameViewController: UIViewController {
     private var isBalloonTap = false
 
     private var animationIndex = 0
-    let imageViewsize:CGFloat = 300
+    var imageViewsize:CGFloat = 300
 
     private var animationFrameList:[CGPoint] = []
     private var timeTakenToSolve = 0
@@ -34,8 +35,12 @@ class AssessmentBalloonGameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-            self.listenModelClosures()
+        
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            imageViewsize = 150
+        }
+        
+        self.listenModelClosures()
         self.customSetting()
     }
     
@@ -104,7 +109,6 @@ extension AssessmentBalloonGameViewController {
     
     private func initializeFrame()
     {
-        let size = 100
         self.imageView.isHidden = false
         let xAxis:CGFloat = (UIScreen.main.bounds.width/2) - (imageViewsize/2)
         let yAxis:CGFloat = UIScreen.main.bounds.height - imageViewsize

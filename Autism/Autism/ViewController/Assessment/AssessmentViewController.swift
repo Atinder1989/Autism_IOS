@@ -235,7 +235,7 @@ extension AssessmentViewController {
                     self.svc.view.window!.addSubview(self.viewHeaderYT)
                 }
             
-                self.imgViewAvtarYT.frame = CGRect(x:UIScreen.main.bounds.size.width-180, y:7, width: 50, height: 50)
+                self.imgViewAvtarYT.frame = CGRect(x:UIScreen.main.bounds.size.width-180, y:4, width: 50, height: 50)
                 self.imgViewAvtarYT.clipsToBounds = true
                 self.imgViewAvtarYT.layer.cornerRadius = 20.0
                 self.imgViewAvtarYT.backgroundColor = UIColor.init(white: 1.0, alpha: 0.1)
@@ -249,7 +249,7 @@ extension AssessmentViewController {
                 //self.btnHomeYT.setImage(UIImage.init(named: "home"), for: .normal)
                 self.btnHomeYT.setImage(UIImage.init(named: "home"), for: .normal)
                 self.btnHomeYT.setTitleColor(.black, for: .normal)
-                self.btnHomeYT.frame = CGRect(x:UIScreen.main.bounds.size.width-120, y:7, width: 50, height: 50)
+                self.btnHomeYT.frame = CGRect(x:UIScreen.main.bounds.size.width-120, y:4, width: 50, height: 50)
                 self.btnHomeYT.addTarget(self, action: #selector(self.btnHomeYTClicked), for: .touchDown)
                 self.viewHeaderYT.addSubview(self.btnHomeYT)
                         
@@ -257,7 +257,7 @@ extension AssessmentViewController {
                 //self.btnSkipYT.setImage(UIImage.init(named: "back"), for: .normal)
                 self.btnSkipYT.setImage(UIImage.init(named: "skip"), for: .normal)
                 self.btnSkipYT.setTitleColor(.black, for: .normal)
-                self.btnSkipYT.frame = CGRect(x:UIScreen.main.bounds.size.width-60, y:7, width: 50, height: 50)// CGRect(x:10, y:4, width: 40, height: 40)
+                self.btnSkipYT.frame = CGRect(x:UIScreen.main.bounds.size.width-60, y:4, width: 50, height: 50)// CGRect(x:10, y:4, width: 40, height: 40)
                 self.btnSkipYT.addTarget(self, action: #selector(self.btnSkipYTClicked), for: .touchDown)
                 self.viewHeaderYT.addSubview(self.btnSkipYT)
             })
@@ -489,9 +489,9 @@ extension AssessmentViewController {
                 }
         case .drawing:
              if let info = res.drawingInfo {
-                              let vc = Utility.getViewController(ofType: AssessmentDrawingViewController.self)
-                              vc.modalPresentationStyle = .fullScreen
-                              vc.setDrawingQuestionInfo(info: info, delegate: this)
+                let vc = Utility.getViewController(ofType: AssessmentDrawingViewController.self)
+                vc.modalPresentationStyle = .fullScreen
+                vc.setDrawingQuestionInfo(info: info, delegate: this)
                 this.presentVC(vc: vc)
                                                        
                    }

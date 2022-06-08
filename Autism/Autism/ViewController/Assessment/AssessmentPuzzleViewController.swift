@@ -55,7 +55,29 @@ class AssessmentPuzzleViewController: UIViewController, UIDragInteractionDelegat
         super.viewDidLoad()
         self.listenModelClosures()
         self.customSetting()
+        
+        let notificationCenter = NotificationCenter.default
+        
+        notificationCenter.addObserver(self, selector: #selector(appCameToForeground), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
+    
+   @objc func appCameToForeground() {
+       print("app enters foreground")
+       if let frame = self.initialFrame {
+           self.selectedPuzzle.frame = frame
+           self.initialFrame = nil
+           self.selectedPuzzle = nil
+       }
+   }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchOnEmptyScreenCount += 1
     }

@@ -88,7 +88,7 @@ class AssessmentEyeContactViewController: UIHeadGazeViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.isIdleTimerDisabled = true
-        Utility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+//        Utility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
       //  eyeTrackManager.configureFaceTrackingConfiguration()
     }
     
@@ -135,7 +135,7 @@ extension AssessmentEyeContactViewController {
                                 if res.success {
                                     self?.dismiss(animated: true) {
                                         if let del = self?.delegate {
-                                            Utility.lockOrientation(UIInterfaceOrientationMask.landscape, andRotateTo: UIInterfaceOrientation.landscapeLeft)
+//                                            Utility.lockOrientation(UIInterfaceOrientationMask.landscape, andRotateTo: UIInterfaceOrientation.landscapeLeft)
                                              del.submitQuestionResponse(response: res)
                                         }
                                     }
@@ -159,11 +159,19 @@ extension AssessmentEyeContactViewController {
     private func customSetting() {
         SpeechManager.shared.setDelegate(delegate: self)
         self.questionTitle.text = eyecontactQuestionInfo.question_title
-        Utility.setView(view: self.questionImageView1, cornerRadius: 125, borderWidth: 2, color: .darkGray)
-        Utility.setView(view: self.questionImageView2, cornerRadius: 125, borderWidth: 2, color: .darkGray)
-        Utility.setView(view: self.questionImageView3, cornerRadius: 125, borderWidth: 2, color: .darkGray)
-        Utility.setView(view: self.questionImageView4, cornerRadius: 125, borderWidth: 2, color: .darkGray)
 
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            Utility.setView(view: self.questionImageView1, cornerRadius: 125, borderWidth: 2, color: .darkGray)
+            Utility.setView(view: self.questionImageView2, cornerRadius: 125, borderWidth: 2, color: .darkGray)
+            Utility.setView(view: self.questionImageView3, cornerRadius: 125, borderWidth: 2, color: .darkGray)
+            Utility.setView(view: self.questionImageView4, cornerRadius: 125, borderWidth: 2, color: .darkGray)
+        } else {
+            Utility.setView(view: self.questionImageView1, cornerRadius: 75, borderWidth: 0, color: .darkGray)
+            Utility.setView(view: self.questionImageView2, cornerRadius: 75, borderWidth: 0, color: .darkGray)
+            Utility.setView(view: self.questionImageView3, cornerRadius: 75, borderWidth: 0, color: .darkGray)
+            Utility.setView(view: self.questionImageView4, cornerRadius: 75, borderWidth: 0, color: .darkGray)
+        }
+        
         if self.eyecontactQuestionInfo.image_count == "4" {
             ImageDownloader.sharedInstance.downloadImage(urlString: self.eyecontactQuestionInfo.image_with_text[0].image, imageView: self.questionImageView1, callbackAfterNoofImages: 4, delegate: self)
             ImageDownloader.sharedInstance.downloadImage(urlString: self.eyecontactQuestionInfo.image_with_text[1].image, imageView: self.questionImageView2, callbackAfterNoofImages: 4, delegate: self)

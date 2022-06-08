@@ -18,6 +18,11 @@ class ImageCell: UICollectionViewCell {
     @IBOutlet weak var greenTickImageView: UIImageView!
     @IBOutlet weak var handImageView: UIImageView!
 
+    @IBOutlet weak var tickWidthLayout: NSLayoutConstraint!
+    @IBOutlet weak var tickHeightLayout: NSLayoutConstraint!
+    @IBOutlet weak var tickTrailLayout: NSLayoutConstraint!
+    @IBOutlet weak var tickLeadLayout: NSLayoutConstraint!
+    
     private weak var delegate: ImageCellDelegate?
     
     override func awakeFromNib() {
@@ -28,4 +33,10 @@ class ImageCell: UICollectionViewCell {
         self.dataImageView.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl()+model.image)
     }
 
+    func setLayouts(wh:CGFloat, t:CGFloat, l:CGFloat) {
+        tickWidthLayout.constant = wh
+        tickHeightLayout.constant = wh
+        tickTrailLayout.constant = t
+        tickLeadLayout.constant = l
+    }
 }

@@ -384,7 +384,7 @@ extension DashboardViewController: UICollectionViewDataSource, UICollectionViewD
         if collectionView == levelCollectionView {
             if let history = self.selectedHistory {
             let width = self.levelCollectionView.frame.width / CGFloat(history.performanceList.count)
-            return CGSize.init(width: width - 20 , height: self.levelCollectionView.frame.height)
+            return CGSize.init(width: width - 20 , height: self.levelCollectionView.frame.height-20)
             }
         }
         return CGSize.init(width: (self.performanceCollectionView.frame.width / 3) - 15, height: Utility.isRunningOnIpad() ? 85 : 60)

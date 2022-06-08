@@ -142,7 +142,7 @@ extension AssessmentIndependentPlayViewController {
         let yPos:CGFloat = (UIScreen.main.bounds.size.height-imgWH)/2.0
         
         imgViewObject.frame = CGRect(x:0, y:yPos, width:imgWH, height:imgWH)
-        imgViewGoal.frame = CGRect(x:UIScreen.main.bounds.size.width-imgWH, y:yPos, width:imgWH, height:imgWH)
+        imgViewGoal.frame = CGRect(x:UIScreen.main.bounds.size.width-imgWH+20, y:yPos, width:imgWH, height:imgWH)
                 
         minX = imgViewObject.center.x
         maxX = imgViewGoal.center.x - 150

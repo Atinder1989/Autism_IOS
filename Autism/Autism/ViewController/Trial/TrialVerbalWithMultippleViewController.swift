@@ -425,12 +425,31 @@ extension TrialVerbalWithMultippleViewController {
 
     func showNextImage()
     {
-        let imgWH:CGFloat = 80
-        let yRef:CGFloat = 120
-        let ySpace:CGFloat = 5
+        var imgWH:CGFloat = 70
+        var xRef:CGFloat = 30
+        var yRef:CGFloat = 80
+        var ySpace:CGFloat = 5
+
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            imgWH = 50
+            xRef = 50
+            yRef = 80
+            ySpace = 5
+        }
         
         self.isRightAnswer = false
         userAnswer.text = ""
+        
+        let frame1 = self.imgV1.frame
+        let frame2 = self.imgV2.frame
+        let frame3 = self.imgV3.frame
+        let frame4 = self.imgV4.frame
+        let frame5 = self.imgV5.frame
+        let frame6 = self.imgV6.frame
+        let frame7 = self.imgV7.frame
+        let frame8 = self.imgV8.frame
+        let frame9 = self.imgV9.frame
+        
         if(currentIndex < self.verbalQuestionInfo.image_with_text.count) {
             
             UIView.animate(withDuration: 0.5,
@@ -438,31 +457,76 @@ extension TrialVerbalWithMultippleViewController {
                                 options: [],
                              animations: {
                                 if(self.currentIndex == 1) {
-                                    self.imgV1.frame = CGRect(x: 50, y: yRef+(0*imgWH)+(0*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV1.frame = CGRect(x: xRef, y: yRef+(0*imgWH)+(0*ySpace), width: imgWH, height: imgWH)
                                     self.imgV2.frame = self.questionImageView.frame
+                                    
+                                    self.imgV3.frame = frame2
+                                    self.imgV4.frame = frame3
+                                    self.imgV5.frame = frame4
+                                    self.imgV6.frame = frame5
+                                    self.imgV7.frame = frame6
+                                    self.imgV8.frame = frame7
+                                    self.imgV9.frame = frame8
+                                    self.imgV10.frame = frame9
+                                    
                                 } else if(self.currentIndex == 2) {
-                                    self.imgV2.frame = CGRect(x: 50, y: yRef+(1*imgWH)+(1*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV2.frame = CGRect(x: xRef, y: yRef+(1*imgWH)+(1*ySpace), width: imgWH, height: imgWH)
                                     self.imgV3.frame = self.questionImageView.frame
+                                    
+                                    self.imgV4.frame = frame3
+                                    self.imgV5.frame = frame4
+                                    self.imgV6.frame = frame5
+                                    self.imgV7.frame = frame6
+                                    self.imgV8.frame = frame7
+                                    self.imgV9.frame = frame8
+                                    self.imgV10.frame = frame9
+
                                 } else if(self.currentIndex == 3) {
-                                    self.imgV3.frame = CGRect(x: 50, y: yRef+(2*imgWH)+(2*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV3.frame = CGRect(x: xRef, y: yRef+(2*imgWH)+(2*ySpace), width: imgWH, height: imgWH)
                                     self.imgV4.frame = self.questionImageView.frame
+                                    
+                                    self.imgV5.frame = frame4
+                                    self.imgV6.frame = frame5
+                                    self.imgV7.frame = frame6
+                                    self.imgV8.frame = frame7
+                                    self.imgV9.frame = frame8
+                                    self.imgV10.frame = frame9
+
                                 } else if(self.currentIndex == 4) {
-                                    self.imgV4.frame = CGRect(x: 50, y: yRef+(3*imgWH)+(3*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV4.frame = CGRect(x: xRef, y: yRef+(3*imgWH)+(3*ySpace), width: imgWH, height: imgWH)
                                     self.imgV5.frame = self.questionImageView.frame
+                                    
+                                    self.imgV6.frame = frame5
+                                    self.imgV7.frame = frame6
+                                    self.imgV8.frame = frame7
+                                    self.imgV9.frame = frame8
+                                    self.imgV10.frame = frame9
+
                                 } else if(self.currentIndex == 5) {
-                                    self.imgV5.frame = CGRect(x: 50, y: yRef+(4*imgWH)+(4*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV5.frame = CGRect(x: xRef, y: yRef+(4*imgWH)+(4*ySpace), width: imgWH, height: imgWH)
                                     self.imgV6.frame = self.questionImageView.frame
+                                    
+                                    self.imgV7.frame = frame6
+                                    self.imgV8.frame = frame7
+                                    self.imgV9.frame = frame8
+                                    self.imgV10.frame = frame9
+
                                 } else if(self.currentIndex == 6) {
-                                    self.imgV6.frame = CGRect(x: 50, y: yRef+(5*imgWH)+(5*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV6.frame = CGRect(x: xRef, y: yRef+(5*imgWH)+(5*ySpace), width: imgWH, height: imgWH)
                                     self.imgV7.frame = self.questionImageView.frame
+                                    
+                                    self.imgV8.frame = frame7
+                                    self.imgV9.frame = frame8
+                                    self.imgV10.frame = frame9
+
                                 } else if(self.currentIndex == 7) {
-                                    self.imgV7.frame = CGRect(x: 50, y: yRef+(6*imgWH)+(6*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV7.frame = CGRect(x: xRef, y: yRef+(6*imgWH)+(6*ySpace), width: imgWH, height: imgWH)
                                     self.imgV8.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 8) {
-                                    self.imgV8.frame = CGRect(x: 50, y: yRef+(7*imgWH)+(7*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV8.frame = CGRect(x: xRef, y: yRef+(7*imgWH)+(7*ySpace), width: imgWH, height: imgWH)
                                     self.imgV9.frame = self.questionImageView.frame
                                 } else if(self.currentIndex == 9) {
-                                    self.imgV9.frame = CGRect(x: 50, y: yRef+(8*imgWH)+(8*ySpace), width: imgWH, height: imgWH)
+                                    self.imgV9.frame = CGRect(x: xRef, y: yRef+(8*imgWH)+(8*ySpace), width: imgWH, height: imgWH)
                                     self.imgV10.frame = self.questionImageView.frame
                                 }
                              }, completion: {_ in

@@ -10,6 +10,7 @@ import UIKit
 import MobileCoreServices
 
 class AssessmentSortingViewController: UIViewController, UIDragInteractionDelegate {
+    
     private var draggingModel:ImageModel?
     private var sortObjectInfo: SortObjectInfo!
     private weak var delegate: AssessmentSubmitDelegate?
@@ -72,7 +73,20 @@ class AssessmentSortingViewController: UIViewController, UIDragInteractionDelega
         } else {
             self.addDragInteraction()
         }
+        let notificationCenter = NotificationCenter.default
+        
+        notificationCenter.addObserver(self, selector: #selector(appCameToForeground), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
+    
+   @objc func appCameToForeground() {
+       print("app enters foreground")
+       if let frame = self.initialFrame {
+           self.selectedObject.frame = frame
+           self.initialFrame = nil
+           self.selectedObject = nil
+       }
+   }
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchOnEmptyScreenCount += 1
     }

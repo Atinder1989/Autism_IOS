@@ -12,9 +12,8 @@
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                    <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="assessmentBg" translatesAutoresizingMaskIntoConstraints="NO" id="7Jf-yM-MOq">
                                 <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
@@ -23,11 +22,11 @@
                                 <rect key="frame" x="233.5" y="87.5" width="200" height="200"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="400" id="jcc-X5-81h">
+                                    <constraint firstAttribute="width" constant="320" id="jcc-X5-81h">
                                         <variation key="heightClass=compact-widthClass=compact" constant="200"/>
                                         <variation key="heightClass=compact-widthClass=regular" constant="200"/>
                                     </constraint>
-                                    <constraint firstAttribute="height" constant="400" id="vo7-vQ-hx2">
+                                    <constraint firstAttribute="height" constant="320" id="vo7-vQ-hx2">
                                         <variation key="heightClass=compact-widthClass=compact" constant="200"/>
                                         <variation key="heightClass=compact-widthClass=regular" constant="200"/>
                                     </constraint>
