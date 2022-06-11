@@ -158,33 +158,42 @@ extension AssessmentVerbalMultiplesViewController {
 
         var imgWH:CGFloat = 70
 //        var xRef:CGFloat = 20
-//        var yRef:CGFloat = 80
-//        var ySpace:CGFloat = 5
+        var yRef:CGFloat = 100
+        let ySpace:CGFloat = 10
 //
         if(UIDevice.current.userInterfaceIdiom != .pad) {
             imgWH = 50
+            yRef = 80
             xRef = UIScreen.main.bounds.size.width-70-safeArealRight
         }
 
-        self.imgV2.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
-        self.imgV3.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
-        self.imgV4.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
-        self.imgV5.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
-        self.imgV6.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
-        self.imgV7.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
-        self.imgV8.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
-        self.imgV9.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
-        self.imgV10.bounds = CGRect(x: 0, y: 0, width: imgWH, height: imgWH)
+        self.imgV2.frame = CGRect(x: xRef, y: yRef, width: imgWH, height: imgWH)
+        yRef = yRef+imgWH+ySpace
+        self.imgV3.frame = CGRect(x: xRef, y: yRef, width: imgWH, height: imgWH)
+        yRef = yRef+imgWH+ySpace
+        self.imgV4.frame = CGRect(x: xRef, y: yRef, width: imgWH, height: imgWH)
+        yRef = yRef+imgWH+ySpace
+        self.imgV5.frame = CGRect(x: xRef, y: yRef, width: imgWH, height: imgWH)
+        yRef = yRef+imgWH+ySpace
+        self.imgV6.frame = CGRect(x: xRef, y: yRef, width: imgWH, height: imgWH)
+        yRef = yRef+imgWH+ySpace
+        self.imgV7.frame = CGRect(x: xRef, y: yRef, width: imgWH, height: imgWH)
+        yRef = yRef+imgWH+ySpace
+        self.imgV8.frame = CGRect(x: xRef, y: yRef, width: imgWH, height: imgWH)
+        yRef = yRef+imgWH+ySpace
+        self.imgV9.frame = CGRect(x: xRef, y: yRef, width: imgWH, height: imgWH)
+        yRef = yRef+imgWH+ySpace
+        self.imgV10.frame = CGRect(x: xRef, y: yRef, width: imgWH, height: imgWH)
 
-        self.imgV2.center = CGPoint(x: xRef, y: self.imgV2.center.y)
-        self.imgV3.center = CGPoint(x: xRef, y: self.imgV3.center.y)
-        self.imgV4.center = CGPoint(x: xRef, y: self.imgV4.center.y)
-        self.imgV5.center = CGPoint(x: xRef, y: self.imgV5.center.y)
-        self.imgV6.center = CGPoint(x: xRef, y: self.imgV6.center.y)
-        self.imgV7.center = CGPoint(x: xRef, y: self.imgV7.center.y)
-        self.imgV8.center = CGPoint(x: xRef, y: self.imgV8.center.y)
-        self.imgV9.center = CGPoint(x: xRef, y: self.imgV9.center.y)
-        self.imgV10.center = CGPoint(x: xRef, y: self.imgV10.center.y)
+//        self.imgV2.center = CGPoint(x: xRef, y: self.imgV2.center.y)
+//        self.imgV3.center = CGPoint(x: xRef, y: self.imgV3.center.y)
+//        self.imgV4.center = CGPoint(x: xRef, y: self.imgV4.center.y)
+//        self.imgV5.center = CGPoint(x: xRef, y: self.imgV5.center.y)
+//        self.imgV6.center = CGPoint(x: xRef, y: self.imgV6.center.y)
+//        self.imgV7.center = CGPoint(x: xRef, y: self.imgV7.center.y)
+//        self.imgV8.center = CGPoint(x: xRef, y: self.imgV8.center.y)
+//        self.imgV9.center = CGPoint(x: xRef, y: self.imgV9.center.y)
+//        self.imgV10.center = CGPoint(x: xRef, y: self.imgV10.center.y)
         
         
         if(self.verbalQuestionInfo.image.lowercased().contains(".gif") == false) {

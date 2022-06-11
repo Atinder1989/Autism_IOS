@@ -212,10 +212,6 @@ extension TrialMathematicsViewController: UICollectionViewDataSource, UICollecti
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
-//        let strKey = self.mathematicsQuestionInfo.arrKeys[indexPath.row]
-//        txtAnwere.text = txtAnwere.text! + strKey
-//
-//        print("strKey = ", strKey)
     }
 }
 extension TrialMathematicsViewController {
@@ -353,18 +349,6 @@ extension TrialMathematicsViewController {
                 self.blinkAllText(questionInfo, count: index)
             }
         }
-        
-//        print("blinkAllText")
-//        self.lblAdd1.alpha = 0.2
-//        self.lblAdd2.alpha = 0.2
-//
-//        UIView.animate(withDuration: learningAnimationDuration-2, animations: {
-//                    self.lblAdd1.alpha = 1
-//                    self.lblAdd2.alpha = 1
-//        }) { [self] finished in
-//                index = index-1
-//                self.blinkAllText(questionInfo, count: index)
-//            }
     }
     
     private func blinkImage(_ questionInfo:ScriptCommandInfo, count: Int) {
@@ -434,35 +418,6 @@ extension TrialMathematicsViewController {
             }
         }
         
-//        if(questionInfo.value == "first_digit"){
-//            self.lblAdd1.alpha = 0;
-//
-//            UIView.animate(
-//                withDuration: learningAnimationDuration-2,
-//                    delay: learningAnimationDuration-2,
-//                    options: [], animations: {
-//                        self.lblAdd1.alpha = 1
-//                    },
-//                completion: {_ in
-//                    index = index-1
-//                    self.blinkText(questionInfo, count: index)
-//                }
-//            )
-//        } else if(questionInfo.value == "second_digit"){
-//            self.lblAdd2.alpha = 0;
-//
-//            UIView.animate(
-//                withDuration: learningAnimationDuration-2,
-//                    delay: learningAnimationDuration-2,
-//                    options: [], animations: {
-//                        self.lblAdd2.alpha = 1
-//                    },
-//                completion: {_ in
-//                    index = index-1
-//                    self.blinkText(questionInfo, count: index)
-//                }
-//            )
-//        }
     }
 
     private func childActionStart(_ questionInfo:ScriptCommandInfo) {
@@ -553,7 +508,6 @@ extension TrialMathematicsViewController: SpeechManagerDelegate {
                     apiDataState = .comandRunning
                     self.mathematicsViewModel.setQuestionInfo(info:self.mathematicsQuestionInfo)
                 } else {
-//                    self.startRec()
                     self.mathematicsViewModel.setQuestionInfo(info:self.mathematicsQuestionInfo)
                 }
             } else if(apiDataState == .comandRunning) {

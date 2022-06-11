@@ -26,6 +26,8 @@ class TrialViewController: UIViewController, SpeechManagerDelegate {
     private var apiDataState: APIDataState = .notCall
     @IBOutlet weak var skipButton: UIButton!
 
+    var trialVC:UIViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -174,6 +176,17 @@ extension TrialViewController {
         }
     }
             
+    func presentVC(vc:UIViewController) {
+        if(trialVC == nil) {
+            trialVC = vc
+            self.present(vc, animated: true, completion: nil)
+        } else {
+            trialVC.dismiss(animated: false, completion: {
+                self.trialVC = vc
+                self.present(vc, animated: true, completion: nil)
+            })
+        }
+    }
     private func moveToNextQuestion(res:TrialQuestionResponseVO) {
         
         DispatchQueue.main.async {
@@ -184,91 +197,104 @@ extension TrialViewController {
                 let vc = Utility.getViewController(ofType: TrialMatchingObjectViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setMatchingObjectInfo(info: info, delegate: self)
-                self.present(vc, animated: true, completion: nil)
+                self.presentVC(vc: vc)
+                //self.present(vc, animated: true, completion: nil)
             }
         case .PictureArray://, .colors, .shapes, .solid_colors:
             if let info = res.matchingObjectInfo {
                 let vc = Utility.getViewController(ofType: TrialPictureArrayViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setMatchingObjectInfo(info: info, delegate: self)
-                self.present(vc, animated: true, completion: nil)
+                self.presentVC(vc: vc)
+                //self.present(vc, animated: true, completion: nil)
             }
         case .VerbalResponse,.verbal_actions, .introduction_name:
             if let info = res.verbalQuestionInfo {
                 let vc = Utility.getViewController(ofType: TrialVerbalQuestionViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setVerbalQuestionInfo(info: info, delegate: self)
-                self.present(vc, animated: true, completion: nil)
+                self.presentVC(vc: vc)
+                //self.present(vc, animated: true, completion: nil)
             }
         case .verbal_with_multiple:
             if let info = res.verbalQuestionInfo {
                 let vc = Utility.getViewController(ofType: TrialVerbalWithMultippleViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setVerbalQuestionInfo(info: info, delegate: self)
-                self.present(vc, animated: true, completion: nil)
+                self.presentVC(vc: vc)
+                //self.present(vc, animated: true, completion: nil)
             }
         case .matching_one_pair:
             if let info = res.matchingObjectInfo {
                 let vc = Utility.getViewController(ofType: TrialMatchingOnePairViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setMatchingObjectInfo(info: info, delegate: self)
-                self.present(vc, animated: true, completion: nil)
+                self.presentVC(vc: vc)
+                //self.present(vc, animated: true, completion: nil)
             }
         case .matching_three_pair:
             if let info = res.matchingObjectInfo {
                 let vc = Utility.getViewController(ofType: TrialMatching3PairViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setMatchingObjectInfo(info: info, delegate: self)
-                self.present(vc, animated: true, completion: nil)
+                self.presentVC(vc: vc)
+                //self.present(vc, animated: true, completion: nil)
             }
         case .environtmental_sounds:
             if let info = res.verbalQuestionInfo {
                 let vc = Utility.getViewController(ofType: TrialEchoicViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setVerbalQuestionInfo(info: info, delegate: self)
-                self.present(vc, animated: true, completion: nil)
+                self.presentVC(vc: vc)
+                //self.present(vc, animated: true, completion: nil)
             }
         case .sound_of_animals:
             if let info = res.verbalQuestionInfo {
                 let vc = Utility.getViewController(ofType: TrialSoundOfAnimalsViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setVerbalQuestionInfo(info: info, delegate: self)
-                self.present(vc, animated: true, completion: nil)
+                self.presentVC(vc: vc)
+                //self.present(vc, animated: true, completion: nil)
             }
         case .spelling:
             if let info = res.matchSpellingQuestionInfo {
                 let vc = Utility.getViewController(ofType: TrialSpellingViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setSpellingQuestionInfo(info: info, delegate: self)
-                self.present(vc, animated: true, completion: nil)
+                self.presentVC(vc: vc)
+                //self.present(vc, animated: true, completion: nil)
             }
         case .add_subs_mathematics:
             if let info = res.mathematicsCalculationInfo {
                 let vc = Utility.getViewController(ofType: TrialMathematicsViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setMathematicsQuestionInfo(info: info, delegate: self)
-                self.present(vc, animated: true, completion: nil)
+                self.presentVC(vc: vc)
+                //self.present(vc, animated: true, completion: nil)
             }
         case .balloon_game:
             if let info = res.balloonGameQuestionInfo {
                 let vc = Utility.getViewController(ofType: TrialBalloonGameViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setQuestionInfo(info: info, delegate: self)
-                self.present(vc, animated: true, completion: nil)
+                self.presentVC(vc: vc)
+                //self.present(vc, animated: true, completion: nil)
         }
         case .body_tracking:
             if let info = res.bodyTrackingInfo {
                 let vc = Utility.getViewController(ofType: TrialBodyTrackingViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setQuestionInfo(info: info, delegate: self)
-                self.present(vc, animated: true, completion: nil)
+                self.presentVC(vc: vc)
+                //self.present(vc, animated: true, completion: nil)
         }
         case .Mazes:
             if let info = res.mazeInfo {
                 let vc = Utility.getViewController(ofType: TrialGrabingObjectsViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setQuestionInfo(info: info, delegate: self)
-                self.present(vc, animated: true, completion: nil)
+                self.presentVC(vc: vc)
+                //self.present(vc, animated: true, completion: nil)
         }
         default:
             self.didClickOnHome()

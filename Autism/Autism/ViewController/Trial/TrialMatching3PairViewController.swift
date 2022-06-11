@@ -409,33 +409,6 @@ extension TrialMatching3PairViewController {
 
                 self.blink(commandImgViewLeft1, count: 3)
                 self.blink(commandImgViewRight1, count: 3)
-
-//                for i in 0..<self.matchingObjectInfo.image_with_text.count {
-//                    let img = self.matchingObjectInfo.image_with_text[i]
-//                    if(img.id == questioninfo.value_id) {
-//
-//                        //Image 1
-//                        if(img.name == "Left") {
-//                            self.blink(commandImgViewLeft1, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.blink(commandImgViewRight1, count: 3)
-//                        }
-//
-//                        //Image 2
-//                        if(img.name == "Left") {
-//                            self.blink(commandImgViewLeft2, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.blink(commandImgViewRight2, count: 3)
-//                        }
-//
-//                        //Image 3
-//                        if(img.name == "Left") {
-//                            self.blink(commandImgViewLeft3, count: 3)
-//                        } else if(img.name == "Right") {
-//                            self.blink(commandImgViewRight3, count: 3)
-//                        }
-//                    }
-//                }
              }
         }
         

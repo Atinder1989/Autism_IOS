@@ -480,12 +480,6 @@ extension TrialPictureArrayViewController {
 }
  
     func submitTrialMatchingAnswer(info:MatchingObjectInfo) {
-//        if !Utility.isNetworkAvailable() {
-//            if let noNetwork = self.noNetWorkClosure {
-//                noNetwork()
-//            }
-//            return
-//        }
 
         if let user = UserManager.shared.getUserInfo() {
 
@@ -512,10 +506,6 @@ extension TrialPictureArrayViewController {
             ]
             LearningManager.submitTrialMatchingAnswer(parameters: parameters)
         }
-//        "course_type" : "Trial",
-//        "prompt_type" : ""
-
-//        }
     }
 }
 

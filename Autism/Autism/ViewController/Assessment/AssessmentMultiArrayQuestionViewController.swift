@@ -95,29 +95,32 @@ extension AssessmentMultiArrayQuestionViewController {
         var w:CGFloat = self.view.frame.size.width-200
         var h:CGFloat = 300
         var yRef:CGFloat = 400
+        var yRight:CGFloat = 100
         if(UIDevice.current.userInterfaceIdiom != .pad) {
             yRef = 150
+            yRight = 80
             h = 100
             w = 360
         }
         if(currentIndex == 0) {
-//            imagesCollectionView0.backgroundColor = .red
-//            imagesCollectionView1.backgroundColor = .red
-//            imagesCollectionView2.backgroundColor = .red
-//            imagesCollectionView3.backgroundColor = .red
-//            imagesCollectionView4.backgroundColor = .red
             imagesCollectionView0.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
 
             if(safeArealLeft == 0 && safeArealRight == 0) {
-                imagesCollectionView1.frame = CGRect(x: self.view.frame.size.width-200, y: 150, width: 200, height: 40)
-                imagesCollectionView2.frame = CGRect(x: self.view.frame.size.width-200, y: 200, width: 200, height: 40)
-                imagesCollectionView3.frame = CGRect(x: self.view.frame.size.width-200, y: 250, width: 200, height: 40)
-                imagesCollectionView4.frame = CGRect(x: self.view.frame.size.width-200, y: 300, width: 200, height: 40)
+                imagesCollectionView1.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
+                yRight = yRight+40
+                imagesCollectionView2.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
+                yRight = yRight+40
+                imagesCollectionView3.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
+                yRight = yRight+40
+                imagesCollectionView4.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
             } else {
-                imagesCollectionView1.frame = CGRect(x: self.view.frame.size.width-200, y: 150, width: 200, height: 40)
-                imagesCollectionView2.frame = CGRect(x: self.view.frame.size.width-200, y: 200, width: 200, height: 40)
-                imagesCollectionView3.frame = CGRect(x: self.view.frame.size.width-200, y: 250, width: 200, height: 40)
-                imagesCollectionView4.frame = CGRect(x: self.view.frame.size.width-200, y: 300, width: 200, height: 40)
+                imagesCollectionView1.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
+                yRight = yRight+40
+                imagesCollectionView2.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
+                yRight = yRight+40
+                imagesCollectionView3.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
+                yRight = yRight+40
+                imagesCollectionView4.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
             }
         } else if(currentIndex == 1) {
             imagesCollectionView1.bounds = CGRect(x: 0, y: 0, width: w, height: h)
@@ -139,7 +142,6 @@ extension AssessmentMultiArrayQuestionViewController {
     
     func showNextImage()
     {
-            
         var w:CGFloat = self.view.frame.size.width-200
         var h:CGFloat = 300
         let xRef:CGFloat = (self.view.frame.size.width-w)/2.0

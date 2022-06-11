@@ -126,12 +126,6 @@ class TrialSpellingViewController: UIViewController, UITextFieldDelegate {
      }
     
     func submitTrialMatchingAnswer(info:MatchSpelling) {
-//        if !Utility.isNetworkAvailable() {
-//            if let noNetwork = self.noNetWorkClosure {
-//                noNetwork()
-//            }
-//            return
-//        }
 
         if let user = UserManager.shared.getUserInfo() {
 

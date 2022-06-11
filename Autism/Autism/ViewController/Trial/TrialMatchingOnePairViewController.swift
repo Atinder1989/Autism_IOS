@@ -136,24 +136,12 @@ extension TrialMatchingOnePairViewController {
         let url = ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image
 
         self.commandImgViewLeft.isHidden = false
-//        self.commandImgViewLeft.commandInfo = questionInfo
         self.commandImgViewLeft.setImageWith(urlString: url)
 
         self.commandImgViewRight.isHidden = false
-//        self.commandImgViewRight.commandInfo = questionInfo
         self.commandImgViewRight.setImageWith(urlString: url)
         self.commandImgViewRightCopy.setImageWith(urlString: url)
 
-//        if let option = questionInfo.option {
-//
-//            if option.Position == ScriptCommandOptionType.left.rawValue {
-//            } else if option.Position == ScriptCommandOptionType.right.rawValue {
-//            }
-//
-//            if option.image_border == ScriptCommandOptionType.yes.rawValue {
-//                Utility.setView(view: self.commandImgViewLeft, cornerRadius: 110, borderWidth: 3, color: .greenBorderColor)
-//            }
-//        }
         self.initializeTimer()
     }
     
@@ -228,7 +216,6 @@ extension TrialMatchingOnePairViewController {
         self.matchingObjectViewModel.blinkImageClosure = { questioninfo in
             DispatchQueue.main.async { [self] in
 
-//                self.blink(commandImgViewRight, count: 3)
                 for i in 0..<self.matchingObjectInfo.image_with_text.count {
                     let img = self.matchingObjectInfo.image_with_text[i]
                     if(img.id == questioninfo.value_id) {
@@ -390,24 +377,6 @@ extension TrialMatchingOnePairViewController {
                 }
              }
         }
-
-//        self.matchingObjectViewModel.startDragAnimationClosure = { questionInfo in
-//            DispatchQueue.main.async {
-//                if let option = questionInfo.option {
-//                    if option.Position == ScriptCommandOptionType.right.rawValue && option.drag_direction == ScriptCommandOptionType.right_to_left.rawValue  {
-//                        self.dragAnimationView.isHidden = true
-//
-//                        if let imgview = self.findImageViewWith(id: questionInfo.value_id) {
-//                        Animations.dragImageAnimation(leftImageView: self.commandImgViewLeft, rightImageView: imgview) { (finished) in
-//                            print("Question Completed ========== ")
-////                            self.commandViewModal.calculateChildAction(state: false, isDragStarted: self.isDragStarted)
-////                            self.commandViewModal.updateCurrentCommandIndex()
-//                        }
-//                        }
-//                    }
-//                }
-//             }
-//        }
         
         self.matchingObjectViewModel.showImageClosure = { questionInfo in
             DispatchQueue.main.async {
@@ -428,25 +397,20 @@ extension TrialMatchingOnePairViewController {
     }
     
     private func blinkAllImages(count: Int) {
-//        if count == 0 {
-//            self.commandViewModal.updateCurrentCommandIndex()
-//            return
-//        }
-                UIView.animate(withDuration: 1, animations: {
-                    for subview in self.view.subviews {
-                        if let cmdImageView = subview as? ScriptCommandImageView {
-                            cmdImageView.alpha = 0.2
-                        }
-                    }
-                }) { [self] finished in
-                    for subview in self.view.subviews {
-                        if let cmdImageView = subview as? ScriptCommandImageView {
-                            cmdImageView.alpha = 1
-                        }
-                    }
-                    self.blinkAllImages(count: count - 1)
-                    //self.commandViewModal.updateCurrentCommandIndex()
+        UIView.animate(withDuration: 1, animations: {
+            for subview in self.view.subviews {
+                if let cmdImageView = subview as? ScriptCommandImageView {
+                    cmdImageView.alpha = 0.2
                 }
+            }
+        }) { [self] finished in
+            for subview in self.view.subviews {
+                if let cmdImageView = subview as? ScriptCommandImageView {
+                    cmdImageView.alpha = 1
+                }
+            }
+            self.blinkAllImages(count: count - 1)
+        }
         
     }
     
@@ -632,32 +596,8 @@ extension TrialMatchingOnePairViewController {
 }
     
     func submitTrialMatchingAnswer(info:MatchingObjectInfo) {
-//        if !Utility.isNetworkAvailable() {
-//            if let noNetwork = self.noNetWorkClosure {
-//                noNetwork()
-//            }
-//            return
-//        }
-
         if let user = UserManager.shared.getUserInfo() {
 
-//            {
-//                "user_id":"5f857e8af43653754167c1c6",
-//                "question_id":"5f97a65b7ea8177fddb09944",
-//                "question_type":"color_trace_table",
-//                "skill_domain_id" : "5f3696756a47807a001de5b1",
-//                "program_id" : "5f3684ba05bde342aec23ffc",
-//                "level" : "1",
-//                "complete_rate":80,
-//                "language":"en",
-//                "course_type" : "Trial",
-//                "req_no" : "SD3P3L1",
-//                "time_taken":"17",
-//                "image_url" : "",
-//                "skip" : false,
-//                "prompt_type" : ""
-//
-//            }
             let parameters: [String : Any] = [
                ServiceParsingKeys.user_id.rawValue :user.id,
                 ServiceParsingKeys.question_id.rawValue :info.id,
@@ -678,7 +618,6 @@ extension TrialMatchingOnePairViewController {
             ]
             LearningManager.submitTrialMatchingAnswer(parameters: parameters)
         }
-//        }
     }
 }
 

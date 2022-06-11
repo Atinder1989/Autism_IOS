@@ -505,9 +505,7 @@ extension TrialBalloonGameViewController {
                 } else {
                     print("balloonTapCount = \(this.balloonTapCount)")
                     print("totalBalloonInGame = \(this.totalBalloonInGame)")
-                    let rate:Double = Double(this.balloonTapCount) / Double(this.totalBalloonInGame)
                     this.isGame = false
-
                     this.completeRate = 0
                     this.questionState = .submit
                     SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)

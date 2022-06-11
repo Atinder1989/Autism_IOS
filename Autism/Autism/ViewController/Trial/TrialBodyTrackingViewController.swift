@@ -183,26 +183,20 @@ extension TrialBodyTrackingViewController {
             print("Right position === \(leftWristPosition.y)")
             print("left position === \(rightWristPosition.y)")
 
-           // if hipPosition.y >= (yAxis - 150) && hipPosition.y < yAxis{
-                if !SpeechManager.shared.isPlaying() {
-                if (self.leftWristPosition .y >= 50 && self.leftWristPosition.y <= deviceheight) && (self.rightWristPosition .y >= 50 && self.rightWristPosition.y <= deviceheight)  {
-                    print("success ===========")
-                    
-                    if self.questionState == .inProgress {
-                    self.questionState = .submit
-                    self.successRate = 100
-                    SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.rawValue, uttrenceRate:  AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-                    }
-                    
+            if !SpeechManager.shared.isPlaying() {
+            if (self.leftWristPosition .y >= 50 && self.leftWristPosition.y <= deviceheight) && (self.rightWristPosition .y >= 50 && self.rightWristPosition.y <= deviceheight)  {
+                print("success ===========")
+                
+                if self.questionState == .inProgress {
+                self.questionState = .submit
+                self.successRate = 100
+                SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.rawValue, uttrenceRate:  AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 }
-                }
-           // }
-            
+                
+            }
+            }
         }
-            
-            
         }
-
     }
     
     private func handleClapYourHands(joint:Joint) {
@@ -266,29 +260,12 @@ extension TrialBodyTrackingViewController {
                 print("Right position === \(leftWristPosition.y)")
                 print("left position === \(rightWristPosition.y)")
 
-                
-               // let yAxis = (UIScreen.main.bounds.height / 2)
-               // if hipPosition.y >= (yAxis - 150) && hipPosition.y < yAxis {
-                    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-                    if !SpeechManager.shared.isPlaying() {
-                        //if self.videoCapture.cameraPostion == .front {
-                          //  if (self.leftWristPosition.x > 300 && self.leftWristPosition.x < 500 ) && (self.leftWristPosition.y > 100 && self.leftWristPosition.y < 500)
-                            
-                            if (self.leftWristPosition .y >= 50 && self.leftWristPosition.y <= deviceheight)
-                            
-                            {
-                                self.submitSuccessForWaiveHands()
-                                
-                            }
-                       // }
-//                            else {
-//                            if (self.rightWristPosition.x > 300 && self.rightWristPosition.x < 500 ) && (self.rightWristPosition.y > 100 && self.rightWristPosition.y < 500) {
-//                               print("success")
-//                                self.submitSuccessForWaiveHands()
-//                            }
-                      //  }
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                if !SpeechManager.shared.isPlaying() {
+                    if (self.leftWristPosition .y >= 50 && self.leftWristPosition.y <= deviceheight) {
+                        self.submitSuccessForWaiveHands()
                     }
-                //}
+                }
             }
         }
         
@@ -324,8 +301,6 @@ extension TrialBodyTrackingViewController {
             DispatchQueue.main.async {
                 self.apiDataState = .comandFinished
               AutismTimer.shared.initializeTimer(delegate: self)
-                //self.imgViewAvatar.animatedImage =  hurrayGif
-//              self.isUserInteraction = true
             }
         }
         
@@ -393,7 +368,6 @@ extension TrialBodyTrackingViewController {
     }
     
     private func avatarAnimation(_ questionInfo:ScriptCommandInfo) {
-        
         
         DispatchQueue.main.async { [self] in
 

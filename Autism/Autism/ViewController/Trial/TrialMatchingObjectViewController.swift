@@ -57,11 +57,6 @@ class TrialMatchingObjectViewController: UIViewController {
         collectionOption.clipsToBounds = true
         collectionOption.register(UINib(nibName: MatchingObjectCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MatchingObjectCollectionViewCell.identifier)
 
-//        if self.matchingObjectInfo.prompt_detail.count > 0 {
-//            self.matchingObjectViewModel.setQuestionInfo(info:matchingObjectInfo)
-//        } else {
-//            self.customSetting()
-//        }
         self.customSetting()
         self.listenModelClosures()
         
@@ -115,17 +110,7 @@ extension TrialMatchingObjectViewController: UICollectionViewDataSource, UIColle
             width = width / CGFloat(self.matchingObjectInfo.image_with_text.count)
         print("width = ", width)
         
-//        if(self.matchingObjectInfo.screen_type == AssessmentQuestionType.matching_object_drag.rawValue) {
-//            if(width <= 200) {
-//                collectionHeightConstraint.constant = 200
-//            }
-//        }
-        
         return CGSize.init(width:width, height: width)
-
-//        var width = self.collectionOption.frame.width-CGFloat((self.matchingObjectInfo.image_with_text.count*20))
-//        width = width / CGFloat(self.matchingObjectInfo.image_with_text.count)
-//        return CGSize.init(width:width, height: width)
     }
 
 // make a cell for each cell index path
@@ -139,16 +124,7 @@ internal func collectionView(_ collectionView: UICollectionView, cellForItemAt i
     let urlString = ServiceHelper.baseURL.getMediaBaseUrl() + optionSelected.image
     cell.imageObject.setImageWith(urlString: urlString)
     cell.greenTickImageView.isHidden = true
-    
-//    var width = self.collectionOption.frame.width-CGFloat((self.matchingObjectInfo.image_with_text.count*20))
-//    width = width / CGFloat(self.matchingObjectInfo.image_with_text.count)
-//    var cornerRadius:CGFloat = self.collectionOption.frame.height/2.0
-//    if(UIDevice.current.userInterfaceIdiom == .pad) {
-////        let cornerRadius:CGFloat = self.collectionOption.frame.height/2.0
-//    } else {
-//        cornerRadius = 65.0
-//    }
-    
+        
     var width = self.collectionOption.frame.width-CGFloat((self.matchingObjectInfo.image_with_text.count*20))
     width = width / CGFloat(self.matchingObjectInfo.image_with_text.count)
     let cornerRadius:CGFloat = width/2.0
@@ -208,15 +184,7 @@ extension TrialMatchingObjectViewController {
 
 extension TrialMatchingObjectViewController {
     private func customSetting() {
-        
-//        if(self.matchingObjectInfo.image_with_text.count == 2) {
-//            if(UIDevice.current.userInterfaceIdiom == .pad) {
-//                self.collectionWidth.constant = CGFloat(640)
-//            } else {
-//                self.collectionWidth.constant = CGFloat(340)
-//            }
-//        }
-        
+                
         labelTitle.isHidden = false
         imageViewBG.isHidden = false
         collectionOption.isHidden = false
@@ -273,13 +241,6 @@ extension TrialMatchingObjectViewController {
                             }
                         }
                     }
-//                    else {
-//                        self.dismiss(animated: true) {
-//                            if let del = self.delegate {
-//                                del.submitQuestionResponse(response: res)
-//                            }
-//                        }
-//                    }
                 }
             }
       }
@@ -559,12 +520,6 @@ extension TrialMatchingObjectViewController {
 }
  
     func submitTrialMatchingAnswer(info:MatchingObjectInfo) {
-//        if !Utility.isNetworkAvailable() {
-//            if let noNetwork = self.noNetWorkClosure {
-//                noNetwork()
-//            }
-//            return
-//        }
 
         if let user = UserManager.shared.getUserInfo() {
 
@@ -591,10 +546,6 @@ extension TrialMatchingObjectViewController {
             ]
             LearningManager.submitTrialMatchingAnswer(parameters: parameters)
         }
-//        "course_type" : "Trial",
-//        "prompt_type" : ""
-
-//        }
     }
 }
 

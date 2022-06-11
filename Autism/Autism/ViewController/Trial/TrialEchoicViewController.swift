@@ -40,7 +40,6 @@ class TrialEchoicViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         scrlAvatar.clipsToBounds = false
-//        self.userAnswer.isHidden = true
         
         avatarImageView.frame = scrlAvatar.bounds
         self.listenModelClosures()
