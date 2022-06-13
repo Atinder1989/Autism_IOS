@@ -10,7 +10,6 @@ import UIKit
 
 class StagesViewController: UIViewController {
     private var stageViewModel = StagesViewModel()
-   // private var stageScreenType: StageType = .none
     private var performanceDetail: PerformanceDetail?
     private var algoResponse:AlgorithmResponseVO?
     @IBOutlet weak var backgroundImageView: UIImageView!
@@ -51,16 +50,7 @@ class StagesViewController: UIViewController {
 extension StagesViewController {
     func setStageScreen(performanceDetail:PerformanceDetail?,algoResponse:AlgorithmResponseVO?,startDate:String,endDate:String,level:String) {
         self.performanceDetail = performanceDetail
-        
         self.algoResponse = algoResponse
-        
-//        if(algoResponse?.skillprogramDetail?.learningProgramList.count == 6) {
-//            self.algoResponse?.skillprogramDetail?.learningProgramList.removeLast()
-//        } else if(algoResponse?.skillprogramDetail?.learningProgramList.count == 7) {
-//            self.algoResponse?.skillprogramDetail?.learningProgramList.removeLast()
-//            self.algoResponse?.skillprogramDetail?.learningProgramList.removeLast()
-//        }
-        
         self.startDate = startDate
         self.endDate = endDate
         self.level = level
@@ -128,8 +118,6 @@ extension StagesViewController {
     private func addStagesView(response:LearningSkillProgramResponseVO) {
         let stagesView = self.stageViewModel.getStagesView()
         self.view.addSubview(stagesView)
-       // let url = ServiceHelper.baseURL.getMediaBaseUrl()+response.skill_domain_image
-       // self.backgroundImageView.setImageWith(urlString:url)
         self.backgroundImageView.image = UIImage.init(named: "stagebg")
         self.backgroundImageView.isHidden = false
         self.homeButton.isHidden = false

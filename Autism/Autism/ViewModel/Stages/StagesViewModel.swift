@@ -117,13 +117,13 @@ extension StagesViewModel {
     
     // MARK: Animal Stage Methods
     private func getForestStagesListCoordinates() -> [StageModel] {
-        let size = UIScreen.main.bounds.size.height * 0.16
+        let size =  Utility.isRunningOnIpad() ? UIScreen.main.bounds.size.height * 0.16 : UIScreen.main.bounds.size.height * 0.25
 
         var coordinates = [StageModel]()
         coordinates = [
             LearningStage.init(frame: CGRect.init(x: 150, y: 100, width: size, height: size), image: .none, program: nil),
-            LearningStage.init(frame: CGRect.init(x: CGFloat((Int(UIScreen.main.bounds.size.width / 2)-200)), y: 200, width: size, height: size), image: .none, program: nil),
-            LearningStage.init(frame: CGRect.init(x: CGFloat((Int(UIScreen.main.bounds.size.width / 2)+100)), y: 100, width: size, height: size), image: .none, program: nil),
+            LearningStage.init(frame: CGRect.init(x: CGFloat((Int(UIScreen.main.bounds.size.width / 2))), y: CGFloat((Int(UIScreen.main.bounds.size.height / 2) - (Utility.isRunningOnIpad() ? 250 : 70))), width: size, height: size), image: .none, program: nil),
+            LearningStage.init(frame: CGRect.init(x: CGFloat((Int(UIScreen.main.bounds.size.width - 200))), y: 100, width: size, height: size), image: .none, program: nil),
             LearningStage.init(frame: CGRect.init(x: CGFloat(UIScreen.main.bounds.size.width - 300), y: 200, width: size, height: size), image: .none, program: nil),
             LearningStage.init(frame: CGRect.init(x: 100 , y: CGFloat(UIScreen.main.bounds.size.height/2), width: size, height: size), image: .none, program: nil),
             LearningStage.init(frame: CGRect.init(x: 140, y: CGFloat(UIScreen.main.bounds.size.height - 180), width: size, height: size), image: .none, program: nil),
@@ -184,14 +184,12 @@ extension StagesViewModel {
         let scrollViewContentSize:CGFloat=0;
         for (currentIndex) in (0..<stagesCoordinateList.count) {
             let currentStage:StageModel = stagesCoordinateList[currentIndex]
-           // if type == .forest {
                 if currentIndex < stagesCoordinateList.count - 1 {
                     let startPoint = currentStage.stageView.center
                     let nextStage:StageModel = stagesCoordinateList[currentIndex+1]
                     let endPoint = nextStage.stageView.center
                     self.drawLine(fromPoint: startPoint, toPoint: endPoint)
                 }
-           // }
             currentStage.stageView.setDelegate(delegate: self)
             scrollView.addSubview(currentStage.stageView)
             scrollView.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: scrollViewContentSize)

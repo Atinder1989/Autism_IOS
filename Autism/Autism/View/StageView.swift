@@ -32,12 +32,11 @@ class StageView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame:frame)
-        //self.backgroundColor = .yellow
-        let xSpacing = 30
+        let xSpacing = Utility.isRunningOnIpad() ? 30 : 25
         self.imageView = UIImageView(frame: CGRect.init(x: xSpacing/2, y: 0, width: Int(frame.width)-xSpacing, height: Int(frame.height)-xSpacing))
         addSubview(imageView)
         
-        let size = 50
+        let size = Utility.isRunningOnIpad() ? 50 : 35
         self.stageNameBackgroundView = UIView.init(frame: CGRect.init(x: 0, y: Int(frame.height) - size, width: Int(frame.width), height: size))
         Utility.setView(view: self.stageNameBackgroundView, cornerRadius: 5, borderWidth: 1, color: .black)
         stageNameBackgroundView.backgroundColor = UIColor.init(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 1)
@@ -50,18 +49,22 @@ class StageView: UIView {
         self.percentLabel.textColor = .black
         self.percentLabel.textAlignment = .center
         self.percentLabel.numberOfLines = 0
-        self.percentLabel.font = UIFont.systemFont(ofSize: 8)
+        self.percentLabel.font = UIFont.systemFont(ofSize: Utility.isRunningOnIpad() ? 8 : 5)
         multiColorProgress.addSubview(self.percentLabel)
 
-        self.lockImageView = UIImageView.init(frame: CGRect.init(x: frame.width - 40, y: 5, width: 40, height: 40))
+        let lockSize = Utility.isRunningOnIpad() ? 40 : 20
+        let lockXAxis = Utility.isRunningOnIpad() ? Int(frame.width) - 40 : Int(frame.width) - 20
+        self.lockImageView = UIImageView.init(frame: CGRect.init(x: lockXAxis, y: 5, width: lockSize, height: lockSize))
         self.lockImageView.image = UIImage.init(named: "lock")
         stageNameBackgroundView.addSubview(lockImageView)
         
-        self.nameTxtView = UITextView(frame: CGRect.init(x: 0, y: 0, width: Int(frame.width) - size, height: size))
+        self.nameTxtView = UITextView(frame: CGRect.init(x: 0, y: 0, width: Int(frame.width) - size + 5, height: size))
         self.nameTxtView.textColor = .black
-        self.nameTxtView.isUserInteractionEnabled = false
-        self.nameTxtView.textAlignment = .center
-        self.nameTxtView.font = UIFont.boldSystemFont(ofSize: 12)
+        self.nameTxtView.isUserInteractionEnabled = true
+        self.nameTxtView.isEditable = false
+        self.nameTxtView.isSelectable = false
+        self.nameTxtView.textAlignment = .left
+        self.nameTxtView.font = UIFont.boldSystemFont(ofSize: Utility.isRunningOnIpad() ? 12 : 8)
         self.nameTxtView.backgroundColor = .white
         stageNameBackgroundView.addSubview(self.nameTxtView)
     }
@@ -78,10 +81,10 @@ class StageView: UIView {
             self.imageView.image = UIImage.init(named: p.program_image)
             self.stageNameBackgroundView.isHidden = false
             self.nameTxtView.text = p.program_name
-
+            
 //            let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTapOnStage(_:)))
 //            self.addGestureRecognizer(tap)
-
+            
             if p.isLocked {
                 self.lockImageView.isHidden = false
                 self.multiColorProgress.isHidden = true
@@ -92,12 +95,12 @@ class StageView: UIView {
                 self.multiColorProgress.isHidden = false
                 self.percentLabel.isHidden = false
                 
-//                let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTapOnStage(_:)))
-//                self.addGestureRecognizer(tap)
-//                
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTapOnStage(_:)))
+                self.addGestureRecognizer(tap)
+
 //                let tapProgress = UITapGestureRecognizer(target: self, action: #selector(self.handleTapOnProgress(_:)))
 //                self.multiColorProgress.addGestureRecognizer(tapProgress)
-                
+                            
                 self.setProgressData(program: p)
                 self.percentLabel.text = "0 %"
                 if p.assement_attempt_status {
