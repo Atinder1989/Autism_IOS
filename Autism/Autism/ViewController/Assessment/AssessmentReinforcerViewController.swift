@@ -135,11 +135,9 @@ extension AssessmentReinforcerViewController {
         Utility.setView(view: self.nonPreferredLabel, cornerRadius: 5, borderWidth: 2, color: .white)
         Utility.setView(view: self.preferredImageView, cornerRadius: 5, borderWidth: 2, color: .darkGray)
         Utility.setView(view: self.nonPreferredImageView, cornerRadius: 5, borderWidth: 2, color: .darkGray)
-        ImageDownloader.sharedInstance.downloadImage(urlString: self.reinforcerInfo.image, imageView: self.preferredImageView, callbackAfterNoofImages: 2, delegate: self)
 
-        
+        ImageDownloader.sharedInstance.downloadImage(urlString: self.reinforcerInfo.image, imageView: self.preferredImageView, callbackAfterNoofImages: 2, delegate: self)
         ImageDownloader.sharedInstance.downloadImage(urlString: self.nonPreferredReinforcerInfo.image, imageView: self.nonPreferredImageView, callbackAfterNoofImages: 2, delegate: self)
-        //self.nonPreferredImageView.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + self.nonPreferredReinforcerInfo.image)
         
         let preferredTap = UITapGestureRecognizer(target: self, action: #selector(self.preferredTap(_:)))
         self.preferredImageView.addGestureRecognizer(preferredTap)

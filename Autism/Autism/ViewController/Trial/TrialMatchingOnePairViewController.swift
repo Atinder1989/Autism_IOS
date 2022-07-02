@@ -64,7 +64,6 @@ class TrialMatchingOnePairViewController: UIViewController {
         self.customSetting()
         self.addGesture()
         self.listenModelClosures()
-//        self.commandViewModal.fetchLearningQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -89,7 +88,56 @@ class TrialMatchingOnePairViewController: UIViewController {
     }
 }
     
+extension TrialMatchingOnePairViewController: ImageDownloaderDelegate {
+    func finishDownloading() {
+        DispatchQueue.main.async {
+            self.apiDataState = .imageDownloaded
+                                    
+            DispatchQueue.main.async {
+                self.commandImgViewRight.image = self.commandImgViewLeft.image
+                self.commandImgViewRightCopy.image = self.commandImgViewLeft.image
+
+                SpeechManager.shared.setDelegate(delegate: self)
+                SpeechManager.shared.speak(message:  self.matchingObjectInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+
+                self.initializeTimer()
+            }
+        }
+    }
+}
+
 extension TrialMatchingOnePairViewController {
+        
+    private func customSetting() {
+        self.initializeFrame()
+        self.isDragCompleted = false
+        self.isDragStarted = false
+        self.speechTitle.text = ""
+        self.avatarCenterImageView.animatedImage =  getIdleGif()
+        self.avatarCenterImageView.isHidden = true
+        self.commandImgViewLeft.isHidden = true
+        self.commandImgViewRight.isHidden = true
+        self.avatarBottomImageView.isHidden = true
+        self.dragAnimationView.isHidden = true
+        self.view.isUserInteractionEnabled = false
+        self.commandImgViewLeft.image = nil
+        self.commandImgViewRight.image = nil
+        
+        Utility.setView(view: self.commandImgViewLeft, cornerRadius: 0, borderWidth: 0, color: .clear)
+        speechTitle.text = matchingObjectInfo.question_title
+
+        self.commandImgViewLeft.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
+        
+        if self.matchingObjectInfo.prompt_detail.count > 0 {
+            self.matchingObjectViewModel.setQuestionInfo(info:matchingObjectInfo)
+        }
+        
+        self.commandImgViewLeft.isHidden = false
+        self.commandImgViewRight.isHidden = false
+
+        ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.bg_image, imageView: self.commandImgViewLeft, callbackAfterNoofImages: 1, delegate: self)
+    }
+    
     private func initializeFrame()
     {
         let tW:CGFloat = UIScreen.main.bounds.width
@@ -106,45 +154,7 @@ extension TrialMatchingOnePairViewController {
         commandImgViewRight.frame = initialRightImageViewFrame
         dragAnimationView.frame = initialRightImageViewFrame
     }
-    
-    private func customSetting() {
-        self.initializeFrame()
-        self.isDragCompleted = false
-        self.isDragStarted = false
-        self.speechTitle.text = ""
-        self.avatarCenterImageView.animatedImage =  getIdleGif()
-        self.avatarCenterImageView.isHidden = true
-        self.commandImgViewLeft.isHidden = true
-        self.commandImgViewRight.isHidden = true
-        self.avatarBottomImageView.isHidden = true
-        self.dragAnimationView.isHidden = true
-        self.view.isUserInteractionEnabled = false
-        self.commandImgViewLeft.image = nil
-        self.commandImgViewRight.image = nil
-        Utility.setView(view: self.commandImgViewLeft, cornerRadius: 0, borderWidth: 0, color: .clear)
-        
-        SpeechManager.shared.setDelegate(delegate: self)
-        SpeechManager.shared.speak(message:  matchingObjectInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-        speechTitle.text = matchingObjectInfo.question_title
-        
-        self.commandImgViewLeft.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
-        
-        if self.matchingObjectInfo.prompt_detail.count > 0 {
-            self.matchingObjectViewModel.setQuestionInfo(info:matchingObjectInfo)
-        }
-        
-        let url = ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image
 
-        self.commandImgViewLeft.isHidden = false
-        self.commandImgViewLeft.setImageWith(urlString: url)
-
-        self.commandImgViewRight.isHidden = false
-        self.commandImgViewRight.setImageWith(urlString: url)
-        self.commandImgViewRightCopy.setImageWith(urlString: url)
-
-        self.initializeTimer()
-    }
-    
     //MARK:- Gesture
     private func addGesture() {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
@@ -209,6 +219,7 @@ extension TrialMatchingOnePairViewController {
             
             self.matchingObjectViewModel.startPracticeClosure = {
                 DispatchQueue.main.async {
+                    self.isUserInteraction = true
                     //self.customSetting()
                 }
             }
@@ -637,7 +648,9 @@ extension TrialMatchingOnePairViewController: SpeechManagerDelegate {
             
             break
         default:
-            self.isUserInteraction = true
+            if self.matchingObjectInfo.prompt_detail.count == 0 {
+                self.isUserInteraction = true
+            }
             break
         }
     }

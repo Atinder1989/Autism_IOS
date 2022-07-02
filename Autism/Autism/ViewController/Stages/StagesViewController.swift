@@ -27,10 +27,20 @@ class StagesViewController: UIViewController {
         if let detail = self.performanceDetail {
             stageViewModel.fetchDashboardScreenLabels()
             stageViewModel.getLearningSkillProgramList(performanceDetail: detail, startDate: self.startDate, endDate: self.endDate)
-        }else if let algoResponse = self.algoResponse {
-            self.view.isUserInteractionEnabled = false
-            stageViewModel.fetchDashboardScreenLabels()
-            stageViewModel.setProgramResponseData(algoResponse: algoResponse)
+        } else if let algoResponse = self.algoResponse {
+            if(ServiceHelper.baseURL != ServiceEnvironment.DevelopmentNew) {
+                self.view.isUserInteractionEnabled = false
+                stageViewModel.fetchDashboardScreenLabels()
+                stageViewModel.setProgramResponseData(algoResponse: algoResponse)
+            }
+        }
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        DispatchQueue.main.async {
+            if(ServiceHelper.baseURL == ServiceEnvironment.DevelopmentNew) {
+                self.executeAutomaticLearning()
+            }
         }
     }
     
@@ -201,8 +211,15 @@ extension StagesViewController {
     private func executeAutomaticLearning() {
         if let algoResponse = self.algoResponse {
         if let data = algoResponse.data,let info = data.learninginfo  {
-        var program = LearningProgramModel.init()
-        program.program_id = info.program_id
+            var program = LearningProgramModel.init()
+            program.program_id = info.program_id
+            
+            program.course_type = info.course_type
+            program.content_type = info.content_type
+            program.bucket = info.bucket
+            program.index = info.index
+            program.table_name = info.table_name
+
         if let code =  ProgramCode.init(rawValue: info.label_code) {
                 program.label_code = code
         } else {

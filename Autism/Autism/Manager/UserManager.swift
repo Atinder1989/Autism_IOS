@@ -31,6 +31,7 @@ class UserManager {
     }
     
     func clearCurrentUserData() {
+        selectedLanguageModel = LanguageModel.init(name: "", code: "", image: "", status: "")
         self.user = nil
         UserDefaults.standard.setValue(nil, forKeyPath: keyExcellent)
         UserDefaults.standard.setValue(nil, forKeyPath: keyIdle)

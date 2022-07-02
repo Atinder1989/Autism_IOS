@@ -177,13 +177,15 @@ extension TrialEchoicViewController {
     
 
     private func customSetting() {
-        isUserInteraction = false
-        SpeechManager.shared.setDelegate(delegate: self)
-        self.questionTitle.text = verbalQuestionInfo.question_title
+        DispatchQueue.main.async {
+            self.isUserInteraction = false
+            self.questionTitle.text = self.verbalQuestionInfo.question_title
 
-        self.apiDataState = .imageDownloaded
-        SpeechManager.shared.speak(message: self.verbalQuestionInfo.question_title, uttrenceRate: 0.35)
-                        
+            self.apiDataState = .imageDownloaded
+
+            SpeechManager.shared.setDelegate(delegate: self)
+            SpeechManager.shared.speak(message: self.verbalQuestionInfo.question_title, uttrenceRate: 0.35)
+        }
     }
 
    private func initializeTimer() {

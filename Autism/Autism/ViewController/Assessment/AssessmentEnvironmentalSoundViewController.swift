@@ -86,11 +86,27 @@ extension AssessmentEnvironmentalSoundViewController {
             wh = 240.0
             self.questionImageView.frame = CGRect(x: (screenWidth-wh)/2.0, y: (screenHeight-wh)/2.0, width: wh, height: wh)
         }
-
+                
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         
+        
         ImageDownloader.sharedInstance.downloadImage(urlString: self.environmentQuestionInfo.video_url, imageView: self.questionImageView, callbackAfterNoofImages: 1, delegate: self)
+        
+        if(self.environmentQuestionInfo.video_url == "") {
+            self.avatarImageView.frame = questionImageView.frame
+            questionImageView.isHidden = true
+        } else {
+            questionImageView.isHidden = false
+            let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
+            let screenHeight:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.height)
+
+            if(UIDevice.current.userInterfaceIdiom == .pad) {
+                self.avatarImageView.frame = CGRect(x: screenWidth-180-safeArealRight, y: screenHeight-255-safeArealBottom, width: 180, height: 255)
+            } else {
+                self.avatarImageView.frame = CGRect(x: screenWidth-130-safeArealRight, y: screenHeight-200-safeArealBottom, width: 130, height: 200)
+            }
+        }
     }
 
  

@@ -23,6 +23,8 @@ class LearningManager {
     static let btnSkipYT = UIButton()
     
     static var trialInfo:TrialInfo!
+    static var trialVC: UIViewController!
+    
     
     static func getLearningScriptController(skill_domain_id:String,program: LearningProgramModel,command_array: [ScriptCommandInfo],questionId:String) -> UIViewController?  {
         var scriptController: UIViewController? = nil
@@ -110,6 +112,7 @@ class LearningManager {
     }
     
     static func getTrialController(info:TrialInfo) -> UIViewController?  {
+        
         var scriptController: UIViewController? = nil
         trialInfo = info
         if(info.enable_reinforcer == true) {
@@ -332,7 +335,18 @@ class LearningManager {
     {
         if let topvc = UIApplication.topViewController() {
             if let vc = self.getTrialController(info: trialInfo) {
-                topvc.present(vc, animated: true, completion: nil)
+//                if(trialVC == nil) {
+//                    trialVC = vc
+//                    topvc.present(vc, animated: true, completion: nil)
+//                } else {
+//                    trialVC.dismiss(animated: false, completion: {
+//                        self.trialVC = vc
+//                        topvc.present(vc, animated: true, completion: nil)
+//                    })
+//                }
+                DispatchQueue.main.async {
+                    topvc.present(vc, animated: true, completion: nil)
+                }
             } else {
                 if(trialInfo.enable_reinforcer == false) {
                     Utility.showAlert(title: "Information", message: "Trail Work under progress")
@@ -341,7 +355,6 @@ class LearningManager {
             }
         }
     }
-    
     
     private static func resetAssessment() {
         Utility.showLoader()

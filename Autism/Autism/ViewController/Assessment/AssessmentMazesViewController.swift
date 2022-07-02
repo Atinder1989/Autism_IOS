@@ -25,7 +25,7 @@ class AssessmentMazesViewController: UIViewController {
     @IBOutlet weak var imgViewObject: UIImageView!
     @IBOutlet weak var imgViewGoal: UIImageView!
     
-    var minX:CGFloat = 100
+    var minX:CGFloat = 120
     var maxX:CGFloat = UIScreen.main.bounds.width-100
     
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
@@ -33,6 +33,8 @@ class AssessmentMazesViewController: UIViewController {
     private var completeRate = 0
     private var skipQuestion = false
     private var questionState: QuestionState = .inProgress
+    
+    var isFromDidLoad:Bool = true
     
     private var isUserInteraction = false {
            didSet {
@@ -47,11 +49,22 @@ class AssessmentMazesViewController: UIViewController {
         super.viewDidLoad()
         self.customSetting()
         self.listenModelClosures()
-        self.screenDesigning()
+//        self.screenDesigning()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if(isFromDidLoad == true) {
+            isFromDidLoad = false
+            self.screenDesigning()
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
            NotificationCenter.default.removeObserver(self, name: Notification.Name(notificationName), object: nil)
     }
@@ -87,9 +100,15 @@ class AssessmentMazesViewController: UIViewController {
             imgViewObject.center = CGPoint(x: imgViewObject.center.x, y: (self.view.frame.size.height/2.0)-20/*365*/)
             imgViewObject.transform = CGAffineTransform(rotationAngle: CGFloat(-10 * 3.14159265358979/180))
             
-            minX = imgViewObject.center.x
-            maxX = imgViewGoal.center.x - 150
+            minX = imgViewObject.center.x+20
+            maxX = imgViewBG.frame.size.width
             
+//            if(UIDevice.current.userInterfaceIdiom != .pad) {
+//                maxX = imgViewBG.frame.size.width - (imgViewObject.frame.size.width/2.0)
+//            } else {
+//                maxX = imgViewGoal.center.x - 250
+//            }
+
             cWidth = self.view.frame.size.width-200
             xStart = 17
             yRef = 384
@@ -117,8 +136,8 @@ class AssessmentMazesViewController: UIViewController {
             imgViewObject.transform = CGAffineTransform(rotationAngle: CGFloat(-20 * 3.14159265358979/180))
             
             minX = imgViewObject.center.x
-            maxX = imgViewGoal.center.x - 150
-            
+            maxX = imgViewBG.frame.size.width
+
             cWidth = (self.view.frame.size.width-200)/2.0
             xStart = 17
             yRef = 384
@@ -151,7 +170,7 @@ class AssessmentMazesViewController: UIViewController {
             imgViewObject.transform = CGAffineTransform(rotationAngle: CGFloat(-20 * 3.14159265358979/180))
             
             minX = imgViewObject.center.x
-            maxX = imgViewGoal.center.x - 150
+            maxX = imgViewGoal.center.x - 250
             
             cWidth = (self.view.frame.size.width-200)/3.0
             xStart = 17
@@ -321,7 +340,13 @@ class AssessmentMazesViewController: UIViewController {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if(self.questionState != .submit ) {
-            if(imgViewObject.center.x >= maxX-5) {
+                        
+            var maxDone:CGFloat = maxX-50
+            if(UIDevice.current.userInterfaceIdiom == .pad) {
+                maxDone = maxX-120
+            }
+            
+            if(imgViewObject.center.x >= maxDone) {
                 self.questionState = .submit
                 completeRate = 100
                 SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.mazeQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
@@ -331,7 +356,6 @@ class AssessmentMazesViewController: UIViewController {
     
     func calculateThePosition(_ location:CGPoint)
     {
-        
         UIView.animate(withDuration: 0.3, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {
 
             let yCenter384:CGFloat = self.view.frame.size.height/2.0//384
@@ -340,13 +364,10 @@ class AssessmentMazesViewController: UIViewController {
                 
                 let diff = Int(self.cWidth)/12
                 let iX = Int(location.x)%Int(self.cWidth)
-                print("iX = ", iX)
-//                print("yCenter384-location.y = ", yCenter384-location.y)
                 let ydiff = yCenter384-location.y
                 if(ydiff < -40 || ydiff > 40) {
                     return
                 }
-                print("ydiff = ", ydiff)
                 
                 var yRef:CGFloat = location.y
                 if(iX >= 0*diff && iX <= 1*diff) {
@@ -376,8 +397,7 @@ class AssessmentMazesViewController: UIViewController {
                 } else if(8*diff >= 0 && iX <= 9*diff) {
                     self.imgViewObject.transform = CGAffineTransform(rotationAngle: CGFloat(-5 * 3.14159265358979/180))
                     yRef = yCenter384+10//405
-                }
-                else if(9*diff >= 0 && iX <= 10*diff) {
+                } else if(9*diff >= 0 && iX <= 10*diff) {
                     self.imgViewObject.transform = CGAffineTransform(rotationAngle: CGFloat(-15 * 3.14159265358979/180))
                     yRef = yCenter384-00//385
                 } else if(10*diff >= 0 && iX <= 11*diff) {
@@ -389,10 +409,13 @@ class AssessmentMazesViewController: UIViewController {
                 } else {
                     yRef = yCenter384-60//325
                 }
+                
                 if(12*diff < Int(location.x)) {
                     //self.imgViewObject.center = CGPoint(x:CGFloat(12*diff), y:yRef)
                 } else {
-                    if(location.x > 100) {
+                    if(location.x > 130 && location.x <= self.maxX) {
+                        print("self.maxX = ", self.maxX)
+                        print("location.x = ", location.x)
                         self.imgViewObject.center = CGPoint(x:location.x, y:yRef)
                     }
                 }
@@ -402,8 +425,6 @@ class AssessmentMazesViewController: UIViewController {
                 
                 let diff = Int(cW)/12
                 let iX = Int(location.x)%Int(cW)
-                print("iX = ", iX)
-                print("diff = ", diff)
                 
                 let ydiff = yCenter384-location.y
                 if(ydiff < -50 || ydiff > 50) {
@@ -448,11 +469,10 @@ class AssessmentMazesViewController: UIViewController {
                     self.imgViewObject.transform = CGAffineTransform(rotationAngle: CGFloat(-10 * 3.14159265358979/180))
                     yRef = yCenter384-0//385
                 }
-                print("yRef = ", yRef)
                 if(12*diff < Int(location.x)) {
                     //self.imgViewObject.center = CGPoint(x:CGFloat(12*diff), y:yRef)
                 } else {
-                    if(location.x > 100) {
+                    if(location.x > 130 && location.x <= self.maxX) {
                         self.imgViewObject.center = CGPoint(x:location.x, y:yRef)
                     }
                 }
@@ -488,8 +508,6 @@ class AssessmentMazesViewController: UIViewController {
         //        self.startAndRepeatCommands()
            })
         }
-                
-        
     }
     
 }
@@ -518,7 +536,7 @@ extension AssessmentMazesViewController {
             imgWH = 140
             yPos = (UIScreen.main.bounds.size.height-imgWH)/2.0
         }
-        imgViewObject.frame = CGRect(x:0, y:yPos, width:imgWH, height:imgWH)
+        imgViewObject.frame = CGRect(x:safeArealLeft+0, y:yPos, width:imgWH, height:imgWH)
         imgViewGoal.frame = CGRect(x:UIScreen.main.bounds.size.width-220, y:yPos, width:imgWH, height:imgWH)
         
         heightImgViewBG.constant = imgWH

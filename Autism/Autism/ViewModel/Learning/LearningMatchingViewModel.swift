@@ -277,6 +277,7 @@ extension LearningMatchingViewModel {
                 }
             }
         }
+        SpeechManager.shared.setDelegate(delegate: self)//Speech Issue
         SpeechManager.shared.speak(message: message, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
     

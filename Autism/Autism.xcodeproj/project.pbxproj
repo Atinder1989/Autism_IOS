@@ -1902,9 +1902,9 @@
 		B83E481B24862C8B00908318 /* Assessment */ = {
 			isa = PBXGroup;
 			children = (
+				B87A280C2488EABF000214C9 /* AssessmentViewController.swift */,
 				1CE9A39624CB4EF700143BDC /* AssessmentBlockDesignViewController.swift */,
 				B249A85524C7FA7C0092DD20 /* AssessmentDrawingViewController.swift */,
-				B87A280C2488EABF000214C9 /* AssessmentViewController.swift */,
 				B28C320124C1F947002EDF2D /* AssessmentStartViewController.swift */,
 				1C78968324C1D6C500EE99BB /* AssessmentAlphabetLearningViewController.swift */,
 				1C78968524C1D6C500EE99BB /* AssessmentMakeWordViewController.swift */,
@@ -3069,11 +3069,11 @@
 			baseConfigurationReference = 696A4C056D2CFCB2044BF5BF /* Pods-Autism.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 99;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 103;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 6NJ7YZH4XS;
+				DEVELOPMENT_TEAM = 5YVF838RR5;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Autism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -3081,9 +3081,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tataaig.ios.uat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.impute.Autism;
 				PRODUCT_NAME = "Autism Therapy";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = AutismDebug;
 				SWIFT_OBJC_BRIDGING_HEADER = "Autism/Autism-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3097,7 +3097,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 99;
+				CURRENT_PROJECT_VERSION = 103;
 				DEVELOPMENT_TEAM = 5YVF838RR5;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Autism/Info.plist;

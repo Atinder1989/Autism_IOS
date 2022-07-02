@@ -13,6 +13,7 @@ class AssessmentMultiArrayQuestionViewController: UIViewController {
 
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
+    @IBOutlet weak var avatarImageViewLeft: FLAnimatedImageView!
 
     @IBOutlet weak var imagesCollectionView0: UICollectionView!
     @IBOutlet weak var imagesCollectionView1: UICollectionView!
@@ -45,8 +46,24 @@ class AssessmentMultiArrayQuestionViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.customSetting()
         self.listenModelClosures()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(doSomething), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
-    
+    @objc private func doSomething() {
+        imagesCollectionView0.reloadData()
+        imagesCollectionView1.reloadData()
+        imagesCollectionView2.reloadData()
+        imagesCollectionView3.reloadData()
+        imagesCollectionView4.reloadData()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchOnEmptyScreenCount += 1
     }
@@ -96,31 +113,39 @@ extension AssessmentMultiArrayQuestionViewController {
         var h:CGFloat = 300
         var yRef:CGFloat = 400
         var yRight:CGFloat = 100
+        var wSmall:CGFloat = 200
+        var xR:CGFloat = self.view.frame.size.width-wSmall-safeArealRight-10
+        var yDiff:CGFloat = 50
+        
         if(UIDevice.current.userInterfaceIdiom != .pad) {
             yRef = 150
-            yRight = 80
+            yRight = 70
             h = 100
             w = 360
+            wSmall = 150
+            xR = self.view.frame.size.width-wSmall-safeArealRight-10
+            yDiff = 40
         }
+        
         if(currentIndex == 0) {
             imagesCollectionView0.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
 
             if(safeArealLeft == 0 && safeArealRight == 0) {
-                imagesCollectionView1.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
-                yRight = yRight+40
-                imagesCollectionView2.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
-                yRight = yRight+40
-                imagesCollectionView3.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
-                yRight = yRight+40
-                imagesCollectionView4.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
+                imagesCollectionView1.frame = CGRect(x: xR, y: yRight, width: wSmall, height: 40)
+                yRight = yRight+yDiff
+                imagesCollectionView2.frame = CGRect(x: xR, y: yRight, width: wSmall, height: 40)
+                yRight = yRight+yDiff
+                imagesCollectionView3.frame = CGRect(x: xR, y: yRight, width: wSmall, height: 40)
+                yRight = yRight+yDiff
+                imagesCollectionView4.frame = CGRect(x: xR, y: yRight, width: wSmall, height: 40)
             } else {
-                imagesCollectionView1.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
-                yRight = yRight+40
-                imagesCollectionView2.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
-                yRight = yRight+40
-                imagesCollectionView3.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
-                yRight = yRight+40
-                imagesCollectionView4.frame = CGRect(x: self.view.frame.size.width-200, y: yRight, width: 200, height: 40)
+                imagesCollectionView1.frame = CGRect(x: xR, y: yRight, width: wSmall, height: 40)
+                yRight = yRight+yDiff
+                imagesCollectionView2.frame = CGRect(x: xR, y: yRight, width: wSmall, height: 40)
+                yRight = yRight+yDiff
+                imagesCollectionView3.frame = CGRect(x: xR, y: yRight, width: wSmall, height: 40)
+                yRight = yRight+yDiff
+                imagesCollectionView4.frame = CGRect(x: xR, y: yRight, width: wSmall, height: 40)
             }
         } else if(currentIndex == 1) {
             imagesCollectionView1.bounds = CGRect(x: 0, y: 0, width: w, height: h)
@@ -144,8 +169,8 @@ extension AssessmentMultiArrayQuestionViewController {
     {
         var w:CGFloat = self.view.frame.size.width-200
         var h:CGFloat = 300
-        let xRef:CGFloat = (self.view.frame.size.width-w)/2.0
-        
+        var wSmall:CGFloat = 200
+
         var yDiff:CGFloat = 0
         
         var yRef:CGFloat = 400
@@ -153,7 +178,9 @@ extension AssessmentMultiArrayQuestionViewController {
             yRef = 150
             h = 100
             w = 360
-            yDiff = -50.0 //
+            yDiff = -100.0 //
+            wSmall = 200
+            
         }
 
         self.isRightAnswer = false
@@ -161,38 +188,52 @@ extension AssessmentMultiArrayQuestionViewController {
         if(currentIndex < self.whichTypeQuestionInfo.blocks.count) {
             self.questionTitle.text = self.whichTypeQuestionInfo.blocks[currentIndex].question_title
 
+            let xR:CGFloat = self.imagesCollectionView4.frame.origin.x
             UIView.animate(withDuration: 0.5,
                                   delay: 0,
                                 options: [],
                              animations: {
-                                if(self.currentIndex == 0) {
-                                    self.imagesCollectionView0.frame = CGRect(x: xRef, y: yRef, width: w, height: h)
-                                } else if(self.currentIndex == 1) {
-                                    self.imagesCollectionView1.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
-                                    self.imagesCollectionView0.frame = CGRect(x: 10, y: 150+yDiff, width: 200, height: 40)
+//                                if(self.currentIndex == 0) {
+//                                    self.imagesCollectionView0.frame = CGRect(x: xRef, y: yRef, width: w, height: h)
+//                                } else
+                if(self.currentIndex == 1) {
                                     
-                                    self.imagesCollectionView0.reloadData()
-                                    self.imagesCollectionView1.reloadData()
-                                } else if(self.currentIndex == 2) {
-                                    self.imagesCollectionView2.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
-                                    self.imagesCollectionView1.frame = CGRect(x: 10, y: 200+yDiff, width: 200, height: 40)
+                    self.imagesCollectionView1.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
+                    self.imagesCollectionView0.frame = CGRect(x: 10, y: 150+yDiff, width: wSmall, height: 40)
+                                                                        
+                    self.imagesCollectionView0.reloadData()
+                    self.imagesCollectionView1.reloadData()
+                    
+                    self.imagesCollectionView2.frame = CGRect(x: xR, y: self.imagesCollectionView2.frame.origin.y-40, width: wSmall, height: 40)
+                    self.imagesCollectionView3.frame = CGRect(x: xR, y: self.imagesCollectionView3.frame.origin.y-40, width: wSmall, height: 40)
+                    self.imagesCollectionView4.frame = CGRect(x: xR, y: self.imagesCollectionView4.frame.origin.y-40, width: wSmall, height: 40)
+                } else if(self.currentIndex == 2) {
+                    self.imagesCollectionView2.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
+                    self.imagesCollectionView1.frame = CGRect(x: 10, y: 200+yDiff, width: wSmall, height: 40)
+                                                                        
+                    self.imagesCollectionView1.reloadData()
+                    self.imagesCollectionView2.reloadData()
+                                        
+                    self.imagesCollectionView3.frame = CGRect(x: xR, y: self.imagesCollectionView3.frame.origin.y-40, width: wSmall, height: 40)
+                    self.imagesCollectionView4.frame = CGRect(x: xR, y: self.imagesCollectionView4.frame.origin.y-40, width: wSmall, height: 40)
+                } else if(self.currentIndex == 3) {
                                     
-                                    self.imagesCollectionView1.reloadData()
-                                    self.imagesCollectionView2.reloadData()
-                                } else if(self.currentIndex == 3) {
-                                    self.imagesCollectionView3.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
-                                    self.imagesCollectionView2.frame = CGRect(x: 10, y: 250+yDiff, width: 200, height: 40)
+                    self.imagesCollectionView3.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
+                    self.imagesCollectionView2.frame = CGRect(x: 10, y: 250+yDiff, width: wSmall, height: 40)
                                     
-                                    self.imagesCollectionView2.reloadData()
-                                    self.imagesCollectionView3.reloadData()
-                                } else if(self.currentIndex == 4) {
-                                    self.imagesCollectionView4.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
-                                    self.imagesCollectionView3.frame = CGRect(x: 10, y: 300+yDiff, width: 200, height: 40)
+                    self.imagesCollectionView2.reloadData()
+                    self.imagesCollectionView3.reloadData()
+                                        
+                    self.imagesCollectionView4.frame = CGRect(x: xR, y: self.imagesCollectionView4.frame.origin.y-40, width: wSmall, height: 40)
+                } else if(self.currentIndex == 4) {
                                     
-                                    self.imagesCollectionView3.reloadData()
-                                    self.imagesCollectionView4.reloadData()
-                                }
-                             }, completion: {_ in
+                    self.imagesCollectionView4.frame = CGRect(x: (self.view.frame.size.width-w)/2.0, y: yRef, width: w, height: h)
+                    self.imagesCollectionView3.frame = CGRect(x: 10, y: 300+yDiff, width: wSmall, height: 40)
+                                    
+                    self.imagesCollectionView3.reloadData()
+                    self.imagesCollectionView4.reloadData()
+                }
+                        }, completion: {_ in
                                 SpeechManager.shared.setDelegate(delegate: self)
                                 SpeechManager.shared.speak(message: self.whichTypeQuestionInfo.blocks[self.currentIndex].question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                              }
@@ -351,10 +392,14 @@ extension AssessmentMultiArrayQuestionViewController: UICollectionViewDataSource
     internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
-        if(collectionView.frame.size.width == 200) {
+        if(collectionView.frame.size.width <= 200) {
             cell.setLayouts(wh: 20, t: 0, l: 0)
         } else {
-            cell.setLayouts(wh: 32, t: 20, l: 20)
+            if(UIDevice.current.userInterfaceIdiom != .pad) {
+                cell.setLayouts(wh: 32, t: 5, l: 5)
+            } else {
+                cell.setLayouts(wh: 32, t: 20, l: 20)
+            }
         }
 
         var model:ImageModel!
@@ -387,28 +432,37 @@ extension AssessmentMultiArrayQuestionViewController: UICollectionViewDataSource
             let sIndex = self.whichTypeQuestionInfo.blocks[collectionView.tag].selectedIndex
             if indexPath.row == Int(self.whichTypeQuestionInfo.blocks[collectionView.tag].correct_answer)! - 1 {
                  cell.greenTickImageView.isHidden = false
-                 cell.greenTickImageView.image = UIImage.init(named: "greenTick")
-                 Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .greenBorderColor)
+                if(collectionView.frame.size.width <= 200) {
+                    cell.greenTickImageView.image = UIImage.init(named: "greenTick_small")
+                } else {
+                    cell.greenTickImageView.image = UIImage.init(named: "greenTick")
+                }
                 
+                 Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .greenBorderColor)
                 if(sIndex != indexPath.row) {
                     Animations.shake(on: cell)
                 }
              }
             else if self.whichTypeQuestionInfo.blocks[collectionView.tag].selectedIndex == indexPath.row {
-                
                  cell.greenTickImageView.isHidden = false
-                 cell.greenTickImageView.image = UIImage.init(named: "cross")
+                if(collectionView.frame.size.width <= 200) {
+                    cell.greenTickImageView.image = UIImage.init(named: "cross_small")
+                } else {
+                    cell.greenTickImageView.image = UIImage.init(named: "cross")
+                }
                  Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .redBorderColor)
-                
              } else {
                  Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .darkGray)
              }
         }
-        if(collectionView.frame.size.width == 200) {
+        if(collectionView.frame.size.width <= 200) {
             cell.setLayouts(wh: 20, t: 0, l: 0)
         } else {
-            cell.setLayouts(wh: 32, t: 20, l: 20)
-        }
+            if(UIDevice.current.userInterfaceIdiom != .pad) {
+                cell.setLayouts(wh: 32, t: 5, l: 5)
+            } else {
+                cell.setLayouts(wh: 32, t: 20, l: 20)
+            }        }
       return cell
     }
     
@@ -487,6 +541,7 @@ extension AssessmentMultiArrayQuestionViewController: SpeechManagerDelegate {
             if(currentIndex < self.whichTypeQuestionInfo.blocks.count) {
                 if(speechText == self.whichTypeQuestionInfo.blocks[currentIndex].question_title) {
                     self.avatarImageView.isHidden = true
+                    self.avatarImageViewLeft.isHidden = true
                     isUserInteraction = true
                     return
                 }
@@ -494,13 +549,16 @@ extension AssessmentMultiArrayQuestionViewController: SpeechManagerDelegate {
         }
         
         self.avatarImageView.isHidden = true
+        self.avatarImageViewLeft.isHidden = true
 
         if let type = Utility.getSpeechMessageType(text: speechText) {
             if type != .hurrayGoodJob && type != .wrongAnswer {
                 self.avatarImageView.animatedImage =  getIdleGif()
+                self.avatarImageViewLeft.animatedImage =  getIdleGif()
             }
         } else {
             self.avatarImageView.animatedImage =  getIdleGif()
+            self.avatarImageViewLeft.animatedImage =  getIdleGif()
         }
         
         switch self.questionState {
@@ -524,21 +582,36 @@ extension AssessmentMultiArrayQuestionViewController: SpeechManagerDelegate {
     
     func speechDidStart(speechText:String) {
         self.isUserInteraction = false
-        self.avatarImageView.isHidden = false
-
+        
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            if(currentIndex <= 2) {
+                self.avatarImageView.isHidden = true
+                self.avatarImageViewLeft.isHidden = false
+            } else {
+                self.avatarImageView.isHidden = false
+                self.avatarImageViewLeft.isHidden = true
+            }
+        } else {
+            self.avatarImageView.isHidden = false
+            self.avatarImageViewLeft.isHidden = true
+        }
+        
         if let type = Utility.getSpeechMessageType(text: speechText) {
             switch type {
             case .hurrayGoodJob:
                 self.avatarImageView.animatedImage =  getHurrayGif()
+                self.avatarImageViewLeft.animatedImage =  getHurrayGif()
                 return
             case .wrongAnswer:
                 self.avatarImageView.animatedImage =  getWrongAnswerGif()
+                self.avatarImageViewLeft.animatedImage =  getWrongAnswerGif()
                 return
             default:
                 break
             }
         }
         self.avatarImageView.animatedImage =  getTalkingGif()
+        self.avatarImageViewLeft.animatedImage =  getTalkingGif()
     }
 }
 

@@ -56,6 +56,7 @@ struct AlgorithmData: Codable {
         switch self.course_type {
         case .learning:
             self.learninginfo = try container.decodeIfPresent(LearningInfo.self, forKey: .info) ?? nil
+            self.learninginfo?.course_type = type
         case .trial:
             self.trialInfo = try container.decodeIfPresent(TrialInfo.self, forKey: .info) ?? nil
             break
@@ -71,16 +72,31 @@ struct AlgorithmData: Codable {
 }
 
 struct LearningInfo: Codable {
+    
+    var course_type: String
+    var content_type: String
+    var bucket: String
+    var index: Int
+    var table_name: String
+    
     var question_id: String
     var skill_domain_id: String
     var program_id: String
     var label_code: String
     var level: String
-
+    
     var command_array: [ScriptCommandInfo] = []
 
     init(from decoder:Decoder) throws {
         let container = try decoder.container(keyedBy: ServiceParsingKeys.self)
+        
+        self.course_type = try container.decodeIfPresent(String.self, forKey: .course_type) ?? ""
+        self.content_type = try container.decodeIfPresent(String.self, forKey: .content_type) ?? ""
+        self.bucket = try container.decodeIfPresent(String.self, forKey: .bucket) ?? ""
+        self.table_name = try container.decodeIfPresent(String.self, forKey: .table_name) ?? ""
+        
+        self.index = try container.decodeIfPresent(Int.self, forKey: .index) ?? 0
+        
         self.question_id = try container.decodeIfPresent(String.self, forKey: .question_id) ?? ""
         self.skill_domain_id = try container.decodeIfPresent(String.self, forKey: .skill_domain_id) ?? ""
         self.program_id = try container.decodeIfPresent(String.self, forKey: .program_id) ?? ""

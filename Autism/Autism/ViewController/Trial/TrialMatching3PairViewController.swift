@@ -62,9 +62,9 @@ class TrialMatching3PairViewController: UIViewController {
     private var questionState: QuestionState = .inProgress
     private var skipQuestion = false
     private var isUserInteraction = false {
-             didSet {
-                 self.view.isUserInteractionEnabled = isUserInteraction
-             }
+        didSet {
+            self.view.isUserInteractionEnabled = isUserInteraction
+        }
     }
         
     private var apiDataState: APIDataState = .notCall
@@ -101,8 +101,113 @@ class TrialMatching3PairViewController: UIViewController {
         }
     }
 }
-    
+
+extension TrialMatching3PairViewController: ImageDownloaderDelegate {
+    func finishDownloading() {
+        DispatchQueue.main.async {
+            self.apiDataState = .imageDownloaded
+                                    
+            DispatchQueue.main.async {
+                
+                self.commandImgViewRight1.image = self.commandImgViewLeft1.image
+                self.commandImgViewRightCopy1.image = self.commandImgViewLeft1.image
+
+                self.commandImgViewRight2.image = self.commandImgViewLeft2.image
+                self.commandImgViewRightCopy2.image = self.commandImgViewLeft2.image
+
+                self.commandImgViewRight3.image = self.commandImgViewLeft3.image
+                self.commandImgViewRightCopy3.image = self.commandImgViewLeft3.image
+
+                SpeechManager.shared.setDelegate(delegate: self)
+                SpeechManager.shared.speak(message:  self.matchingObjectInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                self.initializeTimer()
+            }
+        }
+    }
+}
+
 extension TrialMatching3PairViewController {
+    
+    private func customSetting() {
+        self.initializeFrame()
+        self.isDragCompleted = false
+        self.isDragStarted = false
+        self.speechTitle.text = ""
+        self.avatarCenterImageView.animatedImage =  getIdleGif()
+        self.avatarCenterImageView.isHidden = true
+        self.avatarBottomImageView.isHidden = true
+        self.view.isUserInteractionEnabled = false
+
+        //Image 1
+        self.commandImgViewLeft1.isHidden = true
+        self.commandImgViewRight1.isHidden = true
+        self.dragAnimationView1.isHidden = true
+        self.commandImgViewLeft1.image = nil
+        self.commandImgViewRight1.image = nil
+        Utility.setView(view: self.commandImgViewLeft1, cornerRadius: 0, borderWidth: 0, color: .clear)
+        
+        //Image 2
+        self.commandImgViewLeft2.isHidden = true
+        self.commandImgViewRight2.isHidden = true
+        self.dragAnimationView2.isHidden = true
+        self.commandImgViewLeft2.image = nil
+        self.commandImgViewRight2.image = nil
+        Utility.setView(view: self.commandImgViewLeft2, cornerRadius: 0, borderWidth: 0, color: .clear)
+        
+        //Image 3
+        self.commandImgViewLeft3.isHidden = true
+        self.commandImgViewRight3.isHidden = true
+        self.dragAnimationView3.isHidden = true
+        self.commandImgViewLeft3.image = nil
+        self.commandImgViewRight3.image = nil
+        Utility.setView(view: self.commandImgViewLeft3, cornerRadius: 0, borderWidth: 0, color: .clear)
+        
+        speechTitle.text = matchingObjectInfo.question_title
+        
+        if self.matchingObjectInfo.prompt_detail.count > 0 {
+            self.matchingObjectViewModel.setQuestionInfo(info:matchingObjectInfo)
+        }
+        
+        ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.block[0].image, imageView: self.commandImgViewLeft1, callbackAfterNoofImages: 3, delegate: self)
+        ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.block[1].image, imageView: self.commandImgViewLeft2, callbackAfterNoofImages: 3, delegate: self)
+        ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.block[2].image, imageView: self.commandImgViewLeft3, callbackAfterNoofImages: 3, delegate: self)
+
+        //Image 1
+
+        self.commandImgViewLeft1.isHidden = false
+        self.commandImgViewRight1.isHidden = false
+
+//        let url1 = ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.block[0].image
+//        self.commandImgViewLeft1.setImageWith(urlString: url1)
+//        self.commandImgViewRight1.setImageWith(urlString: url1)
+//        self.commandImgViewRightCopy1.setImageWith(urlString: url1)
+
+        self.commandImgViewLeft2.isHidden = false
+        self.commandImgViewRight2.isHidden = false
+        
+        //Image 2
+//        let url2 = ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.block[1].image
+//        self.commandImgViewLeft2.setImageWith(urlString: url2)
+//        self.commandImgViewRight2.setImageWith(urlString: url2)
+//        self.commandImgViewRightCopy2.setImageWith(urlString: url2)
+
+        self.commandImgViewLeft3.isHidden = false
+        self.commandImgViewRight3.isHidden = false
+
+        //Image 3
+//        let url3 = ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.block[2].image
+//        self.commandImgViewLeft3.setImageWith(urlString: url3)
+//        self.commandImgViewRight3.setImageWith(urlString: url3)
+//        self.commandImgViewRightCopy3.setImageWith(urlString: url3)
+        
+        
+//        DispatchQueue.main.async {
+//            SpeechManager.shared.setDelegate(delegate: self)
+//            SpeechManager.shared.speak(message:  self.matchingObjectInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+//            self.initializeTimer()
+//        }
+        
+    }
     
     func initializeFrame() {
     
@@ -140,86 +245,6 @@ extension TrialMatching3PairViewController {
 
         yRef = yRef+wh+ySpace
     }
-    
-
-    private func customSetting() {
-        self.initializeFrame()
-        self.isDragCompleted = false
-        self.isDragStarted = false
-        self.speechTitle.text = ""
-        self.avatarCenterImageView.animatedImage =  getIdleGif()
-        self.avatarCenterImageView.isHidden = true
-        self.avatarBottomImageView.isHidden = true
-        self.view.isUserInteractionEnabled = false
-
-        //Image 1
-        self.commandImgViewLeft1.isHidden = true
-        self.commandImgViewRight1.isHidden = true
-        self.dragAnimationView1.isHidden = true
-        self.commandImgViewLeft1.image = nil
-        self.commandImgViewRight1.image = nil
-        Utility.setView(view: self.commandImgViewLeft1, cornerRadius: 0, borderWidth: 0, color: .clear)
-        
-        //Image 2
-        self.commandImgViewLeft2.isHidden = true
-        self.commandImgViewRight2.isHidden = true
-        self.dragAnimationView2.isHidden = true
-        self.commandImgViewLeft2.image = nil
-        self.commandImgViewRight2.image = nil
-        Utility.setView(view: self.commandImgViewLeft2, cornerRadius: 0, borderWidth: 0, color: .clear)
-        
-        //Image 3
-        self.commandImgViewLeft3.isHidden = true
-        self.commandImgViewRight3.isHidden = true
-        self.dragAnimationView3.isHidden = true
-        self.commandImgViewLeft3.image = nil
-        self.commandImgViewRight3.image = nil
-        Utility.setView(view: self.commandImgViewLeft3, cornerRadius: 0, borderWidth: 0, color: .clear)
-        
-        speechTitle.text = matchingObjectInfo.question_title
-
-        SpeechManager.shared.setDelegate(delegate: self)
-        SpeechManager.shared.speak(message:  matchingObjectInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-        
-        if self.matchingObjectInfo.prompt_detail.count > 0 {
-            self.matchingObjectViewModel.setQuestionInfo(info:matchingObjectInfo)
-        }
-        
-        //Image 1
-        let url1 = ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.block[0].image
-
-        self.commandImgViewLeft1.isHidden = false
-        self.commandImgViewLeft1.setImageWith(urlString: url1)
-
-        self.commandImgViewRight1.isHidden = false
-        self.commandImgViewRight1.setImageWith(urlString: url1)
-        self.commandImgViewRightCopy1.setImageWith(urlString: url1)
-
-        
-        //Image 2
-        let url2 = ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.block[1].image
-
-        self.commandImgViewLeft2.isHidden = false
-        self.commandImgViewLeft2.setImageWith(urlString: url2)
-
-        self.commandImgViewRight2.isHidden = false
-        self.commandImgViewRight2.setImageWith(urlString: url2)
-        self.commandImgViewRightCopy2.setImageWith(urlString: url2)
-
-        
-        //Image 3
-        let url3 = ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.block[2].image
-
-        self.commandImgViewLeft3.isHidden = false
-        self.commandImgViewLeft3.setImageWith(urlString: url3)
-
-        self.commandImgViewRight3.isHidden = false
-        self.commandImgViewRight3.setImageWith(urlString: url3)
-        self.commandImgViewRightCopy3.setImageWith(urlString: url3)
-        
-        self.initializeTimer()
-    }
-    
     //MARK:- Gesture
     private func addGesture() {
         //Image 1
@@ -382,9 +407,7 @@ extension TrialMatching3PairViewController {
 
         self.matchingObjectViewModel.startPracticeClosure = {
                 DispatchQueue.main.async {
-//                    self.isUserInteraction = true
-//                    self.apiDataState = .comandFinished
-//                    self.initializeTimer()
+                    self.isUserInteraction = true
                 }
             }
         //blink_all_images
@@ -774,7 +797,7 @@ extension TrialMatching3PairViewController {
         if !Utility.isNetworkAvailable() {
             return
         }
-        print("Match Object")
+        print("Match 3 Pair TrialObject")
         self.timeTakenToSolve += 1
         print(timeTakenToSolve)
         if self.timeTakenToSolve == self.matchingObjectInfo.trial_time {
@@ -785,11 +808,11 @@ extension TrialMatching3PairViewController {
 }
 
     private func stopQuestionCompletionTimer() {
-    if let timer = self.questionCompletionTimer {
-              timer.invalidate()
-        self.questionCompletionTimer = nil
+        if let timer = self.questionCompletionTimer {
+                  timer.invalidate()
+            self.questionCompletionTimer = nil
+        }
     }
-}
     
     func submitTrialMatchingAnswer(info:MatchingObjectInfo) {
 
@@ -834,7 +857,9 @@ extension TrialMatching3PairViewController: SpeechManagerDelegate {
             
             break
         default:
-            self.isUserInteraction = true
+            if self.matchingObjectInfo.prompt_detail.count == 0 {
+                self.isUserInteraction = true
+            }
             break
         }
     }

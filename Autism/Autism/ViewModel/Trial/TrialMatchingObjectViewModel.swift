@@ -239,6 +239,7 @@ extension TrialMatchingObjectViewModel {
     private func handleTextToSpeechCommand(commandInfo:ScriptCommandInfo) {
         let message = commandInfo.value
 
+        SpeechManager.shared.setDelegate(delegate: self)
         if let option = commandInfo.option {
             
             if(option.sound == "slow") {

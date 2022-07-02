@@ -98,7 +98,7 @@ extension TrialVerbalQuestionViewController {
     
     private func customSetting() {
         isUserInteraction = false
-        SpeechManager.shared.setDelegate(delegate: self)
+        
         self.questionTitle.text = verbalQuestionInfo.question_title
         
         if(UIDevice.current.userInterfaceIdiom == .pad) {
@@ -312,7 +312,7 @@ extension TrialVerbalQuestionViewController: ImageDownloaderDelegate {
     func finishDownloading() {
         DispatchQueue.main.async {
             self.apiDataState = .imageDownloaded
-                                    
+            SpeechManager.shared.setDelegate(delegate: self)
             SpeechManager.shared.speak(message: self.verbalQuestionInfo.question_title, uttrenceRate: 0.35)
         }
     }

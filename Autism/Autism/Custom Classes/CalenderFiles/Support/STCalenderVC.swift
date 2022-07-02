@@ -116,7 +116,6 @@ class STCalenderVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //calendarForDate.setCurrentPage(Date(), animated: true)
         if previousVCSelectedDate != nil {
             self.set(slectedDate: previousVCSelectedDate)
             fsCalender.setCurrentPage(previousVCSelectedDate!, animated: true)

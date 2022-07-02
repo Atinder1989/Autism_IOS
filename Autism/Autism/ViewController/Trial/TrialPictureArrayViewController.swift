@@ -223,6 +223,7 @@ extension TrialPictureArrayViewController {
         
         self.matchingObjectViewModel.startPracticeClosure = {
             DispatchQueue.main.async {
+                self.isUserInteraction = true
                 //self.customSetting()
             }
         }
@@ -525,7 +526,9 @@ extension TrialPictureArrayViewController: SpeechManagerDelegate {
             
             break
         default:
-            self.isUserInteraction = true
+            if self.matchingObjectInfo.prompt_detail.count == 0 {
+                self.isUserInteraction = true
+            }
             break
         }
     }

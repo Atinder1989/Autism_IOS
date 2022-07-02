@@ -241,7 +241,6 @@ enum ModuleStatus: String {
     case started = "Started"
     case pending = "Pending"
     case completed = "Completed"
-   // case complete = "Complete"
     case none = "none"
 }
 

@@ -223,7 +223,6 @@ extension TrialSpellingViewController {
     private func customSetting() {
         
         isUserInteraction = false
-        SpeechManager.shared.setDelegate(delegate: self)
         self.lblTitle.text = matchSpellingQuestionInfo.question_title
                         
         Utility.setView(view: txtAnwere, cornerRadius: 5, borderWidth: 2, color: UIColor.purpleBorderColor)
@@ -454,6 +453,7 @@ extension TrialSpellingViewController: ImageDownloaderDelegate {
     func finishDownloading() {
         DispatchQueue.main.async {
             self.apiDataState = .imageDownloaded
+            SpeechManager.shared.setDelegate(delegate: self)
             SpeechManager.shared.speak(message: self.matchSpellingQuestionInfo.question_title+self.matchSpellingQuestionInfo.answer, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }

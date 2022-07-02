@@ -218,6 +218,7 @@ enum ServiceParsingKeys : String, CodingKey {
     case learning_complete_status = "learning_complete_status"
     case program_image = "program_image"
     case course_type = "course_type"
+    case content_type = "content_type"
     //Trial
     case questionData = "questionData"
     case learning_current_status = "learning_current_status"
@@ -266,6 +267,9 @@ enum ServiceParsingKeys : String, CodingKey {
     case reinforce = "reinforce"
     case correct_text = "correct_text"
     case incorrect_text = "incorrect_text"
+    
+    case bucket = "bucket"
+    case index = "index"
 }
 
 

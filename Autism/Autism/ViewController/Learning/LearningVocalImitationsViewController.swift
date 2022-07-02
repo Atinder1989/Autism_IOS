@@ -52,6 +52,10 @@ class LearningVocalImitationsViewController: UIViewController {
         self.customSetting()
         if self.command_array.count == 0 {
             self.verbalViewModal.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)
+            
+            if(UIDevice.current.userInterfaceIdiom != .pad) {
+                thumnailImageView.contentMode = .scaleAspectFit
+            }
         }
     }
     

@@ -26,10 +26,10 @@
                         </constraints>
                     </imageView>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="greenTick" translatesAutoresizingMaskIntoConstraints="NO" id="fnf-oh-ZvY">
-                        <rect key="frame" x="180" y="180" width="40" height="40"/>
+                        <rect key="frame" x="193" y="193" width="32" height="32"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="N3a-UJ-4uY"/>
-                            <constraint firstAttribute="height" constant="40" id="btd-iJ-YMe"/>
+                            <constraint firstAttribute="width" constant="32" id="N3a-UJ-4uY"/>
+                            <constraint firstAttribute="height" constant="32" id="btd-iJ-YMe"/>
                         </constraints>
                     </imageView>
                     <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="dragHand" translatesAutoresizingMaskIntoConstraints="NO" id="ECw-wm-iv4">
@@ -42,10 +42,10 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="fnf-oh-ZvY" secondAttribute="bottom" constant="20" id="1zD-8P-6Vc"/>
+                <constraint firstAttribute="bottom" secondItem="fnf-oh-ZvY" secondAttribute="bottom" constant="15" id="1zD-8P-6Vc"/>
                 <constraint firstAttribute="bottom" secondItem="UqP-BF-Id3" secondAttribute="bottom" id="4ZS-Bw-kWe"/>
                 <constraint firstItem="UqP-BF-Id3" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="GpD-CE-UhP"/>
-                <constraint firstAttribute="trailing" secondItem="fnf-oh-ZvY" secondAttribute="trailing" constant="20" id="SlL-Ku-es9"/>
+                <constraint firstAttribute="trailing" secondItem="fnf-oh-ZvY" secondAttribute="trailing" constant="15" id="SlL-Ku-es9"/>
                 <constraint firstItem="UqP-BF-Id3" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="hkc-yi-Z9O"/>
                 <constraint firstAttribute="trailing" secondItem="UqP-BF-Id3" secondAttribute="trailing" id="yeU-Xs-V3I"/>
             </constraints>

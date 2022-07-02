@@ -76,8 +76,6 @@ class TrialVerbalViewModel:NSObject {
                ServiceParsingKeys.skip.rawValue:skip,
                 ServiceParsingKeys.program_id.rawValue:info.program_id,
                 ServiceParsingKeys.prompt_type.rawValue:info.prompt_type,
-//                ServiceParsingKeys.faceDetectionTime.rawValue:FaceDetection.shared.getFaceDetectionTime(),
-//                ServiceParsingKeys.faceNotDetectionTime.rawValue:FaceDetection.shared.getFaceNotDetectionTime(),
                 ServiceParsingKeys.touchOnEmptyScreenCount.rawValue:touchOnEmptyScreenCount,
                 ServiceParsingKeys.table_name.rawValue:"verbal_with_multiple"
             ]
@@ -157,13 +155,7 @@ extension TrialVerbalViewModel {
     }
     private func handleTextToSpeechCommand(commandInfo:ScriptCommandInfo) {
         let message = commandInfo.value
-//        if let option = commandInfo.option {
-//            if option.variables_text == ScriptCommandOptionType.child_name.rawValue {
-//                if let user = UserManager.shared.getUserInfo() {
-//                    message =  message + " \(user.nickname)"
-//                }
-//            }
-//        }
+        SpeechManager.shared.setDelegate(delegate: self)
         if let option = commandInfo.option {
             
             if(option.sound == "slow") {

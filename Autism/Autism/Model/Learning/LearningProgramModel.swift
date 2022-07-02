@@ -9,6 +9,15 @@
 import Foundation
 
 struct LearningProgramModel: Codable {
+    
+    //New Parameters
+    var course_type: String = ""
+    var content_type: String = ""
+    var bucket: String = ""
+    var index: Int = 0
+    var table_name: String = ""
+
+    
     var program_id: String
     var label_code: ProgramCode
     var program_name: String
@@ -30,6 +39,13 @@ struct LearningProgramModel: Codable {
     var tag: Int
 
     init() {
+        
+        self.course_type = ""
+        self.content_type = ""
+        self.bucket = ""
+        self.index = 0
+        self.table_name = ""
+
         self.program_id = ""
         self.label_code = .none
         self.program_name = ""

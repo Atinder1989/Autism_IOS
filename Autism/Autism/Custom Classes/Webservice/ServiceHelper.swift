@@ -117,6 +117,7 @@ extension ServiceHelper {
         return baseURL.rawValue + "userLearningReset"
     }
     
+    //https://impute.co.jp:5000/v1/dummy_get_learning_content
     static func getLearningAlgoUrl() -> String {
                 return baseURL.rawValue + "getLearningAlgo"
     }

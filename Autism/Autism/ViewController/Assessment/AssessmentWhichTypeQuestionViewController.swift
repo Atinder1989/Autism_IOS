@@ -227,12 +227,14 @@ extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource,
                  cell.greenTickImageView.isHidden = false
                  cell.greenTickImageView.image = UIImage.init(named: "cross")
                  Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .redBorderColor)
-                
              } else {
                  Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .darkGray)
              }
         }
-      return cell
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            cell.setLayouts(wh: 32, t: 1, l: 1)
+        }
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

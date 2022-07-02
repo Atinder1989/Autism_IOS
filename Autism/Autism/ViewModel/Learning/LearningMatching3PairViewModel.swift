@@ -137,6 +137,10 @@ class LearningMatching3PairViewModel: NSObject {
                 ServiceParsingKeys.childDetail.rawValue:self.childDetailArray,
                 ServiceParsingKeys.faceDetectionTime.rawValue:FaceDetection.shared.getFaceDetectionTime(),
                 ServiceParsingKeys.faceNotDetectionTime.rawValue:FaceDetection.shared.getFaceNotDetectionTime(),
+
+                ServiceParsingKeys.content_type.rawValue:self.program.content_type,
+                ServiceParsingKeys.course_type.rawValue:self.program.course_type,
+                ServiceParsingKeys.table_name.rawValue:self.program.table_name
            ]
             LearningManager.submitLearningMatchingAnswer(parameters: parameters)
         }
@@ -198,13 +202,16 @@ extension LearningMatching3PairViewModel {
     private func executeCommand() {
         if let commandResponseVO = self.commandResponseVO  {
             if commandResponseVO.command_array.count > 0 {
+                print("currentCommandIndex === \(currentCommandIndex)")
                 if currentCommandIndex < commandResponseVO.command_array.count {
                 print("currentCommandIndex === \(currentCommandIndex)")
                     let commandInfo = commandResponseVO.command_array[self.currentCommandIndex]
                     self.scriptManager.executeCommand(commandInfo: commandInfo)
                 } else {
-                    print("Command Array Completed")
-                    self.submitLearningMatchingAnswer()
+                    if(currentCommandIndex == commandResponseVO.command_array.count) {
+                        print("Command Array Completed")
+                        self.submitLearningMatchingAnswer()
+                    }
                 }
             }
         }

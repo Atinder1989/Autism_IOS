@@ -231,7 +231,6 @@ extension TrialMathematicsViewController {
     private func customSetting() {
         
         isUserInteraction = false
-        SpeechManager.shared.setDelegate(delegate: self)
         self.lblTitle.text = mathematicsQuestionInfo.question_title
                         
         Utility.setView(view: txtAnwere, cornerRadius: 5, borderWidth: 2, color: UIColor.purpleBorderColor)
@@ -547,6 +546,7 @@ extension TrialMathematicsViewController: ImageDownloaderDelegate {
     func finishDownloading() {
         DispatchQueue.main.async {
             self.apiDataState = .imageDownloaded
+            SpeechManager.shared.setDelegate(delegate: self)
             SpeechManager.shared.speak(message: self.mathematicsQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }

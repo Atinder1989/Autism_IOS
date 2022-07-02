@@ -233,6 +233,7 @@ extension LearningFollowingInstructionsViewModel {
             message = message.replacingOccurrences(of: "(child_name)", with: Utility.deCrypt(text: user.nickname))
         }
         
+        SpeechManager.shared.setDelegate(delegate: self)//Speech Issue
         SpeechManager.shared.speak(message: message, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
     

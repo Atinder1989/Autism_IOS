@@ -35,10 +35,11 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        print("heighhtConstraint.constant  = ",heighhtConstraint)
-//        if(UIDevice.current.userInterfaceIdiom != .pad) {
-//            heighhtConstraint.constant = self.view.frame.size.height-safeArealBottom-safeArealBottom-safeArealTop-
-//        }
-
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            heighhtConstraint.change(multiplier: 0.7)
+            //heighhtConstraint.constant = self.view.frame.size.height-safeArealBottom-safeArealBottom-safeArealTop-
+        }
+        print("self.view.frame.width = ",self.view.frame.width)
         self.listenModelClosures()
         self.loginViewModel.fetchLoginScreenLabels()
         self.customSetting()
@@ -237,5 +238,21 @@ extension LoginViewController: ImageDownloaderDelegate {
         DispatchQueue.main.async {
             self.setData()
         }
+    }
+}
+extension NSLayoutConstraint {
+    func change(multiplier: CGFloat) {
+        let newConstraint = NSLayoutConstraint(item: firstItem,
+                                               attribute: firstAttribute,
+                                               relatedBy: relation,
+                                               toItem: secondItem,
+                                               attribute: secondAttribute,
+                                               multiplier: multiplier,
+                                               constant: constant)
+
+        newConstraint.priority = self.priority
+
+        NSLayoutConstraint.deactivate([self])
+        NSLayoutConstraint.activate([newConstraint])
     }
 }

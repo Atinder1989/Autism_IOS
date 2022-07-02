@@ -130,9 +130,15 @@ internal func collectionView(_ collectionView: UICollectionView, cellForItemAt i
     let cornerRadius:CGFloat = width/2.0
     print("width 2 = ", width)
 
+    var borderWidth:CGFloat = 4.0
+    
+    if(UIDevice.current.userInterfaceIdiom != .pad) {
+        borderWidth = 2.0
+    }
+    
     cell.greenTickImageView.isHidden = true
      if selectedIndex == -1 {
-        Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 4, color: .darkGray)
+        Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .darkGray)
      } else {
         if indexPath.row == answerIndex {
             if(is_green_circle == false) {
@@ -141,7 +147,7 @@ internal func collectionView(_ collectionView: UICollectionView, cellForItemAt i
             }
             
             if(selectedIndex == answerIndex) {
-                Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 4, color: .greenBorderColor)
+                Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .greenBorderColor)
             } else {
                 Animations.shake(on: cell)
             }
@@ -150,10 +156,10 @@ internal func collectionView(_ collectionView: UICollectionView, cellForItemAt i
             
             cell.greenTickImageView.isHidden = false
             cell.greenTickImageView.image = UIImage.init(named: "cross")
-            Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 4, color: .redBorderColor)
+            Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .redBorderColor)
         } else {
             cell.fingerImageView.isHidden = true
-            Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: 4, color: .darkGray)
+            Utility.setView(view: cell.imageObject, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .darkGray)
         }
     }
 
@@ -182,6 +188,20 @@ extension TrialMatchingObjectViewController {
     }
 }
 
+extension TrialMatchingObjectViewController: ImageDownloaderDelegate {
+    func finishDownloading() {
+        DispatchQueue.main.async {
+            self.apiDataState = .imageDownloaded
+                                    
+            DispatchQueue.main.async {
+                SpeechManager.shared.setDelegate(delegate: self)
+                SpeechManager.shared.speak(message:  self.matchingObjectInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                self.initializeTimer()
+            }
+        }
+    }
+}
+
 extension TrialMatchingObjectViewController {
     private func customSetting() {
                 
@@ -190,14 +210,13 @@ extension TrialMatchingObjectViewController {
         collectionOption.isHidden = false
         
         self.isUserInteraction = false
-        SpeechManager.shared.setDelegate(delegate: self)
-        
         
         collectionOption.register(UINib(nibName: MatchingObjectCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MatchingObjectCollectionViewCell.identifier)
         labelTitle.text = matchingObjectInfo.question_title
         
-        self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
+        ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.bg_image, imageView: self.imageViewBG, callbackAfterNoofImages: 1, delegate: self)
 
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         self.collectionOption.collectionViewLayout = layout
@@ -218,15 +237,9 @@ extension TrialMatchingObjectViewController {
 
             self.imageViewBG.addDashedBorder(cornerRadius: 50, linewidth: 3, color: .darkGray, dashpattern: [6,3])
         }
-        //////
-        self.initializeTimer()
         
         if self.matchingObjectInfo.prompt_detail.count > 0 {            
             self.matchingObjectViewModel.setQuestionInfo(info:matchingObjectInfo)
-        }
-        
-        DispatchQueue.main.async {
-            SpeechManager.shared.speak(message:  self.matchingObjectInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
     
@@ -247,6 +260,7 @@ extension TrialMatchingObjectViewController {
         
         self.matchingObjectViewModel.startPracticeClosure = {
             DispatchQueue.main.async {
+                self.isUserInteraction = true
                 //self.customSetting()
             }
         }
@@ -565,7 +579,10 @@ extension TrialMatchingObjectViewController: SpeechManagerDelegate {
             
             break
         default:
-            self.isUserInteraction = true
+            
+            if self.matchingObjectInfo.prompt_detail.count == 0 {
+                self.isUserInteraction = true
+            }
             break
         }
     }

@@ -23,7 +23,7 @@ class AssessmentIndependentPlayViewController: UIViewController {
     @IBOutlet weak var imgViewGoal: UIImageView!
     
     var minX:CGFloat = 100
-    var maxX:CGFloat = UIScreen.main.bounds.width-100
+    var maxX:CGFloat = UIScreen.main.bounds.width-150
     
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     private var timeTakenToSolve = 0
@@ -139,17 +139,18 @@ extension AssessmentIndependentPlayViewController {
         self.reDownloadImages()
         
         let imgWH:CGFloat = 180
-        let yPos:CGFloat = (UIScreen.main.bounds.size.height-imgWH)/2.0
+        let yPos:CGFloat = (UIScreen.main.bounds.size.height-imgWH-safeArealBottom)/2.0
         
         imgViewObject.frame = CGRect(x:0, y:yPos, width:imgWH, height:imgWH)
         imgViewGoal.frame = CGRect(x:UIScreen.main.bounds.size.width-imgWH+20, y:yPos, width:imgWH, height:imgWH)
                 
         minX = imgViewObject.center.x
-        maxX = imgViewGoal.center.x - 150
+        
         
         if(UIDevice.current.userInterfaceIdiom != .pad) {
-            imgViewGoal.frame = CGRect(x:UIScreen.main.bounds.size.width-imgWH-30, y:yPos-20, width:imgWH, height:imgWH)
+            imgViewGoal.frame = CGRect(x:UIScreen.main.bounds.size.width-imgWH-safeArealRight, y:yPos-20, width:imgWH, height:imgWH)
         }
+        maxX = imgViewGoal.center.x - 180
     }
     
     func reDownloadImages()
