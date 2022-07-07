@@ -318,6 +318,7 @@ extension ScriptManager {
 
 extension ScriptManager {
     private func filterCommand(commandInfo:ScriptCommandInfo) {
+        print("commandInfo.command = ", commandInfo.command)
         switch commandInfo.command {
             case .clear_screen:
                 self.handleClearScreenCommand(commandInfo: commandInfo)
@@ -628,7 +629,7 @@ extension ScriptManager {
             }
         }
     }
-    
+    //Need to confirm from atinder for secuence no answer command
     private func handleChildActionCompleted(childInfo:ScriptCommandInfo) {
         for info in childInfo.cmd_array {
             if info.condition == ScriptCommandConditionType.sequence.rawValue && info.child_condition == ScriptCommandConditionType.yes.rawValue {
@@ -652,7 +653,6 @@ extension ScriptManager {
             } else if info.condition != ScriptCommandConditionType.sequence.rawValue && info.condition != ScriptCommandConditionType.no.rawValue {
                 self.handleChildActionNotCompletedNextStage(childInfo: info)
             }
-
         }
     }
     

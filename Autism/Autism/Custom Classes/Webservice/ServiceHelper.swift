@@ -11,7 +11,7 @@ import Foundation
 class ServiceHelper: NSObject {
     static var baseURL: ServiceEnvironment {
         get {
-            return ServiceEnvironment.Development
+            return ServiceEnvironment.DevelopmentNew
         }
     }
 }
@@ -102,11 +102,12 @@ extension ServiceHelper {
    
  
     static func getLearningQuestionUrl() -> String {
-        return baseURL.rawValue + "getLearningQuestion"
+        return baseURL.rawValue + "dummy_get_learning_content"//"getLearningQuestion"
     }
-
+    //New Development
+    //https://impute.co.jp:5000/v1/dummy_learning_submit
     static func getLearningAnswerUrl() -> String {
-        return baseURL.rawValue + "learning_answer"
+        return baseURL.rawValue + "dummy_learning_submit"
     }
    
     
@@ -117,9 +118,10 @@ extension ServiceHelper {
         return baseURL.rawValue + "userLearningReset"
     }
     
+    //New Development
     //https://impute.co.jp:5000/v1/dummy_get_learning_content
     static func getLearningAlgoUrl() -> String {
-                return baseURL.rawValue + "getLearningAlgo"
+                return baseURL.rawValue + "dummy_get_learning_content"
     }
     static func getUserDeleteAccountUrl() -> String {
                 return baseURL.rawValue + "userDeleteAccount"

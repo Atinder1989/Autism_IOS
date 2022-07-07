@@ -252,13 +252,47 @@ class LearningManager {
             } else {
                 if let response = responseVo {
                     DispatchQueue.main.async {
-                    self.handleResponse(response: response)
+                        
+                        if response.success {
+                            //Call GetAlgoAPI
+                            getLearningAlgoScript()
+                        } else {
+                            
+                        }
+                        //old development
+//                    self.handleResponse(response: response)
                     }
                 }
             }
         }
     }
     
+    static func getLearningAlgoScript() {
+           var service = Service.init(httpMethod: .POST)
+           service.url = ServiceHelper.getLearningAlgoUrl()
+           if let user = UserManager.shared.getUserInfo() {
+               service.params = [
+                   ServiceParsingKeys.user_id.rawValue:user.id,
+                ServiceParsingKeys.language.rawValue:user.languageCode
+
+               ]
+           }
+
+           ServiceManager.processDataFromServer(service: service, model: AlgorithmResponseVO.self) { (responseVo, error) in
+
+               if let e = error {
+                   print("Error = ", e.localizedDescription)
+                    
+               } else {
+                   if let res = responseVo {
+                       DispatchQueue.main.async {
+                           self.handleResponse(response: res)
+                       }
+                   }
+               }
+           }
+       }
+
     static func submitTrialMatchingAnswer(parameters:[String: Any]) {
        // FaceDetection.shared.stopFaceDetectionSession()
         var params = parameters
@@ -287,33 +321,66 @@ class LearningManager {
         case .learning:
             if let info = data.learninginfo {
                 var program = LearningProgramModel.init()
+
                 program.program_id = info.program_id
+
+                program.course_type = info.course_type
+                program.content_type = info.content_type
+                program.bucket = info.bucket
+                program.index = info.index
+                program.table_name = info.table_name
+                program.level = info.level
+
                 if let code =  ProgramCode.init(rawValue: info.label_code) {
                     program.label_code = code
                 } else {
                     program.label_code = .none
                 }
-                if let topvc = UIApplication.topViewController() {
-                    if let vc = self.getLearningScriptController(skill_domain_id: info.skill_domain_id, program: program, command_array: [], questionId: "") {
-                    topvc.present(vc, animated: true, completion: nil)
-                    } else {
-                        Utility.showAlert(title: "Information", message: "Learning Work under progress")
-                        UserManager.shared.exitAssessment()
+                DispatchQueue.main.async {
+                    if let topvc = UIApplication.topViewController() {
+                        if let vc = self.getLearningScriptController(skill_domain_id: info.skill_domain_id, program: program, command_array: info.command_array, questionId: info.question_id) {
+                            topvc.present(vc, animated: true, completion: nil)
+                        } else {
+                            Utility.showAlert(title: "Information", message: "Learning Work under progress")
+                            UserManager.shared.exitAssessment()
+                        }
                     }
                 }
             }
             break
+        case .mand:
+            DispatchQueue.main.async {
+                self.gotoMandViewController(response:response)
+            }
+            break
         case .trial:
             if let info = data.trialInfo {
-                self.handleTrialInfo(trialInfo:info)
+                DispatchQueue.main.async {
+                    self.handleTrialInfo(trialInfo:info)
+                }
             }
             break
         default:
-            self.showAlert(message: response.message)
+            DispatchQueue.main.async {
+                self.showAlert(message: response.message)
+            }
             break
         }
         } else {
-            self.showAlert(message: response.message)
+            DispatchQueue.main.async {
+                self.showAlert(message: response.message)
+            }
+        }
+    }
+    
+    static func gotoMandViewController(response:AlgorithmResponseVO) {
+        DispatchQueue.main.async {
+            if let topvc = UIApplication.topViewController() {
+                let vc:MandViewController = Utility.getViewController(ofType: MandViewController.self)
+                vc.modalPresentationStyle = .fullScreen
+                vc.setResponse(algoResponse: response)
+                topvc.present(vc, animated: true, completion: nil)
+            }
         }
     }
     
@@ -326,7 +393,9 @@ class LearningManager {
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
                     self.resetAssessment()
                 }))
-                topController.present(alert, animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    topController.present(alert, animated: true, completion: nil)
+                }
             }
          }
     }
@@ -335,15 +404,6 @@ class LearningManager {
     {
         if let topvc = UIApplication.topViewController() {
             if let vc = self.getTrialController(info: trialInfo) {
-//                if(trialVC == nil) {
-//                    trialVC = vc
-//                    topvc.present(vc, animated: true, completion: nil)
-//                } else {
-//                    trialVC.dismiss(animated: false, completion: {
-//                        self.trialVC = vc
-//                        topvc.present(vc, animated: true, completion: nil)
-//                    })
-//                }
                 DispatchQueue.main.async {
                     topvc.present(vc, animated: true, completion: nil)
                 }

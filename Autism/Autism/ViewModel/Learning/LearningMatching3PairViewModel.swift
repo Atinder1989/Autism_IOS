@@ -140,6 +140,8 @@ class LearningMatching3PairViewModel: NSObject {
 
                 ServiceParsingKeys.content_type.rawValue:self.program.content_type,
                 ServiceParsingKeys.course_type.rawValue:self.program.course_type,
+                ServiceParsingKeys.level.rawValue:self.program.level,
+                ServiceParsingKeys.bucket.rawValue:self.program.bucket,
                 ServiceParsingKeys.table_name.rawValue:self.program.table_name
            ]
             LearningManager.submitLearningMatchingAnswer(parameters: parameters)

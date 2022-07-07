@@ -280,8 +280,15 @@ extension DashboardViewController {
                             } else {
                                 Utility.showAlert(title: "Information", message: "Trail Work under progress")
                             }
+                        } else if let mandInfo = data.mandInfo {
+                            
+                            DispatchQueue.main.async {
+                                let vc:MandViewController = Utility.getViewController(ofType: MandViewController.self)
+                                vc.modalPresentationStyle = .fullScreen
+                                vc.setResponse(algoResponse: algoResponse)
+                                self.present(vc, animated: true, completion: nil)
+                            }
                         }
-                        
                     } else {
                         if let labelresponse = self.dashboardViewModel.labelsResponseVO {
                             Utility.showAlert(title: labelresponse.getLiteralof(code: DashboardLabelCode.information.rawValue).label_text, message: algoResponse.message)

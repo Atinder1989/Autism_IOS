@@ -270,6 +270,9 @@ enum ServiceParsingKeys : String, CodingKey {
     
     case bucket = "bucket"
     case index = "index"
+    
+    case new_correct_question_till_mand = "new_correct_question_till_mand"
+    case content_id = "content_id"
 }
 
 

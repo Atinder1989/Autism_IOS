@@ -28,7 +28,7 @@ class StagesViewController: UIViewController {
             stageViewModel.fetchDashboardScreenLabels()
             stageViewModel.getLearningSkillProgramList(performanceDetail: detail, startDate: self.startDate, endDate: self.endDate)
         } else if let algoResponse = self.algoResponse {
-            if(ServiceHelper.baseURL != ServiceEnvironment.DevelopmentNew) {
+            if(ServiceHelper.baseURL != ServiceEnvironment.DevelopmentNew) {//New Development
                 self.view.isUserInteractionEnabled = false
                 stageViewModel.fetchDashboardScreenLabels()
                 stageViewModel.setProgramResponseData(algoResponse: algoResponse)
@@ -38,7 +38,7 @@ class StagesViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         DispatchQueue.main.async {
-            if(ServiceHelper.baseURL == ServiceEnvironment.DevelopmentNew) {
+            if(ServiceHelper.baseURL == ServiceEnvironment.DevelopmentNew) {//New Development
                 self.executeAutomaticLearning()
             }
         }
@@ -219,6 +219,7 @@ extension StagesViewController {
             program.bucket = info.bucket
             program.index = info.index
             program.table_name = info.table_name
+            program.level = info.level
 
         if let code =  ProgramCode.init(rawValue: info.label_code) {
                 program.label_code = code

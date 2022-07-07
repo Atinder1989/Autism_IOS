@@ -82,6 +82,8 @@ class LearningColorViewController: UIViewController {
         if(UIDevice.current.userInterfaceIdiom != .pad) {
             itemSize = 140
         }
+        // Do any additional setup after loading the view.
+//crash resolved        self.skipLearningButton.isHidden = isSkipLearningHidden
         self.customSetting()
         if self.command_array.count == 0 {
             self.commandSolidViewModal.fetchLearningSolidQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
@@ -237,7 +239,6 @@ extension LearningColorViewController {
                 self.imageList.removeAll()
                 self.imageList = array
                 self.imagesCollectionView.isHidden = false
-                self.commandSolidViewModal.updateCurrentCommandIndex()
             }
        }
         self.commandSolidViewModal.showFingerClosure = {
@@ -419,10 +420,10 @@ extension LearningColorViewController: UICollectionViewDataSource, UICollectionV
         if model.isCircleShape != "no" {
         Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .darkGray)
         }
-        let url = ServiceHelper.baseURL.getMediaBaseUrl()+model.url
-      //  ImageDownloader.sharedInstance.downloadImage(urlString: model.url, imageView: cell.dataImageView, callbackAfterNoofImages: self.imageList.count, delegate: self)
         
-        cell.dataImageView.setImageWith(urlString: url)
+        cell.dataImageView.image = nil
+        //let url = ServiceHelper.baseURL.getMediaBaseUrl()+model.url
+        ImageDownloader.sharedInstance.downloadImage(urlString: model.url, imageView: cell.dataImageView, callbackAfterNoofImages: self.imageList.count, delegate: self)
         
         cell.handImageView.isHidden = true
         cell.greenTickImageView.isHidden = true

@@ -439,6 +439,9 @@
 		B8EA759C248FAE740093AC72 /* AssessmentWhichTypeQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA759B248FAE740093AC72 /* AssessmentWhichTypeQuestionViewController.swift */; };
 		B8EA759F249078C10093AC72 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA759D249078C10093AC72 /* ImageCell.swift */; };
 		B8EA75A0249078C10093AC72 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8EA759E249078C10093AC72 /* ImageCell.xib */; };
+		C834ACCD287186D800F94907 /* MandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C834ACCC287186D800F94907 /* MandInfo.swift */; };
+		C834ACD028718A0500F94907 /* MandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C834ACCF28718A0400F94907 /* MandViewModel.swift */; };
+		C8AA965A28703AC0007991F0 /* MandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA965928703AC0007991F0 /* MandViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -944,6 +947,9 @@
 		B8EA759B248FAE740093AC72 /* AssessmentWhichTypeQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssessmentWhichTypeQuestionViewController.swift; sourceTree = "<group>"; };
 		B8EA759D249078C10093AC72 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		B8EA759E249078C10093AC72 /* ImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
+		C834ACCC287186D800F94907 /* MandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandInfo.swift; sourceTree = "<group>"; };
+		C834ACCF28718A0400F94907 /* MandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandViewModel.swift; sourceTree = "<group>"; };
+		C8AA965928703AC0007991F0 /* MandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandViewController.swift; sourceTree = "<group>"; };
 		CD22C448A741E5BEF046D4D0 /* Pods-Autism-AutismUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Autism-AutismUITests.release.xcconfig"; path = "Target Support Files/Pods-Autism-AutismUITests/Pods-Autism-AutismUITests.release.xcconfig"; sourceTree = "<group>"; };
 		FC6C61A77864E23A72FA3939 /* Pods-AutismTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AutismTests.release.xcconfig"; path = "Target Support Files/Pods-AutismTests/Pods-AutismTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1084,7 +1090,6 @@
 		842E46F6233B471E00F659E4 /* Custom Classes */ = {
 			isa = PBXGroup;
 			children = (
-				C86B727C281A6B4B007A32E6 /* Label */,
 				1C01BDD5268AFB0E00A94BA3 /* GoogleTextToSpeech */,
 				B255D5FF25E3728B007C1315 /* VideoPlayer */,
 				B232B53D25A6F88300F8D9B1 /* AutismTimer */,
@@ -1121,6 +1126,7 @@
 		842E4700233B482000F659E4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C834ACCB287186C700F94907 /* Mand */,
 				B2B29D16256FEAAC00DD58A4 /* IntroVideo */,
 				B2045380256E53E100D3D443 /* Algorithm */,
 				B2A3E230254D72A9003FB1C5 /* Learning */,
@@ -1230,6 +1236,7 @@
 		848757C823349EF700C75F39 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				C8AA965828703A94007991F0 /* Mand */,
 				B257B7EC255A667F0058D202 /* Stages */,
 				1C385A6E25419B92009FCAD2 /* Trial */,
 				B224966124F14DF4007A4C87 /* Learning */,
@@ -1258,6 +1265,7 @@
 		848757C923349EFF00C75F39 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				C834ACCE287189F400F94907 /* Mand */,
 				B257B7ED255A66AC0058D202 /* Stages */,
 				1C385A7425419C5A009FCAD2 /* Trial */,
 				B2EA1206251A03F00017050E /* Avatar Selection */,
@@ -2151,11 +2159,28 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		C86B727C281A6B4B007A32E6 /* Label */ = {
+		C834ACCB287186C700F94907 /* Mand */ = {
 			isa = PBXGroup;
 			children = (
+				C834ACCC287186D800F94907 /* MandInfo.swift */,
 			);
-			path = Label;
+			path = Mand;
+			sourceTree = "<group>";
+		};
+		C834ACCE287189F400F94907 /* Mand */ = {
+			isa = PBXGroup;
+			children = (
+				C834ACCF28718A0400F94907 /* MandViewModel.swift */,
+			);
+			path = Mand;
+			sourceTree = "<group>";
+		};
+		C8AA965828703A94007991F0 /* Mand */ = {
+			isa = PBXGroup;
+			children = (
+				C8AA965928703AC0007991F0 /* MandViewController.swift */,
+			);
+			path = Mand;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2626,6 +2651,7 @@
 				B21C063D24E28F4600D3A065 /* ParentFeedbackViewController.swift in Sources */,
 				045F50D324B4B1910024BF47 /* ColoringQuestionInfo.swift in Sources */,
 				B2C0D48A26117B000058561A /* LearningEyeContactViewModel.swift in Sources */,
+				C834ACD028718A0500F94907 /* MandViewModel.swift in Sources */,
 				0404378E24B5EE6A0093D86B /* VideoQuestion.swift in Sources */,
 				B856C8DB2452AC220035627E /* FormModel.swift in Sources */,
 				B22DFA2424FCD38D0063A14E /* TPKeyboardAvoidingScrollView.m in Sources */,
@@ -2691,6 +2717,7 @@
 				B85B7DBA246AAECC00327FA7 /* LanguageResponseVO.swift in Sources */,
 				B240419C255BE6350048C1D9 /* PNScatterChartData.m in Sources */,
 				045F50D524B4B3440024BF47 /* AssesmentColorViewModel.swift in Sources */,
+				C8AA965A28703AC0007991F0 /* MandViewController.swift in Sources */,
 				1CDD629E24C5ED2200E9BBF7 /* AssessmentCopyPatternViewController.swift in Sources */,
 				B89D9AB92474F95C008B383D /* UserProfileViewModel.swift in Sources */,
 				B2FE6CC125111FD400E1BAB9 /* PoseNetOutput.swift in Sources */,
@@ -2752,6 +2779,7 @@
 				B88B75EB24976BDB00E3BB5F /* WhichTypeQuestionInfo.swift in Sources */,
 				1C3BA196257FEACE004CF7B6 /* TrialPictureArrayViewController.swift in Sources */,
 				B2121C2124FE3589002E393E /* Collection+Extension.swift in Sources */,
+				C834ACCD287186D800F94907 /* MandInfo.swift in Sources */,
 				1C78968624C1D6C500EE99BB /* AssessmentAlphabetLearningViewController.swift in Sources */,
 				04C3F236249D20F1007BDD70 /* AssesmentMathmeticsViewModel.swift in Sources */,
 				849483B723E55CB700174F87 /* SignUpViewController.swift in Sources */,

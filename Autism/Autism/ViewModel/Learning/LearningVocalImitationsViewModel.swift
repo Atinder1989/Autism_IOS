@@ -269,6 +269,13 @@ extension LearningVocalImitationsViewModel {
                 ServiceParsingKeys.childDetail.rawValue:self.childDetailArray,
                 ServiceParsingKeys.faceDetectionTime.rawValue:FaceDetection.shared.getFaceDetectionTime(),
                 ServiceParsingKeys.faceNotDetectionTime.rawValue:FaceDetection.shared.getFaceNotDetectionTime(),
+                //NewDevelopment
+                ServiceParsingKeys.content_type.rawValue:self.program.content_type,
+                ServiceParsingKeys.course_type.rawValue:self.program.course_type,
+                ServiceParsingKeys.level.rawValue:self.program.level,
+                ServiceParsingKeys.bucket.rawValue:self.program.bucket,
+                ServiceParsingKeys.table_name.rawValue:self.program.table_name
+
                 ]
             LearningManager.submitLearningMatchingAnswer(parameters: parameters)
         }
@@ -304,8 +311,10 @@ extension LearningVocalImitationsViewModel {
                 }
             }
         }
-        SpeechManager.shared.setDelegate(delegate: self)//Speech Issue
-        SpeechManager.shared.speak(message: message, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        DispatchQueue.main.async {
+            SpeechManager.shared.setDelegate(delegate: self)//Speech Issue
+            SpeechManager.shared.speak(message: message, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        }
     }
     
     private func handleShowImageCommand(commandInfo:ScriptCommandInfo) {

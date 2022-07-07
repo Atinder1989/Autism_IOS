@@ -233,6 +233,7 @@ enum CourseModule: String {
     case learning = "Learning"
     case trial = "Trial"
     case assessment = "Assessment"
+    case mand = "mand"
     case none = "none"
 }
 

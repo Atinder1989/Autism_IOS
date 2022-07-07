@@ -16,7 +16,9 @@ struct LearningProgramModel: Codable {
     var bucket: String = ""
     var index: Int = 0
     var table_name: String = ""
-
+    
+    var level: String = ""
+    
     
     var program_id: String
     var label_code: ProgramCode
@@ -43,6 +45,8 @@ struct LearningProgramModel: Codable {
         self.course_type = ""
         self.content_type = ""
         self.bucket = ""
+        self.level = ""
+        
         self.index = 0
         self.table_name = ""
 

@@ -15,7 +15,7 @@ struct AlgorithmResponseVO: Codable {
     var data : AlgorithmData?
     var showSkillprogram : Bool
     var skillprogramDetail : LearningSkillProgramResponseVO?
-
+    
     init(from decoder:Decoder) throws {
         let container = try decoder.container(keyedBy: ServiceParsingKeys.self)
         self.success = try container.decodeIfPresent(Bool.self, forKey: .success) ?? false
@@ -40,11 +40,13 @@ struct AlgorithmData: Codable {
     var course_type: CourseModule
     var learninginfo: LearningInfo?
     var trialInfo:TrialInfo?
-    
+    var mandInfo:MandInfo?
+
     init(from decoder:Decoder) throws {
         let container = try decoder.container(keyedBy: ServiceParsingKeys.self)
         self.learninginfo = nil
         self.trialInfo = nil
+        self.mandInfo = nil
         
         let type = try container.decodeIfPresent(String.self, forKey: .course_type) ?? ""
         if let cType =  CourseModule.init(rawValue: type) {
@@ -60,6 +62,9 @@ struct AlgorithmData: Codable {
         case .trial:
             self.trialInfo = try container.decodeIfPresent(TrialInfo.self, forKey: .info) ?? nil
             break
+        case .mand :
+            self.mandInfo = try container.decodeIfPresent(MandInfo.self, forKey: .info) ?? nil
+            self.mandInfo?.course_type = type
         default:
             break
         }
@@ -73,6 +78,7 @@ struct AlgorithmData: Codable {
 
 struct LearningInfo: Codable {
     
+    //New Development
     var course_type: String
     var content_type: String
     var bucket: String
