@@ -178,8 +178,11 @@ extension LearningVocalImitationsViewController {
        
        self.verbalViewModal.showVideoClosure = { urlString in
            DispatchQueue.main.async {
-            self.customSetting()
-            self.addPlayer(urlString: urlString)
+               if(self.questionImageView != nil) {
+                   self.customSetting()
+               
+                   self.addPlayer(urlString: urlString)
+               }
            }
        }
         

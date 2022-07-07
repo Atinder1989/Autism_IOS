@@ -25,10 +25,11 @@ class LearningManager {
     static var trialInfo:TrialInfo!
     static var trialVC: UIViewController!
     
-    
+    static var scriptController: UIViewController? = nil
+
     static func getLearningScriptController(skill_domain_id:String,program: LearningProgramModel,command_array: [ScriptCommandInfo],questionId:String) -> UIViewController?  {
-        var scriptController: UIViewController? = nil
         print("#program.label_code ==== \(program.label_code)")
+        scriptController = nil
         switch program.label_code {
         case .following_instructions:
             let vc = Utility.getViewController(ofType: LearningFollowingInstructionsViewController.self)
@@ -65,7 +66,7 @@ class LearningManager {
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
             scriptController = vc
-        case .tacting_2objects_help,.vocal_Imitations,.tacting_4object_no_help,.tacting_6non_favourite_2,.tacting_6non_favourite,.tacting_10_item, .tacting_2objects_no_help:
+        case .tacting_2objects_help,.vocal_Imitations,.tacting_4object_no_help,.tacting_6non_favourite_2,.tacting_6non_favourite,.tacting_10_item, .tacting_2objects_no_help, .tacting_1m,.tacting_2m, .tacting_3m, .tacting_4m,.tacting_5m:
             let vc = Utility.getViewController(ofType: LearningVocalImitationsViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
@@ -336,52 +337,68 @@ class LearningManager {
                 } else {
                     program.label_code = .none
                 }
-                DispatchQueue.main.async {
+//                DispatchQueue.main.async {
                     if let topvc = UIApplication.topViewController() {
                         if let vc = self.getLearningScriptController(skill_domain_id: info.skill_domain_id, program: program, command_array: info.command_array, questionId: info.question_id) {
-                            topvc.present(vc, animated: true, completion: nil)
+                            if(scriptController != nil) {
+                                scriptController!.dismiss(animated: false, completion: {
+                                    topvc.present(vc, animated: true, completion: nil)
+                                })
+                            } else {
+                                topvc.present(vc, animated: true, completion: nil)
+                            }
                         } else {
                             Utility.showAlert(title: "Information", message: "Learning Work under progress")
                             UserManager.shared.exitAssessment()
                         }
                     }
-                }
+//                }
             }
             break
         case .mand:
-            DispatchQueue.main.async {
+//            DispatchQueue.main.async {
                 self.gotoMandViewController(response:response)
-            }
+//            }
             break
         case .trial:
             if let info = data.trialInfo {
-                DispatchQueue.main.async {
+//                DispatchQueue.main.async {
                     self.handleTrialInfo(trialInfo:info)
-                }
+//                }
             }
             break
         default:
-            DispatchQueue.main.async {
+//            DispatchQueue.main.async {
+//            if(scriptController != nil) {
+//                scriptController!.dismiss(animated: false, completion: {
+//                    self.showAlert(message: response.message)
+//                })
+//            }
                 self.showAlert(message: response.message)
-            }
+//            }
             break
         }
         } else {
-            DispatchQueue.main.async {
+//            DispatchQueue.main.async {
+//            if(scriptController != nil) {
+//                scriptController!.dismiss(animated: false, completion: {
+//                    self.showAlert(message: response.message)
+//                })
+//            }
                 self.showAlert(message: response.message)
-            }
+//            }
         }
     }
     
     static func gotoMandViewController(response:AlgorithmResponseVO) {
-        DispatchQueue.main.async {
+//        DispatchQueue.main.async {
             if let topvc = UIApplication.topViewController() {
                 let vc:MandViewController = Utility.getViewController(ofType: MandViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setResponse(algoResponse: response)
                 topvc.present(vc, animated: true, completion: nil)
             }
-        }
+//        }
     }
     
     static func showAlert(message: String) {
@@ -393,9 +410,7 @@ class LearningManager {
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
                     self.resetAssessment()
                 }))
-                DispatchQueue.main.async {
-                    topController.present(alert, animated: true, completion: nil)
-                }
+                topController.present(alert, animated: true, completion: nil)
             }
          }
     }
@@ -404,9 +419,9 @@ class LearningManager {
     {
         if let topvc = UIApplication.topViewController() {
             if let vc = self.getTrialController(info: trialInfo) {
-                DispatchQueue.main.async {
+//                DispatchQueue.main.async {
                     topvc.present(vc, animated: true, completion: nil)
-                }
+//                }
             } else {
                 if(trialInfo.enable_reinforcer == false) {
                     Utility.showAlert(title: "Information", message: "Trail Work under progress")
