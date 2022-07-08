@@ -282,8 +282,6 @@ extension ScriptManager {
         }
     }
     
-   
-    
     private func handleParallelConditionCommand(commandInfo:ScriptCommandInfo) {
         self.parallelCommandInfo = commandInfo
         self.filterCommand(commandInfo: commandInfo)

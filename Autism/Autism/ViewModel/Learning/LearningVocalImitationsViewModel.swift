@@ -311,10 +311,10 @@ extension LearningVocalImitationsViewModel {
                 }
             }
         }
-        //DispatchQueue.main.async {
+        DispatchQueue.main.async {
             SpeechManager.shared.setDelegate(delegate: self)//Speech Issue
             SpeechManager.shared.speak(message: message, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-        //}
+        }
     }
     
     private func handleShowImageCommand(commandInfo:ScriptCommandInfo) {
