@@ -344,6 +344,7 @@ extension LearningVocalImitationsViewModel {
     private func handleClearScreenCommand() {
         if let closure = self.clearScreenClosure {
             closure()
+            self.updateCurrentCommandIndex()
         }
     }
     
@@ -440,7 +441,7 @@ extension LearningVocalImitationsViewModel: ScriptManagerDelegate {
         case .commandCompleted:
             if !isAnimationCommand && !SpeechManager.shared.isPlaying() {
                 print("Delegate ===== Command Complete ##################### ")
-                self.updateCurrentCommandIndex()
+              //  self.updateCurrentCommandIndex()
             }
         case .child_actionStarted(commandInfo: let commandInfo):
             self.handleChildActionState(state: true, commandInfo: commandInfo)
