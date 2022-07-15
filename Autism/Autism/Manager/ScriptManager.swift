@@ -12,6 +12,7 @@ indirect enum ScriptCommand {
     case show_video(commandInfo:ScriptCommandInfo?)
     case text_to_speech(commandInfo:ScriptCommandInfo?)
     case show_images(commandInfo:ScriptCommandInfo?)
+    case moveToNextCommand
     case commandCompleted
     case show_image(commandInfo:ScriptCommandInfo?)
     case child_action
@@ -193,7 +194,7 @@ class ScriptManager: NSObject {
                         } else {
                             print("Sequence Command Array Completed")
                             self.sequenceCommandInfo = nil
-                            self.sendCommandCompletedStatus()
+                            self.moveToNextCommand()
                         }
                     }
                 }
@@ -524,7 +525,7 @@ extension ScriptManager {
             if let del = self.delegate {
                 del.get(scriptCommand: .child_actionStarted(commandInfo: commandInfo))
             }
-            self.initializeTimer()  
+            self.initializeTimer()
         }
     }
 
@@ -666,6 +667,12 @@ extension ScriptManager {
         if let del = self.delegate{
             self.isCommandCompleted = true
             del.get(scriptCommand: .commandCompleted)
+        }
+    }
+    
+    private func moveToNextCommand() {
+        if let del = self.delegate {
+            del.get(scriptCommand: .moveToNextCommand)
         }
     }
     

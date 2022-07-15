@@ -25,11 +25,11 @@ class LearningManager {
     static var trialInfo:TrialInfo!
     static var trialVC: UIViewController!
     
-    static var scriptController: UIViewController? = nil
+    static var lastVC: UIViewController? = nil
 
     static func getLearningScriptController(skill_domain_id:String,program: LearningProgramModel,command_array: [ScriptCommandInfo],questionId:String) -> UIViewController?  {
         print("#program.label_code ==== \(program.label_code)")
-        scriptController = nil
+        var scriptController: UIViewController? = nil
         switch program.label_code {
         case .following_instructions:
             let vc = Utility.getViewController(ofType: LearningFollowingInstructionsViewController.self)
@@ -56,7 +56,7 @@ class LearningManager {
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
             scriptController = vc
-        case .colors,.shapes,.solid_colors,.basic_colors,.colors_shapes,.simple_colors,.expressively_labeling_items:
+        case .colors,.shapes,.solid_colors,.basic_colors,.colors_shapes,.simple_colors,.expressively_labeling_items, .lr_1m, .lr_2m, .lr_3m, .lr_4m, .lr_5m:
             let vc = Utility.getViewController(ofType: LearningColorViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
@@ -340,12 +340,19 @@ class LearningManager {
 //                DispatchQueue.main.async {
                     if let topvc = UIApplication.topViewController() {
                         if let vc = self.getLearningScriptController(skill_domain_id: info.skill_domain_id, program: program, command_array: info.command_array, questionId: info.question_id) {
-                            if(scriptController != nil) {
-                                scriptController!.dismiss(animated: false, completion: {
-                                    topvc.present(vc, animated: true, completion: nil)
+//                            topvc.present(vc, animated: true, completion: nil)
+
+                            if(lastVC != nil) {
+                                lastVC!.dismiss(animated: false, completion: {
+                                    lastVC = nil
+                                    topvc.present(vc, animated: true, completion: {
+                                        lastVC = vc
+                                    })
                                 })
                             } else {
-                                topvc.present(vc, animated: true, completion: nil)
+                                topvc.present(vc, animated: true, completion: {
+                                    lastVC = vc
+                                })
                             }
                         } else {
                             Utility.showAlert(title: "Information", message: "Learning Work under progress")

@@ -180,6 +180,8 @@ class LearningVocalImitationsViewModel: NSObject {
             }
             
             
+        } else {
+            self.updateCurrentCommandIndex()
         }
     }
     
@@ -260,7 +262,16 @@ extension LearningVocalImitationsViewModel {
         }
         if let res = self.commandResponseVO {
         if let user = UserManager.shared.getUserInfo() {
+            
+            var CR = "0"
+            
+            if(self.childDetailArray.count > 0) {
+                let lastAction:[String:Any] = self.childDetailArray.last!
+                CR = lastAction[ServiceParsingKeys.complete_rate.rawValue] as! String
+            }
+            
             let parameters: [String : Any] = [
+                ServiceParsingKeys.complete_rate.rawValue:CR as Any,
                 ServiceParsingKeys.language.rawValue:user.languageCode,
                 ServiceParsingKeys.user_id.rawValue:user.id,
                 ServiceParsingKeys.skill_domain_id.rawValue:self.skillDomainId!,
@@ -437,11 +448,11 @@ extension LearningVocalImitationsViewModel: ScriptManagerDelegate {
             if let info = commandInfo {
                 self.handleBlinkImageCommand(commandInfo: info)
             }
-
+        case .moveToNextCommand:
+            self.updateCurrentCommandIndex()
         case .commandCompleted:
-            if !isAnimationCommand && !SpeechManager.shared.isPlaying() {
+            if !isAnimationCommand && !SpeechManager.shared.isPlaying(){
                 print("Delegate ===== Command Complete ##################### ")
-              //  self.updateCurrentCommandIndex()
             }
         case .child_actionStarted(commandInfo: let commandInfo):
             self.handleChildActionState(state: true, commandInfo: commandInfo)

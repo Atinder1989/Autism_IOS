@@ -392,6 +392,12 @@ enum ProgramCode: String {
     case tacting_4m   = "tacting_4m"
     case tacting_5m   = "tacting_5m"
 
+    case lr_1m   = "lr_1m"
+    case lr_2m   = "lr_2m"
+    case lr_3m   = "lr_3m"
+    case lr_4m   = "lr_4m"
+    case lr_5m   = "lr_5m"
+    
     case none      = "none"
 }
 

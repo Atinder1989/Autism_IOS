@@ -230,7 +230,7 @@ extension LearningVocalImitationsViewController {
                 if state {
                     RecordingManager.shared.startRecording(delegate: self)
                 } else {
-                    RecordingManager.shared.stopRecording()
+                    RecordingManager.shared.stopRecordingWithDelegate()
                 }
              }
         }

@@ -21,7 +21,8 @@ class LearningColorViewModel: NSObject {
     var showFingerClosure : (() -> Void)?
     var showTapFingerAnimationClosure : (() -> Void)?
     var childActionStateClosure : ((Bool) -> Void)?
-    
+    var blinkImageClosure : ((_ questionInfo:ScriptCommandInfo) -> Void)?
+
     var bufferLoaderClosure : (() -> Void)?
     var videoFinishedClosure : (() -> Void)?
 
@@ -254,6 +255,13 @@ extension LearningColorViewModel {
         }
     }
     
+    private func handleBlinkImageCommand(commandInfo:ScriptCommandInfo) {
+        isAnimationCommand = true
+        if let closure = self.blinkImageClosure {
+            closure(commandInfo)
+        }
+    }
+
     private func handleShowFingerCommand() {
         if let closure = self.showFingerClosure {
             closure()
@@ -320,11 +328,23 @@ extension LearningColorViewModel {
 extension LearningColorViewModel: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
         if !self.isAnimationCommand {
+            if let _ = self.scriptManager.getSequenceCommandInfo() {
+                self.scriptManager.updateSequenceCommandIndex()
+                return
+            }
             if self.scriptManager.getIsCommandCompleted() {
-                self.currentCommandIndex += 1
+                self.updateCurrentCommandIndex()
             }
         }
     }
+
+//    func speechDidFinish(speechText:String) {
+//        if !self.isAnimationCommand {
+//            if self.scriptManager.getIsCommandCompleted() {
+//                self.currentCommandIndex += 1
+//            }
+//        }
+//    }
     
     func speechDidStart(speechText:String) {
         if let closure = self.showSpeechTextClosure {
@@ -350,6 +370,10 @@ extension LearningColorViewModel: ScriptManagerDelegate {
         case .show_images(commandInfo: let commandInfo):
             if let info = commandInfo {
                 self.handleShowImagesCommand(commandInfo: info)
+            }
+        case .blink_image(commandInfo: let commandInfo):
+            if let info = commandInfo {
+                self.handleBlinkImageCommand(commandInfo: info)
             }
         case .show_finger:
             self.handleShowFingerCommand()

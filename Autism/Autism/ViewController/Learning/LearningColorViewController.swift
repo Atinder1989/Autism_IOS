@@ -18,6 +18,7 @@ struct AnimationImageModel {
     var isShowTapFingerAnimation = false
     var isCircleShape = ""
     var isBlink = false
+    
     init() {
         self.url = ""
         self.value_id = ""
@@ -225,6 +226,8 @@ extension LearningColorViewController {
                     for (index, element) in commandInfo.valueList.enumerated() {
                         var scModel = AnimationImageModel.init()
                         scModel.url = element
+                        scModel.value_id = commandInfo.value_idList[index]
+                        
                         if index == correctOption {
                             scModel.correct_option = ScriptCommandOptionType.actiontrue
                         } else {
@@ -259,6 +262,71 @@ extension LearningColorViewController {
                     self.commandSolidViewModal.updateCurrentCommandIndex()
                 }
              }
+        }
+        
+        self.commandSolidViewModal.blinkImageClosure = { questioninfo in
+            DispatchQueue.main.async { [self] in
+                if let option = questioninfo.option {
+                    self.blinkImage(questioninfo, count: Int(option.time_in_second) ?? Int(learningAnimationDuration))
+                }
+             }
+        }
+    }
+    
+    private func blinkImage(_ questionInfo:ScriptCommandInfo, count: Int) {
+        if count == 0 {
+            if(questionInfo.condition.lowercased() == "no") {
+                self.commandSolidViewModal.updateCurrentCommandIndex()
+            }
+            return
+        }
+        
+        var index:Int = 0
+        for model in self.imageList {
+            
+            if model.value_id == questionInfo.value_id {
+                DispatchQueue.main.async {
+                    let cell = self.imagesCollectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: IndexPath.init(row: index, section: 0)) as! ImageCell
+                    self.blinkImageView(questionInfo, cell, count)
+                    
+//                    UIView.animate(withDuration: learningAnimationDuration, animations: {
+//                        cell.alpha = 0.2
+//                    }) { [self] finished in
+//                        UIView.animate(withDuration: learningAnimationDuration, animations: {
+//                            cell.alpha = 1.0
+//                        }) { [self] finished in
+//                            blinkImage(questionInfo, count: count - 1)
+//                        }
+//                    }
+                }
+                break;
+            }
+            index = index+1
+        }
+    }
+    
+    func blinkImageView(_ questionInfo:ScriptCommandInfo, _ cell:ImageCell, _ count: Int) {
+        
+        if count == 0 {
+            if(questionInfo.condition.lowercased() == "no") {
+                self.commandSolidViewModal.updateCurrentCommandIndex()
+            }
+            return
+        }
+
+        DispatchQueue.main.async {
+
+        UIView.animate(withDuration: learningAnimationDuration-2, animations: {
+            //cell.dataImageView.alpha = 0.2
+            self.imagesCollectionView.alpha = 0.2
+        }) { [self] finished in
+            UIView.animate(withDuration: learningAnimationDuration-2, animations: {
+                //cell.dataImageView.alpha = 1.0
+                self.imagesCollectionView.alpha = 1.0
+            }) { [self] finished in
+                blinkImageView(questionInfo, cell, count - 1)
+            }
+        }
         }
     }
     
@@ -428,6 +496,7 @@ extension LearningColorViewController: UICollectionViewDataSource, UICollectionV
         cell.handImageView.isHidden = true
         cell.greenTickImageView.isHidden = true
         cell.handImageView.isHidden = !model.isShowFinger
+        
         if selectedIndex >= 0  {
             if model.correct_option ==  ScriptCommandOptionType.actiontrue  {
                 cell.greenTickImageView.isHidden = false

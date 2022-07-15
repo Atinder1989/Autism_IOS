@@ -128,6 +128,21 @@ class RecordingManager:NSObject {
         self.isRecorder = false
     }
     
+    func stopRecordingWithDelegate() {
+       if let engine = self.audioEngine {
+           engine.reset()
+           engine.stop()
+           engine.inputNode.removeTap(onBus: 0)
+           self.audioEngine = nil
+       }
+       if let task = recognitionTask {
+           task.cancel()
+           recognitionTask = nil
+       }
+//        self.delegate = nil
+       self.isRecorder = false
+   }
+    
     func isRecording() -> Bool {
 //        if let _ = self.audioEngine {
 //            return true
