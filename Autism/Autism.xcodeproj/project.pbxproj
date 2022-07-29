@@ -1402,14 +1402,14 @@
 		B224966124F14DF4007A4C87 /* Learning */ = {
 			isa = PBXGroup;
 			children = (
-				B2326A69252EFCDF004B9C6F /* LearningMatchingViewController.swift */,
-				B2A90B472536F1F900AFB482 /* LearningColorViewController.swift */,
 				B27F3CBB254C29FA00F5AEE5 /* LearningVocalImitationsViewController.swift */,
+				B2A90B472536F1F900AFB482 /* LearningColorViewController.swift */,
+				B241C2EB25F0DFEF00060127 /* LearningEchoicViewController.swift */,
+				B2326A69252EFCDF004B9C6F /* LearningMatchingViewController.swift */,
 				B23E61FE259F6C1A00A787D8 /* LearningMatchingIdenticalViewController.swift */,
 				B2960B9F25B71D8E0019502A /* LearningSpellingViewController.swift */,
 				B287688D25D40BBC0083105F /* LearningMatching3PairViewController.swift */,
 				B210778725ECA5F10070973F /* LearningManding2WordsViewController.swift */,
-				B241C2EB25F0DFEF00060127 /* LearningEchoicViewController.swift */,
 				B25FD4C42600C89C00327AF4 /* LearningMathematicsViewController.swift */,
 				B29B893C2609E32A005EA632 /* LearningFineMotorMovementViewController.swift */,
 				B2C0D48426117ADC0058561A /* LearningEyeContactViewController.swift */,
@@ -1425,12 +1425,12 @@
 			children = (
 				B27F3CC0254C2A1100F5AEE5 /* LearningVocalImitationsViewModel.swift */,
 				B2A90B4C2536F56B00AFB482 /* LearningColorViewModel.swift */,
+				B241C2F025F0E01900060127 /* LearningEchoicViewModel.swift */,
 				1C283D70251A201300628908 /* LearningMatchingViewModel.swift */,
 				B23E6203259F6C4200A787D8 /* LearningMatchingIdenticalViewModel.swift */,
 				B2960BA425B71DBE0019502A /* LearningSpellingViewModel.swift */,
 				B28768A225D40CEB0083105F /* LearningMatching3PairViewModel.swift */,
 				B210778C25ECA8A40070973F /* LearningManding2WordsViewModel.swift */,
-				B241C2F025F0E01900060127 /* LearningEchoicViewModel.swift */,
 				B25FD4C92600C8BD00327AF4 /* LearningMathematicsViewModel.swift */,
 				B29B89412609E34A005EA632 /* LearningFineMotorMovementViewModel.swift */,
 				B2C0D48926117B000058561A /* LearningEyeContactViewModel.swift */,

@@ -43,13 +43,21 @@ class LearningEchoicViewController: UIViewController {
     @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var bufferLoaderView: UIView!
 
+    var questionId:String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.customSetting()
+        
         if self.command_array.count == 0 {
             self.verbalViewModal.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)
+
+            if(UIDevice.current.userInterfaceIdiom != .pad) {
+                thumnailImageView.contentMode = .scaleAspectFit
+            }
+        } else {
+            self.verbalViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
         }
     }
     
@@ -87,12 +95,9 @@ extension LearningEchoicViewController {
     func setData(program:LearningProgramModel, skillDomainId:String,command_array: [ScriptCommandInfo],questionId:String) {
         self.listenModelClosures()
         self.program = program
+        self.questionId = questionId
         self.skillDomainId = skillDomainId
-        if command_array.count > 0 {
-            self.command_array = command_array
-            self.verbalViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
-
-        }
+        self.command_array = command_array
     }
 }
 

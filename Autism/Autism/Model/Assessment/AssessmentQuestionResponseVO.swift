@@ -13,6 +13,7 @@ struct AssessmentQuestionResponseVO: Codable {
     var statuscode: Int
     var message: String
     var question_type: String
+    var screen_type: String
     var screen_id: String
     var enable_reinforcer: Bool
 
@@ -57,15 +58,19 @@ struct AssessmentQuestionResponseVO: Codable {
         self.success = try container.decodeIfPresent(Bool.self, forKey: .success) ?? false
         self.statuscode = try container.decodeIfPresent(Int.self, forKey: .statuscode) ?? 0
         self.message = try container.decodeIfPresent(String.self, forKey: .message) ?? ""
+        
         let dataContainer = try container.nestedContainer(keyedBy: ServiceParsingKeys.self, forKey: .data)
-        self.question_type = try dataContainer.decodeIfPresent(String.self, forKey: .question_type) ?? ""
+        self.screen_type = try dataContainer.decodeIfPresent(String.self, forKey: .screen_type) ?? ""
         self.enable_reinforcer = try dataContainer.decodeIfPresent(Bool.self, forKey: .enable_reinforcer) ?? false
         self.screen_id = try dataContainer.decodeIfPresent(String.self, forKey: .screen_id) ?? ""
+        self.question_type = self.screen_type//try dataContainer.decodeIfPresent(String.self, forKey: .question_type) ?? ""
+
         let questionTitle = try dataContainer.decodeIfPresent(String.self, forKey: .question_title) ?? ""
         let req_no = try dataContainer.decodeIfPresent(String.self, forKey: .req_no) ?? ""
         let skill_domain_id = try dataContainer.decodeIfPresent(String.self, forKey: .skill_domain_id) ?? ""
         let program_id = try dataContainer.decodeIfPresent(String.self, forKey: .program_id) ?? ""
         let level = try dataContainer.decodeIfPresent(String.self, forKey: .level) ?? ""
+        
         let type = AssessmentQuestionType.init(rawValue: self.question_type)
         switch type {
         case .balloon_game:

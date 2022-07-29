@@ -247,7 +247,19 @@ extension LearningMatchingIdenticalViewModel {
         
         if let res = self.commandResponseVO {
         if let user = UserManager.shared.getUserInfo() {
+
+            var CR = "0"
+            
+            if(self.childDetailArray.count > 0) {
+                let lastAction:[String:Any] = self.childDetailArray.last!
+                CR = lastAction[ServiceParsingKeys.complete_rate.rawValue] as? String ?? ""
+                if(CR == "") {
+                    CR = String(lastAction[ServiceParsingKeys.complete_rate.rawValue] as? Int ?? 0)
+                }
+            }
+            
             let parameters: [String : Any] = [
+            ServiceParsingKeys.complete_rate.rawValue:CR as Any,
             ServiceParsingKeys.language.rawValue:user.languageCode,
             ServiceParsingKeys.user_id.rawValue:user.id,
             ServiceParsingKeys.skill_domain_id.rawValue:self.skillDomainId!,

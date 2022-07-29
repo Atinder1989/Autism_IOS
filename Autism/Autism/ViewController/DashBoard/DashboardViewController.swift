@@ -196,7 +196,9 @@ class DashboardViewController: UIViewController {
         DispatchQueue.main.async {
             let vc = Utility.getViewController(ofType: TrialViewController.self)
             vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true, completion: nil)
+            self.present(vc, animated: true, completion: {
+                LearningManager.setLastVC(vc: vc)
+            })
         }
     }
     
@@ -276,7 +278,10 @@ extension DashboardViewController {
                             self.present(vc, animated: true, completion: nil)
                         } else if let trailinfo = data.trialInfo {
                             if let vc =  LearningManager.getTrialController(info: trailinfo) {
-                                self.present(vc, animated: true, completion: nil)
+                                self.present(vc, animated: true, completion: {
+                                    LearningManager.setLastVC(vc: vc)
+                                })
+
                             } else {
                                 Utility.showAlert(title: "Information", message: "Trail Work under progress")
                             }
@@ -286,7 +291,9 @@ extension DashboardViewController {
                                 let vc:MandViewController = Utility.getViewController(ofType: MandViewController.self)
                                 vc.modalPresentationStyle = .fullScreen
                                 vc.setResponse(algoResponse: algoResponse)
-                                self.present(vc, animated: true, completion: nil)
+                                self.present(vc, animated: true, completion: {
+                                    LearningManager.setLastVC(vc: vc)
+                                })
                             }
                         }
                     } else {

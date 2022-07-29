@@ -155,7 +155,14 @@ extension StagesViewController {
                     if let this = self {
                     if this.startDate.count == 0 && this.endDate.count == 0 {
                     if let vc =  LearningManager.getLearningScriptController(skill_domain_id: response.skill_domain_id, program: program, command_array: [], questionId: "") {
-                            this.present(vc, animated: true, completion: nil)
+                        this.dismiss(animated: false, completion: {
+                            if let topvc = UIApplication.topViewController() {
+                            topvc.present(vc, animated: true, completion: {
+                                LearningManager.setLastVC(vc: vc)
+                            })
+                            }
+                        })
+                            
                         
                     } else  {
                         Utility.showAlert(title: "Information", message: "Learning Work under progress")
@@ -230,7 +237,13 @@ extension StagesViewController {
         weak var weakSelf = self
         if let vc =  LearningManager.getLearningScriptController(skill_domain_id: info.skill_domain_id, program: program, command_array: info.command_array, questionId: info.question_id) {
             if let this = weakSelf {
-                this.present(vc, animated: true, completion: nil)
+                this.dismiss(animated: false, completion: {
+                    if let topvc = UIApplication.topViewController() {
+                    topvc.present(vc, animated: true, completion: {
+                        LearningManager.setLastVC(vc: vc)
+                    })
+                    }
+                })
             }
         } else {
             Utility.showAlert(title: "Information", message: "Learning Work under progress")

@@ -15,7 +15,8 @@ class AssessmentMatchingObjectViewController: UIViewController {
     private weak var delegate: AssessmentSubmitDelegate?
     
     @IBOutlet weak var collectionOption: UICollectionView!
-    @IBOutlet weak var collectionHeightConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var collectionHeightConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var collectionWidthConstraint: NSLayoutConstraint!
 //    @IBOutlet weak var collectionTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var labelTitle: UILabel!
@@ -71,9 +72,16 @@ class AssessmentMatchingObjectViewController: UIViewController {
     
 extension AssessmentMatchingObjectViewController {
     func setMatchingObjectInfo(info:MatchingObjectInfo,delegate:AssessmentSubmitDelegate) {
+        
+
         self.apiDataState = .dataFetched
         self.matchingObjectInfo = info
         self.delegate = delegate
+
+//        self.matchingObjectInfo.image_with_text.removeLast()
+//        self.matchingObjectInfo.image_with_text.removeLast()
+//        self.matchingObjectInfo.image_with_text.removeLast()
+
     }
 }
 
@@ -89,12 +97,21 @@ extension AssessmentMatchingObjectViewController: UICollectionViewDataSource, UI
             width = width / CGFloat(self.matchingObjectInfo.image_with_text.count)
         print("width = ", width)
         
-        if(self.matchingObjectInfo.screen_type == AssessmentQuestionType.matching_object_drag.rawValue) {
-            if(width <= 200) {
-                collectionHeightConstraint.constant = 200
-            }
-        }
+//        if(width > self.collectionOption.frame.height) {
+//            width = self.collectionOption.frame.height-20
+//        }
         
+//        if(self.matchingObjectInfo.screen_type == AssessmentQuestionType.matching_object_drag.rawValue) {
+//            if(width <= 200) {
+//                collectionHeightConstraint.constant = 200
+//            }
+//        }
+
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            width = 100
+        } else if(self.matchingObjectInfo.image_with_text.count == 2) {
+            width = 300
+        }
         return CGSize.init(width:width, height: width)
     }
 
@@ -110,7 +127,15 @@ internal func collectionView(_ collectionView: UICollectionView, cellForItemAt i
     cell.greenTickImageView.isHidden = true
     var width = self.collectionOption.frame.width-CGFloat((self.matchingObjectInfo.image_with_text.count*20))
     width = width / CGFloat(self.matchingObjectInfo.image_with_text.count)
+    
+    if(UIDevice.current.userInterfaceIdiom != .pad) {
+        width = 100
+    } else if(self.matchingObjectInfo.image_with_text.count == 2) {
+        width = 300
+    }
     let cornerRadius:CGFloat = width/2.0
+    
+    
     print("width 2 = ", width)
     cell.setConstraints(value:width)
     
@@ -178,13 +203,23 @@ extension AssessmentMatchingObjectViewController {
 
         if(UIDevice.current.userInterfaceIdiom == .pad) {
             self.imageViewBG.frame = CGRect(x: (screenW-310)/2.0, y: 120, width: 310, height: 310)
-            self.collectionOption.frame = CGRect(x: (screenW-960)/2.0, y: screenH-320, width: 960, height: 300)
-
+            
+            if(matchingObjectInfo.image_with_text.count == 2) {
+                self.collectionOption.frame = CGRect(x: (screenW-620)/2.0, y: screenH-320, width: 620, height: 300)
+            } else {
+                self.collectionOption.frame = CGRect(x: (screenW-960)/2.0, y: screenH-320, width: 960, height: 300)
+            }
             self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
             self.imageViewBG.addDashedBorder(cornerRadius: 155, linewidth: 8, color: .darkGray, dashpattern: [6,3])
         } else {
             self.imageViewBG.frame = CGRect(x: (screenW-100)/2.0, y: 100, width: 100, height: 100)
-            self.collectionOption.frame = CGRect(x: (screenW-360)/2.0, y: screenH-130, width: 360, height: 100)
+            
+            if(matchingObjectInfo.image_with_text.count == 2) {
+                self.collectionOption.frame = CGRect(x: (screenW-240)/2.0, y: screenH-130, width: 240, height: 100)
+            } else if(matchingObjectInfo.image_with_text.count == 3) {
+                self.collectionOption.frame = CGRect(x: (screenW-360)/2.0, y: screenH-130, width: 360, height: 100)
+            }
+            
 
             self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
             self.imageViewBG.addDashedBorder(cornerRadius: 50, linewidth: 3, color: .darkGray, dashpattern: [6,3])

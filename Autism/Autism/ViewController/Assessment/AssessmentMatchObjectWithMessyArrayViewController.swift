@@ -21,8 +21,6 @@ class AssessmentMatchObjectWithMessyArrayViewController: UIViewController {
     
     @IBOutlet weak var imageViewBG:  ImageViewWithID!
     
-
-    
     @IBOutlet weak var imageView1:  ImageViewWithID!
     @IBOutlet weak var imageView2:  ImageViewWithID!
     @IBOutlet weak var imageView3:  ImageViewWithID!
@@ -70,12 +68,7 @@ class AssessmentMatchObjectWithMessyArrayViewController: UIViewController {
 
         self.customSetting()
         self.listenModelClosures()
-        
-       // imageViewBG.alpha = 0.4
-//        imageViewBG.layer.cornerRadius = 100.0
-//        imageViewBG.layer.borderWidth = 2.0
-//        imageViewBG.layer.borderColor = UIColor.black.cgColor
-        
+                
         answerIndex = Int(self.matchingObjectInfo.correct_answer)!-1
         
         let diff:CGFloat = 60
@@ -252,6 +245,9 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
         self.isUserInteraction = false
         
         labelTitle.text = matchingObjectInfo.question_title
+        imageViewBG.alpha = 0.5
+        imageViewBG.backgroundColor = .clear
+        imageViewBG.isHidden = false
 //        self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
 //        self.imageViewBG.iModel = matchingObjectInfo
         
@@ -278,58 +274,51 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
 
     private func initializeFilledImageView() {
         
-//        let diff:CGFloat = 60
-//        var randomDegree = CGFloat.random(in: -diff..<diff)
-//        imageView1.transform = CGAffineTransform(rotationAngle: CGFloat(randomDegree * .pi/180))
-//        randomDegree = CGFloat.random(in: -diff..<diff)
-//        imageView2.transform = CGAffineTransform(rotationAngle: CGFloat(randomDegree * .pi/180))
-//        randomDegree = CGFloat.random(in: -diff..<diff)
-//        imageView3.transform = CGAffineTransform(rotationAngle: CGFloat(randomDegree * .pi/180))
-//        randomDegree = CGFloat.random(in: -diff..<diff)
-//        imageView4.transform = CGAffineTransform(rotationAngle: CGFloat(randomDegree * .pi/180))
-//        randomDegree = CGFloat.random(in: -diff..<diff)
-//        imageView5.transform = CGAffineTransform(rotationAngle: CGFloat(randomDegree * .pi/180))
-//        randomDegree = CGFloat.random(in: -diff..<diff)
-//        imageView6.transform = CGAffineTransform(rotationAngle: CGFloat(randomDegree * .pi/180))
-
-//        ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.bg_image, imageView: imageViewBG, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: nil)
-
-        if(self.matchingObjectInfo.images.count >= 10)
-        {
+        if(self.matchingObjectInfo.images.count > 0) {
             imageView1.iModel = self.matchingObjectInfo.images[0]
             ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[0].image, imageView: imageView1, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-            
+        }
+
+        if(self.matchingObjectInfo.images.count > 1) {
             imageView2.iModel = self.matchingObjectInfo.images[1]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[1].image, imageView: imageView2, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-                   
-            
+        }
+        
+        
+        if(self.matchingObjectInfo.images.count > 2) {
             imageView3.iModel = self.matchingObjectInfo.images[2]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[2].image, imageView: imageView3, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-
+        }
+        if(self.matchingObjectInfo.images.count > 3) {
             imageView4.iModel = self.matchingObjectInfo.images[3]
             ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[3].image, imageView: imageView4, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-            
+        }
+        if(self.matchingObjectInfo.images.count > 4) {
             imageView5.iModel = self.matchingObjectInfo.images[4]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[4].image, imageView: imageView5, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-                   
-            
+        }
+        if(self.matchingObjectInfo.images.count > 5) {
             imageView6.iModel = self.matchingObjectInfo.images[5]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[5].image, imageView: imageView6, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-
+        }
+        if(self.matchingObjectInfo.images.count > 6) {
             imageView7.iModel = self.matchingObjectInfo.images[6]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[6].image, imageView: imageView7, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-            
+        }
+        if(self.matchingObjectInfo.images.count > 7) {
             imageView8.iModel = self.matchingObjectInfo.images[7]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[7].image, imageView: imageView8, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-            
+        }
+        if(self.matchingObjectInfo.images.count > 8) {
             imageView9.iModel = self.matchingObjectInfo.images[8]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[8].image, imageView: imageView9, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-            
+        }
+        if(self.matchingObjectInfo.images.count > 9) {
             imageView10.iModel = self.matchingObjectInfo.images[9]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[9].image, imageView: imageView10, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
         
-        //self.addPanGesture()
+        self.addPanGesture()
     }
 
     private func addPanGesture() {
@@ -351,6 +340,18 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
         
         let gestureRecognizer6 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
         self.imageView6.addGestureRecognizer(gestureRecognizer6)
+        
+        let gestureRecognizer7 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        self.imageView7.addGestureRecognizer(gestureRecognizer7)
+        
+        let gestureRecognizer8 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        self.imageView8.addGestureRecognizer(gestureRecognizer8)
+        
+        let gestureRecognizer9 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        self.imageView9.addGestureRecognizer(gestureRecognizer9)
+        
+        let gestureRecognizer10 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        self.imageView10.addGestureRecognizer(gestureRecognizer10)
     }
     
     
@@ -434,6 +435,34 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
                 }
             } else if(self.matchingObjectInfo.correct_answer == "6") {
                 if(currentFilledImageView == imageView6) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                }
+            } else if(self.matchingObjectInfo.correct_answer == "7") {
+                if(currentFilledImageView == imageView7) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                }
+            } else if(self.matchingObjectInfo.correct_answer == "8") {
+                if(currentFilledImageView == imageView8) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                }
+            } else if(self.matchingObjectInfo.correct_answer == "9") {
+                if(currentFilledImageView == imageView9) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                }
+            } else if(self.matchingObjectInfo.correct_answer == "10") {
+                if(currentFilledImageView == imageView10) {
                     if imageViewBG.frame.contains(dropLocation) {
                         isLocationExist = true
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)

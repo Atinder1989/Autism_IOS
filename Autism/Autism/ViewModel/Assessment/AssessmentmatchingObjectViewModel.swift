@@ -23,6 +23,8 @@ class AssessmentMatchingObjectViewModel: NSObject {
     func submitUserAnswer(successCount:Int,info:MatchingObjectInfo,timeTaken:Int,skip:Bool,touchOnEmptyScreenCount:Int,selectedIndex:Int) {
         var service = Service.init(httpMethod: .POST)
         service.url = ServiceHelper.assessmentQuestionSubmitUrl()
+        var programID:String?
+        
         if let user = UserManager.shared.getUserInfo() {
             service.params = [ ServiceParsingKeys.user_id.rawValue:user.id,
                                ServiceParsingKeys.question_type.rawValue : info.question_type,
@@ -35,7 +37,7 @@ class AssessmentMatchingObjectViewModel: NSObject {
                                 ServiceParsingKeys.skill_domain_id.rawValue:info.skill_domain_id,
                                 ServiceParsingKeys.level.rawValue:info.level,
                                 ServiceParsingKeys.skip.rawValue:skip,
-                                ServiceParsingKeys.program_id.rawValue:info.program_id,
+                                ServiceParsingKeys.program_id.rawValue:programID,//info.program_id,
                                 
                                 ServiceParsingKeys.touchOnEmptyScreenCount.rawValue:touchOnEmptyScreenCount,
                                 ServiceParsingKeys.selectedIndex.rawValue:selectedIndex+1,
@@ -43,7 +45,7 @@ class AssessmentMatchingObjectViewModel: NSObject {
                                 ServiceParsingKeys.screenLoadTime.rawValue:Utility.convertDateToString(date: screenLoadTime ?? Date(), format: dateFormat),
                                 ServiceParsingKeys.screenSubmitTime.rawValue:Utility.convertDateToString(date:Date(), format: dateFormat),
                                 ServiceParsingKeys.idleTime.rawValue:FaceDetection.shared.getIdleTimeinSeconds(),
-                                ServiceParsingKeys.log_type.rawValue:CourseModule.assessment.rawValue,
+                                ServiceParsingKeys.course_type.rawValue:CourseModule.assessment.rawValue,
 
             ]
         }

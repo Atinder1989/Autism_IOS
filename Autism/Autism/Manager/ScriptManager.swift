@@ -186,11 +186,13 @@ class ScriptManager: NSObject {
     private var sequenceCommandIndex = -1 {
         didSet{
             if self.sequenceCommandIndex >= 0 {
+                
                 if let info = self.sequenceCommandInfo {
                     if info.cmd_array.count > 0 {
                         if self.sequenceCommandIndex < info.cmd_array.count {
                             let commandInfo = info.cmd_array[self.sequenceCommandIndex]
                             self.handleCommand(commandInfo: commandInfo)
+                            print("sequenceCommandIndex = ", sequenceCommandIndex)
                         } else {
                             print("Sequence Command Array Completed")
                             self.sequenceCommandInfo = nil

@@ -267,7 +267,10 @@ extension LearningVocalImitationsViewModel {
             
             if(self.childDetailArray.count > 0) {
                 let lastAction:[String:Any] = self.childDetailArray.last!
-                CR = lastAction[ServiceParsingKeys.complete_rate.rawValue] as! String
+                CR = lastAction[ServiceParsingKeys.complete_rate.rawValue] as? String ?? ""
+                if(CR == "") {
+                    CR = String(lastAction[ServiceParsingKeys.complete_rate.rawValue] as? Int ?? 0)
+                }
             }
             
             let parameters: [String : Any] = [

@@ -221,12 +221,14 @@ class LearningEchoicViewModel: NSObject {
                 ServiceParsingKeys.childDetail.rawValue:tempArray,
                 ServiceParsingKeys.faceDetectionTime.rawValue:FaceDetection.shared.getFaceDetectionTime(),
                 ServiceParsingKeys.faceNotDetectionTime.rawValue:FaceDetection.shared.getFaceNotDetectionTime(),
+                
                 //NewDevelopment
                 ServiceParsingKeys.content_type.rawValue:self.program.content_type,
                 ServiceParsingKeys.course_type.rawValue:self.program.course_type,
                 ServiceParsingKeys.level.rawValue:self.program.level,
                 ServiceParsingKeys.bucket.rawValue:self.program.bucket,
                 ServiceParsingKeys.table_name.rawValue:self.program.table_name                ]
+
             LearningManager.submitLearningMatchingAnswer(parameters: parameters)
         }
         }
@@ -265,7 +267,19 @@ extension LearningEchoicViewModel {
         }
         if let res = self.commandResponseVO {
         if let user = UserManager.shared.getUserInfo() {
+            var CR = "0"
+            
+            if(self.childDetailArray.count > 0) {
+                let lastAction:[String:Any] = self.childDetailArray.last!
+                CR = lastAction[ServiceParsingKeys.complete_rate.rawValue] as? String ?? ""
+                if(CR == "") {
+                    CR = String(lastAction[ServiceParsingKeys.complete_rate.rawValue] as? Int ?? 0)
+                }
+            }
+            
             let parameters: [String : Any] = [
+            
+                ServiceParsingKeys.complete_rate.rawValue:CR as Any,
                 ServiceParsingKeys.language.rawValue:user.languageCode,
                 ServiceParsingKeys.user_id.rawValue:user.id,
                 ServiceParsingKeys.skill_domain_id.rawValue:self.skillDomainId!,
@@ -274,6 +288,13 @@ extension LearningEchoicViewModel {
                 ServiceParsingKeys.childDetail.rawValue:self.childDetailArray,
                 ServiceParsingKeys.faceDetectionTime.rawValue:FaceDetection.shared.getFaceDetectionTime(),
                 ServiceParsingKeys.faceNotDetectionTime.rawValue:FaceDetection.shared.getFaceNotDetectionTime(),
+                //NewDevelopment
+                ServiceParsingKeys.content_type.rawValue:self.program.content_type,
+                ServiceParsingKeys.course_type.rawValue:self.program.course_type,
+                ServiceParsingKeys.level.rawValue:self.program.level,
+                ServiceParsingKeys.bucket.rawValue:self.program.bucket,
+                ServiceParsingKeys.table_name.rawValue:self.program.table_name
+
                 ]
             LearningManager.submitLearningMatchingAnswer(parameters: parameters)
         }
@@ -435,6 +456,8 @@ extension LearningEchoicViewModel: ScriptManagerDelegate {
             self.handleChildActionState(state: false, commandInfo: nil)
         case .clear_screen:
             self.handleClearScreenCommand()
+        case .moveToNextCommand:
+            self.updateCurrentCommandIndex()
         default:
             break
         }

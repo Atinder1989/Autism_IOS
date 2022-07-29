@@ -48,6 +48,10 @@ class AssesmentMathematicsViewController: UIViewController, UITextFieldDelegate 
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Utility.setView(view: self.submitBtn, cornerRadius: self.submitBtn.frame.size.height/2.0, borderWidth: 1, color: .lightGray)
+    }
     
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {

@@ -87,6 +87,14 @@ class UserManager {
         }
     }
     
+    func get_isActionPerformed() -> Bool {
+        return isActionPerformed
+    }
+    
+    func set_isActionPerformed(_ actionStatus:Bool) {
+        isActionPerformed = actionStatus
+    }
+    
     func logout() {
         AutismTimer.shared.stopTimer()
         self.clearCurrentUserData()

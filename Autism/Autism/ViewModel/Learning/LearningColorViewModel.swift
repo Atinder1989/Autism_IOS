@@ -154,6 +154,16 @@ class LearningColorViewModel: NSObject {
         }
     }
       
+    func updateCommandIndex() {
+        if let _ = self.scriptManager.getSequenceCommandInfo() {
+            self.scriptManager.updateSequenceCommandIndex()
+            return
+        }
+        if self.scriptManager.getIsCommandCompleted() {
+            self.updateCurrentCommandIndex()
+        }
+    }
+
     func calculateChildAction(state:Bool, touch:Bool){
         isAnimationCommand = false
         self.saveDataForSubmit(touch: touch)
@@ -205,7 +215,19 @@ extension LearningColorViewModel {
         
         if let res = self.commandResponseVO {
         if let user = UserManager.shared.getUserInfo() {
+            
+            var CR = "0"
+            
+            if(self.childDetailArray.count > 0) {
+                let lastAction:[String:Any] = self.childDetailArray.last!
+                CR = lastAction[ServiceParsingKeys.complete_rate.rawValue] as? String ?? ""
+                if(CR == "") {
+                    CR = String(lastAction[ServiceParsingKeys.complete_rate.rawValue] as? Int ?? 0)
+                }
+            }
+            
             let parameters: [String : Any] = [
+            ServiceParsingKeys.complete_rate.rawValue:CR as Any,
             ServiceParsingKeys.language.rawValue:user.languageCode,
             ServiceParsingKeys.user_id.rawValue:user.id,
             ServiceParsingKeys.skill_domain_id.rawValue:self.skillDomainId!,
@@ -390,6 +412,8 @@ extension LearningColorViewModel: ScriptManagerDelegate {
             self.handleChildActionState(state: false, commandInfo: nil)
         case .clear_screen:
             self.handleClearScreenCommand()
+        case .moveToNextCommand:
+            self.updateCurrentCommandIndex()
         default:
             break
         }

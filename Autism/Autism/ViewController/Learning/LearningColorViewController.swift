@@ -42,7 +42,6 @@ class LearningColorViewController: UIViewController {
             if isChildActionCompleted {
                 DispatchQueue.main.async {
                     self.commandSolidViewModal.calculateChildAction(state: self.isChildActionCompleted, touch: self.isTouch)
-             
                 }
             }
         }
@@ -77,17 +76,33 @@ class LearningColorViewController: UIViewController {
         }
     }
      
+    var questionId = ""
+    var isFromViewdidLoad:Bool = true
+        
     override func viewDidLoad() {
         super.viewDidLoad()
     
         if(UIDevice.current.userInterfaceIdiom != .pad) {
             itemSize = 140
         }
-        // Do any additional setup after loading the view.
-//crash resolved        self.skipLearningButton.isHidden = isSkipLearningHidden
+
         self.customSetting()
-        if self.command_array.count == 0 {
-            self.commandSolidViewModal.fetchLearningSolidQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if isFromViewdidLoad {
+            isFromViewdidLoad = false
+            
+            if self.command_array.count == 0 {
+                self.commandSolidViewModal.fetchLearningSolidQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
+                if(UIDevice.current.userInterfaceIdiom != .pad) {
+                    thumnailImageView.contentMode = .scaleAspectFit
+                }
+            } else {
+                self.commandSolidViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
+            }
         }
     }
     
@@ -111,21 +126,32 @@ class LearningColorViewController: UIViewController {
         self.stopTimer()
         self.commandSolidViewModal.pausePlayer()
         self.commandSolidViewModal.stopAllCommands()
-        UserManager.shared.exitAssessment()
+        
+        SpeechManager.shared.stopSpeech()
+        FaceDetection.shared.stopFaceDetectionSession()
+        AutismTimer.shared.stopTimer()
+        
+        if !UserManager.shared.get_isActionPerformed() {
+            UserManager.shared.set_isActionPerformed(true)
+            UserManager.shared.updateScreenId(screenid: ScreenRedirection.dashboard.rawValue)
+                
+            self.dismiss(animated: true)
+//            let vc = Utility.getViewController(ofType: DashboardViewController.self)
+//            self.setRootViewController(vc: vc)
+        }
+        //UserManager.shared.exitAssessment()
     }
    
 }
 //MARK:- Public Methods
 extension LearningColorViewController {
     func setData(program:LearningProgramModel, skillDomainId:String,command_array: [ScriptCommandInfo],questionId:String) {
+        
         self.listenModelClosures()
         self.program = program
         self.skillDomainId = skillDomainId
-        if command_array.count > 0 {
-            self.command_array = command_array
-            self.commandSolidViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
-
-        }
+        self.questionId = questionId
+        self.command_array = command_array
     }
 }
 
@@ -242,6 +268,7 @@ extension LearningColorViewController {
                 self.imageList.removeAll()
                 self.imageList = array
                 self.imagesCollectionView.isHidden = false
+                self.commandSolidViewModal.updateCurrentCommandIndex()
             }
        }
         self.commandSolidViewModal.showFingerClosure = {
@@ -264,72 +291,44 @@ extension LearningColorViewController {
              }
         }
         
-        self.commandSolidViewModal.blinkImageClosure = { questioninfo in
-            DispatchQueue.main.async { [self] in
-                if let option = questioninfo.option {
-                    self.blinkImage(questioninfo, count: Int(option.time_in_second) ?? Int(learningAnimationDuration))
-                }
-             }
-        }
-    }
-    
-    private func blinkImage(_ questionInfo:ScriptCommandInfo, count: Int) {
-        if count == 0 {
-            if(questionInfo.condition.lowercased() == "no") {
-                self.commandSolidViewModal.updateCurrentCommandIndex()
-            }
-            return
-        }
-        
-        var index:Int = 0
-        for model in self.imageList {
+        self.commandSolidViewModal.blinkImageClosure = { questionInfo in
             
-            if model.value_id == questionInfo.value_id {
-                DispatchQueue.main.async {
-                    let cell = self.imagesCollectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: IndexPath.init(row: index, section: 0)) as! ImageCell
-                    self.blinkImageView(questionInfo, cell, count)
-                    
-//                    UIView.animate(withDuration: learningAnimationDuration, animations: {
-//                        cell.alpha = 0.2
-//                    }) { [self] finished in
-//                        UIView.animate(withDuration: learningAnimationDuration, animations: {
-//                            cell.alpha = 1.0
-//                        }) { [self] finished in
-//                            blinkImage(questionInfo, count: count - 1)
-//                        }
-//                    }
-                }
-                break;
+            DispatchQueue.main.async {
+                self.updateImageListWithBlinkImageAnimation()
+               let deadlineTime = DispatchTime.now() + .seconds(3)
+               DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
+                   self.commandSolidViewModal.calculateChildAction(state: false, touch: self.isTouch)
+                   self.commandSolidViewModal.updateCommandIndex()
+               }
             }
-            index = index+1
         }
+
     }
     
-    func blinkImageView(_ questionInfo:ScriptCommandInfo, _ cell:ImageCell, _ count: Int) {
-        
+    private func blinkImage(count:Int,imageView:UIImageView) {
         if count == 0 {
-            if(questionInfo.condition.lowercased() == "no") {
-                self.commandSolidViewModal.updateCurrentCommandIndex()
+            for (index,element) in self.imageList.enumerated() {
+                var model:AnimationImageModel = AnimationImageModel()
+                model = element
+                model.isBlink = false
+                self.imageList.remove(at: index)
+                self.imageList.insert(model, at: index)
             }
             return
         }
-
+        
         DispatchQueue.main.async {
-
-        UIView.animate(withDuration: learningAnimationDuration-2, animations: {
-            //cell.dataImageView.alpha = 0.2
-            self.imagesCollectionView.alpha = 0.2
-        }) { [self] finished in
-            UIView.animate(withDuration: learningAnimationDuration-2, animations: {
-                //cell.dataImageView.alpha = 1.0
-                self.imagesCollectionView.alpha = 1.0
-            }) { [self] finished in
-                blinkImageView(questionInfo, cell, count - 1)
-            }
-        }
+            UIView.animate(withDuration: 1, animations: {
+                    imageView.alpha = 0.2
+                }) { [weak self] finished in
+                    if let this = self {
+                    imageView.alpha = 1
+                        this.blinkImage(count: count - 1,imageView:imageView)
+                    }
+                }
         }
     }
-    
+       
     private func updateImageListWithShowFinger() {
         var array : [AnimationImageModel] = []
         for element in self.imageList {
@@ -345,6 +344,21 @@ extension LearningColorViewController {
         self.imageList = array
     }
     
+    private func updateImageListWithBlinkImageAnimation() {
+        var array : [AnimationImageModel] = []
+        for element in self.imageList {
+            var scModel = element
+            if element.correct_option == ScriptCommandOptionType.actiontrue {
+                scModel.isBlink = true
+            } else {
+                scModel.isBlink = false
+            }
+            array.append(scModel)
+        }
+        self.imageList.removeAll()
+        self.imageList = array
+    }
+
     private func updateImageListWithShowTapFingerAnimation() {
         var array : [AnimationImageModel] = []
         for element in self.imageList {
@@ -470,6 +484,7 @@ extension LearningColorViewController {
 extension LearningColorViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
        return CGSize(width: itemSize - 20, height: self.imagesCollectionView.frame.height-20)
     }
     
@@ -479,7 +494,9 @@ extension LearningColorViewController: UICollectionViewDataSource, UICollectionV
     
     // make a cell for each cell index path
     internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
+        
         let model = self.imageList[indexPath.row]
         
         let cornerRadius = (itemSize-20)/2.0//cell.frame.size.width / 2
@@ -489,9 +506,14 @@ extension LearningColorViewController: UICollectionViewDataSource, UICollectionV
         Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .darkGray)
         }
         
-        cell.dataImageView.image = nil
-        //let url = ServiceHelper.baseURL.getMediaBaseUrl()+model.url
-        ImageDownloader.sharedInstance.downloadImage(urlString: model.url, imageView: cell.dataImageView, callbackAfterNoofImages: self.imageList.count, delegate: self)
+        if(model.isBlink == false) {
+            
+            let url = ServiceHelper.baseURL.getMediaBaseUrl()+model.url
+            cell.dataImageView.setImageWith(urlString: url)
+            
+//            cell.dataImageView.image = nil
+//            ImageDownloader.sharedInstance.downloadImage(urlString: model.url, imageView: cell.dataImageView, callbackAfterNoofImages: self.imageList.count, delegate: self)
+        }
         
         cell.handImageView.isHidden = true
         cell.greenTickImageView.isHidden = true
@@ -518,7 +540,10 @@ extension LearningColorViewController: UICollectionViewDataSource, UICollectionV
             Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .greenBorderColor)
             }
             Animations.shake(on: cell.dataImageView)
+        } else if model.isBlink {
+            self.blinkImage(count: 3, imageView: cell.dataImageView)
         }
+
         return cell
     }
     
@@ -534,8 +559,12 @@ extension LearningColorViewController: UICollectionViewDataSource, UICollectionV
         } else {
             self.isChildActionCompleted = false
         }
+        self.perform(#selector(resetSelection), with: nil, afterDelay: 3)
     }
     
+    @objc func resetSelection() {
+        self.selectedIndex = -1
+    }
 }
 
 
