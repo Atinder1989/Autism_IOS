@@ -63,11 +63,6 @@ class AssessmentMatchingObjectDragViewController: UIViewController {
         self.customSetting()
         self.listenModelClosures()
         
-       // imageViewBG.alpha = 0.4
-//        imageViewBG.layer.cornerRadius = 100.0
-//        imageViewBG.layer.borderWidth = 2.0
-//        imageViewBG.layer.borderColor = UIColor.black.cgColor
-        
         answerIndex = Int(self.matchingObjectInfo.correct_answer)!-1
     }
     
@@ -116,8 +111,7 @@ extension AssessmentMatchingObjectDragViewController {
          self.timeTakenToSolve += 1
         trailPromptTimeForUser += 1
 
-        if trailPromptTimeForUser == matchingObjectInfo.trial_time && self.timeTakenToSolve < matchingObjectInfo.completion_time
-        {
+        if trailPromptTimeForUser == matchingObjectInfo.trial_time && self.timeTakenToSolve < matchingObjectInfo.completion_time {
             trailPromptTimeForUser = 0
             SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         } else if self.timeTakenToSolve == self.matchingObjectInfo.completion_time  {
@@ -131,14 +125,14 @@ extension AssessmentMatchingObjectDragViewController {
     }
     
     private func customSetting() {
-        self.isUserInteraction = false
         
+        self.isUserInteraction = false
         labelTitle.text = matchingObjectInfo.question_title
+        
+        self.imageViewBG.alpha = 1.0
         self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
-//        self.imageViewBG.iModel = matchingObjectInfo
         
         self.initializeFilledImageView()
-        AutismTimer.shared.initializeTimer(delegate: self)
     }
     
     private func listenModelClosures() {
@@ -157,49 +151,120 @@ extension AssessmentMatchingObjectDragViewController {
       }
     }
     
+    func initializeTheFrames() {
+        
+        let screenW:CGFloat = UIScreen.main.bounds.width
+        let screenH:CGFloat = UIScreen.main.bounds.height
 
+        var wh:CGFloat = 180.0
+        var y:CGFloat = 300
+        
+        var ySapce:CGFloat = 20.0
+        var xSpace:CGFloat = (screenW-(5*wh))/6.0
+        var xRef:CGFloat = xSpace
+        
+        
+        var yRef:CGFloat = y+wh+ySapce
+
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+//            y = screenH-safeAreaBottom-100
+            y = 160
+            wh = 70
+            
+            ySapce = 10
+            xSpace = (screenW-(5*wh))/6.0
+            
+            xRef = xSpace
+            yRef = screenH-safeAreaBottom-100//y+wh+ySapce
+        }
+        if(self.matchingObjectInfo.image_with_text.count < 5) {
+            xSpace = (screenW-(CGFloat(self.matchingObjectInfo.image_with_text.count)*wh))/CGFloat(self.matchingObjectInfo.image_with_text.count+1)
+            xRef = xSpace
+            
+            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView3.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView4.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            return
+        }
+        imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+        imageView4.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+        imageView3.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+        imageView5.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+        imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+                    
+        yRef = y
+        xRef = xSpace
+        
+        imageView6.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+        imageView9.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+        imageView8.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+        imageView10.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+        imageView7.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+
+    }
+    
     private func initializeFilledImageView() {
         
-        ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.bg_image, imageView: imageViewBG, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
+        self.initializeTheFrames()
+        ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.bg_image, imageView: imageViewBG, callbackAfterNoofImages: self.matchingObjectInfo.images.count+1, delegate: self)
 
-        if(self.matchingObjectInfo.images.count >= 6)
-        {
+        if(self.matchingObjectInfo.images.count > 0) {
             imageView1.iModel = self.matchingObjectInfo.images[0]
-            ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[0].image, imageView: imageView1, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-            
-            imageView2.iModel = self.matchingObjectInfo.images[1]
-            ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[1].image, imageView: imageView2, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-                   
-            
-            imageView3.iModel = self.matchingObjectInfo.images[2]
-            ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[2].image, imageView: imageView3, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-
-            imageView4.iModel = self.matchingObjectInfo.images[3]
-            ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[3].image, imageView: imageView4, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-            
-            imageView5.iModel = self.matchingObjectInfo.images[4]
-            ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[4].image, imageView: imageView5, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-                   
-            
-            imageView6.iModel = self.matchingObjectInfo.images[5]
-            ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[5].image, imageView: imageView6, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
+            ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[0].image, imageView: imageView1, callbackAfterNoofImages: self.matchingObjectInfo.images.count+1, delegate: self)
 
         }
-        
-        if(self.matchingObjectInfo.images.count >= 10)
-        {
+        if(self.matchingObjectInfo.images.count > 1) {
+            imageView2.iModel = self.matchingObjectInfo.images[1]
+            ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[1].image, imageView: imageView2, callbackAfterNoofImages: self.matchingObjectInfo.images.count+1, delegate: self)
+        }
+        if(self.matchingObjectInfo.images.count > 2) {
+            imageView3.iModel = self.matchingObjectInfo.images[2]
+            ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[2].image, imageView: imageView3, callbackAfterNoofImages: self.matchingObjectInfo.images.count+1, delegate: self)
+        }
+        if(self.matchingObjectInfo.images.count > 3) {
+            imageView4.iModel = self.matchingObjectInfo.images[3]
+            ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[3].image, imageView: imageView4, callbackAfterNoofImages: self.matchingObjectInfo.images.count+1, delegate: self)
+        }
+        if(self.matchingObjectInfo.images.count > 4) {
+            imageView5.iModel = self.matchingObjectInfo.images[4]
+            ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[4].image, imageView: imageView5, callbackAfterNoofImages: self.matchingObjectInfo.images.count+1, delegate: self)
+        }
+        if(self.matchingObjectInfo.images.count > 5) {
+            imageView6.iModel = self.matchingObjectInfo.images[5]
+            ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[5].image, imageView: imageView6, callbackAfterNoofImages: self.matchingObjectInfo.images.count+1, delegate: self)
+        }
+        if(self.matchingObjectInfo.images.count > 6) {
             imageView7.iModel = self.matchingObjectInfo.images[6]
             ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[6].image, imageView: imageView7, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-            
-            imageView8.iModel = self.matchingObjectInfo.images[7]
-            ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[7].image, imageView: imageView8, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-            
-            imageView9.iModel = self.matchingObjectInfo.images[8]
-            ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[8].image, imageView: imageView9, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
-            
-            imageView10.iModel = self.matchingObjectInfo.images[9]
-            ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[9].image, imageView: imageView10, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
+        if(self.matchingObjectInfo.images.count > 7) {
+            imageView8.iModel = self.matchingObjectInfo.images[7]
+            ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[7].image, imageView: imageView8, callbackAfterNoofImages: self.matchingObjectInfo.images.count+1, delegate: self)
+        }
+        if(self.matchingObjectInfo.images.count > 8) {
+            imageView9.iModel = self.matchingObjectInfo.images[8]
+            ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[8].image, imageView: imageView9, callbackAfterNoofImages: self.matchingObjectInfo.images.count+1, delegate: self)
+        }
+        if(self.matchingObjectInfo.images.count > 9) {
+            imageView10.iModel = self.matchingObjectInfo.images[9]
+            ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[9].image, imageView: imageView10, callbackAfterNoofImages: self.matchingObjectInfo.images.count+1, delegate: self)
+        }
+                
         self.addPanGesture()
     }
 
@@ -412,6 +477,10 @@ extension AssessmentMatchingObjectDragViewController: SpeechManagerDelegate {
             self.matchingObjectViewModel.submitUserAnswer(successCount: self.success_count, info: self.matchingObjectInfo, timeTaken: self.timeTakenToSolve, skip: self.skipQuestion, touchOnEmptyScreenCount: self.touchOnEmptyScreenCount, selectedIndex: self.selectedIndex)
             break
         default:
+            if self.apiDataState == .imageDownloaded {
+                self.apiDataState = .comandRunning
+                AutismTimer.shared.initializeTimer(delegate: self)
+            }
             self.isUserInteraction = true
             break
         }

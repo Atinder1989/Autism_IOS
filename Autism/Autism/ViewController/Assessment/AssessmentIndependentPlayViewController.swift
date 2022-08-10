@@ -139,7 +139,7 @@ extension AssessmentIndependentPlayViewController {
         self.reDownloadImages()
         
         let imgWH:CGFloat = 180
-        let yPos:CGFloat = (UIScreen.main.bounds.size.height-imgWH-safeArealBottom)/2.0
+        let yPos:CGFloat = (UIScreen.main.bounds.size.height-imgWH-safeAreaBottom)/2.0
         
         imgViewObject.frame = CGRect(x:0, y:yPos, width:imgWH, height:imgWH)
         imgViewGoal.frame = CGRect(x:UIScreen.main.bounds.size.width-imgWH+20, y:yPos, width:imgWH, height:imgWH)

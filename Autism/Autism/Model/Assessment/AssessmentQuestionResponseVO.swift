@@ -238,7 +238,7 @@ struct AssessmentQuestionResponseVO: Codable {
             self.alphabetLearningInfo?.skill_domain_id = skill_domain_id
             self.alphabetLearningInfo?.program_id = program_id
 
-        case .matching_object, .matching_object_drag, .match_object_with_messy_array, .matching_one_pair, .matching_three_pair:
+        case .matching_object, .matching_object_drag, .match_object_with_messy_array, .matching_one_pair, .matching_three_pair, .match_object_drag_with_messy_array, .touch_object_with_messy_array:
             self.matchingObjectInfo = try dataContainer.decodeIfPresent(MatchingObjectInfo.self, forKey: .questionDetail) ?? nil
             self.matchingObjectInfo?.question_type = type!.rawValue
             self.matchingObjectInfo?.skill_domain_id = skill_domain_id

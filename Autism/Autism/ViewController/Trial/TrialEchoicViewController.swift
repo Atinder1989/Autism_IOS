@@ -344,7 +344,7 @@ extension TrialEchoicViewController: SpeechManagerDelegate {
 
 extension TrialEchoicViewController: RecordingManagerDelegate {
     func recordingSpeechData(text:String) {
-        self.userAnswer.text = text
+        self.userAnswer.text = text.lowercased()
 
     }
     

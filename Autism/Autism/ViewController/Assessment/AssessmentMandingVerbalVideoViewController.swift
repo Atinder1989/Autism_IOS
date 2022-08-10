@@ -765,7 +765,7 @@ extension AssessmentMandingVerbalVideoViewController: SpeechManagerDelegate {
 //MARK:- RecordingManager Delegate Methods
 extension AssessmentMandingVerbalVideoViewController: RecordingManagerDelegate {
     func recordingSpeechData(text:String) {
-        self.userAnswer.text = text
+        self.userAnswer.text = text.lowercased()
     }
     
     func recordingStart() {

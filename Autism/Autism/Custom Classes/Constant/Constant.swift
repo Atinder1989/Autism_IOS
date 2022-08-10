@@ -25,7 +25,7 @@ import FLAnimatedImage
 var safeArealLeft:CGFloat = 0
 var safeArealRight:CGFloat = 0
 var safeArealTop:CGFloat = 0
-var safeArealBottom:CGFloat = 0
+var safeAreaBottom:CGFloat = 0
 
 
 enum AppConstant:String {

@@ -754,7 +754,7 @@ extension TrialVerbalWithMultippleViewController: SpeechManagerDelegate {
 //MARK:- RecordingManager Delegate Methods
 extension TrialVerbalWithMultippleViewController: RecordingManagerDelegate {
     func recordingSpeechData(text:String) {
-        self.userAnswer.text = text
+        self.userAnswer.text = text.lowercased()
     }
     
     func recordingStart() {

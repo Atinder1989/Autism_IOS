@@ -65,7 +65,7 @@ extension ServiceHelper {
     }
     
     static func getResetAssessmentUrl() -> String {
-                return baseURL.rawValue + "resetUserData"
+        return baseURL.rawValue + "resetAssessment"//"resetUserData"
     }
     
   
@@ -115,7 +115,7 @@ extension ServiceHelper {
         return baseURL.rawValue + "getLearningSkillProgram"
     }
     static func getResetLearning() -> String {
-        return baseURL.rawValue + "userLearningReset"
+        return baseURL.rawValue + "dummy_reset_learning_user"//"userLearningReset"
     }
     
     //New Development

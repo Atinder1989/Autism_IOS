@@ -285,7 +285,7 @@ extension DashboardViewController {
                             } else {
                                 Utility.showAlert(title: "Information", message: "Trail Work under progress")
                             }
-                        } else if let mandInfo = data.mandInfo {
+                        } else if data.mandInfo != nil {
                             
                             DispatchQueue.main.async {
                                 let vc:MandViewController = Utility.getViewController(ofType: MandViewController.self)

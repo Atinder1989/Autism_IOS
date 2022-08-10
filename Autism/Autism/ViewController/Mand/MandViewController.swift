@@ -20,8 +20,8 @@ class MandViewController: UIViewController {
     }
     
     @IBAction func submitButtonClicked() {
-        mandViewModel.submitLearningMandAnswer(response: self.algoResponse)
         self.view.isUserInteractionEnabled = false
+        mandViewModel.submitLearningMandAnswer(response: self.algoResponse)
     }
 
     func setResponse(algoResponse:AlgorithmResponseVO) {

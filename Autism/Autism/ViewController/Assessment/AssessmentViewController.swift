@@ -523,7 +523,7 @@ extension AssessmentViewController {
                 vc.setMatchingObjectInfo(info: info, delegate: this)
                 this.presentVC(vc: vc)
             }
-        case .match_object_with_messy_array:
+        case .match_object_with_messy_array, .match_object_drag_with_messy_array, .touch_object_with_messy_array:
             if let info = res.matchingObjectInfo {
                 let vc = Utility.getViewController(ofType: AssessmentMatchObjectWithMessyArrayViewController.self)
                 vc.modalPresentationStyle = .fullScreen

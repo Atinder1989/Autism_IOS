@@ -15,9 +15,6 @@ class AssessmentMatchingObjectViewController: UIViewController {
     private weak var delegate: AssessmentSubmitDelegate?
     
     @IBOutlet weak var collectionOption: UICollectionView!
-//    @IBOutlet weak var collectionHeightConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var collectionWidthConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var collectionTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var imageViewBG:  ImageViewWithID!
@@ -28,16 +25,16 @@ class AssessmentMatchingObjectViewController: UIViewController {
     private var questionState: QuestionState = .inProgress
     private var skipQuestion = false
     private var isUserInteraction = false {
-             didSet {
-                 self.view.isUserInteractionEnabled = isUserInteraction
-             }
+        didSet {
+            self.view.isUserInteractionEnabled = isUserInteraction
+        }
     }
     private var selectedIndex = -1 {
-           didSet {
-               DispatchQueue.main.async {
-                   self.collectionOption.reloadData()
-               }
-           }
+        didSet {
+            DispatchQueue.main.async {
+                self.collectionOption.reloadData()
+            }
+        }
     }
     
     private var apiDataState: APIDataState = .notCall
@@ -72,17 +69,118 @@ class AssessmentMatchingObjectViewController: UIViewController {
     
 extension AssessmentMatchingObjectViewController {
     func setMatchingObjectInfo(info:MatchingObjectInfo,delegate:AssessmentSubmitDelegate) {
-        
-
+    
         self.apiDataState = .dataFetched
         self.matchingObjectInfo = info
         self.delegate = delegate
+    }
+}
 
-//        self.matchingObjectInfo.image_with_text.removeLast()
-//        self.matchingObjectInfo.image_with_text.removeLast()
-//        self.matchingObjectInfo.image_with_text.removeLast()
+extension AssessmentMatchingObjectViewController {
+    func setSortQuestionInfo(info:MatchingObjectInfo,delegate:AssessmentSubmitDelegate) {
+        self.matchingObjectInfo = info
+        self.delegate = delegate
+    }
+}
+
+extension AssessmentMatchingObjectViewController {
+    private func customSetting() {
+        
+        self.isUserInteraction = false
+        collectionOption.register(UINib(nibName: MatchingObjectCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MatchingObjectCollectionViewCell.identifier)
+        labelTitle.text = matchingObjectInfo.question_title
+
+        let screenW:CGFloat = UIScreen.main.bounds.width
+        let screenH:CGFloat = UIScreen.main.bounds.height
+
+        if(UIDevice.current.userInterfaceIdiom == .pad) {
+            self.imageViewBG.frame = CGRect(x: (screenW-310)/2.0, y: 120, width: 310, height: 310)
+            
+            if(matchingObjectInfo.image_with_text.count == 2) {
+                self.collectionOption.frame = CGRect(x: (screenW-720)/2.0, y: screenH-320, width: 720, height: 300)
+            } else {
+                self.collectionOption.frame = CGRect(x: (screenW-960)/2.0, y: screenH-320, width: 960, height: 300)
+            }
+
+            Utility.setView(view: self.imageViewBG, cornerRadius: 155, borderWidth: 2, color: .darkGray)
+        } else {
+            self.imageViewBG.frame = CGRect(x: (screenW-100)/2.0, y: 80, width: 100, height: 100)
+            
+            if(matchingObjectInfo.image_with_text.count == 2) {
+                self.collectionOption.frame = CGRect(x: (screenW-320)/2.0, y: screenH-130, width: 320, height: 100)
+            } else if(matchingObjectInfo.image_with_text.count == 3) {
+                self.collectionOption.frame = CGRect(x: (screenW-360)/2.0, y: screenH-130, width: 360, height: 100)
+            } else if(matchingObjectInfo.image_with_text.count == 4) {
+                self.collectionOption.frame = CGRect(x: (screenW-480)/2.0, y: screenH-130, width: 480, height: 100)
+            }
+            
+            Utility.setView(view: self.imageViewBG, cornerRadius: 50, borderWidth: 2, color: .darkGray)
+        }
+
+        self.perform(#selector(bgImageLoad), with: nil, afterDelay: 1)
+        self.perform(#selector(speechQuestionTitle), with: nil, afterDelay: 3)
+    }
+
+    @objc func speechQuestionTitle() {
+        DispatchQueue.main.async {
+            SpeechManager.shared.setDelegate(delegate: self)
+            SpeechManager.shared.speak(message:  self.matchingObjectInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            
+            AutismTimer.shared.initializeTimer(delegate: self)
+        }
+    }
+    
+    @objc func bgImageLoad() {
+        self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
 
     }
+    private func listenModelClosures() {
+       self.matchingObjectViewModel.dataClosure = {
+          DispatchQueue.main.async {
+                if let res = self.matchingObjectViewModel.accessmentSubmitResponseVO {
+                    if res.success {
+                        self.dismiss(animated: true) {
+                            if let del = self.delegate {
+                                del.submitQuestionResponse(response: res)
+                            }
+                        }
+                    }
+                }
+            }
+      }
+    }
+}
+
+extension AssessmentMatchingObjectViewController {
+    
+    private func moveToNextQuestion() {
+          self.stopQuestionCompletionTimer()
+          self.questionState = .submit
+          self.success_count = 0
+          SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+    }
+    
+   
+    @objc private func calculateTimeTaken() {
+        if !Utility.isNetworkAvailable() {
+            return
+        }
+        self.timeTakenToSolve += 1
+        trailPromptTimeForUser += 1
+
+        if trailPromptTimeForUser == matchingObjectInfo.trial_time && self.timeTakenToSolve < matchingObjectInfo.completion_time
+        {
+            trailPromptTimeForUser = 0
+            SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        } else if self.timeTakenToSolve == self.matchingObjectInfo.completion_time {
+            self.moveToNextQuestion()
+    }
+}
+
+    private func stopQuestionCompletionTimer() {
+        AutismTimer.shared.stopTimer()
+   
+}
 }
 
 extension AssessmentMatchingObjectViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -97,22 +195,28 @@ extension AssessmentMatchingObjectViewController: UICollectionViewDataSource, UI
             width = width / CGFloat(self.matchingObjectInfo.image_with_text.count)
         print("width = ", width)
         
-//        if(width > self.collectionOption.frame.height) {
-//            width = self.collectionOption.frame.height-20
-//        }
-        
-//        if(self.matchingObjectInfo.screen_type == AssessmentQuestionType.matching_object_drag.rawValue) {
-//            if(width <= 200) {
-//                collectionHeightConstraint.constant = 200
-//            }
-//        }
-
         if(UIDevice.current.userInterfaceIdiom != .pad) {
             width = 100
         } else if(self.matchingObjectInfo.image_with_text.count == 2) {
             width = 300
         }
         return CGSize.init(width:width, height: width)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        if(matchingObjectInfo.image_with_text.count == 2) {
+            return 100
+        } else {
+            return 20
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        if(matchingObjectInfo.image_with_text.count == 2) {
+            return 100
+        } else {
+            return 20
+        }
     }
 
 // make a cell for each cell index path
@@ -182,101 +286,6 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
     }
 }
 }
-
-extension AssessmentMatchingObjectViewController {
-    func setSortQuestionInfo(info:MatchingObjectInfo,delegate:AssessmentSubmitDelegate) {
-        self.matchingObjectInfo = info
-        self.delegate = delegate
-    }
-}
-
-extension AssessmentMatchingObjectViewController {
-    private func customSetting() {
-        self.isUserInteraction = false
-        SpeechManager.shared.setDelegate(delegate: self)
-        SpeechManager.shared.speak(message:  matchingObjectInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-        collectionOption.register(UINib(nibName: MatchingObjectCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MatchingObjectCollectionViewCell.identifier)
-        labelTitle.text = matchingObjectInfo.question_title
-
-        let screenW:CGFloat = UIScreen.main.bounds.width
-        let screenH:CGFloat = UIScreen.main.bounds.height
-
-        if(UIDevice.current.userInterfaceIdiom == .pad) {
-            self.imageViewBG.frame = CGRect(x: (screenW-310)/2.0, y: 120, width: 310, height: 310)
-            
-            if(matchingObjectInfo.image_with_text.count == 2) {
-                self.collectionOption.frame = CGRect(x: (screenW-620)/2.0, y: screenH-320, width: 620, height: 300)
-            } else {
-                self.collectionOption.frame = CGRect(x: (screenW-960)/2.0, y: screenH-320, width: 960, height: 300)
-            }
-            self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
-            self.imageViewBG.addDashedBorder(cornerRadius: 155, linewidth: 8, color: .darkGray, dashpattern: [6,3])
-        } else {
-            self.imageViewBG.frame = CGRect(x: (screenW-100)/2.0, y: 100, width: 100, height: 100)
-            
-            if(matchingObjectInfo.image_with_text.count == 2) {
-                self.collectionOption.frame = CGRect(x: (screenW-240)/2.0, y: screenH-130, width: 240, height: 100)
-            } else if(matchingObjectInfo.image_with_text.count == 3) {
-                self.collectionOption.frame = CGRect(x: (screenW-360)/2.0, y: screenH-130, width: 360, height: 100)
-            }
-            
-
-            self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
-            self.imageViewBG.addDashedBorder(cornerRadius: 50, linewidth: 3, color: .darkGray, dashpattern: [6,3])
-        }
-        
-        AutismTimer.shared.initializeTimer(delegate: self)
-    }
-    
-    private func listenModelClosures() {
-       self.matchingObjectViewModel.dataClosure = {
-          DispatchQueue.main.async {
-                if let res = self.matchingObjectViewModel.accessmentSubmitResponseVO {
-                    if res.success {
-                        self.dismiss(animated: true) {
-                            if let del = self.delegate {
-                                del.submitQuestionResponse(response: res)
-                            }
-                        }
-                    }
-                }
-            }
-      }
-    }
-}
-
-extension AssessmentMatchingObjectViewController {
-    
-    private func moveToNextQuestion() {
-          self.stopQuestionCompletionTimer()
-          self.questionState = .submit
-          self.success_count = 0
-          SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-    }
-    
-   
-    @objc private func calculateTimeTaken() {
-        if !Utility.isNetworkAvailable() {
-            return
-        }
-        self.timeTakenToSolve += 1
-        trailPromptTimeForUser += 1
-
-        if trailPromptTimeForUser == matchingObjectInfo.trial_time && self.timeTakenToSolve < matchingObjectInfo.completion_time
-        {
-            trailPromptTimeForUser = 0
-            SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-        } else if self.timeTakenToSolve == self.matchingObjectInfo.completion_time {
-            self.moveToNextQuestion()
-    }
-}
-
-    private func stopQuestionCompletionTimer() {
-        AutismTimer.shared.stopTimer()
-   
-}
-}
-
 // MARK: Speech Manager Delegate Methods
 extension AssessmentMatchingObjectViewController: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {

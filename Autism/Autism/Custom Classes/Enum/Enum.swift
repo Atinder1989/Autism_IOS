@@ -153,6 +153,7 @@ enum AssessmentQuestionType: String
     case matching_object = "matching_object"
     case matching_object_drag = "matching_object_drag"
     case match_object_with_messy_array = "match_object_with_messy_array"
+    case match_object_drag_with_messy_array = "match_object_drag_with_messy_array"
     case make_word = "make_word"
     case copy_pattern = "copy_pattern"
     case block_design = "block_designs"
@@ -175,7 +176,8 @@ enum AssessmentQuestionType: String
     case manding_verbal_video = "manding_verbal_video"
     case matching_three_pair = "matching_three_pair"
     case balloon_game = "balloon_game"
-
+    case touch_object_with_messy_array = "touch_object_with_messy_array"
+    
     case none = "none"
 }
 

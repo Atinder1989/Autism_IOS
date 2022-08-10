@@ -31,6 +31,8 @@ class AssessmentEnvironmentalSoundViewController: UIViewController {
            }
     }
     
+    var lastSpeechResponse = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -102,9 +104,9 @@ extension AssessmentEnvironmentalSoundViewController {
             let screenHeight:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.height)
 
             if(UIDevice.current.userInterfaceIdiom == .pad) {
-                self.avatarImageView.frame = CGRect(x: screenWidth-180-safeArealRight, y: screenHeight-255-safeArealBottom, width: 180, height: 255)
+                self.avatarImageView.frame = CGRect(x: screenWidth-180-safeArealRight, y: screenHeight-255-safeAreaBottom, width: 180, height: 255)
             } else {
-                self.avatarImageView.frame = CGRect(x: screenWidth-130-safeArealRight, y: screenHeight-200-safeArealBottom, width: 130, height: 200)
+                self.avatarImageView.frame = CGRect(x: screenWidth-130-safeArealRight, y: screenHeight-200-safeAreaBottom, width: 130, height: 200)
             }
         }
     }
@@ -112,11 +114,25 @@ extension AssessmentEnvironmentalSoundViewController {
  
     
     private func moveToNextQuestion() {
+        
+        if self.timeTakenToSolve >= environmentQuestionInfo.trial_time  {
+            if(skipQuestion == false && self.userAnswer.text != lastSpeechResponse && self.userAnswer.text != "") {
+                self.stopTimer()
+                RecordingManager.shared.stopRecording()
+                RecordingManager.shared.stopWaitUserAnswerTimer()
+                self.completeRate = 0
+                self.questionState = .submit
+
+                self.checkUserAnswer(text: self.userAnswer.text!)
+                return
+            }
+        }
+        
         self.stopTimer()
-                   RecordingManager.shared.stopRecording()
-                   RecordingManager.shared.stopWaitUserAnswerTimer()
-                   self.completeRate = 0
-                   self.questionState = .submit
+        RecordingManager.shared.stopRecording()
+        RecordingManager.shared.stopWaitUserAnswerTimer()
+        self.completeRate = 0
+        self.questionState = .submit
         if let user = UserManager.shared.getUserInfo() {
             let message = SpeechMessage.moveForward.getMessage() + Utility.deCrypt(text: user.nickname)
                 SpeechManager.shared.speak(message: message, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
@@ -136,8 +152,7 @@ extension AssessmentEnvironmentalSoundViewController {
     }
     
    private func stopTimer() {
-    AutismTimer.shared.stopTimer()
-       
+       AutismTimer.shared.stopTimer()
    }
     
     private func stopSpeechAndRecorder() {
@@ -161,16 +176,22 @@ extension AssessmentEnvironmentalSoundViewController: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
 
         if let type = Utility.getSpeechMessageType(text: speechText) {
-                   if type != .hurrayGoodJob {
-                       self.avatarImageView.animatedImage =  getIdleGif()
-                   }
-               }
-        else {
+            if type != .hurrayGoodJob {
                 self.avatarImageView.animatedImage =  getIdleGif()
+            }
+        } else {
+            self.avatarImageView.animatedImage =  getIdleGif()
         }
         
         if speechText == self.environmentQuestionInfo.question_title {
             SpeechManager.shared.speak(message: self.environmentQuestionInfo.sound_of_animal, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            return
+        }
+        
+        if speechText == self.environmentQuestionInfo.sound_of_animal || speechText == self.environmentQuestionInfo.incorrect_text {
+            self.isUserInteraction = true
+            RecordingManager.shared.startRecording(delegate: self)
+            AutismTimer.shared.initializeTimer(delegate: self)
             return
         }
         
@@ -182,7 +203,7 @@ extension AssessmentEnvironmentalSoundViewController: SpeechManagerDelegate {
             break
         default:
             self.isUserInteraction = true
-                    RecordingManager.shared.startRecording(delegate: self)
+            RecordingManager.shared.startRecording(delegate: self)
             break
         }
     }
@@ -207,7 +228,7 @@ extension AssessmentEnvironmentalSoundViewController: SpeechManagerDelegate {
 
 extension AssessmentEnvironmentalSoundViewController: RecordingManagerDelegate {
     func recordingSpeechData(text:String) {
-        self.userAnswer.text = text
+        self.userAnswer.text = text.lowercased()
     }
     
     func recordingStart() {
@@ -215,10 +236,12 @@ extension AssessmentEnvironmentalSoundViewController: RecordingManagerDelegate {
     
     func recordingFinish(speechText:String) {
         RecordingManager.shared.stopRecording()
+        self.stopTimer()
         self.checkUserAnswer(text: speechText)
     }
     
     func checkUserAnswer(text:String) {
+        self.lastSpeechResponse = text
         
         if let user = UserManager.shared.getUserInfo() {
         if text.count > 0 {
@@ -228,7 +251,15 @@ extension AssessmentEnvironmentalSoundViewController: RecordingManagerDelegate {
                     SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.environmentQuestionInfo.correct_text) + Utility.deCrypt(text: user.nickname), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 } else {
                     self.userAnswer.text = ""
-                    SpeechManager.shared.speak(message: SpeechMessage.wrongAnswer.getMessage(self.environmentQuestionInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    
+                    if (self.questionState == .submit) {
+                        if let user = UserManager.shared.getUserInfo() {
+                            let message = SpeechMessage.moveForward.getMessage() + Utility.deCrypt(text: user.nickname)
+                                SpeechManager.shared.speak(message: message, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                        }
+                    } else {
+                        SpeechManager.shared.speak(message: SpeechMessage.wrongAnswer.getMessage(self.environmentQuestionInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    }
             }
         } else {
             SpeechManager.shared.speak(message: self.environmentQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
@@ -259,8 +290,7 @@ extension AssessmentEnvironmentalSoundViewController: ImageDownloaderDelegate {
     func finishDownloading() {
         DispatchQueue.main.async {
             self.questionTitle.text = self.environmentQuestionInfo.question_title
-        SpeechManager.shared.speak(message: self.environmentQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-        AutismTimer.shared.initializeTimer(delegate: self)
+            SpeechManager.shared.speak(message: self.environmentQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
 }

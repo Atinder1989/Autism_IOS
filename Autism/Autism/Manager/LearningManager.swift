@@ -340,35 +340,29 @@ class LearningManager {
                 } else {
                     program.label_code = .none
                 }
-//                DispatchQueue.main.async {
-//                    if let topvc = UIApplication.topViewController() {
-                        if let vc = self.getLearningScriptController(skill_domain_id: info.skill_domain_id, program: program, command_array: info.command_array, questionId: info.question_id) {
-                            DispatchQueue.main.async {
-//                            topvc.present(vc, animated: true, completion: nil)
-//                            }
-                            if(lastVC != nil) {
-                                lastVC!.dismiss(animated: false, completion: {
-                                    lastVC = nil
-                                    if let topvc = UIApplication.topViewController() {
-                                    topvc.present(vc, animated: true, completion: {
-                                        lastVC = vc
-                                    })
-                                    }
-                                })
-                            } else {
-                                if let topvc = UIApplication.topViewController() {
-                                topvc.present(vc, animated: true, completion: {
-                                    lastVC = vc
-                                })
-                                }
+                if let vc = self.getLearningScriptController(skill_domain_id: info.skill_domain_id, program: program, command_array: info.command_array, questionId: info.question_id) {
+                    DispatchQueue.main.async {
+                    if(lastVC != nil) {
+                        lastVC!.dismiss(animated: false, completion: {
+                            lastVC = nil
+                            if let topvc = UIApplication.topViewController() {
+                            topvc.present(vc, animated: true, completion: {
+                                lastVC = vc
+                            })
                             }
-                            }
-                        } else {
-                            Utility.showAlert(title: "Information", message: "Learning Work under progress")
-                            UserManager.shared.exitAssessment()
+                        })
+                    } else {
+                        if let topvc = UIApplication.topViewController() {
+                        topvc.present(vc, animated: true, completion: {
+                            lastVC = vc
+                        })
                         }
-                    //}
-//                }
+                    }
+                    }
+                } else {
+                    Utility.showAlert(title: "Information", message: "Learning Work under progress")
+                    UserManager.shared.exitAssessment()
+                }
             }
             break
         case .mand:
@@ -407,6 +401,7 @@ class LearningManager {
     }
     
     static func gotoMandViewController(response:AlgorithmResponseVO) {
+        print("gotoMandViewController")
 //        DispatchQueue.main.async {
 //            if let topvc = UIApplication.topViewController() {
                 let vc:MandViewController = Utility.getViewController(ofType: MandViewController.self)

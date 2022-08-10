@@ -18,9 +18,6 @@ class AssessmentVerbalMultiplesViewController: UIViewController {
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var questionImageView: FLAnimatedImageView!
-    
-//    @IBOutlet weak var widthImageCenter: NSLayoutConstraint!
-//    @IBOutlet weak var heightImageCenter: NSLayoutConstraint!
         
     @IBOutlet weak var imgV1: FLAnimatedImageView!
     @IBOutlet weak var imgV2: FLAnimatedImageView!
@@ -34,7 +31,6 @@ class AssessmentVerbalMultiplesViewController: UIViewController {
     @IBOutlet weak var imgV10: FLAnimatedImageView!
     
     private var verbalQuestionInfo: VerbalQuestionInfo!
-    //private var answerResponseTimer: Timer? = nil
     private var timeTakenToSolve = 0
     private var completeRate = 0
     private var verbalViewModel = AssessmentVerbalViewModel()
@@ -47,7 +43,7 @@ class AssessmentVerbalMultiplesViewController: UIViewController {
     var currentIndex:Int = 0
     
     var isRightAnswer:Bool = false
-    
+    var lastSpeechResponse = ""
     private var isUserInteraction = false {
            didSet {
                self.view.isUserInteractionEnabled = isUserInteraction
@@ -157,10 +153,9 @@ extension AssessmentVerbalMultiplesViewController {
         var xRef:CGFloat = UIScreen.main.bounds.size.width-90
 
         var imgWH:CGFloat = 70
-//        var xRef:CGFloat = 20
         var yRef:CGFloat = 100
         let ySpace:CGFloat = 10
-//
+
         if(UIDevice.current.userInterfaceIdiom != .pad) {
             imgWH = 50
             yRef = 80
@@ -184,17 +179,6 @@ extension AssessmentVerbalMultiplesViewController {
         self.imgV9.frame = CGRect(x: xRef, y: yRef, width: imgWH, height: imgWH)
         yRef = yRef+imgWH+ySpace
         self.imgV10.frame = CGRect(x: xRef, y: yRef, width: imgWH, height: imgWH)
-
-//        self.imgV2.center = CGPoint(x: xRef, y: self.imgV2.center.y)
-//        self.imgV3.center = CGPoint(x: xRef, y: self.imgV3.center.y)
-//        self.imgV4.center = CGPoint(x: xRef, y: self.imgV4.center.y)
-//        self.imgV5.center = CGPoint(x: xRef, y: self.imgV5.center.y)
-//        self.imgV6.center = CGPoint(x: xRef, y: self.imgV6.center.y)
-//        self.imgV7.center = CGPoint(x: xRef, y: self.imgV7.center.y)
-//        self.imgV8.center = CGPoint(x: xRef, y: self.imgV8.center.y)
-//        self.imgV9.center = CGPoint(x: xRef, y: self.imgV9.center.y)
-//        self.imgV10.center = CGPoint(x: xRef, y: self.imgV10.center.y)
-        
         
         if(self.verbalQuestionInfo.image.lowercased().contains(".gif") == false) {
 
@@ -233,12 +217,9 @@ extension AssessmentVerbalMultiplesViewController {
             if(self.verbalQuestionInfo.image_with_text.count>8){
                 ImageDownloader.sharedInstance.downloadImage(urlString: self.verbalQuestionInfo.image_with_text[8].image, imageView: self.imgV9, callbackAfterNoofImages: self.verbalQuestionInfo.image_with_text.count, delegate: self)
             }
-
             if(self.verbalQuestionInfo.image_with_text.count>9){
                 ImageDownloader.sharedInstance.downloadImage(urlString: self.verbalQuestionInfo.image_with_text[9].image, imageView: self.imgV10, callbackAfterNoofImages: self.verbalQuestionInfo.image_with_text.count, delegate: self)
             }
-
-            
         } else {
             
             if(self.verbalQuestionInfo.image_with_text.count>0){
@@ -300,7 +281,6 @@ extension AssessmentVerbalMultiplesViewController {
         self.isRightAnswer = false
         userAnswer.text = ""
         
-        let frame1 = self.imgV1.frame
         let frame2 = self.imgV2.frame
         let frame3 = self.imgV3.frame
         let frame4 = self.imgV4.frame
@@ -470,22 +450,35 @@ extension AssessmentVerbalMultiplesViewController {
         }
     }
         
-   private func initializeTimer() {
-    AutismTimer.shared.initializeTimer(delegate: self)
+   private func startTimer() {
+       AutismTimer.shared.initializeTimer(delegate: self)
     }
     
     private func moveToNextQuestion() {
+        
+        if self.timeTakenToSolve >= verbalQuestionInfo.trial_time  {
+            if(skipQuestion == false && self.userAnswer.text != lastSpeechResponse && self.userAnswer.text != "") {
+                self.stopTimer()
+                RecordingManager.shared.stopRecording()
+                RecordingManager.shared.stopWaitUserAnswerTimer()
+                self.completeRate = 0
+                self.questionState = .submit
+
+                self.checkUserAnswer(text: self.userAnswer.text!)
+                return
+            }
+        }
+        
         self.stopTimer()
-                   RecordingManager.shared.stopRecording()
-                   RecordingManager.shared.stopWaitUserAnswerTimer()
-                   self.completeRate = 0
-                   self.questionState = .submit
-                   SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-       
+        RecordingManager.shared.stopRecording()
+        RecordingManager.shared.stopWaitUserAnswerTimer()
+        self.completeRate = 0
+        self.questionState = .submit
+        SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
     
     @objc private func calculateTimeTaken() {
-        
+        print("self.timeTakenToSolve = ", self.timeTakenToSolve, " verbalQuestionInfo.trial_time = ",verbalQuestionInfo.trial_time)
         if !Utility.isNetworkAvailable() {
             return
         }
@@ -516,7 +509,7 @@ extension AssessmentVerbalMultiplesViewController {
     }
     
    private func stopTimer() {
-    AutismTimer.shared.stopTimer()
+       AutismTimer.shared.stopTimer()
    }
     
     private func stopSpeechAndRecorder() {
@@ -548,6 +541,13 @@ extension AssessmentVerbalMultiplesViewController: SpeechManagerDelegate {
             } else {
                 self.avatarImageView.animatedImage =  getIdleGif()
             }
+        }
+
+        if speechText == self.verbalQuestionInfo.question_title || speechText == self.verbalQuestionInfo.incorrect_text {
+            isUserInteraction = true
+            RecordingManager.shared.startRecording(delegate: self)
+            self.startTimer()
+            return
         }
         
         switch self.questionState {
@@ -597,7 +597,7 @@ extension AssessmentVerbalMultiplesViewController: SpeechManagerDelegate {
 //MARK:- RecordingManager Delegate Methods
 extension AssessmentVerbalMultiplesViewController: RecordingManagerDelegate {
     func recordingSpeechData(text:String) {
-        self.userAnswer.text = text
+        self.userAnswer.text = text.lowercased()
     }
     
     func recordingStart() {
@@ -605,17 +605,16 @@ extension AssessmentVerbalMultiplesViewController: RecordingManagerDelegate {
     
     func recordingFinish(speechText:String) {
         RecordingManager.shared.stopRecording()
+        self.stopTimer()
         self.checkUserAnswer(text: speechText)
     }
      
     func checkUserAnswer(text:String) {
+        self.lastSpeechResponse = text
+        
         if text.count > 0 {
-            
             if Utility.sharedInstance.isAnswerMatched(text: text, answer: self.verbalQuestionInfo.image_with_text[currentIndex].name) {
-                
-
                 self.verbalQuestionInfo.image_with_text[currentIndex].isCorrectAnswer = true
-                
                 self.completeRate = self.completeRate + (100/verbalQuestionInfo.image_with_text.count)
                 self.currentIndex = self.currentIndex+1
                 self.timeTakenToSolve = currentIndex*self.verbalQuestionInfo.time_interval
@@ -665,7 +664,6 @@ extension AssessmentVerbalMultiplesViewController: RecordingManagerDelegate {
                     }
                     
                     self.questionState = .submit
-                    //self.imgV6.la
                     SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.verbalQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 }
             } else {
@@ -706,10 +704,7 @@ extension AssessmentVerbalMultiplesViewController: RecordingManagerDelegate {
                             self.imgV10.layer.borderColor = UIColor.systemRed.cgColor
                         }
                     }
-                    
                     currentIndex = currentIndex-1
-//                    self.imgV6.layer.cornerRadius = self.imgV6.frame.size.width/2.0
-//                    self.imgV6.layer.borderColor = UIColor.systemRed.cgColor
                 }
                 self.verbalQuestionInfo.image_with_text[currentIndex].isCorrectAnswer = false
                 self.isRightAnswer = false
@@ -722,13 +717,21 @@ extension AssessmentVerbalMultiplesViewController: RecordingManagerDelegate {
                         
                         SpeechManager.shared.speak(message: SpeechMessage.rectifyAnswer.getMessage()+correct_name, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                     } else {
-                        SpeechManager.shared.speak(message: SpeechMessage.rectifyAnswer.getMessage(self.verbalQuestionInfo.incorrect_text.replacingOccurrences(of: "(correct_answer)", with: answerArray[0])), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                        if (self.questionState == .submit) {
+                            if let user = UserManager.shared.getUserInfo() {
+                                let message = SpeechMessage.moveForward.getMessage() + Utility.deCrypt(text: user.nickname)
+                                    SpeechManager.shared.speak(message: message, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                            }
+                        } else {
+                            SpeechManager.shared.speak(message: SpeechMessage.rectifyAnswer.getMessage(self.verbalQuestionInfo.incorrect_text.replacingOccurrences(of: "(correct_answer)", with: answerArray[0])), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                        }
                     }
                 }
             }
         } else {
             isUserInteraction = true
             RecordingManager.shared.startRecording(delegate: self)
+            self.startTimer()
         }
     }
 }
@@ -741,7 +744,6 @@ extension AssessmentVerbalMultiplesViewController: ImageDownloaderDelegate {
             self.apiDataState = .imageDownloaded
             SpeechManager.shared.setDelegate(delegate: self)
             SpeechManager.shared.speak(message: self.verbalQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-            self.initializeTimer()
         }
     }
 }

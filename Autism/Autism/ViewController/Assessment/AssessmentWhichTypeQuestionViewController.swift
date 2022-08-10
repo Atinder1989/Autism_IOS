@@ -14,9 +14,6 @@ class AssessmentWhichTypeQuestionViewController: UIViewController {
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var imagesCollectionView: UICollectionView!
     
-//    @IBOutlet weak var collectionViewWidthConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     
     private weak var delegate: AssessmentSubmitDelegate?
@@ -87,7 +84,6 @@ extension AssessmentWhichTypeQuestionViewController {
 
     private func customSetting() {
         isUserInteraction = false
-        SpeechManager.shared.setDelegate(delegate: self)
         imagesCollectionView.register(ImageCell.nib, forCellWithReuseIdentifier: ImageCell.identifier)
                 
         let c:CGFloat = CGFloat(self.whichTypeQuestionInfo.image_with_text.count)
@@ -102,7 +98,14 @@ extension AssessmentWhichTypeQuestionViewController {
         self.imagesCollectionView.frame = CGRect(x: (sWidth-cWidth)/2.0, y: ((sHeight-cHeight)/2.0)+20, width: cWidth, height: size+20)
         
         self.questionTitle.text = self.whichTypeQuestionInfo.question_title
-        AutismTimer.shared.initializeTimer(delegate: self)
+        self.perform(#selector(speechQuestionTitle), with: nil, afterDelay: TimeInterval(Int(AppConstant.screenloadQuestionSpeakTimeDelay.rawValue)!))
+        
+//        AutismTimer.shared.initializeTimer(delegate: self)
+    }
+
+    @objc func speechQuestionTitle() {
+        SpeechManager.shared.setDelegate(delegate: self)
+        SpeechManager.shared.speak(message:  self.whichTypeQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
     
     private func listenModelClosures() {
@@ -130,7 +133,7 @@ extension AssessmentWhichTypeQuestionViewController {
         trailPromptTimeForUser += 1
 
         if self.timeTakenToSolve == Int(AppConstant.screenloadQuestionSpeakTimeDelay.rawValue) {
-            SpeechManager.shared.speak(message:  self.whichTypeQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+//            SpeechManager.shared.speak(message:  self.whichTypeQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         } else if trailPromptTimeForUser == whichTypeQuestionInfo.trial_time && self.timeTakenToSolve < whichTypeQuestionInfo.completion_time
         {
             trailPromptTimeForUser = 0
@@ -272,6 +275,12 @@ extension AssessmentWhichTypeQuestionViewController: SpeechManagerDelegate {
                        self.avatarImageView.animatedImage =  getIdleGif()
         }
         
+        if speechText == self.whichTypeQuestionInfo.question_title {
+            isUserInteraction = true
+            AutismTimer.shared.initializeTimer(delegate: self)
+            return
+        }
+        
         switch self.questionState {
         case .submit:
             self.stopTimer()
@@ -323,12 +332,10 @@ extension AssessmentWhichTypeQuestionViewController: AutismTimerDelegate {
     }
 }
 
-
 extension AssessmentWhichTypeQuestionViewController: ImageDownloaderDelegate {
     func finishDownloading() {
         if !isImagesDownloaded {
             self.isImagesDownloaded = true
-           // self.commandSolidViewModal.updateCurrentCommandIndex()
         }
     }
 }

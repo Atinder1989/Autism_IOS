@@ -430,7 +430,7 @@ extension AssessmentTacting4MMultipleViewController: SpeechManagerDelegate {
 //MARK:- RecordingManager Delegate Methods
 extension AssessmentTacting4MMultipleViewController: RecordingManagerDelegate {
     func recordingSpeechData(text:String) {
-        self.userAnswer.text = text
+        self.userAnswer.text = text.lowercased()
     }
     
     func recordingStart() {

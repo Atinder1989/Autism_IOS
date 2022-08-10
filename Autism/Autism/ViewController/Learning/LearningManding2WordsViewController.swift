@@ -327,7 +327,7 @@ extension LearningManding2WordsViewController: NetworkRetryViewDelegate {
 //MARK:- RecordingManager Delegate Methods
 extension LearningManding2WordsViewController: RecordingManagerDelegate {
     func recordingSpeechData(text:String) {
-        self.userAnswer.text = text
+        self.userAnswer.text = text.lowercased()
     }
     
     func recordingStart() {

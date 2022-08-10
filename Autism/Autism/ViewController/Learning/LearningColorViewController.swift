@@ -84,6 +84,8 @@ class LearningColorViewController: UIViewController {
     
         if(UIDevice.current.userInterfaceIdiom != .pad) {
             itemSize = 140
+        } else {
+            //itemSize = 140
         }
 
         self.customSetting()
@@ -243,12 +245,12 @@ extension LearningColorViewController {
         }
        
        self.commandSolidViewModal.showImagesClosure = {commandInfo in
-            DispatchQueue.main.async {
+           DispatchQueue.main.async { [self] in
                 var array : [AnimationImageModel] = []
                 if let option = commandInfo.option {
                     let correctOption = (Int(option.correct_option) ?? 0) - 1
                    
-                    self.collectionViewWidthConstraint.constant = self.itemSize * CGFloat(commandInfo.valueList.count)
+//                    self.collectionViewWidthConstraint.constant = self.itemSize * CGFloat(commandInfo.valueList.count)
                     for (index, element) in commandInfo.valueList.enumerated() {
                         var scModel = AnimationImageModel.init()
                         scModel.url = element
@@ -265,6 +267,53 @@ extension LearningColorViewController {
                         array.append(scModel)
                     }
                 }
+                let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
+                let screenHeight:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.height)
+
+                if(UIDevice.current.userInterfaceIdiom != .pad) {
+                    
+                    if(array.count <= 3) {
+                        self.itemSize = 140
+                    } else {
+                        self.itemSize = 100
+                    }
+                    
+                    if(array.count > 5) {
+                        var w:CGFloat = CGFloat(itemSize*CGFloat(array.count))
+                        if((array.count%2) == 0) {
+                            w = CGFloat(itemSize*CGFloat(array.count/2))
+                        } else  {
+                            w = CGFloat(itemSize*CGFloat((array.count/2)+1))
+                        }
+                        
+                        self.imagesCollectionView.frame = CGRect(x: (screenWidth-w)/2.0, y: (screenHeight-itemSize)/2.0, width: w, height: itemSize+itemSize)
+                    } else {
+                        let w:CGFloat = CGFloat(itemSize*CGFloat(array.count))
+                        self.imagesCollectionView.frame = CGRect(x: (screenWidth-w)/2.0, y: (screenHeight-itemSize)/2.0, width: w, height: itemSize)
+                    }
+                } else {
+                    
+                    if(array.count <= 3) {
+                        self.itemSize = 266
+                    } else {
+                        self.itemSize = 190
+                    }
+                    
+                    if(array.count > 5) {
+                        var w:CGFloat = CGFloat(itemSize*CGFloat(array.count))
+                        if((array.count%2) == 0) {
+                            w = CGFloat(itemSize*CGFloat(array.count/2))
+                        } else  {
+                            w = CGFloat(itemSize*CGFloat((array.count/2)+1))
+                        }
+                        
+                        self.imagesCollectionView.frame = CGRect(x: (screenWidth-w)/2.0, y: (screenHeight-itemSize)/2.0, width: w, height: itemSize+itemSize)
+                    } else {
+                        let w:CGFloat = CGFloat(itemSize*CGFloat(array.count))
+                        self.imagesCollectionView.frame = CGRect(x: (screenWidth-w)/2.0, y: (screenHeight-itemSize)/2.0, width: w, height: itemSize)
+                    }
+                }
+
                 self.imageList.removeAll()
                 self.imageList = array
                 self.imagesCollectionView.isHidden = false
@@ -485,7 +534,7 @@ extension LearningColorViewController: UICollectionViewDataSource, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-       return CGSize(width: itemSize - 20, height: self.imagesCollectionView.frame.height-20)
+       return CGSize(width: itemSize - 20, height: itemSize - 20)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -506,14 +555,14 @@ extension LearningColorViewController: UICollectionViewDataSource, UICollectionV
         Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .darkGray)
         }
         
-        if(model.isBlink == false) {
+//        if(model.isBlink == false) {
             
             let url = ServiceHelper.baseURL.getMediaBaseUrl()+model.url
             cell.dataImageView.setImageWith(urlString: url)
             
 //            cell.dataImageView.image = nil
 //            ImageDownloader.sharedInstance.downloadImage(urlString: model.url, imageView: cell.dataImageView, callbackAfterNoofImages: self.imageList.count, delegate: self)
-        }
+//        }
         
         cell.handImageView.isHidden = true
         cell.greenTickImageView.isHidden = true

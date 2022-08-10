@@ -62,47 +62,38 @@ class AssessmentMatchObjectWithMessyArrayViewController: UIViewController {
     private var incorrectDragDropCount = 0
     
     var downloaded10Images:Bool = false
+    var wh:CGFloat = 160.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        answerIndex = Int(self.matchingObjectInfo.correct_answer)!-1
 
+        if(answerIndex == 0) {
+            currectObject = imageView1
+        } else if(answerIndex == 1) {
+            currectObject = imageView2
+        } else if(answerIndex == 2) {
+            currectObject = imageView3
+        } else if(answerIndex == 3) {
+            currectObject = imageView4
+        } else if(answerIndex == 4) {
+            currectObject = imageView5
+        } else if(answerIndex == 5) {
+            currectObject = imageView6
+        } else if(answerIndex == 6) {
+            currectObject = imageView7
+        } else if(answerIndex == 7) {
+            currectObject = imageView8
+        } else if(answerIndex == 8) {
+            currectObject = imageView9
+        } else if(answerIndex == 9) {
+            currectObject = imageView10
+        }
+        
         self.customSetting()
         self.listenModelClosures()
                 
-        answerIndex = Int(self.matchingObjectInfo.correct_answer)!-1
-        
-        let diff:CGFloat = 60
-        if(answerIndex == 0) {
-            imageViewRight.center = CGPoint(x: diff+imageView1.center.x, y: diff+imageView1.center.y)
-            currectObject = imageView1
-        } else if(answerIndex == 1) {
-            imageViewRight.center = CGPoint(x: diff+imageView2.center.x, y: diff+imageView2.center.y)
-            currectObject = imageView2
-        } else if(answerIndex == 2) {
-            imageViewRight.center = CGPoint(x: diff+imageView3.center.x, y: diff+imageView3.center.y)
-            currectObject = imageView3
-        } else if(answerIndex == 3) {
-            imageViewRight.center = CGPoint(x: diff+imageView4.center.x, y: diff+imageView4.center.y)
-            currectObject = imageView4
-        } else if(answerIndex == 4) {
-            imageViewRight.center = CGPoint(x: diff+imageView5.center.x, y: diff+imageView5.center.y)
-            currectObject = imageView5
-        } else if(answerIndex == 5) {
-            imageViewRight.center = CGPoint(x: diff+imageView6.center.x, y: diff+imageView6.center.y)
-            currectObject = imageView6
-        } else if(answerIndex == 6) {
-            imageViewRight.center = CGPoint(x: diff+imageView7.center.x, y: diff+imageView7.center.y)
-            currectObject = imageView7
-        } else if(answerIndex == 7) {
-            imageViewRight.center = CGPoint(x: diff+imageView8.center.x, y: diff+imageView8.center.y)
-            currectObject = imageView8
-        } else if(answerIndex == 8) {
-            imageViewRight.center = CGPoint(x: diff+imageView9.center.x, y: diff+imageView9.center.y)
-            currectObject = imageView9
-        } else if(answerIndex == 9) {
-            imageViewRight.center = CGPoint(x: diff+imageView10.center.x, y: diff+imageView10.center.y)
-            currectObject = imageView10
-        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -138,28 +129,38 @@ class AssessmentMatchObjectWithMessyArrayViewController: UIViewController {
         }
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let type = AssessmentQuestionType.init(rawValue: self.matchingObjectInfo.screen_type)
+
+        if(type == .match_object_drag_with_messy_array) {
+            return
+        }
+        
         if let touch = touches.first {
                 let position = touch.location(in: view)
                 print(position)
             if(imageViewTouched != nil) {
                 if(self.imageViewTouched!.frame.contains(position)) {
-
+                    
                     let iMdl = self.matchingObjectInfo.image_with_text[answerIndex]
                     
                     if(self.imageViewTouched?.iModel?.id == iMdl.id) {
+                        
                         self.success_count = 100
                         self.questionState = .submit
                         imageViewRight.isHidden = false
                         imageViewCroos.isHidden = true
                         SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                     } else {
+                        if(UIDevice.current.userInterfaceIdiom != .pad) {
+                            self.imageViewCroos.frame = CGRect(x: imageViewTouched!.center.x+(wh/2.0)-24, y: imageViewTouched!.center.y+(wh/2.0)-24, width: 24, height: 24)
+                        } else {
+                            self.imageViewCroos.frame = CGRect(x: imageViewTouched!.center.x+(wh/2.0)-34, y: imageViewTouched!.center.y+(wh/2.0)-34, width: 34, height: 34)
+                        }
+
                         self.success_count = 0
                         self.questionState = .submit
-                        let diff:CGFloat = 60
                         imageViewRight.isHidden = false
                         imageViewCroos.isHidden = false
-                        imageViewCroos.center = CGPoint(x: diff+imageViewTouched!.center.x, y: diff+imageViewTouched!.center.y)
-//                        Animations.shake(on: imageViewTouched!)
                         let speechText = SpeechMessage.rectifyAnswer.getMessage()+iMdl.name
                         self.animateTheRightImage(speechText)
                     }
@@ -172,19 +173,19 @@ class AssessmentMatchObjectWithMessyArrayViewController: UIViewController {
     {
         DispatchQueue.main.async {
             SpeechManager.shared.speak(message: speechText, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-            UIView.animate(withDuration: 0.5, delay: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
-                   // HERE
-                self.currectObject!.transform = CGAffineTransform.identity.scaledBy(x: 2.5, y: 2.5) // Scale your image
-             }) { (finished) in
-                 UIView.animate(withDuration: 1, animations: {
-                    
-                    UIView.animate(withDuration: 0.5, delay: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
-                        self.currectObject!.transform = CGAffineTransform.identity.scaledBy(x: 1, y: 1)
-                     }) { (finished) in
-                        self.imageViewTouched = nil
-                    }
-               })
-            }
+//            UIView.animate(withDuration: 0.5, delay: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
+//                   // HERE
+//                self.currectObject!.transform = CGAffineTransform.identity.scaledBy(x: 2.5, y: 2.5) // Scale your image
+//             }) { (finished) in
+//                 UIView.animate(withDuration: 1, animations: {
+//
+//                    UIView.animate(withDuration: 0.5, delay: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
+//                        self.currectObject!.transform = CGAffineTransform.identity.scaledBy(x: 1, y: 1)
+//                     }) { (finished) in
+//                        self.imageViewTouched = nil
+//                    }
+//               })
+//            }
         }
     }
     
@@ -243,9 +244,9 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
     
     private func customSetting() {
         self.isUserInteraction = false
-        
         labelTitle.text = matchingObjectInfo.question_title
-        imageViewBG.alpha = 0.5
+        
+        imageViewBG.alpha = 0.9
         imageViewBG.backgroundColor = .clear
         imageViewBG.isHidden = false
 //        self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
@@ -274,6 +275,7 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
 
     private func initializeFilledImageView() {
         
+        self.initializeTheFrames()
         if(self.matchingObjectInfo.images.count > 0) {
             imageView1.iModel = self.matchingObjectInfo.images[0]
             ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[0].image, imageView: imageView1, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
@@ -318,9 +320,83 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[9].image, imageView: imageView10, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
         
-        self.addPanGesture()
+        let type = AssessmentQuestionType.init(rawValue: self.matchingObjectInfo.screen_type)
+
+        if(type == .match_object_drag_with_messy_array) {
+            self.addPanGesture()
+        }
+    }
+    
+    func initializeTheFrames() {
+        
+        let screenW:CGFloat = UIScreen.main.bounds.width
+        let screenH:CGFloat = UIScreen.main.bounds.height
+
+        
+        var y:CGFloat = 300
+        
+        var ySpace:CGFloat = 20.0
+        var xSpace:CGFloat = (screenW-(5*wh))/6.0
+        var xRef:CGFloat = xSpace
+        
+        
+        var yRef:CGFloat = y+wh+ySpace
+
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            y = 160
+            wh = 70
+            
+            ySpace = 10
+            xSpace = (screenW-(5*wh))/6.0
+            
+            xRef = xSpace
+            yRef = screenH-safeAreaBottom-100//y+wh+ySpace
+        }
+                
+        imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+        imageView4.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+        imageView3.frame = CGRect(x: xRef, y: yRef-ySpace-ySpace-(wh/2.0), width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+        imageView5.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+        imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        xRef = xRef+wh+xSpace
+                    
+        yRef = y
+        xRef = xSpace
+        
+        let noOfImages:Int = self.matchingObjectInfo.image_with_text.count
+        if(noOfImages == 6) {
+            xRef = xRef+wh+xSpace
+            xRef = xRef+wh+xSpace
+            
+            imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+        } else {
+            imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView8.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0)+ySpace, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView7.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView10.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+        }
+        
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            self.imageViewRight.frame = CGRect(x: currectObject!.center.x+(wh/2.0)-24, y: currectObject!.center.y+(wh/2.0)-24, width: 24, height: 24)
+        } else {
+            self.imageViewRight.frame = CGRect(x: currectObject!.center.x+(wh/2.0)-34, y: currectObject!.center.y+(wh/2.0)-34, width: 34, height: 34)
+        }
     }
 
+    private func addTapGesture() {
+        
+    }
+    
     private func addPanGesture() {
         
         let gestureRecognizer1 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))

@@ -238,7 +238,7 @@ extension AssessmentMandingVdeosViewController: SpeechManagerDelegate {
 //MARK:- RecordingManager Delegate Methods
 extension AssessmentMandingVdeosViewController: RecordingManagerDelegate {
     func recordingSpeechData(text:String) {
-        self.userAnswer.text = text
+        self.userAnswer.text = text.lowercased()
     }
     
     func recordingStart() {

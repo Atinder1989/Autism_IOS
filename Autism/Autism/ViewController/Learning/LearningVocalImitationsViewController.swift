@@ -365,7 +365,7 @@ extension LearningVocalImitationsViewController: NetworkRetryViewDelegate {
 //MARK:- RecordingManager Delegate Methods
 extension LearningVocalImitationsViewController: RecordingManagerDelegate {
     func recordingSpeechData(text:String) {
-        self.userAnswer.text = text
+        self.userAnswer.text = text.lowercased()
     }
     
     func recordingStart() {

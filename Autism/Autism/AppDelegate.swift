@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          safeArealLeft = wd?.safeAreaInsets.left ?? 0
          safeArealRight = wd?.safeAreaInsets.right ?? 0
          safeArealTop = wd?.safeAreaInsets.top ?? 0
-         safeArealBottom = wd?.safeAreaInsets.bottom ?? 0
+         safeAreaBottom = wd?.safeAreaInsets.bottom ?? 0
 
         return true
     }
