@@ -13,7 +13,7 @@ import SafariServices
 class AssessmentViewController: UIViewController, SpeechManagerDelegate {
     
     private var assessmentViewModel = AssessmentViewModel()
-    private var customWebView: CustomWebView?
+//    private var customWebView: CustomWebView?
     private var webViewTimer: Timer? = nil
     private var webViewTimeTaken = 0
     private var questionResponse:AssessmentQuestionResponseVO?
@@ -38,7 +38,7 @@ class AssessmentViewController: UIViewController, SpeechManagerDelegate {
         // Do any additional setup after loading the view.
         self.reloadData()
     }
-
+    
     private func reloadData()
     {
         self.listenModelClosures()
@@ -61,13 +61,13 @@ class AssessmentViewController: UIViewController, SpeechManagerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        if self.customWebView != nil {
-            if(UIScreen.main.bounds.height > UIScreen.main.bounds.width) {
-                self.customWebView!.frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
-            } else {
-                self.customWebView!.frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-            }
-        }
+//        if self.customWebView != nil {
+//            if(UIScreen.main.bounds.height > UIScreen.main.bounds.width) {
+//                self.customWebView!.frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
+//            } else {
+//                self.customWebView!.frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+//            }
+//        }
     }
     
     @IBAction func skipQuestionClicked(_ sender: Any) {
@@ -100,7 +100,6 @@ extension AssessmentViewController {
                     
                     self.apiDataState = .dataFetched
                     DispatchQueue.main.async {
-                        //self.addWebView()
                         if res.enable_reinforcer {
                             self.questionResponse = res
                             self.showWebView()
@@ -116,6 +115,7 @@ extension AssessmentViewController {
          webViewTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(calculateTimeTaken), userInfo: nil, repeats: true)
     }
     
+    //MARK: -
     @objc func hideYoutube()
     {
         self.stopWebViewTimer()
@@ -175,30 +175,11 @@ extension AssessmentViewController {
         }
     }
     
-    private func addWebView() {
-         if self.customWebView == nil {
-                   if let nib = Bundle.main.loadNibNamed(CustomWebView.identifier, owner: nil, options: nil)?.first as? CustomWebView {
-                    if(UIScreen.main.bounds.height > UIScreen.main.bounds.width) {
-                       nib.frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
-                    } else {
-                        nib.frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                    }
-                    self.customWebView = nib
-                    self.customWebView?.delegate = self
-                       self.view.addSubview(nib)
-                       if let webview = self.customWebView {
-                        webview.loadWebPage()
-                           webview.alpha = 0
-                       }
-                   }
-               }
-        
-    }
-    
     private func showWebView(_ animated:Bool = true) {
     
         if(svc == nil) {
-            svc = SFSafariViewController.init(url: URL(string: "https://www.youtubekids.com/")!)
+            //svc = SFSafariViewController.init(url: URL(string: "https://www.youtubekids.com/")!)
+            svc = SFSafariViewController.init(url: URL(string: "https://www.youtube.com/")!)
             if #available(iOS 13.0, *) {
                 svc.isModalInPresentation = true
             } else {
@@ -304,6 +285,13 @@ extension AssessmentViewController {
         screenLoadTime = Date()
         let type = AssessmentQuestionType.init(rawValue: res.question_type)
         switch type {
+        case .mand:
+            if let info = res.mandInfo {
+                let vc = Utility.getViewController(ofType: MandViewController.self)
+                vc.modalPresentationStyle = .fullScreen
+                vc.setMandQuestionInfo(info: info, delegate: this)
+                this.presentVC(vc: vc)
+        }
         case .balloon_game:
             if let info = res.balloonGameQuestionInfo {
                 let vc = Utility.getViewController(ofType: AssessmentBalloonGameViewController.self)
@@ -639,18 +627,17 @@ extension AssessmentViewController: AssessmentSubmitDelegate {
     }
 }
 
-extension AssessmentViewController: CustomWebViewDelegate {
-    func didClickOnArrow() {
-        self.stopWebViewTimer()
-        self.hideWebView()
-    }
-    
-    func didClickOnHome() {
-        self.stopWebViewTimer()
-        UserManager.shared.exitAssessment()
-    }
-
-}
+//extension AssessmentViewController: CustomWebViewDelegate {
+//    func didClickOnArrow() {
+//        self.stopWebViewTimer()
+//        self.hideWebView()
+//    }
+//
+//    func didClickOnHome() {
+//        self.stopWebViewTimer()
+//        UserManager.shared.exitAssessment()
+//    }
+//}
 
 extension AssessmentViewController: SFSafariViewControllerDelegate {
     func safariViewController(_ controller: SFSafariViewController, didCompleteInitialLoad didLoadSuccessfully: Bool) {

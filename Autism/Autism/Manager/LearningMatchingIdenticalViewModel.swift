@@ -19,6 +19,7 @@ class LearningMatchingIdenticalViewModel: NSObject {
     var showSpeechTextClosure : ((_ text: String) -> Void)?
     var clearScreenClosure : (() -> Void)?
     var showImageClosure  : ((_ questionInfo:ScriptCommandInfo) -> Void)?
+    var showImagesClosure  : ((_ questionInfo:ScriptCommandInfo) -> Void)?
     var showTapFingerAnimationClosure : ((_ questionInfo:ScriptCommandInfo) -> Void)?
     var childActionStateClosure : ((Bool) -> Void)?
     var bufferLoaderClosure : (() -> Void)?
@@ -129,6 +130,48 @@ class LearningMatchingIdenticalViewModel: NSObject {
         }
     }
     
+//    func fetchLearningMatchingIdenticalCommands(skillDomainId: String,program: LearningProgramModel) {
+//
+//        self.skillDomainId = skillDomainId
+//        self.program = program
+//
+//        if !Utility.isNetworkAvailable() {
+//            if let noNetwork = self.noNetWorkClosure {
+//                noNetwork()
+//            }
+//            return
+//        }
+//
+//        var service = Service.init(httpMethod: .POST)
+//        service.url = ServiceHelper.getLearningQuestionUrl()
+//        if let user = UserManager.shared.getUserInfo() {
+//           service.params = [
+//            ServiceParsingKeys.user_id.rawValue:user.id,
+//            ServiceParsingKeys.skill_domain_id.rawValue:self.skillDomainId!,
+//            ServiceParsingKeys.program_id.rawValue:self.program.program_id,
+//            ServiceParsingKeys.language_code.rawValue:user.languageCode,
+//
+//           ]
+//        }
+//        ServiceManager.processDataFromServer(service: service, model: ScriptResponseVO.self) { (responseVo, error) in
+//            if let _ = error {
+//                 self.commandResponseVO = nil
+//            } else {
+//                if let response = responseVo {
+//                    DispatchQueue.main.async {
+//                    if response.success {
+//                        self.commandResponseVO = response
+//                    } else {
+//
+//                        Utility.showAlert(title: "Information", message: "Learning Work under progress")
+//                        UserManager.shared.exitAssessment()
+//                    }
+//                    }
+//                }
+//            }
+//        }
+//    }
+
     func setScriptResponse(command_array:[ScriptCommandInfo],questionid:String,program: LearningProgramModel,skillDomainId: String) {
         self.program = program
         self.skillDomainId = skillDomainId
@@ -303,6 +346,13 @@ extension LearningMatchingIdenticalViewModel {
         }
     }
     
+    private func handleShowImagesCommand(commandInfo:ScriptCommandInfo) {
+        if let closure = self.showImagesClosure {
+            closure(commandInfo)
+        }
+    }
+
+    
     private func handleChildActionState(state:Bool,commandInfo:ScriptCommandInfo?) {
         if state {
             if let info = commandInfo {
@@ -394,6 +444,11 @@ extension LearningMatchingIdenticalViewModel: ScriptManagerDelegate {
         case .show_image(commandInfo:  let commandInfo):
             if let info = commandInfo {
                 self.handleShowImageCommand(commandInfo: info)
+            }
+            break
+        case .show_images(commandInfo: let commandInfo):
+            if let info = commandInfo {
+                self.handleShowImagesCommand(commandInfo: info)
             }
             break
         case .commandCompleted:

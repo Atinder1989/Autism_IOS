@@ -439,6 +439,7 @@
 		B8EA759C248FAE740093AC72 /* AssessmentWhichTypeQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA759B248FAE740093AC72 /* AssessmentWhichTypeQuestionViewController.swift */; };
 		B8EA759F249078C10093AC72 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA759D249078C10093AC72 /* ImageCell.swift */; };
 		B8EA75A0249078C10093AC72 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8EA759E249078C10093AC72 /* ImageCell.xib */; };
+		C82F9BA928A401C0005EF370 /* MandObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F9BA828A401C0005EF370 /* MandObject.swift */; };
 		C834ACCD287186D800F94907 /* MandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C834ACCC287186D800F94907 /* MandInfo.swift */; };
 		C834ACD028718A0500F94907 /* MandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C834ACCF28718A0400F94907 /* MandViewModel.swift */; };
 		C8AA965A28703AC0007991F0 /* MandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA965928703AC0007991F0 /* MandViewController.swift */; };
@@ -947,6 +948,7 @@
 		B8EA759B248FAE740093AC72 /* AssessmentWhichTypeQuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssessmentWhichTypeQuestionViewController.swift; sourceTree = "<group>"; };
 		B8EA759D249078C10093AC72 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		B8EA759E249078C10093AC72 /* ImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
+		C82F9BA828A401C0005EF370 /* MandObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandObject.swift; sourceTree = "<group>"; };
 		C834ACCC287186D800F94907 /* MandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandInfo.swift; sourceTree = "<group>"; };
 		C834ACCF28718A0400F94907 /* MandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandViewModel.swift; sourceTree = "<group>"; };
 		C8AA965928703AC0007991F0 /* MandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandViewController.swift; sourceTree = "<group>"; };
@@ -2163,6 +2165,7 @@
 			isa = PBXGroup;
 			children = (
 				C834ACCC287186D800F94907 /* MandInfo.swift */,
+				C82F9BA828A401C0005EF370 /* MandObject.swift */,
 			);
 			path = Mand;
 			sourceTree = "<group>";
@@ -2863,6 +2866,7 @@
 				B252E8A924B4B0BA00BEF4EE /* SpeechMessage.swift in Sources */,
 				04C3F242249D4CC1007BDD70 /* AssesmentReadclockViewModel.swift in Sources */,
 				B88B75FF249777F200E3BB5F /* OtherDetailInfo.swift in Sources */,
+				C82F9BA928A401C0005EF370 /* MandObject.swift in Sources */,
 				B2FE6CC725111FD400E1BAB9 /* PoseBuilder+Single.swift in Sources */,
 				B28768A325D40CEB0083105F /* LearningMatching3PairViewModel.swift in Sources */,
 				B2842E5924ADA37500AB1603 /* Sequence+Extension.swift in Sources */,
@@ -3097,9 +3101,9 @@
 			baseConfigurationReference = 696A4C056D2CFCB2044BF5BF /* Pods-Autism.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Atinder Singh (9DV8CU23L4)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 105;
+				CURRENT_PROJECT_VERSION = 108;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5YVF838RR5;
 				ENABLE_BITCODE = NO;
@@ -3125,7 +3129,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 105;
+				CURRENT_PROJECT_VERSION = 108;
 				DEVELOPMENT_TEAM = 5YVF838RR5;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Autism/Info.plist;

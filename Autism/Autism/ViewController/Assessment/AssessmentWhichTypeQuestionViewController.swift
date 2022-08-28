@@ -83,14 +83,25 @@ extension AssessmentWhichTypeQuestionViewController {
     }
 
     private func customSetting() {
+        
+//        self.whichTypeQuestionInfo.image_with_text.removeLast()
+//        self.whichTypeQuestionInfo.image_with_text.removeLast()
+//        self.whichTypeQuestionInfo.image_with_text.removeLast()
+        
+//        self.whichTypeQuestionInfo.image_with_text.append(self.whichTypeQuestionInfo.image_with_text.last!)
+//        self.whichTypeQuestionInfo.image_with_text.append(self.whichTypeQuestionInfo.image_with_text.last!)
+//        self.whichTypeQuestionInfo.image_with_text.append(self.whichTypeQuestionInfo.image_with_text.last!)
+
         isUserInteraction = false
         imagesCollectionView.register(ImageCell.nib, forCellWithReuseIdentifier: ImageCell.identifier)
                 
         let c:CGFloat = CGFloat(self.whichTypeQuestionInfo.image_with_text.count)
-        let sWidth:CGFloat = self.view.frame.size.width//UIScreen.main.bounds.width
-        let sHeight:CGFloat = self.view.frame.size.height//UIScreen.main.bounds.width
-        
-        
+//        let sWidth:CGFloat = self.view.frame.size.width//UIScreen.main.bounds.width
+//        let sHeight:CGFloat = self.view.frame.size.height//UIScreen.main.bounds.height
+
+        let sWidth:CGFloat = UIScreen.main.bounds.width
+        let sHeight:CGFloat = UIScreen.main.bounds.height
+
         let size:CGFloat = self.getLayoutHeightWidth()
         let cWidth:CGFloat = (size*c) + 20*c
         let cHeight:CGFloat = size+20
@@ -99,8 +110,6 @@ extension AssessmentWhichTypeQuestionViewController {
         
         self.questionTitle.text = self.whichTypeQuestionInfo.question_title
         self.perform(#selector(speechQuestionTitle), with: nil, afterDelay: TimeInterval(Int(AppConstant.screenloadQuestionSpeakTimeDelay.rawValue)!))
-        
-//        AutismTimer.shared.initializeTimer(delegate: self)
     }
 
     @objc func speechQuestionTitle() {
@@ -163,29 +172,23 @@ extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource,
         let c:CGFloat = CGFloat(self.whichTypeQuestionInfo.image_with_text.count)
         let widthScreen:CGFloat = UIScreen.main.bounds.width
 
-        if(c < 3){
-            let size:CGFloat = (widthScreen / CGFloat(3)) - (10*CGFloat(3))
-            return size
-        }
+//        if(c < 3){
+//            let size:CGFloat = (widthScreen / CGFloat(3)) - (10*CGFloat(3))
+//            return size
+//        }
+        
         if(UIDevice.current.userInterfaceIdiom == .pad) {
-            if(c == 6){
-                let size:CGFloat = (UIScreen.main.bounds.width / c) - 20
-                return size //CGSize.init(width: size, height: size)
-            } else {
-                let size:CGFloat = (UIScreen.main.bounds.width / c) - (10*c)
-                return size //CGSize.init(width: size, height: size)
+            var size:CGFloat = ((UIScreen.main.bounds.width - safeArealLeft - safeArealRight - (20*(c+1))) / c)
+            if(size > 300){
+                size = 300
             }
+            return size
         } else {
-            if(c == 3){
-                let size:CGFloat = (UIScreen.main.bounds.width / c) - (20*c)
-                return size //CGSize.init(width: size, height: size)
-            } else if(c == 6){
-                let size:CGFloat = (UIScreen.main.bounds.width / c) - (10*c)
-                return size //CGSize.init(width: size, height: size)
-            } else {
-                let size:CGFloat = (UIScreen.main.bounds.width / c) - (15*c)
-                return size //CGSize.init(width: size, height: size)
+            var size:CGFloat = ((UIScreen.main.bounds.width - safeArealLeft - safeArealRight - (20*(c+1))) / c)
+            if(size > 180){
+                size = 180
             }
+            return size //CGSize.init(width: size, height: size)
         }
     }
     

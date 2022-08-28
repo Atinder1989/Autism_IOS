@@ -114,6 +114,22 @@ class DashboardViewController: UIViewController {
         self.stopAllCommands()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIAccessibility.requestGuidedAccessSession(enabled: false){
+            success in
+            print("Request guided access success \(success)")
+        }
+    }
+
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        UIAccessibility.requestGuidedAccessSession(enabled: true){
+//            success in
+//            print("Request guided access success \(success)")
+//        }
+//    }
+
     func stopAllCommands() {
         SpeechManager.shared.stopSpeech()
         SpeechManager.shared.setDelegate(delegate: nil)

@@ -580,7 +580,8 @@ class LearningManager {
     static func showWebView(_ animated:Bool = true) {
     
         if(svc == nil) {
-            svc = SFSafariViewController.init(url: URL(string: "https://www.youtubekids.com/")!)
+            //svc = SFSafariViewController.init(url: URL(string: "https://www.youtubekids.com/")!)
+            svc = SFSafariViewController.init(url: URL(string: "https://www.youtube.com/")!)
             if #available(iOS 13.0, *) {
                 svc.isModalInPresentation = true
             } else {

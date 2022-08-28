@@ -32,7 +32,7 @@ var avPlayerController: AVPlayerViewController?
             controller.view.backgroundColor = .clear
             controller.videoGravity = .resizeAspect
             if(UIDevice.current.userInterfaceIdiom == .pad) {
-                controller.videoGravity = .resizeAspectFill
+//                controller.videoGravity = .resizeAspectFill
             }
 //            @discussion    Options are AVLayerVideoGravityResizeAspect, AVLayerVideoGravityResizeAspectFill and AVLayerVideoGravityResize. AVLayerVideoGravityResizeAspect is default.
 

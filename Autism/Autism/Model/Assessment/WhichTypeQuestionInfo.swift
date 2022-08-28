@@ -44,6 +44,10 @@ struct WhichTypeQuestionInfo: Codable {
         self.completion_time          = try container.decodeIfPresent(Int.self, forKey: .completion_time) ?? 0
         self.imagesList          = try container.decodeIfPresent([ImageModel].self, forKey: .images) ?? []
         self.image_with_text          = try container.decodeIfPresent([ImageModel].self, forKey: .image_with_text) ?? []
+        
+        if(self.image_with_text.count == 0) {
+            self.image_with_text          = try container.decodeIfPresent([ImageModel].self, forKey: .imagesList) ?? []
+        }
         self.skill_domain_id     = try container.decodeIfPresent(String.self, forKey: .skill_domain_id) ?? ""
         self.video_url     = try container.decodeIfPresent(String.self, forKey: .video_url) ?? ""
         self.program_id         = ""

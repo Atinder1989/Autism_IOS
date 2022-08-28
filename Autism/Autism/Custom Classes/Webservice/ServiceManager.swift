@@ -19,8 +19,8 @@ class ServiceManager: NSObject {
 //                Utility.showLoader()
 //            }
             let request = RequestManager.sharedInstance.createRequest(service: service)
-                SessionManager.sharedInstance.processRequest(request: request) { (data, error) in
-                    ServiceManager.processDataModalFromResponseData(service: service, model:T.self,data: data,error: error,responseProcessingBlock: responseProcessingBlock)
+            SessionManager.sharedInstance.processRequest(request: request) { (data, error) in                
+                ServiceManager.processDataModalFromResponseData(service: service, model:T.self,data: data,error: error,responseProcessingBlock: responseProcessingBlock)
             
             }
         } else {

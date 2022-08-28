@@ -352,27 +352,65 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
             xRef = xSpace
             yRef = screenH-safeAreaBottom-100//y+wh+ySpace
         }
-                
-        imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
-        xRef = xRef+wh+xSpace
-        imageView4.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
-        xRef = xRef+wh+xSpace
-        imageView3.frame = CGRect(x: xRef, y: yRef-ySpace-ySpace-(wh/2.0), width: wh, height: wh)
-        xRef = xRef+wh+xSpace
-        imageView5.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
-        xRef = xRef+wh+xSpace
-        imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
-        xRef = xRef+wh+xSpace
-                    
+
+        let noOfImages:Int = self.matchingObjectInfo.image_with_text.count
+        
+        if(noOfImages == 4) {
+            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView3.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            //imageView5.frame = CGRect(x: xRef, y: yRef-ySpace-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView4.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView2.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+
+        } else if(noOfImages > 4) {
+            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView4.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView3.frame = CGRect(x: xRef, y: yRef-ySpace-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView5.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+        }
+        
         yRef = y
         xRef = xSpace
         
-        let noOfImages:Int = self.matchingObjectInfo.image_with_text.count
         if(noOfImages == 6) {
             xRef = xRef+wh+xSpace
             xRef = xRef+wh+xSpace
             
             imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+        } else if(noOfImages == 7) {
+            imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView8.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0)+ySpace, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView7.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView10.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+        } else if(noOfImages == 9) {
+            imageView8.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            //imageView8.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0)+ySpace, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView7.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+
         } else {
             imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
             xRef = xRef+wh+xSpace
@@ -398,36 +436,51 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
     }
     
     private func addPanGesture() {
-        
-        let gestureRecognizer1 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        self.imageView1.addGestureRecognizer(gestureRecognizer1)
-        
-        let gestureRecognizer2 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        self.imageView2.addGestureRecognizer(gestureRecognizer2)
-        
-        let gestureRecognizer3 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        self.imageView3.addGestureRecognizer(gestureRecognizer3)
-        
-        let gestureRecognizer4 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        self.imageView4.addGestureRecognizer(gestureRecognizer4)
-        
-        let gestureRecognizer5 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        self.imageView5.addGestureRecognizer(gestureRecognizer5)
-        
-        let gestureRecognizer6 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        self.imageView6.addGestureRecognizer(gestureRecognizer6)
-        
-        let gestureRecognizer7 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        self.imageView7.addGestureRecognizer(gestureRecognizer7)
-        
-        let gestureRecognizer8 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        self.imageView8.addGestureRecognizer(gestureRecognizer8)
-        
-        let gestureRecognizer9 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        self.imageView9.addGestureRecognizer(gestureRecognizer9)
-        
-        let gestureRecognizer10 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        self.imageView10.addGestureRecognizer(gestureRecognizer10)
+
+        self.imageViewBG.isUserInteractionEnabled = true
+        let gestureRecognizer0 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        self.imageViewBG.addGestureRecognizer(gestureRecognizer0)
+
+        if(self.matchingObjectInfo.images.count > 0) {
+            let gestureRecognizer1 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView1.addGestureRecognizer(gestureRecognizer1)
+        }
+        if(self.matchingObjectInfo.images.count > 1) {
+            let gestureRecognizer2 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView2.addGestureRecognizer(gestureRecognizer2)
+        }
+        if(self.matchingObjectInfo.images.count > 2) {
+            let gestureRecognizer3 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView3.addGestureRecognizer(gestureRecognizer3)
+        }
+        if(self.matchingObjectInfo.images.count > 3) {
+            let gestureRecognizer4 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView4.addGestureRecognizer(gestureRecognizer4)
+        }
+        if(self.matchingObjectInfo.images.count > 4) {
+            let gestureRecognizer5 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView5.addGestureRecognizer(gestureRecognizer5)
+        }
+        if(self.matchingObjectInfo.images.count > 5) {
+            let gestureRecognizer6 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView6.addGestureRecognizer(gestureRecognizer6)
+        }
+        if(self.matchingObjectInfo.images.count > 6) {
+            let gestureRecognizer7 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView7.addGestureRecognizer(gestureRecognizer7)
+        }
+        if(self.matchingObjectInfo.images.count > 7) {
+            let gestureRecognizer8 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView8.addGestureRecognizer(gestureRecognizer8)
+        }
+        if(self.matchingObjectInfo.images.count > 8) {
+            let gestureRecognizer9 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView9.addGestureRecognizer(gestureRecognizer9)
+        }
+        if(self.matchingObjectInfo.images.count > 9) {
+            let gestureRecognizer10 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView10.addGestureRecognizer(gestureRecognizer10)
+        }
     }
     
     
@@ -439,9 +492,9 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
                 self.selectedObject = (gestureRecognizer.view as? ImageViewWithID)!
                 self.initialFrame = self.selectedObject.frame
 
-                let translation = gestureRecognizer.translation(in: self.view)
-                gestureRecognizer.view!.center = CGPoint(x: gestureRecognizer.view!.center.x + translation.x, y: gestureRecognizer.view!.center.y + translation.y)
-                gestureRecognizer.setTranslation(CGPoint.zero, in: self.view)
+//                let translation = gestureRecognizer.translation(in: self.view)
+//                gestureRecognizer.view!.center = CGPoint(x: gestureRecognizer.view!.center.x + translation.x, y: gestureRecognizer.view!.center.y + translation.y)
+//                gestureRecognizer.setTranslation(CGPoint.zero, in: self.view)
             }
             break
         case .changed:
@@ -480,6 +533,11 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
                         isLocationExist = true
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
                     }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView1.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView1)
+                    }
                 }
             } else if(self.matchingObjectInfo.correct_answer == "2") {
                 if(currentFilledImageView == imageView2) {
@@ -487,12 +545,22 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
                         isLocationExist = true
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
                     }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView2.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView2)
+                    }
                 }
             } else if(self.matchingObjectInfo.correct_answer == "3") {
                 if(currentFilledImageView == imageView3) {
                     if imageViewBG.frame.contains(dropLocation) {
                         isLocationExist = true
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    } else if(currentFilledImageView == imageViewBG) {
+                        if imageView3.frame.contains(dropLocation) {
+                            isLocationExist = true
+                            self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView3)
+                        }
                     }
                 }
             } else if(self.matchingObjectInfo.correct_answer == "4") {
@@ -501,12 +569,22 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
                         isLocationExist = true
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
                     }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView4.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView4)
+                    }
                 }
             } else if(self.matchingObjectInfo.correct_answer == "5") {
                 if(currentFilledImageView == imageView5) {
                     if imageViewBG.frame.contains(dropLocation) {
                         isLocationExist = true
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView5.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView5)
                     }
                 }
             } else if(self.matchingObjectInfo.correct_answer == "6") {
@@ -515,12 +593,22 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
                         isLocationExist = true
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
                     }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView6.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView6)
+                    }
                 }
             } else if(self.matchingObjectInfo.correct_answer == "7") {
                 if(currentFilledImageView == imageView7) {
                     if imageViewBG.frame.contains(dropLocation) {
                         isLocationExist = true
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView7.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView7)
                     }
                 }
             } else if(self.matchingObjectInfo.correct_answer == "8") {
@@ -529,12 +617,22 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
                         isLocationExist = true
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
                     }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView8.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView8)
+                    }
                 }
             } else if(self.matchingObjectInfo.correct_answer == "9") {
                 if(currentFilledImageView == imageView9) {
                     if imageViewBG.frame.contains(dropLocation) {
                         isLocationExist = true
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView9.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView9)
                     }
                 }
             } else if(self.matchingObjectInfo.correct_answer == "10") {
@@ -543,8 +641,14 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
                         isLocationExist = true
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
                     }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView10.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView10)
+                    }
                 }
             }
+
             
             if !isLocationExist {
                 self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
@@ -570,7 +674,7 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
     }
     
     private func handleValidDropLocation(filledImageView:ImageViewWithID,emptyImageView:ImageViewWithID){
-           DispatchQueue.main.async {
+        DispatchQueue.main.async {
             emptyImageView.image = filledImageView.image
             filledImageView.image = nil
             filledImageView.isHidden = true
@@ -580,7 +684,7 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
                 self.initialFrame = nil
                 self.selectedObject = nil
             }
-            
+            self.isUserInteraction = false
             self.success_count = 100
             self.questionState = .submit
             SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.matchingObjectInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)

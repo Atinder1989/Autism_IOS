@@ -178,6 +178,8 @@ enum AssessmentQuestionType: String
     case balloon_game = "balloon_game"
     case touch_object_with_messy_array = "touch_object_with_messy_array"
     
+    case mand = "mand"
+    
     case none = "none"
 }
 

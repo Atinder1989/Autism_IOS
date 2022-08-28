@@ -53,6 +53,8 @@ struct AssessmentQuestionResponseVO: Codable {
     var introVideoQuestionInfo:IntroVideoQuestionInfo?
     var balloonGameQuestionInfo:BalloonGameQuestionInfo?
 
+    var mandInfo:MandInfo?
+    
     init(from decoder:Decoder) throws {
         let container = try decoder.container(keyedBy: ServiceParsingKeys.self)
         self.success = try container.decodeIfPresent(Bool.self, forKey: .success) ?? false
@@ -70,9 +72,20 @@ struct AssessmentQuestionResponseVO: Codable {
         let skill_domain_id = try dataContainer.decodeIfPresent(String.self, forKey: .skill_domain_id) ?? ""
         let program_id = try dataContainer.decodeIfPresent(String.self, forKey: .program_id) ?? ""
         let level = try dataContainer.decodeIfPresent(String.self, forKey: .level) ?? ""
+        let content_type = try dataContainer.decodeIfPresent(String.self, forKey: .content_type) ?? ""
+
+        if(content_type == "mand") {
+            self.question_type = content_type
+            self.screen_type = content_type
+        }
         
         let type = AssessmentQuestionType.init(rawValue: self.question_type)
         switch type {
+        case .mand:
+            self.mandInfo = try container.decodeIfPresent(MandInfo.self, forKey: .data) ?? nil
+            self.mandInfo?.content_type = content_type
+            self.mandInfo?.question_type = self.question_type
+            self.mandInfo?.screen_type = self.screen_type
         case .balloon_game:
             self.balloonGameQuestionInfo = try dataContainer.decodeIfPresent(BalloonGameQuestionInfo.self, forKey: .questionDetail) ?? nil
             self.balloonGameQuestionInfo?.question_type = type!.rawValue
@@ -276,6 +289,7 @@ struct AssessmentQuestionResponseVO: Codable {
 
         case .fill_container:
             self.fillContainerInfo = try dataContainer.decodeIfPresent(FillContainerQuestionInfo.self, forKey: .questionDetail) ?? nil
+            self.fillContainerInfo?.content_type = content_type
             self.fillContainerInfo?.question_type = type!.rawValue
             self.fillContainerInfo?.skill_domain_id = skill_domain_id
             self.fillContainerInfo?.program_id = program_id

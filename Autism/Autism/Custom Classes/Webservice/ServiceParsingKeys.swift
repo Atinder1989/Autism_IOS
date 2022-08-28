@@ -273,6 +273,22 @@ enum ServiceParsingKeys : String, CodingKey {
     
     case new_correct_question_till_mand = "new_correct_question_till_mand"
     case content_id = "content_id"
+    
+    case force_youtube = "force_youtube"
+    case time_till_no_object_selected = "time_till_no_object_selected"
+    case response_type = "response_type"
+    case array_of_objects = "array_of_objects"
+    
+    case child_action_type = "child_action_type"
+    case duration = "duration"
+    case icon_image = "icon_image"
+    case mand_type = "mand_type"
+    case object_image = "object_image"
+    case parent_cue_text = "parent_cue_text"
+    case request_type = "request_type"
+    case verbal_response = "verbal_response"
+
+    case correct_object_count = "correct_object_count"
 }
 
 

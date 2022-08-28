@@ -17,7 +17,6 @@ enum ServiceEnvironment : String {
     
     func getMediaBaseUrl() -> String {
          return "https://autism-images.s3.ap-northeast-1.amazonaws.com/"
-
     }
 }
 

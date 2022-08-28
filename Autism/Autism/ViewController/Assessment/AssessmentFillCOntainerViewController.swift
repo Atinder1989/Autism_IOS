@@ -31,14 +31,11 @@ class AssessmentFillContainerViewController: UIViewController, UIDragInteraction
     @IBOutlet weak var filledImageView1: FillContainerImageView!
     @IBOutlet weak var filledImageView2: FillContainerImageView!
     @IBOutlet weak var filledImageView3: FillContainerImageView!
-    
+    @IBOutlet weak var filledImageView4: FillContainerImageView!
+    @IBOutlet weak var filledImageView5: FillContainerImageView!
+
     @IBOutlet weak var widthHeightBall: NSLayoutConstraint!
-        
-    @IBOutlet weak var bottom1: NSLayoutConstraint!
-//    @IBOutlet weak var trail1: NSLayoutConstraint!
-    @IBOutlet weak var bottom2: NSLayoutConstraint!
-    @IBOutlet weak var bottom3: NSLayoutConstraint!
-    
+            
     var isPan:Bool = true
     var selectedObject:FillContainerImageView!
     
@@ -151,19 +148,9 @@ extension AssessmentFillContainerViewController {
     
     private func customSetting() {
         
-//        if(UIDevice.current.userInterfaceIdiom == .pad) {
-//
-//            self.widthHeightBall.constant = 80
-//        } else {
-//            self.widthHeightBall.constant = 30
-//
-//            self.bottom1.constant = 40
-//            self.bottom2.constant = 70
-//            self.bottom3.constant = 50
-//        }
-        
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
+        
         if self.fillContainerInfo.bucketList.count >= 1 {
             self.bucketView1.iModel = self.fillContainerInfo.bucketList[0]
             AutismTimer.shared.initializeTimer(delegate: self)
@@ -175,16 +162,26 @@ extension AssessmentFillContainerViewController {
         
         ImageDownloader.sharedInstance.downloadImage(urlString:  self.fillContainerInfo.bg_image, imageView: imgViewBucket, callbackAfterNoofImages: self.fillContainerInfo.imagesList.count, delegate: nil)
 
-        filledImageView1.iModel = self.fillContainerInfo.imagesList[0]
-        ImageDownloader.sharedInstance.downloadImage(urlString:  self.fillContainerInfo.imagesList[0].image, imageView: filledImageView1, callbackAfterNoofImages: self.fillContainerInfo.imagesList.count, delegate: self)
-        
-        filledImageView2.iModel = self.fillContainerInfo.imagesList[1]
-        ImageDownloader.sharedInstance.downloadImage(urlString: self.fillContainerInfo.imagesList[1].image, imageView: filledImageView2, callbackAfterNoofImages: self.fillContainerInfo.imagesList.count, delegate: self)
-               
-        
-        filledImageView3.iModel = self.fillContainerInfo.imagesList[2]
-        ImageDownloader.sharedInstance.downloadImage(urlString: self.fillContainerInfo.imagesList[2].image, imageView: filledImageView3, callbackAfterNoofImages: self.fillContainerInfo.imagesList.count, delegate: self)
-        
+        if(self.fillContainerInfo.imagesList.count > 0) {
+            filledImageView1.iModel = self.fillContainerInfo.imagesList[0]
+            ImageDownloader.sharedInstance.downloadImage(urlString:  self.fillContainerInfo.imagesList[0].image, imageView: filledImageView1, callbackAfterNoofImages: self.fillContainerInfo.imagesList.count, delegate: self)
+        }
+        if(self.fillContainerInfo.imagesList.count > 1) {
+            filledImageView2.iModel = self.fillContainerInfo.imagesList[1]
+            ImageDownloader.sharedInstance.downloadImage(urlString: self.fillContainerInfo.imagesList[1].image, imageView: filledImageView2, callbackAfterNoofImages: self.fillContainerInfo.imagesList.count, delegate: self)
+        }
+        if(self.fillContainerInfo.imagesList.count > 2) {
+            filledImageView3.iModel = self.fillContainerInfo.imagesList[2]
+            ImageDownloader.sharedInstance.downloadImage(urlString: self.fillContainerInfo.imagesList[2].image, imageView: filledImageView3, callbackAfterNoofImages: self.fillContainerInfo.imagesList.count, delegate: self)
+        }
+        if(self.fillContainerInfo.imagesList.count > 3) {
+            filledImageView4.iModel = self.fillContainerInfo.imagesList[3]
+            ImageDownloader.sharedInstance.downloadImage(urlString: self.fillContainerInfo.imagesList[3].image, imageView: filledImageView4, callbackAfterNoofImages: self.fillContainerInfo.imagesList.count, delegate: self)
+        }
+        if(self.fillContainerInfo.imagesList.count > 4) {
+            filledImageView5.iModel = self.fillContainerInfo.imagesList[4]
+            ImageDownloader.sharedInstance.downloadImage(urlString: self.fillContainerInfo.imagesList[4].image, imageView: filledImageView5, callbackAfterNoofImages: self.fillContainerInfo.imagesList.count, delegate: self)
+        }
     }
 
     private func addDragInteraction() {
@@ -203,7 +200,17 @@ extension AssessmentFillContainerViewController {
         dragInteraction3.isEnabled = true
         filledImageView3.isUserInteractionEnabled = true
         filledImageView3.addInteraction(dragInteraction3)
-                
+
+        let dragInteraction4 = UIDragInteraction(delegate: self)
+        dragInteraction4.isEnabled = true
+        filledImageView4.isUserInteractionEnabled = true
+        filledImageView4.addInteraction(dragInteraction4)
+        
+        let dragInteraction5 = UIDragInteraction(delegate: self)
+        dragInteraction5.isEnabled = true
+        filledImageView5.isUserInteractionEnabled = true
+        filledImageView5.addInteraction(dragInteraction5)
+
         self.SetupDragDelay()
     }
     
@@ -219,6 +226,12 @@ extension AssessmentFillContainerViewController {
         if let longPressRecognizer = filledImageView3.gestureRecognizers?.compactMap({ $0 as? UILongPressGestureRecognizer}).first {
             longPressRecognizer.minimumPressDuration = delayTime // your custom value
         }
+        if let longPressRecognizer = filledImageView4.gestureRecognizers?.compactMap({ $0 as? UILongPressGestureRecognizer}).first {
+            longPressRecognizer.minimumPressDuration = delayTime // your custom value
+        }
+        if let longPressRecognizer = filledImageView5.gestureRecognizers?.compactMap({ $0 as? UILongPressGestureRecognizer}).first {
+            longPressRecognizer.minimumPressDuration = delayTime // your custom value
+        }
     }
 
     private func addPanGesture() {
@@ -230,6 +243,12 @@ extension AssessmentFillContainerViewController {
         
         let gestureRecognizer3 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
         self.filledImageView3.addGestureRecognizer(gestureRecognizer3)
+
+        let gestureRecognizer4 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        self.filledImageView4.addGestureRecognizer(gestureRecognizer4)
+        
+        let gestureRecognizer5 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        self.filledImageView5.addGestureRecognizer(gestureRecognizer5)
     }
     
     @IBAction func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {
@@ -277,7 +296,7 @@ extension AssessmentFillContainerViewController {
             
             for view in self.view.subviews {
                 if let bucket = view as? BucketView {
-                    if let bModel = bucket.iModel {
+                //    if let bModel = bucket.iModel {
                         //if bModel.name == currentFilledImageView.iModel?.name {
                                 if bucket.frame.contains(dropLocation) {
                                     for imgView in bucket.subviews {
@@ -291,7 +310,7 @@ extension AssessmentFillContainerViewController {
                                     }
                                 }
                         //}
-                    }
+                   // }
                 }
             }
             
@@ -385,13 +404,17 @@ extension AssessmentFillContainerViewController {
             }
             
             self.success_count += 1
-                if self.success_count < Int(self.fillContainerInfo.imagesList_count)! {
-                //    SpeechManager.shared.speak(message:SpeechMessage.excellentWork.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-                } else {
-                    self.questionState = .submit
-                    SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.fillContainerInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-                }
-            
+               if(self.success_count == self.fillContainerInfo.correct_object_count) {
+                   self.questionState = .submit
+                   SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.fillContainerInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+               } else {
+                   if self.success_count < self.fillContainerInfo.imagesList_count {
+   //                    SpeechManager.shared.speak(message:SpeechMessage.excellentWork.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                   } else {
+                       self.questionState = .submit
+                       SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.fillContainerInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                   }
+               }
         }
     }
     

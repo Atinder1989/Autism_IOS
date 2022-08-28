@@ -38,7 +38,7 @@ class StagesViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         DispatchQueue.main.async {
-            if(ServiceHelper.baseURL == ServiceEnvironment.DevelopmentNew) {//New Development
+            if(ServiceHelper.baseURL == ServiceEnvironment.DevelopmentNew || ServiceHelper.baseURL == ServiceEnvironment.Production) {//New Development
                 self.executeAutomaticLearning()
             }
         }
