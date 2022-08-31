@@ -13,9 +13,12 @@ struct CommonMessageResponseVO: Codable {
     var statuscode: Int
     var message: String
     var screenid: String
+    var request: Bool
+
     init(from decoder:Decoder) throws {
         let container = try decoder.container(keyedBy: ServiceParsingKeys.self)
         self.success = try container.decodeIfPresent(Bool.self, forKey: .success) ?? false
+        self.request = try container.decodeIfPresent(Bool.self, forKey: .request) ?? false
         self.statuscode = try container.decodeIfPresent(Int.self, forKey: .statuscode) ?? 0
         self.message = try container.decodeIfPresent(String.self, forKey: .message) ?? ""
         

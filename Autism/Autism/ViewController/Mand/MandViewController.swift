@@ -124,8 +124,6 @@ class MandViewController: UIViewController {
         } else {
             self.submitMandResponse()
         }
-        
-        //self.submitMandResponse()
     }
 
     func submitMandResponse() {
@@ -154,12 +152,13 @@ class MandViewController: UIViewController {
     }
 
     func submitMandQuestionDetails(mandInfo:MandInfo, mand:MandObject) {
+        self.view.isUserInteractionEnabled = false
         self.mandViewModel.submitMandQuestionDetails(info: mandInfo, mand: mand, timeTaken: 0, successCount: 0)
     }
     
     @IBAction func submitButtonClicked() {
         self.view.isUserInteractionEnabled = false
-        mandViewModel.submitLearningMandAnswer(response: algoResponse)
+        self.mandViewModel.submitLearningMandAnswer(response: algoResponse)
     }
 
     func setResponse(algoResponse:AlgorithmResponseVO) {

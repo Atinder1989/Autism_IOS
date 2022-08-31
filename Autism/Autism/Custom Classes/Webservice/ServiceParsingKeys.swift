@@ -13,7 +13,7 @@ enum ServiceParsingKeys : String, CodingKey {
     case statuscode  =   "statuscode"
     case message = "message"
     case name  = "name"
-    case parentName  = "parentName"    
+    case parentName  = "parentName"
     case code  = "code"
     case image  = "image"
     case docs  = "docs"
@@ -190,7 +190,7 @@ enum ServiceParsingKeys : String, CodingKey {
     case is_complete = "is_complete"
     case bounce_direction = "bounce_direction"
     case color_code = "color_code"
-    case correct_option = "correct_option"    
+    case correct_option = "correct_option"
     case cmd_type = "cmd_type"
     case trial_prompt_type = "trial_prompt_type"
     case prompt_type = "prompt_type"
@@ -289,6 +289,11 @@ enum ServiceParsingKeys : String, CodingKey {
     case verbal_response = "verbal_response"
 
     case correct_object_count = "correct_object_count"
+    case correct_image_name = "correct_image_name"
+
+    case image_choice_with_text = "image_choice_with_text"
+    
+    case result = "result"
 }
 
 

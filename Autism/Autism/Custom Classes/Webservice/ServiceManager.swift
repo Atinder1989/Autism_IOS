@@ -22,7 +22,7 @@ class ServiceManager: NSObject {
             SessionManager.sharedInstance.processRequest(request: request) { (data, error) in                
                 ServiceManager.processDataModalFromResponseData(service: service, model:T.self,data: data,error: error,responseProcessingBlock: responseProcessingBlock)
             
-            }
+             }
         } else {
             Utility.sharedInstance.showToast(message:"Network UnAvailable")
             let error: NSError = NSError.init(domain: "", code: 0,

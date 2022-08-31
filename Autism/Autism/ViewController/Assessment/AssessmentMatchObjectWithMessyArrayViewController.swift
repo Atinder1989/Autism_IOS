@@ -173,19 +173,6 @@ class AssessmentMatchObjectWithMessyArrayViewController: UIViewController {
     {
         DispatchQueue.main.async {
             SpeechManager.shared.speak(message: speechText, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-//            UIView.animate(withDuration: 0.5, delay: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
-//                   // HERE
-//                self.currectObject!.transform = CGAffineTransform.identity.scaledBy(x: 2.5, y: 2.5) // Scale your image
-//             }) { (finished) in
-//                 UIView.animate(withDuration: 1, animations: {
-//
-//                    UIView.animate(withDuration: 0.5, delay: 0.5, options: UIView.AnimationOptions.curveEaseIn, animations: {
-//                        self.currectObject!.transform = CGAffineTransform.identity.scaledBy(x: 1, y: 1)
-//                     }) { (finished) in
-//                        self.imageViewTouched = nil
-//                    }
-//               })
-//            }
         }
     }
     
@@ -225,7 +212,7 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
         if !Utility.isNetworkAvailable() {
             return
         }
-         self.timeTakenToSolve += 1
+        self.timeTakenToSolve += 1
         trailPromptTimeForUser += 1
 
         if trailPromptTimeForUser == matchingObjectInfo.trial_time && self.timeTakenToSolve < matchingObjectInfo.completion_time
@@ -239,7 +226,6 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
     
     func stopQuestionCompletionTimer() {
         AutismTimer.shared.stopTimer()
-    
     }
     
     private func customSetting() {
@@ -249,8 +235,6 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
         imageViewBG.alpha = 0.9
         imageViewBG.backgroundColor = .clear
         imageViewBG.isHidden = false
-//        self.imageViewBG.setImageWith(urlString: ServiceHelper.baseURL.getMediaBaseUrl() + matchingObjectInfo.bg_image)
-//        self.imageViewBG.iModel = matchingObjectInfo
         
         self.initializeFilledImageView()
         AutismTimer.shared.initializeTimer(delegate: self)
@@ -259,19 +243,18 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
     private func listenModelClosures() {
        self.matchingObjectViewModel.dataClosure = {
           DispatchQueue.main.async {
-                if let res = self.matchingObjectViewModel.accessmentSubmitResponseVO {
-                    if res.success {
-                        self.dismiss(animated: true) {
-                            if let del = self.delegate {
-                                del.submitQuestionResponse(response: res)
-                            }
-                        }
-                    }
-                }
-            }
-      }
+              if let res = self.matchingObjectViewModel.accessmentSubmitResponseVO {
+                  if res.success {
+                      self.dismiss(animated: true) {
+                          if let del = self.delegate {
+                              del.submitQuestionResponse(response: res)
+                          }
+                      }
+                  }
+              }
+          }
+       }
     }
-    
 
     private func initializeFilledImageView() {
         
@@ -285,7 +268,6 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
             imageView2.iModel = self.matchingObjectInfo.images[1]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[1].image, imageView: imageView2, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
-        
         
         if(self.matchingObjectInfo.images.count > 2) {
             imageView3.iModel = self.matchingObjectInfo.images[2]
@@ -355,7 +337,19 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
 
         let noOfImages:Int = self.matchingObjectInfo.image_with_text.count
         
-        if(noOfImages == 4) {
+        if(noOfImages < 4) {
+            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            
+            xRef = xRef+wh+xSpace
+            imageView3.frame = CGRect(x: xRef, y: yRef-ySpace-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            
+            xRef = xRef+wh+xSpace
+            imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+
+        } else if(noOfImages == 4) {
             imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
             xRef = xRef+wh+xSpace
             imageView3.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
@@ -556,11 +550,11 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
                     if imageViewBG.frame.contains(dropLocation) {
                         isLocationExist = true
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    } else if(currentFilledImageView == imageViewBG) {
-                        if imageView3.frame.contains(dropLocation) {
-                            isLocationExist = true
-                            self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView3)
-                        }
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView3.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView3)
                     }
                 }
             } else if(self.matchingObjectInfo.correct_answer == "4") {
@@ -648,7 +642,6 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
                     }
                 }
             }
-
             
             if !isLocationExist {
                 self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
@@ -715,8 +708,7 @@ extension AssessmentMatchObjectWithMessyArrayViewController: SpeechManagerDelega
     }
     
     func speechDidStart(speechText:String) {
-        self.isUserInteraction = false
-
+//        self.isUserInteraction = false
     }
 }
 

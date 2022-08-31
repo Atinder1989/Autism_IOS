@@ -25,9 +25,13 @@ struct CopyPatternInfo: Codable {
     var sequence_number:Int
     var str_repeat_count:String
     var repeat_count:Int
-    var image_count:Int
     
-    var images:[ImageModel]    
+    var image_count:Int
+    var images:[ImageModel]
+    
+    var image_choice_count:Int
+    var image_choice_with_text:[ImageModel]
+
     var level:String
     var program_id: String
 
@@ -48,6 +52,13 @@ struct CopyPatternInfo: Codable {
         self.req_no                 = try container.decodeIfPresent(String.self, forKey: .req_no) ?? ""
         self.skill_domain_id         = try container.decodeIfPresent(String.self, forKey: .skill_domain_id) ?? ""
         self.images                 = try container.decodeIfPresent([ImageModel].self, forKey: .images) ?? []
+        
+        if(self.images.count == 0) {
+            self.images                 = try container.decodeIfPresent([ImageModel].self, forKey: .image_with_text) ?? []
+        }
+        
+        self.image_choice_with_text                 = try container.decodeIfPresent([ImageModel].self, forKey: .image_choice_with_text) ?? []
+        self.image_choice_count            = self.image_choice_with_text.count
         
         self.sequence_number        = try container.decodeIfPresent(Int.self, forKey: .sequence_number) ?? 0
         self.image_count            = self.images.count

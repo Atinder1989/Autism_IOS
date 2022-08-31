@@ -59,7 +59,7 @@ class LearningManager {
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
             scriptController = vc
-        case .colors,.shapes,.solid_colors,.basic_colors,.colors_shapes,.simple_colors,.expressively_labeling_items, .lr_1m, .lr_2m, .lr_3m, .lr_4m, .lr_5m:
+        case .colors,.shapes,.solid_colors,.basic_colors,.colors_shapes,.simple_colors,.expressively_labeling_items, .lr_1m, .lr_2m, .lr_3m, .lr_4m, .lr_5m, .math:
             let vc = Utility.getViewController(ofType: LearningColorViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)

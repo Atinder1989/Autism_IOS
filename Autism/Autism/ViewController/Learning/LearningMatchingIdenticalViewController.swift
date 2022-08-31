@@ -184,7 +184,6 @@ extension LearningMatchingIdenticalViewController {
             if self.initialFrame == nil && selectedObject == nil {
                 self.selectedObject = (gestureRecognizer.view as? UIView)!
                 self.initialFrame = self.selectedObject.frame
-
             }
             break
         case .changed:
@@ -214,12 +213,10 @@ extension LearningMatchingIdenticalViewController {
                 return
             }
             
-            let dropLocation = gestureRecognizer.location(in: view)
-            var isLocationExist = false
-                        
-//            self.calculateDropAnswer(customView: currentFilledImageView)
+            let dropLocation = gestureRecognizer.location(in: view)            
             
             var isAnswer = false
+            
             if(currentFilledImageView == commandImgViewTop) {
                 if(commandImgViewTop.commandInfo?.option!.correct_option == "1") {
                     if view_Left.frame.contains(dropLocation) {
@@ -237,43 +234,33 @@ extension LearningMatchingIdenticalViewController {
             } else {
                 for subview in currentFilledImageView.subviews {
                     if let scriptImageView = subview as? ScriptCommandImageView {
-                        if let currentCommand = self.matchingIdenticalViewModal.getCurrentCommandInfo(), let imageViewInfo = scriptImageView.commandInfo {
-                            if imageViewInfo.value_id == currentCommand.value_id {
+                        let imageViewInfo = scriptImageView.commandInfo
+                        print("value_id = ", imageViewInfo?.value_id)
+                        
+                        if let currentCommand = self.matchingIdenticalViewModal.getCurrentCommandInfo() {
+                            if imageViewInfo?.value_id == currentCommand.value_id {
                                                             
-                                if(currentFilledImageView != commandImgViewTop) {
-                                    if commandImgViewTop.frame.contains(dropLocation) {
+                                if(imageViewInfo?.option!.correct_option == "1") {
+                                    if view_Left.frame.contains(dropLocation) {
                                         isAnswer = true
                                     }
-                                } else {
-                                    if(currentCommand.option!.correct_option == "1") {
-                                        if view_Left.frame.contains(dropLocation) {
-                                            isAnswer = true
-                                        }
-                                    } else if(currentCommand.option!.correct_option == "2") {
-                                        if view_Right.frame.contains(dropLocation) {
-                                            isAnswer = true
-                                        }
-                                    } else if(currentCommand.option!.correct_option == "3") {
-                                        if view_Center.frame.contains(dropLocation) {
-                                            isAnswer = true
-                                        }
+                                } else if(imageViewInfo?.option!.correct_option == "2") {
+                                    if view_Right.frame.contains(dropLocation) {
+                                        isAnswer = true
+                                    }
+                                } else if(imageViewInfo?.option!.correct_option == "3") {
+                                    if view_Center.frame.contains(dropLocation) {
+                                        isAnswer = true
                                     }
                                 }
                             }
                         }
                     }
-    //                if let foundView:UIImageView = subview.viewWithTag(10) as? UIImageView {
-    //                    foundView.image = isAnswer ? UIImage.init(named: "greenTick") : UIImage.init(named: "cross")
-    //                }
                 }
             }
             
-//            self.isCorrectAnswerTapped = isAnswer
-            
-            
             if(isAnswer == true) {
                 currentFilledImageView.isHidden = true
-                //currentFilledImageView.frame = commandImgViewTop.frame
                 self.isCorrectAnswerTapped = isAnswer
             } else {
                 if let frame = self.initialFrame {
@@ -281,60 +268,8 @@ extension LearningMatchingIdenticalViewController {
                     self.initialFrame = nil
                     self.selectedObject = nil
                 }
-
-//                self.incorrectDragDropCount += 1
                 SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
-            
-            
-//            if let gestureSender = gestureRecognizer {
-//                if let customView = gestureSender.view {
-//                    self.calculateDropAnswer(customView: customView)
-//                }
-//            }
-            
-            
-//            if(self.correct_answer == "1") {
-//                if(currentFilledImageView == view_Left) {
-//                    if commandImgViewTop.frame.contains(dropLocation) {
-//                        isLocationExist = true
-//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-//                    }
-//                } else if(currentFilledImageView == commandImgViewTop) {
-//                    if view_Left.frame.contains(dropLocation) {
-//                        isLocationExist = true
-//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView1)
-//                    }
-//                }
-//            } else if(self.matchingObjectInfo.correct_answer == "2") {
-//                if(currentFilledImageView == imageView2) {
-//                    if imageViewBG.frame.contains(dropLocation) {
-//                        isLocationExist = true
-//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-//                    }
-//                } else if(currentFilledImageView == imageViewBG) {
-//                    if imageView2.frame.contains(dropLocation) {
-//                        isLocationExist = true
-//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView2)
-//                    }
-//                }
-//            } else if(self.matchingObjectInfo.correct_answer == "3") {
-//                if(currentFilledImageView == imageView3) {
-//                    if imageViewBG.frame.contains(dropLocation) {
-//                        isLocationExist = true
-//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-//                    } else if(currentFilledImageView == imageViewBG) {
-//                        if imageView3.frame.contains(dropLocation) {
-//                            isLocationExist = true
-//                            self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView3)
-//                        }
-//                    }
-//                }
-//            }
-//
-//            if !isLocationExist {
-//                self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
-//            }
             
             break
         default:
@@ -536,12 +471,12 @@ extension LearningMatchingIdenticalViewController {
                 if(array.count == 3) {
                                         
                     let urlL = ServiceHelper.baseURL.getMediaBaseUrl() + array[0].image
-                    let urlC = ServiceHelper.baseURL.getMediaBaseUrl() + array[1].image
-                    let urlR = ServiceHelper.baseURL.getMediaBaseUrl() + array[2].image
+                    let urlC = ServiceHelper.baseURL.getMediaBaseUrl() + array[2].image
+                    let urlR = ServiceHelper.baseURL.getMediaBaseUrl() + array[1].image
                     
                     let L_id = array[0].id
-                    let C_id = array[1].id
-                    let R_id = array[2].id
+                    let C_id = array[2].id
+                    let R_id = array[1].id
                     
                     var commandInfoL:ScriptCommandInfo = commandInfo
                     commandInfoL.value_id = L_id
@@ -551,12 +486,12 @@ extension LearningMatchingIdenticalViewController {
                     var commandInfoR:ScriptCommandInfo = commandInfo
                     commandInfoR.value_id = R_id
                     self.view_Right.isHidden = false
-                    self.setImageOnView(customView: self.view_Right, questionInfo: commandInfoR, url: urlC)
+                    self.setImageOnView(customView: self.view_Right, questionInfo: commandInfoR, url: urlR)
                     
                     var commandInfoC:ScriptCommandInfo = commandInfo
                     commandInfoC.value_id = C_id
                     self.view_Center.isHidden = false
-                    self.setImageOnView(customView: self.view_Center, questionInfo: commandInfoC, url: urlR)
+                    self.setImageOnView(customView: self.view_Center, questionInfo: commandInfoC, url: urlC)
                     
                     if let option = commandInfo.option {
                         let cIndex = Int(option.correct_option) ?? 1

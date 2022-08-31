@@ -144,6 +144,10 @@ extension ServiceHelper {
     static func trialQuestionSubmitUrl() -> String {
         return baseURL.rawValue + "trailSubmitAssistAnswer"
     }
+    
+    static func getWritingOnPadUploadImageUrl() -> String {
+                return baseURL.rawValue + "image/submit"
+        }
 }
 
 

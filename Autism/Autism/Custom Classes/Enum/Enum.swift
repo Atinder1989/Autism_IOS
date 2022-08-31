@@ -179,6 +179,9 @@ enum AssessmentQuestionType: String
     case touch_object_with_messy_array = "touch_object_with_messy_array"
     
     case mand = "mand"
+    case writing_on_pad = "writing_on_pad"
+    case fill_container_by_count = "fill_container_by_count"
+    case sort_sequence = "sort_sequence"
     
     case none = "none"
 }
@@ -401,6 +404,8 @@ enum ProgramCode: String {
     case lr_3m   = "lr_3m"
     case lr_4m   = "lr_4m"
     case lr_5m   = "lr_5m"
+    
+    case math = "math"
     
     case none      = "none"
 }

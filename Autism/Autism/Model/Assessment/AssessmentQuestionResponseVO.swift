@@ -54,7 +54,8 @@ struct AssessmentQuestionResponseVO: Codable {
     var balloonGameQuestionInfo:BalloonGameQuestionInfo?
 
     var mandInfo:MandInfo?
-    
+    var writingOnPadInfo:WritingOnPadInfo?
+
     init(from decoder:Decoder) throws {
         let container = try decoder.container(keyedBy: ServiceParsingKeys.self)
         self.success = try container.decodeIfPresent(Bool.self, forKey: .success) ?? false
@@ -81,6 +82,11 @@ struct AssessmentQuestionResponseVO: Codable {
         
         let type = AssessmentQuestionType.init(rawValue: self.question_type)
         switch type {
+        case .writing_on_pad:
+            self.writingOnPadInfo = try dataContainer.decodeIfPresent(WritingOnPadInfo.self, forKey: .questionDetail) ?? nil
+            self.writingOnPadInfo?.question_type = type!.rawValue
+            self.writingOnPadInfo?.skill_domain_id = skill_domain_id
+            self.writingOnPadInfo?.program_id = program_id
         case .mand:
             self.mandInfo = try container.decodeIfPresent(MandInfo.self, forKey: .data) ?? nil
             self.mandInfo?.content_type = content_type
@@ -263,7 +269,7 @@ struct AssessmentQuestionResponseVO: Codable {
             self.makeWorkInfo?.skill_domain_id = skill_domain_id
             self.makeWorkInfo?.program_id = program_id
 
-        case .copy_pattern:
+        case .copy_pattern, .sort_sequence:
             self.copyPatternInfo = try dataContainer.decodeIfPresent(CopyPatternInfo.self, forKey: .questionDetail) ?? nil
             self.copyPatternInfo?.question_type = type!.rawValue
             self.copyPatternInfo?.skill_domain_id = skill_domain_id
@@ -287,7 +293,7 @@ struct AssessmentQuestionResponseVO: Codable {
             self.environmentalSoundInfo?.skill_domain_id = skill_domain_id
             self.environmentalSoundInfo?.program_id = program_id
 
-        case .fill_container:
+        case .fill_container, .fill_container_by_count:
             self.fillContainerInfo = try dataContainer.decodeIfPresent(FillContainerQuestionInfo.self, forKey: .questionDetail) ?? nil
             self.fillContainerInfo?.content_type = content_type
             self.fillContainerInfo?.question_type = type!.rawValue

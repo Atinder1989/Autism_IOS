@@ -525,7 +525,7 @@ extension AssessmentViewController {
                 vc.setMakeWordInfo(info: info, delegate: this)
                 this.presentVC(vc: vc)
             }
-        case .copy_pattern:
+        case .copy_pattern, .sort_sequence:
             if let info = res.copyPatternInfo {
                 let vc = Utility.getViewController(ofType: AssessmentCopyPatternViewController.self)
                 vc.modalPresentationStyle = .fullScreen
@@ -553,7 +553,7 @@ extension AssessmentViewController {
                  vc.setIntroductionQuestionInfo(info: info, delegate: this)
                 this.presentVC(vc: vc)
             }
-        case .fill_container:
+        case .fill_container, .fill_container_by_count:
             if let info = res.fillContainerInfo {
                 let vc = Utility.getViewController(ofType: AssessmentFillContainerViewController.self)
                 vc.modalPresentationStyle = .fullScreen
@@ -581,7 +581,13 @@ extension AssessmentViewController {
                  vc.setVerbalQuestionInfo(info: info, delegate: this)
                     this.presentVC(vc: vc)
                 }
-    
+        case .writing_on_pad:
+                    if let info = res.writingOnPadInfo {
+                        let vc = Utility.getViewController(ofType: AssessmentWritingOnPadController.self)
+                        vc.modalPresentationStyle = .fullScreen
+                        vc.setWritingOnPadInfo(info: info, delegate: this)
+                        this.presentVC(vc: vc)
+                }
         default:
             this.moveToNextController(screenName: res.screen_id)
             break

@@ -33,7 +33,9 @@ class AssessmentFillContainerViewController: UIViewController, UIDragInteraction
     @IBOutlet weak var filledImageView3: FillContainerImageView!
     @IBOutlet weak var filledImageView4: FillContainerImageView!
     @IBOutlet weak var filledImageView5: FillContainerImageView!
-
+    
+    @IBOutlet weak var submitButton: UIButton!
+    
     @IBOutlet weak var widthHeightBall: NSLayoutConstraint!
             
     var isPan:Bool = true
@@ -49,6 +51,23 @@ class AssessmentFillContainerViewController: UIViewController, UIDragInteraction
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        bucketView1.backgroundColor = .red
+//        imgViewBucket.backgroundColor = .blue
+//
+//
+//        for view in self.view.subviews {
+//            if let bucket = view as? BucketView {
+//                for imgView in bucket.subviews {
+//                    if let cImageView = imgView as? FillContainerImageView {
+//                        if cImageView.image == nil {
+//                            cImageView.backgroundColor = .yellow
+//                        }
+//                    }
+//                }
+//            }
+//        }
+
         self.customSetting()
         self.listenModelClosures()
         self.initializeFilledImageView()
@@ -82,8 +101,19 @@ class AssessmentFillContainerViewController: UIViewController, UIDragInteraction
     
     @IBAction func skipQuestionClicked(_ sender: Any) {
         if !skipQuestion {
-        self.skipQuestion = true
-        self.moveToNextQuestion()
+            self.skipQuestion = true
+            self.moveToNextQuestion()
+        }
+    }
+    
+    @IBAction func submitClicked(_ sender: Any) {
+        
+        if self.success_count == self.fillContainerInfo.correct_object_count {
+            self.questionState = .submit
+            SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.fillContainerInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        } else {
+            self.questionState = .submit
+            SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(self.fillContainerInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
 }
@@ -147,6 +177,13 @@ extension AssessmentFillContainerViewController {
     }
     
     private func customSetting() {
+        let type = AssessmentQuestionType.init(rawValue: self.fillContainerInfo!.question_type)
+        
+        if(type == .fill_container_by_count) {
+            self.submitButton.isHidden = false
+        } else {
+            self.submitButton.isHidden = true
+        }
         
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
@@ -296,21 +333,17 @@ extension AssessmentFillContainerViewController {
             
             for view in self.view.subviews {
                 if let bucket = view as? BucketView {
-                //    if let bModel = bucket.iModel {
-                        //if bModel.name == currentFilledImageView.iModel?.name {
-                                if bucket.frame.contains(dropLocation) {
-                                    for imgView in bucket.subviews {
-                                        if let cImageView = imgView as? FillContainerImageView {
-                                            if cImageView.image == nil {
-                                                isLocationExist = true
-                                                self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: cImageView)
-                                                break
-                                            }
-                                        }
-                                    }
+                    if bucket.frame.contains(dropLocation) {
+                        for imgView in bucket.subviews {
+                            if let cImageView = imgView as? FillContainerImageView {
+                                if cImageView.image == nil {
+                                    isLocationExist = true
+                                    self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: cImageView)
+                                    break
                                 }
-                        //}
-                   // }
+                            }
+                        }
+                    }
                 }
             }
             
@@ -392,29 +425,29 @@ extension AssessmentFillContainerViewController {
     }
     
     private func handleValidDropLocation(filledImageView:FillContainerImageView,emptyImageView:FillContainerImageView){
-           DispatchQueue.main.async {
-            emptyImageView.image = filledImageView.image
-            filledImageView.image = nil
-            filledImageView.isHidden = true
-            
-            if let frame = self.initialFrame {
-                self.selectedObject.frame = frame
-                self.initialFrame = nil
-                self.selectedObject = nil
+        DispatchQueue.main.async {
+             emptyImageView.image = filledImageView.image
+             filledImageView.image = nil
+             filledImageView.isHidden = true
+             
+             if let frame = self.initialFrame {
+                 self.selectedObject.frame = frame
+                 self.initialFrame = nil
+                 self.selectedObject = nil
+             }
+             
+             self.success_count += 1
+                           
+            let type = AssessmentQuestionType.init(rawValue: self.fillContainerInfo!.question_type)
+            if(type == .fill_container_by_count) {
+                
+            } else {
+                if self.success_count < self.fillContainerInfo.imagesList_count {
+                } else {
+                    self.questionState = .submit
+                    SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.fillContainerInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                }
             }
-            
-            self.success_count += 1
-               if(self.success_count == self.fillContainerInfo.correct_object_count) {
-                   self.questionState = .submit
-                   SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.fillContainerInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-               } else {
-                   if self.success_count < self.fillContainerInfo.imagesList_count {
-   //                    SpeechManager.shared.speak(message:SpeechMessage.excellentWork.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-                   } else {
-                       self.questionState = .submit
-                       SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.fillContainerInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-                   }
-               }
         }
     }
     
@@ -428,13 +461,22 @@ extension AssessmentFillContainerViewController: SpeechManagerDelegate {
             self.stopQuestionCompletionTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             
-            let imagesCount:Int = self.fillContainerInfo.imagesList.count
-            
-            if(self.success_count == imagesCount) {
-                self.success_count = 100
+            let type = AssessmentQuestionType.init(rawValue: self.fillContainerInfo!.question_type)
+            if(type == .fill_container_by_count) {
+                if(self.success_count == self.fillContainerInfo.correct_object_count) {
+                    self.success_count = 100
+                } else {
+                    self.success_count = 0
+                }
             } else {
-                let perPer = 100/imagesCount
-                self.success_count = self.success_count*perPer
+                let imagesCount:Int = self.fillContainerInfo.imagesList.count
+                
+                if(self.success_count == imagesCount) {
+                    self.success_count = 100
+                } else {
+                    let perPer = 100/imagesCount
+                    self.success_count = self.success_count*perPer
+                }
             }
             
             self.fillContainerViewModel.submitUserAnswer(successCount: self.success_count,  info: self.fillContainerInfo, timeTaken: self.timeTakenToSolve, skip: true, touchOnEmptyScreenCount:touchOnEmptyScreenCount,incorrectDragDropCount:incorrectDragDropCount)

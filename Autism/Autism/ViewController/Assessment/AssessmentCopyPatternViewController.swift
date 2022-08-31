@@ -125,6 +125,12 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
             
             self.labelTitle.text = self.copyPatternInfo.question_title
             
+            self.showSpaceForPattern()
+           
+            AutismTimer.shared.initializeTimer(delegate: self)
+        }
+        
+        private func showSpaceForPattern() {
             let space:CGFloat = 20.0
             var ySpace:CGFloat = 30.0
             var cWH:CGFloat = 150.0
@@ -137,58 +143,91 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
                 cWH = 70
                 ySpace = 10.0
             }
-            let totalInPattern:Int = self.copyPatternInfo.repeat_count*self.copyPatternInfo.image_count
+            let totalInPattern:Int = self.copyPatternInfo.image_count
+            //let totalInPattern:Int = self.copyPatternInfo.repeat_count*self.copyPatternInfo.image_count
             let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
             
             xRef = (screenWidth-(CGFloat(totalInPattern-1)*space)-(CGFloat(totalInPattern)*cWH))/2.0
             
-            for i in 0..<totalInPattern {
-                let index = i%self.copyPatternInfo.image_count
-                let strImage = self.copyPatternInfo.images[index].image
-                
-                let imgViewPattern = UIImageView()
-                imgViewPattern.frame =  CGRect(x:xRef, y: yRef, width: cWH, height: cWH)
-                imgViewPattern.backgroundColor = .clear
-                imgViewPattern.layer.borderWidth = 2.0
-                imgViewPattern.layer.cornerRadius = cWH/2.0
-                imgViewPattern.layer.borderColor = UIColor.white.cgColor
-                imgViewPattern.clipsToBounds = true
-                self.view.addSubview(imgViewPattern)
-                
-                let urlString = ServiceHelper.baseURL.getMediaBaseUrl() + strImage
-                imgViewPattern.setImageWith(urlString: urlString)
-                
-                xRef = xRef+space+cWH
-            }
-                        
-            yRef = yRef+cWH+ySpace
-                        
-            let widthHeight:CGFloat = cWH
+            let type = AssessmentQuestionType.init(rawValue: self.copyPatternInfo.question_type)
+ 
+            if(type == .sort_sequence) {
+                let widthHeight:CGFloat = cWH
 
-            xRef = (screenWidth-(CGFloat(totalInPattern-1)*space)-(CGFloat(totalInPattern)*widthHeight))/2.0
-            
-            for i in 0..<totalInPattern {
+                xRef = (screenWidth-(CGFloat(totalInPattern-1)*space)-(CGFloat(totalInPattern)*widthHeight))/2.0
                 
-                let index = i%self.copyPatternInfo.image_count
-                let img = self.copyPatternInfo.images[index]
-                
-                let cpBucketView: CopyPatternBucketView = CopyPatternBucketView()
-                cpBucketView.iModel = img
-                cpBucketView.tag = i
-                cpBucketView.frame = CGRect(x:xRef, y:yRef, width:widthHeight, height:widthHeight)
-                cpBucketView.backgroundColor = .white
-                cpBucketView.layer.borderWidth = 2.0
-                cpBucketView.layer.cornerRadius = widthHeight/2.0
-                cpBucketView.clipsToBounds = true
-                cpBucketView.layer.borderColor = UIColor.purpleBorderColor.cgColor
-                cpBucketView.contentMode = .scaleToFill
-                self.view.addSubview(cpBucketView)
+                for i in 0..<totalInPattern {
+                    
+                    let index = i%self.copyPatternInfo.image_count
+                    let img = self.copyPatternInfo.images[index]
+                    let strImage = self.copyPatternInfo.images[index].image
+                    let strName = self.copyPatternInfo.images[index].name
 
-                xRef = xRef+widthHeight+space
+                    let cpBucketView: CopyPatternBucketView = CopyPatternBucketView()
+                    cpBucketView.iModel = img
+                    cpBucketView.tag = i
+                    cpBucketView.frame = CGRect(x:xRef, y:yRef, width:widthHeight, height:widthHeight)
+                    cpBucketView.backgroundColor = .white
+                    cpBucketView.layer.borderWidth = 2.0
+                    cpBucketView.layer.cornerRadius = widthHeight/2.0
+                    cpBucketView.clipsToBounds = true
+                    cpBucketView.layer.borderColor = UIColor.purpleBorderColor.cgColor
+                    cpBucketView.contentMode = .scaleToFill
+                    self.view.addSubview(cpBucketView)
+                    
+                    if(strName != "foil") {
+                        let urlString = ServiceHelper.baseURL.getMediaBaseUrl() + strImage
+                        cpBucketView.setImageWith(urlString: urlString)
+                    }
+                    xRef = xRef+widthHeight+space
+                }
+            } else {
+                for i in 0..<totalInPattern {
+                    let index = i%self.copyPatternInfo.image_count
+                    let strImage = self.copyPatternInfo.images[index].image
+                    
+                    let imgViewPattern = UIImageView()
+                    imgViewPattern.frame =  CGRect(x:xRef, y: yRef, width: cWH, height: cWH)
+                    imgViewPattern.backgroundColor = .clear
+                    imgViewPattern.layer.borderWidth = 2.0
+                    imgViewPattern.layer.cornerRadius = cWH/2.0
+                    imgViewPattern.layer.borderColor = UIColor.white.cgColor
+                    imgViewPattern.clipsToBounds = true
+                    self.view.addSubview(imgViewPattern)
+                    
+                    let urlString = ServiceHelper.baseURL.getMediaBaseUrl() + strImage
+                    imgViewPattern.setImageWith(urlString: urlString)
+                    
+                    xRef = xRef+space+cWH
+                }
+                            
+                yRef = yRef+cWH+ySpace
+                            
+                let widthHeight:CGFloat = cWH
+
+                xRef = (screenWidth-(CGFloat(totalInPattern-1)*space)-(CGFloat(totalInPattern)*widthHeight))/2.0
+                
+                for i in 0..<totalInPattern {
+                    
+                    let index = i%self.copyPatternInfo.image_count
+                    let img = self.copyPatternInfo.images[index]
+                    
+                    let cpBucketView: CopyPatternBucketView = CopyPatternBucketView()
+                    cpBucketView.iModel = img
+                    cpBucketView.tag = i
+                    cpBucketView.frame = CGRect(x:xRef, y:yRef, width:widthHeight, height:widthHeight)
+                    cpBucketView.backgroundColor = .white
+                    cpBucketView.layer.borderWidth = 2.0
+                    cpBucketView.layer.cornerRadius = widthHeight/2.0
+                    cpBucketView.clipsToBounds = true
+                    cpBucketView.layer.borderColor = UIColor.purpleBorderColor.cgColor
+                    cpBucketView.contentMode = .scaleToFill
+                    self.view.addSubview(cpBucketView)
+
+                    xRef = xRef+widthHeight+space
+                }
             }
-            AutismTimer.shared.initializeTimer(delegate: self)
         }
-        
 
         private func initializeFilledPattern() {
             
@@ -207,7 +246,17 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
             xRef = (screenWidth-(CGFloat(self.copyPatternInfo.images.count-1)*space)-(CGFloat(self.copyPatternInfo.images.count)*widthHeight))/2.0
 
             self.arrImages.removeAll()
-            for imageModel in self.copyPatternInfo.images {
+            
+            var imagesToDrag:[ImageModel] = self.copyPatternInfo.images
+            let type = AssessmentQuestionType.init(rawValue: self.copyPatternInfo.question_type)
+            
+            if(type == .sort_sequence) {
+                imagesToDrag = self.copyPatternInfo.image_choice_with_text
+                xRef = (screenWidth-(CGFloat(self.copyPatternInfo.image_choice_with_text.count-1)*space)-(CGFloat(self.copyPatternInfo.image_choice_with_text.count)*widthHeight))/2.0
+
+            }
+            
+            for imageModel in imagesToDrag {
 
                 let cpView: CopyPatternView = CopyPatternView()
                 cpView.frame = CGRect(x:xRef, y:yRef, width:widthHeight, height:widthHeight)
@@ -285,15 +334,49 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
                 let dropLocation = gestureRecognizer.location(in: view)
                 var isLocationExist = false
 
-                for view in self.view.subviews {
-                    if let bucket = view as? CopyPatternBucketView {
-                        if bucket.iModel!.id == self.selectedPattern.iModel!.id {
-                            if bucket.frame.contains(dropLocation) {
-                                if(bucket.image == nil) {
-                                    isLocationExist = true
-                                    self.handleValidDropLocation(filledPatternView: self.selectedPattern, emptyPatternView: bucket)
+                let type = AssessmentQuestionType.init(rawValue: self.copyPatternInfo.question_type)
+                if(type == .sort_sequence) {
+                    for view in self.view.subviews {
+                        if let bucket = view as? CopyPatternBucketView {
+                            if bucket.iModel!.name == "foil" {
+                                if bucket.frame.contains(dropLocation) {
+                                    if(bucket.image == nil) {
+                                        if(currentFilledPattern.iModel!.name == bucket.iModel!.name) {
+                                            isLocationExist = true
+                                            bucket.image = currentFilledPattern.image
+                                            self.success_count = 100
+                                            self.questionState = .submit
+                                            SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.copyPatternInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                                        } else {
+                                            bucket.image = currentFilledPattern.image
+                                            self.success_count = 0
+                                            self.questionState = .submit
+                                            SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(self.copyPatternInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                                        }
+                                        currentFilledPattern.removeFromSuperview()
+                                        if let frame = self.initialFrame {
+                                            self.selectedPattern.frame = frame
+                                            self.initialFrame = nil
+                                            self.selectedPattern = nil
+                                        }
+                                        return
+                                    }
+                                    break
                                 }
-                                break
+                            }
+                        }
+                    }
+                } else {
+                    for view in self.view.subviews {
+                        if let bucket = view as? CopyPatternBucketView {
+                            if bucket.iModel!.id == self.selectedPattern.iModel!.id {
+                                if bucket.frame.contains(dropLocation) {
+                                    if(bucket.image == nil) {
+                                        isLocationExist = true
+                                        self.handleValidDropLocation(filledPatternView: self.selectedPattern, emptyPatternView: bucket)
+                                    }
+                                    break
+                                }
                             }
                         }
                     }
@@ -427,13 +510,18 @@ extension AssessmentCopyPatternViewController: SpeechManagerDelegate {
             self.stopQuestionCompletionTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
 
-            let totalInPattern:Int = self.copyPatternInfo.repeat_count*self.copyPatternInfo.images.count
+            let type = AssessmentQuestionType.init(rawValue: self.copyPatternInfo.question_type)
+            if(type == .sort_sequence) {
             
-            if(self.success_count == totalInPattern) {
-                self.success_count = 100
             } else {
-                let perPer = 100/totalInPattern
-                self.success_count = self.success_count*perPer
+                let totalInPattern:Int = self.copyPatternInfo.repeat_count*self.copyPatternInfo.images.count
+                
+                if(self.success_count == totalInPattern) {
+                    self.success_count = 100
+                } else {
+                    let perPer = 100/totalInPattern
+                    self.success_count = self.success_count*perPer
+                }
             }
 
             self.copyPatternInfoViewModel.submitUserAnswer(successCount: self.success_count,  info: self.copyPatternInfo, timeTaken: self.timeTakenToSolve, skip: self.skipQuestion, touchOnEmptyScreenCount: self.touchOnEmptyScreenCount, incorrectDragDropCount: incorrectDragDropCount )
