@@ -222,10 +222,10 @@ extension AssessmentVerbalQuestionViewController: RecordingManagerDelegate {
             if Utility.sharedInstance.isAnswerMatched(text: text, answer: self.verbalQuestionInfo.answer) {
                 self.questionState = .submit
                 self.completeRate = 100
-                SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.verbalQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.verbalQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             } else {
                 self.userAnswer.text = ""
-                SpeechManager.shared.speak(message: SpeechMessage.wrongAnswer.getMessage(self.verbalQuestionInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.verbalQuestionInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
         } else {
             SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)

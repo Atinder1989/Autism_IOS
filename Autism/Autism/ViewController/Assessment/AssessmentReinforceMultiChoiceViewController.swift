@@ -277,11 +277,11 @@ extension AssessmentReinforceMultiChoiceViewController: UICollectionViewDataSour
         let answerIndex = Int(self.reinforceMultiChoiceInfo.correct_answer)! - 1
         if indexPath.row == answerIndex {
                     self.completeRate = 100
-                   SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.reinforceMultiChoiceInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                   SpeechManager.shared.speak(message: self.reinforceMultiChoiceInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
 
         } else {
             self.completeRate = 0
-               SpeechManager.shared.speak(message: SpeechMessage.wrongAnswer.getMessage(self.reinforceMultiChoiceInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+               SpeechManager.shared.speak(message: self.reinforceMultiChoiceInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
 
         }
     }

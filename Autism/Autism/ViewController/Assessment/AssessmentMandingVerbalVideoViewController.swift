@@ -791,7 +791,7 @@ extension AssessmentMandingVerbalVideoViewController: RecordingManagerDelegate {
                     isUserInteraction = false
                     RecordingManager.shared.stopRecording()
                     self.isRightAnswer = true
-                    SpeechManager.shared.speak(message: SpeechMessage.excellentWork.getMessage(self.verbalQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    SpeechManager.shared.speak(message: self.verbalQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 } else {
                     if(self.verbalQuestionInfo.image_with_text.count == currentIndex) {
                         
@@ -831,7 +831,7 @@ extension AssessmentMandingVerbalVideoViewController: RecordingManagerDelegate {
                     
                     self.questionState = .submit
                     //self.imgV6.la
-                    SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.verbalQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    SpeechManager.shared.speak(message: self.verbalQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 }
             } else {
                 if(currentIndex == self.verbalQuestionInfo.image_with_text.count-1) {

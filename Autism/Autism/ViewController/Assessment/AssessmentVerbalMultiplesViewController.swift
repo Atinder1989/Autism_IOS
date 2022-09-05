@@ -624,7 +624,7 @@ extension AssessmentVerbalMultiplesViewController: RecordingManagerDelegate {
                     RecordingManager.shared.stopRecording()
                     self.isRightAnswer = true
                     
-                    SpeechManager.shared.speak(message: SpeechMessage.excellentWork.getMessage(self.verbalQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    SpeechManager.shared.speak(message: self.verbalQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                     
                 } else {
                     if(self.verbalQuestionInfo.image_with_text.count == currentIndex) {
@@ -664,7 +664,7 @@ extension AssessmentVerbalMultiplesViewController: RecordingManagerDelegate {
                     }
                     
                     self.questionState = .submit
-                    SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.verbalQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    SpeechManager.shared.speak(message: self.verbalQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 }
             } else {
                 if(currentIndex == self.verbalQuestionInfo.image_with_text.count-1) {
@@ -723,7 +723,7 @@ extension AssessmentVerbalMultiplesViewController: RecordingManagerDelegate {
                                     SpeechManager.shared.speak(message: message, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                             }
                         } else {
-                            SpeechManager.shared.speak(message: SpeechMessage.rectifyAnswer.getMessage(self.verbalQuestionInfo.incorrect_text.replacingOccurrences(of: "(correct_answer)", with: answerArray[0])), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                            SpeechManager.shared.speak(message: self.verbalQuestionInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                         }
                     }
                 }

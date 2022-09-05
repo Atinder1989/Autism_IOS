@@ -110,10 +110,10 @@ class AssessmentFillContainerViewController: UIViewController, UIDragInteraction
         
         if self.success_count == self.fillContainerInfo.correct_object_count {
             self.questionState = .submit
-            SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.fillContainerInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.fillContainerInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         } else {
             self.questionState = .submit
-            SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(self.fillContainerInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.fillContainerInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
 }
@@ -420,7 +420,7 @@ extension AssessmentFillContainerViewController {
                 self.selectedObject = nil
             }
             self.incorrectDragDropCount += 1
-            SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.fillContainerInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
     

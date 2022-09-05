@@ -218,11 +218,11 @@ extension AssessmentVideoControllerVC {
         self.questionState = .submit
         if String(format: "%d", sender.tag) == videoQuestionInfo.correct_answer {
             self.success_count = 100
-            SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.videoQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.videoQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
            else {
              self.success_count = 0
-            SpeechManager.shared.speak(message: SpeechMessage.wrongAnswer.getMessage(self.videoQuestionInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.videoQuestionInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
     private func listenModelClosures() {

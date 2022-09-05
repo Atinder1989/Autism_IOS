@@ -277,7 +277,7 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
 
     if indexPath.row == answerIndex {
         self.success_count = 100
-        SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.matchingObjectInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        SpeechManager.shared.speak(message: self.matchingObjectInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     } else {
         let name = self.matchingObjectInfo.image_with_text[answerIndex].name
         let message = SpeechMessage.rectifyAnswer.getMessage() + "\(name)"

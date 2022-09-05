@@ -248,7 +248,7 @@ extension AssessmentEnvironmentalSoundViewController: RecordingManagerDelegate {
             if Utility.sharedInstance.isAnswerMatched(text: text, answer: self.environmentQuestionInfo.correct_answer) {
                     self.questionState = .submit
                     self.completeRate = 100
-                    SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.environmentQuestionInfo.correct_text) + Utility.deCrypt(text: user.nickname), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    SpeechManager.shared.speak(message: self.environmentQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 } else {
                     self.userAnswer.text = ""
                     
@@ -258,7 +258,7 @@ extension AssessmentEnvironmentalSoundViewController: RecordingManagerDelegate {
                                 SpeechManager.shared.speak(message: message, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                         }
                     } else {
-                        SpeechManager.shared.speak(message: SpeechMessage.wrongAnswer.getMessage(self.environmentQuestionInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                        SpeechManager.shared.speak(message: self.environmentQuestionInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                     }
             }
         } else {

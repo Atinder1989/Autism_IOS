@@ -233,8 +233,7 @@ extension AssessmentEyeContactViewController {
                 self.isExploding = false
                     let index = self.currentIndex+1
                 if index == self.eyecontactQuestionInfo.image_with_text.count{
-                    print("end ======")
-                    self.moveToNextQuestion(message: SpeechMessage.hurrayGoodJob.getMessage())
+                    self.moveToNextQuestion(message: self.eyecontactQuestionInfo.correct_text)
                 } else {
                     self.currentIndex = index
                 }
@@ -242,59 +241,7 @@ extension AssessmentEyeContactViewController {
             })
         }
     }
-        
-//    @objc private func startMovingAnimation() {
-//        DispatchQueue.main.async {
-//            let frame = self.animationFrameArray[self.frameIndex]
-//        UIView.animate(withDuration: 3, animations: {
-//            self.questionImageView.frame = frame
-//            self.view.layoutIfNeeded()
-//        }) { (isFinish) in
-//            let newIndex = self.frameIndex + 1
-//            if newIndex == self.animationFrameArray.count {
-//                self.frameIndex = 0
-//            } else {
-//                self.frameIndex = newIndex
-//            }
-//            self.startMovingAnimation()
-//        }
-//        }
-//    }
-    
 
-/*
-   private func initializeTimer() {
-        AutismTimer.shared.initializeTimer(delegate: self)
-        eyeContactOnTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.lookAtTimeOnImage), userInfo: nil, repeats: true)
-    }
-    
-    @objc func lookAtTimeOnImage() {
-        if let gz = self.gaze {
-            let localCursorPos = gz.location(in: self.view)
-            if currentIndex == 0 {
-                if self.questionImageView1.frame.contains(localCursorPos) {
-                }
-            } else if currentIndex == 1 {
-                
-            } else if currentIndex == 2 {
-                
-            } else if currentIndex == 3 {
-                
-            }
-        }
-        
-        
-        
-//        let xAxisLimit = self.questionImageView.frame.origin.x + self.questionImageView.frame.width
-//        let yAxisLimit = self.questionImageView.frame.origin.y + self.questionImageView.frame.height
-//        if (eyePoint.x >= self.questionImageView.frame.origin.x && eyePoint.x <= xAxisLimit) || (eyePoint.y >= self.questionImageView.frame.origin.y && eyePoint.y <= yAxisLimit) {
-//            self.eyeContactTimeOnObject += 1
-//            self.eyePoint.x = 0
-//            self.eyePoint.y = 0
-//        }
-    }
-    */
-    
     private func moveToNextQuestion(message:String) {
         self.stopTimer()
         self.questionState = .submit
@@ -305,7 +252,7 @@ extension AssessmentEyeContactViewController {
         self.timeTakenToSolve += 1
         trailPromptTimeForUser += 1
         if self.timeTakenToSolve == eyecontactQuestionInfo.completion_time  {
-            self.moveToNextQuestion(message: SpeechMessage.hurrayGoodJob.getMessage())
+            self.moveToNextQuestion(message: self.eyecontactQuestionInfo.correct_text)
         } else if trailPromptTimeForUser == eyecontactQuestionInfo.trial_time && self.timeTakenToSolve < eyecontactQuestionInfo.completion_time
         {
             trailPromptTimeForUser = 0
@@ -357,25 +304,12 @@ extension AssessmentEyeContactViewController: SpeechManagerDelegate {
 extension AssessmentEyeContactViewController: ImageDownloaderDelegate {
     func finishDownloading() {
         DispatchQueue.main.async {
-          //  SpeechManager.shared.speak(message: self.eyecontactQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-            //self.initializeTimer()
+          
             self.currentIndex = 0
             
         }
     }
 }
-
-//extension AssessmentEyeContactViewController: EyeTrackManagerDelegate {
-//    func didMoveEyePositionIndicatorView(transform:CGAffineTransform,eyePositionXAxis:Int,eyePositionYAxis:Int) {
-//        DispatchQueue.main.async {
-//        self.eyePoint = CGPoint.init()
-//        self.eyePositionIndicatorView.transform = transform
-//        self.eyePoint.x = CGFloat(eyePositionXAxis)
-//        self.eyePoint.y = CGFloat(eyePositionYAxis)
-//        }
-//    }
-//}
-
 
 extension AssessmentEyeContactViewController: NetworkRetryViewDelegate {
     func didTapOnRetry() {

@@ -131,7 +131,7 @@ extension AssessmentAlphabetLearningViewController {
             if sender.tag == answerIndex {
                 self.success_count = 100
                 sender.showCorrectTickImage()
-                SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.alphabetLearningInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.alphabetLearningInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             } else {
                 let btnAlphabet: AlphabetButtonView = self.view.viewWithTag(answerIndex) as! AlphabetButtonView
                 btnAlphabet.perform(#selector(btnAlphabet.showCorrectTickImage), with: nil, afterDelay: 1.0)

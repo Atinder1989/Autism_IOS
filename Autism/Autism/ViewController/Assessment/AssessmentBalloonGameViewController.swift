@@ -56,7 +56,7 @@ class AssessmentBalloonGameViewController: UIViewController {
                     isBalloonTap = true
                     self.questionState = .submit
                     self.success_count = 100
-                    SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.balloonGameQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    SpeechManager.shared.speak(message: self.balloonGameQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 } else {
                     print("Not our view")
                 }

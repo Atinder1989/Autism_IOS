@@ -346,12 +346,12 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
                                             bucket.image = currentFilledPattern.image
                                             self.success_count = 100
                                             self.questionState = .submit
-                                            SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.copyPatternInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                                            SpeechManager.shared.speak(message: self.copyPatternInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                                         } else {
                                             bucket.image = currentFilledPattern.image
                                             self.success_count = 0
                                             self.questionState = .submit
-                                            SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(self.copyPatternInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                                            SpeechManager.shared.speak(message: self.copyPatternInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                                         }
                                         currentFilledPattern.removeFromSuperview()
                                         if let frame = self.initialFrame {

@@ -349,7 +349,7 @@ class AssessmentMazesViewController: UIViewController {
             if(imgViewObject.center.x >= maxDone) {
                 self.questionState = .submit
                 completeRate = 100
-                SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.mazeQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.mazeQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
         }
     }

@@ -530,7 +530,7 @@ extension AssessmentSortingViewController {
                 self.selectedObject = nil
             }
             self.incorrectDragDropCount += 1
-                SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+               SpeechManager.shared.speak(message: self.sortObjectInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
            }
     }
     
@@ -548,10 +548,9 @@ extension AssessmentSortingViewController {
             
             self.success_count += 1
                 if self.success_count < Int(self.sortObjectInfo.imagesList_count)! {
-                //    SpeechManager.shared.speak(message:SpeechMessage.excellentWork.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 } else {
                     self.questionState = .submit
-                    SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.sortObjectInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    SpeechManager.shared.speak(message: self.sortObjectInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 }
             
         }

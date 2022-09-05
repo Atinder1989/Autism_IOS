@@ -481,11 +481,11 @@ extension AssessmentMultiArrayQuestionViewController: UICollectionViewDataSource
                 isUserInteraction = false
                 self.isRightAnswer = true
                 self.currentIndex = self.currentIndex-1
-                SpeechManager.shared.speak(message: SpeechMessage.excellentWork.getMessage(self.whichTypeQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: SpeechMessage.excellentWork.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             } else {
                 self.questionState = .submit
                 self.currentIndex = self.currentIndex-1
-                SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.whichTypeQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.whichTypeQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 
                 if(self.currentIndex == 0) {
                     self.imagesCollectionView0.reloadData()
@@ -535,8 +535,6 @@ extension AssessmentMultiArrayQuestionViewController: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
         if(speechText == self.whichTypeQuestionInfo.question_title) {
             self.questionTitle.text = self.whichTypeQuestionInfo.blocks[currentIndex].question_title
-            //SpeechManager.shared.speak(message:  self.whichTypeQuestionInfo.blocks[currentIndex].question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-            //return
         } else {
             if(currentIndex < self.whichTypeQuestionInfo.blocks.count) {
                 if(speechText == self.whichTypeQuestionInfo.blocks[currentIndex].question_title) {

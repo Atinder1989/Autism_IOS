@@ -431,7 +431,7 @@ extension AssessmentPuzzleAlphaViewController {
                 self.selectedPuzzle = nil
             }
             self.incorrectDragDropCount += 1
-             SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+             SpeechManager.shared.speak(message: self.puzzleQuestionInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
     
@@ -460,7 +460,7 @@ extension AssessmentPuzzleAlphaViewController {
                                  
             } else {
                 self.questionState = .submit
-                SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.puzzleQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.puzzleQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
             
         }

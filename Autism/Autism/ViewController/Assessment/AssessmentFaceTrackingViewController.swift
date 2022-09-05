@@ -98,7 +98,7 @@ class AssessmentFaceTrackingViewController: UIViewController {
         if faceQuestionTypeTag == .mouth {
             if jawOpenValue > 0.6 {
                 if self.questionState != .submit {
-                self.moveToNextQuestion(message: SpeechMessage.hurrayGoodJob.rawValue)
+                    self.moveToNextQuestion(message: self.faceTrackingQuestionInfo.correct_text)
                 }
             }
         }
@@ -115,7 +115,7 @@ class AssessmentFaceTrackingViewController: UIViewController {
       let node = result.node as? EmojiNode {
         if node.name == FaceTrackQuestionTypeTag.nose.getName() && faceQuestionTypeTag == .nose {
             if self.questionState != .submit {
-                self.moveToNextQuestion(message: SpeechMessage.hurrayGoodJob.rawValue)
+                self.moveToNextQuestion(message: self.faceTrackingQuestionInfo.correct_text)
             }
         }
 
@@ -174,7 +174,7 @@ extension AssessmentFaceTrackingViewController {
            if faceQuestionTypeTag == .eye {
                       if value > 0.6 {
                           if self.questionState != .submit {
-                          self.moveToNextQuestion(message: SpeechMessage.hurrayGoodJob.rawValue)
+                          self.moveToNextQuestion(message: self.faceTrackingQuestionInfo.correct_text)
                           }
                       }
            }

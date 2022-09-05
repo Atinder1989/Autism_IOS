@@ -142,7 +142,6 @@ extension AssessmentWhichTypeQuestionViewController {
         trailPromptTimeForUser += 1
 
         if self.timeTakenToSolve == Int(AppConstant.screenloadQuestionSpeakTimeDelay.rawValue) {
-//            SpeechManager.shared.speak(message:  self.whichTypeQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         } else if trailPromptTimeForUser == whichTypeQuestionInfo.trial_time && self.timeTakenToSolve < whichTypeQuestionInfo.completion_time
         {
             trailPromptTimeForUser = 0
@@ -250,7 +249,7 @@ extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource,
         let answerIndex = Int(self.whichTypeQuestionInfo.correct_answer)! - 1
         if indexPath.row == answerIndex {
                     self.completeRate = 100
-                   SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.whichTypeQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                   SpeechManager.shared.speak(message: self.whichTypeQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
 
         } else {
             let name = self.whichTypeQuestionInfo.image_with_text[answerIndex].name

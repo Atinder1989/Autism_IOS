@@ -328,7 +328,7 @@ extension AssessmentMatchingOnePairViewController {
                 self.selectedObject = nil
             }
             self.incorrectDragDropCount += 1
-            SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.matchingObjectInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
     
@@ -348,15 +348,15 @@ extension AssessmentMatchingOnePairViewController {
             if(self.matchingObjectInfo.block.count == 1) {
                 self.success_count = 100
                 self.questionState = .submit
-                SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.matchingObjectInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.matchingObjectInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             } else if(self.matchingObjectInfo.block.count == 2 && self.answerCount == 2) {
                 self.success_count = 100
                 self.questionState = .submit
-                SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.matchingObjectInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.matchingObjectInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             } else if(self.matchingObjectInfo.block.count == 3 && self.answerCount == 3) {
                 self.success_count = 100
                 self.questionState = .submit
-                SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.matchingObjectInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.matchingObjectInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
         }
     }

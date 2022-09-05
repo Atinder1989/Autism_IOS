@@ -47,8 +47,6 @@ class AssesmentColorViewController: UIViewController ,UICollectionViewDataSource
         isUserInteraction = false
         SpeechManager.shared.setDelegate(delegate: self)
         SpeechManager.shared.speak(message: self.coloringInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-      //  Utility.setView(view: submitButton, cornerRadius: 5, borderWidth: 0, color: .clear)
-        
         
         let imageUrlString = ServiceHelper.baseURL.getMediaBaseUrl() + coloringInfo.image
         let imageUrl:URL = URL(string: imageUrlString)!
@@ -97,7 +95,7 @@ class AssesmentColorViewController: UIViewController ,UICollectionViewDataSource
         self.questionState = .submit
         self.stopTimer()
         SpeechManager.shared.setDelegate(delegate: self)
-        SpeechManager.shared.speak(message:SpeechMessage.excellentWork.getMessage(self.coloringInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        SpeechManager.shared.speak(message: self.coloringInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
       //  self.colorViewModel.uploadImage(image: self.sketchView.asImage(), timeTaken: self.timeTakenToSolve, info: self.coloringInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
     }
     
@@ -400,8 +398,6 @@ extension AssesmentColorViewController: SpeechManagerDelegate {
 extension AssesmentColorViewController: ImageDownloaderDelegate {
     func finishDownloading() {
         self.apiDataState = .imageDownloaded
-//        SpeechManager.shared.speak(message:self.sortObjectInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-//        self.questionTitle.text = self.sortObjectInfo.question_title
     }
 }
 extension AssesmentColorViewController: NetworkRetryViewDelegate {

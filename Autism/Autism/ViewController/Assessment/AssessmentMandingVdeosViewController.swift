@@ -254,10 +254,10 @@ extension AssessmentMandingVdeosViewController: RecordingManagerDelegate {
             if Utility.sharedInstance.isAnswerMatched(text: text, answer: self.videoQuestionInfo.correct_answer) {
                 self.questionState = .submit
                 self.completeRate = 100
-                SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.videoQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.videoQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             } else {
                 self.userAnswer.text = ""
-                SpeechManager.shared.speak(message: SpeechMessage.wrongAnswer.getMessage(self.videoQuestionInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.videoQuestionInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
         } else {
             SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)

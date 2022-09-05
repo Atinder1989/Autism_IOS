@@ -323,7 +323,7 @@ extension AssesmentReadClockViewController: RecordingManagerDelegate {
     {
         questionState = .submit
         self.completeRate = 100
-        SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.readclockQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        SpeechManager.shared.speak(message: self.readclockQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 
         self.stopTimer()
     }
@@ -331,7 +331,7 @@ extension AssesmentReadClockViewController: RecordingManagerDelegate {
     func handleWrongTime()
     {
         self.completeRate = 0
-        SpeechManager.shared.speak(message: SpeechMessage.wrongAnswer.getMessage(self.readclockQuestionInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        SpeechManager.shared.speak(message: self.readclockQuestionInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
     
 }

@@ -140,12 +140,12 @@ extension AssesmentMatchSpellingViewController {
         self.questionState = .submit
         if txtAnwere.text?.lowercased() == matchSpellingQuestionInfo.answer.lowercased() {
             self.success_count = 100
-            SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.matchSpellingQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.matchSpellingQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
 
         }
         else {
                 self.success_count = 0
-            SpeechManager.shared.speak(message: SpeechMessage.wrongAnswer.getMessage(self.matchSpellingQuestionInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.matchSpellingQuestionInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                                 }
     }
 }

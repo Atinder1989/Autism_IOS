@@ -115,7 +115,7 @@ class AssessmentIndependentPlayViewController: UIViewController {
         if(self.questionState != .submit ) {
             if(imgViewObject.center.x >= maxX-5) {
                 self.questionState = .submit
-                SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.independentPlayQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.independentPlayQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
         }
     }

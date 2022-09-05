@@ -39,7 +39,7 @@ class AssessmentWritingOnPadController: UIViewController {
     }
     
     @IBAction func submitClicked(_ sender: Any) {
-      //  SpeechManager.shared.speak(message: SpeechMessage.excellentWork.getMessage(self.writingPadInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+     //   SpeechManager.shared.speak(message: self.writingPadInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         self.writingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
     }
     
@@ -51,7 +51,7 @@ class AssessmentWritingOnPadController: UIViewController {
         if !skipQuestion {
             skipQuestion = true
       //  SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-         //   self.writingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
+            self.writingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
         }
       }
     

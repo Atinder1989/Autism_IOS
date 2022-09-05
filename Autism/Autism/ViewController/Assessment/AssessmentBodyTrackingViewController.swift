@@ -174,7 +174,7 @@ extension AssessmentBodyTrackingViewController {
                     if self.questionState == .inProgress {
                     self.questionState = .submit
                     self.successRate = 100
-                    SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.bodyTrackingQuestionInfo.correct_text), uttrenceRate:  AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    SpeechManager.shared.speak(message: self.bodyTrackingQuestionInfo.correct_text, uttrenceRate:  AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                     }
                     
                 }
@@ -220,7 +220,7 @@ extension AssessmentBodyTrackingViewController {
                                 print("success ==========")
                                 self.questionState = .submit
                                 self.successRate = 100
-                                SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.bodyTrackingQuestionInfo.correct_text), uttrenceRate:  AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                                SpeechManager.shared.speak(message: self.bodyTrackingQuestionInfo.correct_text, uttrenceRate:  AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                                                                 
                             }
                         }
@@ -281,7 +281,7 @@ extension AssessmentBodyTrackingViewController {
         if self.questionState == .inProgress {
             self.questionState = .submit
             self.successRate = 100
-            SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.bodyTrackingQuestionInfo.correct_text), uttrenceRate:  AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.bodyTrackingQuestionInfo.correct_text, uttrenceRate:  AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
     

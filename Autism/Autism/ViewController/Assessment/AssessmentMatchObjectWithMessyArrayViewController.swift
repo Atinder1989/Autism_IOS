@@ -150,7 +150,7 @@ class AssessmentMatchObjectWithMessyArrayViewController: UIViewController {
                         self.questionState = .submit
                         imageViewRight.isHidden = false
                         imageViewCroos.isHidden = true
-                        SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                        SpeechManager.shared.speak(message: self.matchingObjectInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                     } else {
                         if(UIDevice.current.userInterfaceIdiom != .pad) {
                             self.imageViewCroos.frame = CGRect(x: imageViewTouched!.center.x+(wh/2.0)-24, y: imageViewTouched!.center.y+(wh/2.0)-24, width: 24, height: 24)
@@ -663,7 +663,7 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
                 self.selectedObject = nil
             }
             self.incorrectDragDropCount += 1
-            SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.matchingObjectInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
     

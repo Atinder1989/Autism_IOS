@@ -148,11 +148,11 @@ extension AssessmentSoundImitationViewController: RecordingManagerDelegate {
             if text.lowercased().contains(self.soundInfo.answer.lowercased()) {
                 completeRate = 100
                 self.questionState = .submit
-                SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.soundInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.soundInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             } else {
                 self.userAnswerLbl.text = ""
                 self.questionState = .wrongAnswer
-                SpeechManager.shared.speak(message: SpeechMessage.wrongAnswer.getMessage(self.soundInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.soundInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
 
               // self.loadSound()
             }

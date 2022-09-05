@@ -158,7 +158,7 @@ extension AssessmentReinforcerViewController {
             self.preferredSelection = "yes"
             self.selectionId = self.reinforcerInfo.id
             self.questionState = .submit
-            SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.reinforcerInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.reinforcerInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
         
     }
@@ -173,7 +173,7 @@ extension AssessmentReinforcerViewController {
             self.preferredSelection = "no"
             self.selectionId = self.nonPreferredReinforcerInfo.id
             self.questionState = .submit
-            SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.reinforcerInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.reinforcerInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
     

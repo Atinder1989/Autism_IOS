@@ -311,7 +311,7 @@ extension AssessmentBlockDesignViewController {
 
     private func handleInvalidDropLocation(currentBlockDesignView:BlockDesignView){
            DispatchQueue.main.async {
-                SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                SpeechManager.shared.speak(message: self.blockDesignInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             self.incorrectDragDropCount += 1
 
                if let frame = self.initialFrame {
@@ -328,11 +328,10 @@ extension AssessmentBlockDesignViewController {
            emptyBlockDesignView.image = filledBlockDesignView.image
            self.success_count += 1
            if self.success_count < self.blockDesignInfo.images.count {
-//                   SpeechManager.shared.speak(message: SpeechMessage.excellentWork.getMessage(self.blokDesignInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                } else {
                
                    self.questionState = .submit
-                   SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.blockDesignInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                   SpeechManager.shared.speak(message: self.blockDesignInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                }
            }
     }

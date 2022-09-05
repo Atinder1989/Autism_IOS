@@ -179,7 +179,7 @@ extension AsessmentSequenceViewController: UICollectionViewDataSource, UICollect
     if isEqual {
         self.questionState = .submit
         self.completeRate = 100
-        SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.sequenceInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        SpeechManager.shared.speak(message: self.sequenceInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
  }
 }

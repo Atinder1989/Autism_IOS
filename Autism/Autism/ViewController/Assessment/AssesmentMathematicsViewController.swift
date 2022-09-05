@@ -132,11 +132,11 @@ extension AssesmentMathematicsViewController {
         self.questionState = .submit
         if txtAnwere.text == mathematicsCalculationQuestionInfo.correct_value {
                 self.success_count = 100
-            SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.mathematicsCalculationQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.mathematicsCalculationQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
             else {
                 self.success_count = 0
-            SpeechManager.shared.speak(message: SpeechMessage.wrongAnswer.getMessage(self.mathematicsCalculationQuestionInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.mathematicsCalculationQuestionInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
         }
     }

@@ -131,7 +131,7 @@ extension AssesmentMazeObjectController : UICollectionViewDelegate, UICollection
                 self.questionState = .submit
                  if String(format: "%d", indexPath.row+1) == mazeObjectQuestionInfo.correct_answer {
                      self.success_count = 100
-                    SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.mazeObjectQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    SpeechManager.shared.speak(message: self.mazeObjectQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                  }
                 else {
                     let index = Int(mazeObjectQuestionInfo.correct_answer)! - 1

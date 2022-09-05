@@ -38,8 +38,7 @@ class AssessmentDrawingViewController: UIViewController {
     }
     
     @IBAction func submitClicked(_ sender: Any) {
-        SpeechManager.shared.speak(message: SpeechMessage.excellentWork.getMessage(self.drawingInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-        //SpeechManager.shared.speak(message:SpeechMessage.excellentWork.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        SpeechManager.shared.speak(message: self.drawingInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         self.drawingViewModel.uploadImage(image: self.view.asImage(), timeTaken: self.timeTakenToSolve, info: self.drawingInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
     }
     

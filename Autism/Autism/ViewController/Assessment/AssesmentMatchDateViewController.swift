@@ -99,13 +99,13 @@ extension AssesmentMatchDateViewController {
         let selectedDate = Utility.convertDateToString(date: datePickerView.date, format: "dd-MM-yyyy")
         if selectedDate == matchObjectQuestionInfo.answer_date {
                             self.success_count = 100
-                                     SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.matchObjectQuestionInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                                     SpeechManager.shared.speak(message: self.matchObjectQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
 
             
                                 }
                                 else {
             self.success_count = 0
-                        SpeechManager.shared.speak(message: SpeechMessage.wrongAnswer.getMessage(self.matchObjectQuestionInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                        SpeechManager.shared.speak(message: self.matchObjectQuestionInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
     }
 }

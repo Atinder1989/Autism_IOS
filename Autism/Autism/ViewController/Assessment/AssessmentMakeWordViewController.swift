@@ -296,7 +296,7 @@ extension AssessmentMakeWordViewController {
     
     private func handleInvalidDropLocation(currentLabelView:UILabel){
            DispatchQueue.main.async {
-                SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+               SpeechManager.shared.speak(message: self.makeWordInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                if let frame = self.initialFrame {
                    currentLabelView.frame = frame
                    self.initialFrame = nil
@@ -317,7 +317,7 @@ extension AssessmentMakeWordViewController {
                 } else {
                 self.success_count = 100
                     self.questionState = .submit
-                    SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.makeWordInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    SpeechManager.shared.speak(message: self.makeWordInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                 }
             }
     }
