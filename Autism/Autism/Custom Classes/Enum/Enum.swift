@@ -182,6 +182,7 @@ enum AssessmentQuestionType: String
     case writing_on_pad = "writing_on_pad"
     case fill_container_by_count = "fill_container_by_count"
     case sort_sequence = "sort_sequence"
+    case reading_notes = "reading_notts"
     
     case none = "none"
 }
@@ -406,6 +407,11 @@ enum ProgramCode: String {
     case lr_5m   = "lr_5m"
     
     case math = "math"
+    case lr_ffc_l3_g11 = "lr_ffc_l3_g11"
+    case parent_presence = "parent_presence"
+    case quiz_intro = "quiz_intro"
+    case lr_messyarray_touch = "lr_messyarray_touch"
+    case math_sorting = "math_sorting"
     
     case none      = "none"
 }

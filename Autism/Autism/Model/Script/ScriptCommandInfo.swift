@@ -96,6 +96,7 @@ struct Option: Codable {
     var position_of_finger:String
     var blink:String
     var blink_count:String
+    var index:String
     
     init() {
         self.avatar_variation = ""
@@ -125,6 +126,7 @@ struct Option: Codable {
         self.avatar_move = ""
         self.zoom_on = ""
         self.background = ""
+        self.index = "0"
     }
 
     
@@ -170,6 +172,7 @@ struct Option: Codable {
         self.position_of_finger = try container.decodeIfPresent(String.self, forKey: .position_of_finger) ?? ""
         self.blink = try container.decodeIfPresent(String.self, forKey: .blink) ?? ""
         self.blink_count = try container.decodeIfPresent(String.self, forKey: .blink_count) ?? ""
+        self.index = try container.decodeIfPresent(String.self, forKey: .index) ?? "0"
     }
 }
 

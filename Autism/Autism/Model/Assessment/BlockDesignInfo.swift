@@ -22,7 +22,7 @@ struct BlockDesignInfo: Codable
     var skill_domain_id: String
     var level:String
     
-    var image_count:String
+    var image_count:Int
     var images:[ImageModel]
     var program_id: String
 
@@ -43,7 +43,11 @@ struct BlockDesignInfo: Codable
         self.skill_domain_id        = try container.decodeIfPresent(String.self, forKey: .skill_domain_id) ?? ""
 
         self.images                 = try container.decodeIfPresent([ImageModel].self, forKey: .images) ?? []
-        self.image_count            = try container.decodeIfPresent(String.self, forKey: .image_count) ?? ""
+        if(self.images.count == 0) {
+            self.images                 = try container.decodeIfPresent([ImageModel].self, forKey: .block) ?? []
+        }
+        
+        self.image_count            = try container.decodeIfPresent(Int.self, forKey: .image_count) ?? 0
         self.level                  = try container.decodeIfPresent(String.self, forKey: .level) ?? ""
         self.program_id         = ""
 

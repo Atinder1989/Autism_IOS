@@ -82,6 +82,7 @@ struct AssessmentQuestionResponseVO: Codable {
         
         let type = AssessmentQuestionType.init(rawValue: self.question_type)
         switch type {
+        
         case .writing_on_pad:
             self.writingOnPadInfo = try dataContainer.decodeIfPresent(WritingOnPadInfo.self, forKey: .questionDetail) ?? nil
             self.writingOnPadInfo?.question_type = type!.rawValue
@@ -132,10 +133,15 @@ struct AssessmentQuestionResponseVO: Codable {
             self.tacting4mQuestionInfo?.program_id = program_id
             self.tacting4mQuestionInfo?.imagesList          = try dataContainer.decodeIfPresent([ImageModel].self, forKey: .rein_force_non_preferreds) ?? []
         case .Puzzle,.puzzle_show_alpha:
-            self.puzzleQuestionInfo = try dataContainer.decodeIfPresent(PuzzleQuestionInfo.self, forKey: .questionDetail) ?? nil
-            self.puzzleQuestionInfo?.question_type = type!.rawValue
-            self.puzzleQuestionInfo?.skill_domain_id = skill_domain_id
-            self.puzzleQuestionInfo?.program_id = program_id
+            self.blockDesignInfo = try dataContainer.decodeIfPresent(BlockDesignInfo.self, forKey: .questionDetail) ?? nil
+            self.blockDesignInfo?.question_type = type!.rawValue
+            self.blockDesignInfo?.skill_domain_id = skill_domain_id
+            self.blockDesignInfo?.program_id = program_id
+
+//            self.puzzleQuestionInfo = try dataContainer.decodeIfPresent(PuzzleQuestionInfo.self, forKey: .questionDetail) ?? nil
+//            self.puzzleQuestionInfo?.question_type = type!.rawValue
+//            self.puzzleQuestionInfo?.skill_domain_id = skill_domain_id
+//            self.puzzleQuestionInfo?.program_id = program_id
 
         case .drawing:
             self.drawingInfo = try dataContainer.decodeIfPresent(DrawingQuestionInfo.self, forKey: .questionDetail) ?? nil
@@ -257,7 +263,7 @@ struct AssessmentQuestionResponseVO: Codable {
             self.alphabetLearningInfo?.skill_domain_id = skill_domain_id
             self.alphabetLearningInfo?.program_id = program_id
 
-        case .matching_object, .matching_object_drag, .match_object_with_messy_array, .matching_one_pair, .matching_three_pair, .match_object_drag_with_messy_array, .touch_object_with_messy_array:
+        case .matching_object, .matching_object_drag, .match_object_with_messy_array, .matching_one_pair, .matching_three_pair, .match_object_drag_with_messy_array, .touch_object_with_messy_array, .reading_notes:
             self.matchingObjectInfo = try dataContainer.decodeIfPresent(MatchingObjectInfo.self, forKey: .questionDetail) ?? nil
             self.matchingObjectInfo?.question_type = type!.rawValue
             self.matchingObjectInfo?.skill_domain_id = skill_domain_id

@@ -12,6 +12,7 @@ indirect enum ScriptCommand {
     case show_video(commandInfo:ScriptCommandInfo?)
     case text_to_speech(commandInfo:ScriptCommandInfo?)
     case show_images(commandInfo:ScriptCommandInfo?)
+    case show_foil_image(commandInfo:ScriptCommandInfo?)
     case moveToNextCommand
     case commandCompleted
     case show_image(commandInfo:ScriptCommandInfo?)
@@ -58,6 +59,8 @@ indirect enum ScriptCommand {
             self = .text_to_speech(commandInfo: nil)
         case "show_images":
             self = .show_images(commandInfo: nil)
+        case "show_foil_image":
+            self = .show_foil_image(commandInfo: nil)
         case "show_image":
             self = .show_image(commandInfo: nil)
         case "child_action":
@@ -329,6 +332,8 @@ extension ScriptManager {
                 self.handleTextToSpeechCommand(commandInfo: commandInfo)
             case .show_images:
                 self.handleShowImagesCommand(commandInfo: commandInfo)
+            case .show_foil_image:
+                self.handleShowFoilImageCommand(commandInfo: commandInfo)
             case .show_finger:
                 self.handleShowFingerCommand(commandInfo: commandInfo)
             case .move_avatar:
@@ -462,6 +467,12 @@ extension ScriptManager {
         }
     }
     
+    private func handleShowFoilImageCommand(commandInfo:ScriptCommandInfo) {
+        if let del = self.delegate {
+            del.get(scriptCommand: .show_foil_image(commandInfo: commandInfo))
+        }
+    }
+
     private func handleShowImagesCommand(commandInfo:ScriptCommandInfo) {
         if let del = self.delegate {
             del.get(scriptCommand: .show_images(commandInfo: commandInfo))

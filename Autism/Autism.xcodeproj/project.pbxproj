@@ -447,6 +447,12 @@
 		C8501AEA28BB849900479784 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8501AE928BB849900479784 /* Data+Extension.swift */; };
 		C8501AEC28BB84AC00479784 /* AssessmentWritingOnPadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8501AEB28BB84AB00479784 /* AssessmentWritingOnPadController.swift */; };
 		C8AA965A28703AC0007991F0 /* MandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA965928703AC0007991F0 /* MandViewController.swift */; };
+		C8DA594E28C1D929005F7BB1 /* LearningMessyArrayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DA594D28C1D929005F7BB1 /* LearningMessyArrayViewController.swift */; };
+		C8DA595028C1D9AE005F7BB1 /* LearningMessyArrayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DA594F28C1D9AE005F7BB1 /* LearningMessyArrayViewModel.swift */; };
+		C8DA595228C211DB005F7BB1 /* LearningMathSortingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DA595128C211DB005F7BB1 /* LearningMathSortingViewController.swift */; };
+		C8DA595428C21541005F7BB1 /* LearningMathSortingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DA595328C21541005F7BB1 /* LearningMathSortingViewModel.swift */; };
+		C8EAEBA928BF3FF400D571E3 /* ParentPresenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EAEBA828BF3FF400D571E3 /* ParentPresenceViewController.swift */; };
+		C8EAEBAC28BF6A3800D571E3 /* ParentPresenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8EAEBAB28BF6A3800D571E3 /* ParentPresenceViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -960,6 +966,12 @@
 		C8501AE928BB849900479784 /* Data+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		C8501AEB28BB84AB00479784 /* AssessmentWritingOnPadController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssessmentWritingOnPadController.swift; sourceTree = "<group>"; };
 		C8AA965928703AC0007991F0 /* MandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandViewController.swift; sourceTree = "<group>"; };
+		C8DA594D28C1D929005F7BB1 /* LearningMessyArrayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningMessyArrayViewController.swift; sourceTree = "<group>"; };
+		C8DA594F28C1D9AE005F7BB1 /* LearningMessyArrayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningMessyArrayViewModel.swift; sourceTree = "<group>"; };
+		C8DA595128C211DB005F7BB1 /* LearningMathSortingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningMathSortingViewController.swift; sourceTree = "<group>"; };
+		C8DA595328C21541005F7BB1 /* LearningMathSortingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningMathSortingViewModel.swift; sourceTree = "<group>"; };
+		C8EAEBA828BF3FF400D571E3 /* ParentPresenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentPresenceViewController.swift; sourceTree = "<group>"; };
+		C8EAEBAB28BF6A3800D571E3 /* ParentPresenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentPresenceViewModel.swift; sourceTree = "<group>"; };
 		CD22C448A741E5BEF046D4D0 /* Pods-Autism-AutismUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Autism-AutismUITests.release.xcconfig"; path = "Target Support Files/Pods-Autism-AutismUITests/Pods-Autism-AutismUITests.release.xcconfig"; sourceTree = "<group>"; };
 		FC6C61A77864E23A72FA3939 /* Pods-AutismTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AutismTests.release.xcconfig"; path = "Target Support Files/Pods-AutismTests/Pods-AutismTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1247,6 +1259,7 @@
 		848757C823349EF700C75F39 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				C8EAEBA728BF3FC300D571E3 /* ParentPresence */,
 				C8AA965828703A94007991F0 /* Mand */,
 				B257B7EC255A667F0058D202 /* Stages */,
 				1C385A6E25419B92009FCAD2 /* Trial */,
@@ -1276,6 +1289,7 @@
 		848757C923349EFF00C75F39 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				C8EAEBAA28BF6A2300D571E3 /* ParentPresence */,
 				C834ACCE287189F400F94907 /* Mand */,
 				B257B7ED255A66AC0058D202 /* Stages */,
 				1C385A7425419C5A009FCAD2 /* Trial */,
@@ -1413,8 +1427,10 @@
 		B224966124F14DF4007A4C87 /* Learning */ = {
 			isa = PBXGroup;
 			children = (
-				B27F3CBB254C29FA00F5AEE5 /* LearningVocalImitationsViewController.swift */,
+				C8DA595128C211DB005F7BB1 /* LearningMathSortingViewController.swift */,
+				C8DA594D28C1D929005F7BB1 /* LearningMessyArrayViewController.swift */,
 				B2A90B472536F1F900AFB482 /* LearningColorViewController.swift */,
+				B27F3CBB254C29FA00F5AEE5 /* LearningVocalImitationsViewController.swift */,
 				B241C2EB25F0DFEF00060127 /* LearningEchoicViewController.swift */,
 				B2326A69252EFCDF004B9C6F /* LearningMatchingViewController.swift */,
 				B23E61FE259F6C1A00A787D8 /* LearningMatchingIdenticalViewController.swift */,
@@ -1434,8 +1450,10 @@
 		B224966424F14E31007A4C87 /* Learning */ = {
 			isa = PBXGroup;
 			children = (
-				B27F3CC0254C2A1100F5AEE5 /* LearningVocalImitationsViewModel.swift */,
+				C8DA595328C21541005F7BB1 /* LearningMathSortingViewModel.swift */,
+				C8DA594F28C1D9AE005F7BB1 /* LearningMessyArrayViewModel.swift */,
 				B2A90B4C2536F56B00AFB482 /* LearningColorViewModel.swift */,
+				B27F3CC0254C2A1100F5AEE5 /* LearningVocalImitationsViewModel.swift */,
 				B241C2F025F0E01900060127 /* LearningEchoicViewModel.swift */,
 				1C283D70251A201300628908 /* LearningMatchingViewModel.swift */,
 				B23E6203259F6C4200A787D8 /* LearningMatchingIdenticalViewModel.swift */,
@@ -1922,6 +1940,7 @@
 			isa = PBXGroup;
 			children = (
 				B87A280C2488EABF000214C9 /* AssessmentViewController.swift */,
+				1C420965256D878F00DA4D39 /* AssessmentMatchObjectWithMessyArrayViewController.swift */,
 				C8501AEB28BB84AB00479784 /* AssessmentWritingOnPadController.swift */,
 				1CE9A39624CB4EF700143BDC /* AssessmentBlockDesignViewController.swift */,
 				B249A85524C7FA7C0092DD20 /* AssessmentDrawingViewController.swift */,
@@ -1961,7 +1980,6 @@
 				B8EA759B248FAE740093AC72 /* AssessmentWhichTypeQuestionViewController.swift */,
 				1CE825E9255D6F40003DBE4C /* AssessmentReinforceMultiChoiceViewController.swift */,
 				1CCD9F0325652F6A0078ABFE /* AssessmentMultiArrayQuestionViewController.swift */,
-				1C420965256D878F00DA4D39 /* AssessmentMatchObjectWithMessyArrayViewController.swift */,
 				1CA1CEBC25AF815C008886B5 /* AssessmentMatchingOnePairViewController.swift */,
 				B2F504EE25CE785B00AF252A /* AssessmentTacting4MMultipleViewController.swift */,
 				1C3C0F3625D4249200C5E790 /* AssessmentMandingVdeosViewController.swift */,
@@ -2196,6 +2214,22 @@
 				C8AA965928703AC0007991F0 /* MandViewController.swift */,
 			);
 			path = Mand;
+			sourceTree = "<group>";
+		};
+		C8EAEBA728BF3FC300D571E3 /* ParentPresence */ = {
+			isa = PBXGroup;
+			children = (
+				C8EAEBA828BF3FF400D571E3 /* ParentPresenceViewController.swift */,
+			);
+			path = ParentPresence;
+			sourceTree = "<group>";
+		};
+		C8EAEBAA28BF6A2300D571E3 /* ParentPresence */ = {
+			isa = PBXGroup;
+			children = (
+				C8EAEBAB28BF6A3800D571E3 /* ParentPresenceViewModel.swift */,
+			);
+			path = ParentPresence;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2633,11 +2667,14 @@
 				B240419A255BE6350048C1D9 /* PNRadarChart.m in Sources */,
 				1C78966B24C1D69E00EE99BB /* AlphabetOptionCell.swift in Sources */,
 				B806B4BA2446C1700000A7ED /* RequestManager.swift in Sources */,
+				C8DA595428C21541005F7BB1 /* LearningMathSortingViewModel.swift in Sources */,
 				B8E79C2524974F5200B29AD1 /* AssessmentVideoViewModel.swift in Sources */,
 				B8E79C1A24974EDC00B29AD1 /* AssessmentMazesViewController.swift in Sources */,
 				1C78968224C1D6B200EE99BB /* AssessmentAlphabetLearningViewModel.swift in Sources */,
 				B83E48202486326000908318 /* AssessmentPuzzleViewModel.swift in Sources */,
+				C8DA595228C211DB005F7BB1 /* LearningMathSortingViewController.swift in Sources */,
 				B8D24479248BD1EB00ACAAA5 /* HomeViewController.swift in Sources */,
+				C8DA595028C1D9AE005F7BB1 /* LearningMessyArrayViewModel.swift in Sources */,
 				B252EF5824B95BD800E35AA6 /* CustomWebView.swift in Sources */,
 				045F50D124B4AC3B0024BF47 /* AssesmentColorViewController.swift in Sources */,
 				B240419B255BE6350048C1D9 /* PNColor.m in Sources */,
@@ -2831,6 +2868,7 @@
 				B25F6A502521FD7D00750791 /* UIMultiFuncButton.swift in Sources */,
 				B20DC131253ACC3A00CFC826 /* ScriptManager.swift in Sources */,
 				B8362ABE2493445E009A824A /* AssessmentSoundImitationViewController.swift in Sources */,
+				C8DA594E28C1D929005F7BB1 /* LearningMessyArrayViewController.swift in Sources */,
 				B2F2E7F824D1788000037A61 /* DashboardViewModel.swift in Sources */,
 				B2429C4D2511CAF10036955E /* AssessmentBodyTrackingViewModel.swift in Sources */,
 				1C385A7F25419CB9009FCAD2 /* TrialQuestionResponseVO.swift in Sources */,
@@ -2872,6 +2910,8 @@
 				046A1222249BB1910078C7AB /* AssesmentMatchDateViewModel.swift in Sources */,
 				046A11CD249B77BD0078C7AB /* Answere.swift in Sources */,
 				B88B75DC249752A300E3BB5F /* VideoAnswereCell.swift in Sources */,
+				C8EAEBAC28BF6A3800D571E3 /* ParentPresenceViewModel.swift in Sources */,
+				C8EAEBA928BF3FF400D571E3 /* ParentPresenceViewController.swift in Sources */,
 				B8C2E1B0247E4B8900245076 /* LanguageCollectionCell.swift in Sources */,
 				B240419D255BE6350048C1D9 /* PNBar.m in Sources */,
 				B25F6A4C2521FD7D00750791 /* UIHeadGazeViewController.swift in Sources */,
@@ -3119,7 +3159,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Atinder Singh (9DV8CU23L4)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 110;
+				CURRENT_PROJECT_VERSION = 111;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5YVF838RR5;
 				ENABLE_BITCODE = NO;
@@ -3145,7 +3185,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 110;
+				CURRENT_PROJECT_VERSION = 111;
 				DEVELOPMENT_TEAM = 5YVF838RR5;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Autism/Info.plist;

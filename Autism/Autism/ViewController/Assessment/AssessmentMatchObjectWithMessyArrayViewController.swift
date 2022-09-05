@@ -14,6 +14,7 @@ class AssessmentMatchObjectWithMessyArrayViewController: UIViewController {
     private let matchingObjectViewModel = AssessmentMatchingObjectViewModel()
     private weak var delegate: AssessmentSubmitDelegate?
         
+    
     @IBOutlet weak var labelTitle: UILabel!
     
     @IBOutlet weak var imageViewRight:  UIImageView!

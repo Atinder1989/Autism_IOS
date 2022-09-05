@@ -65,11 +65,18 @@ extension AssessmentBlockDesignViewController {
         self.isUserInteraction = false
         self.labelTitle.text = self.blockDesignInfo.question_title
                     
-            let space:CGFloat = -1.0
-            let cWH:CGFloat = 100
+        let space:CGFloat = -1.0
+        var cWH:CGFloat = 100
+            
+        var xRef:CGFloat = 100.0
+        var yRef:CGFloat = 220.0
+        
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            cWH = 60
                 
-            var xRef:CGFloat = 100.0
-            var yRef:CGFloat = 220.0
+            xRef = 50.0
+            yRef = 80.0
+        }
         
         var matrixOf:CGFloat = 3
         
@@ -112,8 +119,11 @@ extension AssessmentBlockDesignViewController {
         }
                
         xRef = screenHalf+(screenHalf-(cWH*matrixOf))/2.0
-        yRef = 240
-              
+        
+        yRef = 220
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            yRef = 80
+        }
         index = 0
         for i in 0..<Int(matrixOf) {
                                 
@@ -149,16 +159,29 @@ extension AssessmentBlockDesignViewController {
 
     func initializeFilledBlockes()
     {
-        let space:CGFloat = 10.0
+        var xRef:CGFloat = 100.0
+        var yRef:CGFloat = 580.0
+
+        var space:CGFloat = 10.0
         
         var  cWH:CGFloat = 100
-        
         if(self.blockDesignInfo.images.count == 16) {
             cWH = 60
         }
-        var xRef:CGFloat = 100.0
-        let yRef:CGFloat = 580.0
-                
+
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            let screenHeight:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.height)
+            
+            xRef = 50.0
+            yRef = screenHeight-safeAreaBottom-60
+
+            space = 5.0
+            
+            cWH = 50
+            if(self.blockDesignInfo.images.count == 16) {
+                cWH = 30
+            }
+        }
         
         let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
         
@@ -186,16 +209,6 @@ extension AssessmentBlockDesignViewController {
 
                 let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
                 viewBlock.addGestureRecognizer(gestureRecognizer)
-                
-//                let dragInteraction1 = UIDragInteraction(delegate: self)
-//                dragInteraction1.isEnabled = true
-//                viewBlock.isUserInteractionEnabled = true
-//                viewBlock.addInteraction(dragInteraction1)
-//
-//                let delayTime = 0.0
-//                if let longPressRecognizer = viewBlock.gestureRecognizers?.compactMap({ $0 as? UILongPressGestureRecognizer}).first {
-//                    longPressRecognizer.minimumPressDuration = delayTime // your custom value
-//                }
             }
     }
     

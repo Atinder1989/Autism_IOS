@@ -356,12 +356,25 @@ extension AssessmentViewController {
                     this.presentVC(vc: vc)
                 }
         case .Puzzle:
-                if let info = res.puzzleQuestionInfo {
-                    let vc = Utility.getViewController(ofType: AssessmentPuzzleViewController.self)
-                    vc.modalPresentationStyle = .fullScreen
-                    vc.setPuzzleQuestionInfo(info: info, delegate: this)
-                    this.presentVC(vc: vc)
-                }
+            if let info = res.blockDesignInfo {
+                let vc = Utility.getViewController(ofType: AssessmentBlockDesignViewController.self)
+                vc.modalPresentationStyle = .fullScreen
+                vc.setBlockDesignInfo(info: info, delegate: this)
+                this.presentVC(vc: vc)
+            }
+//                if let info = res.puzzleQuestionInfo {
+//                    let vc = Utility.getViewController(ofType: AssessmentPuzzleViewController.self)
+//                    vc.modalPresentationStyle = .fullScreen
+//                    vc.setPuzzleQuestionInfo(info: info, delegate: this)
+//                    this.presentVC(vc: vc)
+//                }
+        case .block_design:
+            if let info = res.blockDesignInfo {
+                let vc = Utility.getViewController(ofType: AssessmentBlockDesignViewController.self)
+                vc.modalPresentationStyle = .fullScreen
+                vc.setBlockDesignInfo(info: info, delegate: this)
+                this.presentVC(vc: vc)
+            }
         case .reinforce,.reinforce_prefered:
                 if let info = res.reinforcerInfo,let nonPrefferedInfo = res.reinforcerNonPreferredInfo {
                     let vc = Utility.getViewController(ofType: AssessmentReinforcerViewController.self)
@@ -504,7 +517,7 @@ extension AssessmentViewController {
                 vc.setMatchingObjectInfo(info: info, delegate: this)
                 this.presentVC(vc: vc)
             }
-        case .matching_object_drag:
+        case .matching_object_drag, .reading_notes:
             if let info = res.matchingObjectInfo {
                 let vc = Utility.getViewController(ofType: AssessmentMatchingObjectDragViewController.self)
                 vc.modalPresentationStyle = .fullScreen
@@ -530,13 +543,6 @@ extension AssessmentViewController {
                 let vc = Utility.getViewController(ofType: AssessmentCopyPatternViewController.self)
                 vc.modalPresentationStyle = .fullScreen
                 vc.setCopyPatternInfo(info: info, delegate: this)
-                this.presentVC(vc: vc)
-            }
-        case .block_design:
-            if let info = res.blockDesignInfo {
-                let vc = Utility.getViewController(ofType: AssessmentBlockDesignViewController.self)
-                vc.modalPresentationStyle = .fullScreen
-                vc.setBlockDesignInfo(info: info, delegate: this)
                 this.presentVC(vc: vc)
             }
         case .introduction,.introduction_name:
@@ -582,12 +588,12 @@ extension AssessmentViewController {
                     this.presentVC(vc: vc)
                 }
         case .writing_on_pad:
-                    if let info = res.writingOnPadInfo {
-                        let vc = Utility.getViewController(ofType: AssessmentWritingOnPadController.self)
-                        vc.modalPresentationStyle = .fullScreen
-                        vc.setWritingOnPadInfo(info: info, delegate: this)
-                        this.presentVC(vc: vc)
-                }
+            if let info = res.writingOnPadInfo {
+                let vc = Utility.getViewController(ofType: AssessmentWritingOnPadController.self)
+                vc.modalPresentationStyle = .fullScreen
+                vc.setWritingOnPadInfo(info: info, delegate: this)
+                this.presentVC(vc: vc)
+            }
         default:
             this.moveToNextController(screenName: res.screen_id)
             break

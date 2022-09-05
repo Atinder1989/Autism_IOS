@@ -20,11 +20,11 @@ class AssessmentWritingOnPadController: UIViewController {
     private weak var delegate: AssessmentSubmitDelegate?
     private var writingPadInfo: WritingOnPadInfo!
     private var timeTakenToSolve = 0
-    private let drawingViewModel = AssesmentWritingOnPadViewModel()
+    private let writingViewModel = AssesmentWritingOnPadViewModel()
     private var isUserInteraction = false {
-                      didSet {
-                          self.view.isUserInteractionEnabled = isUserInteraction
-                      }
+        didSet {
+            self.view.isUserInteractionEnabled = isUserInteraction
+        }
     }
     private var skipQuestion = false
 
@@ -40,7 +40,7 @@ class AssessmentWritingOnPadController: UIViewController {
     
     @IBAction func submitClicked(_ sender: Any) {
       //  SpeechManager.shared.speak(message: SpeechMessage.excellentWork.getMessage(self.writingPadInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-        self.drawingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
+        self.writingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
@@ -51,7 +51,7 @@ class AssessmentWritingOnPadController: UIViewController {
         if !skipQuestion {
             skipQuestion = true
       //  SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-         //   self.drawingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
+         //   self.writingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
         }
       }
     
@@ -81,9 +81,9 @@ extension AssessmentWritingOnPadController {
     }
     
     private func listenModelClosures() {
-        self.drawingViewModel.dataClosure = {
+        self.writingViewModel.dataClosure = {
             DispatchQueue.main.async {
-                if let res = self.drawingViewModel.accessmentSubmitResponseVO {
+                if let res = self.writingViewModel.accessmentSubmitResponseVO {
                         if res.success {
                             self.dismiss(animated: true) {
                                 if let del = self.delegate {

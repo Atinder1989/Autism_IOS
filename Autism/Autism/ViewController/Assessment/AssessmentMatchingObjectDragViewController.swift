@@ -136,8 +136,8 @@ extension AssessmentMatchingObjectDragViewController {
     }
     
     private func listenModelClosures() {
-       self.matchingObjectViewModel.dataClosure = {
-          DispatchQueue.main.async {
+        self.matchingObjectViewModel.dataClosure = {
+            DispatchQueue.main.async {
                 if let res = self.matchingObjectViewModel.accessmentSubmitResponseVO {
                     if res.success {
                         self.dismiss(animated: true) {
@@ -148,7 +148,7 @@ extension AssessmentMatchingObjectDragViewController {
                     }
                 }
             }
-      }
+        }
     }
     
     func initializeTheFrames() {
@@ -542,7 +542,7 @@ extension AssessmentMatchingObjectDragViewController {
                 self.selectedObject = nil
             }
             self.incorrectDragDropCount += 1
-            SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.matchingObjectInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
     
@@ -560,7 +560,7 @@ extension AssessmentMatchingObjectDragViewController {
                self.isUserInteraction = false
             self.success_count = 100
             self.questionState = .submit
-            SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.matchingObjectInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            SpeechManager.shared.speak(message: self.matchingObjectInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
 }
@@ -612,6 +612,7 @@ extension AssessmentMatchingObjectDragViewController: NetworkRetryViewDelegate {
 }
 class ImageViewWithID : UIImageView {
     var iModel : ImageModel?
+    var aModel : AnimationImageModel?
     var commandInfo:ScriptCommandInfo?
 }
 

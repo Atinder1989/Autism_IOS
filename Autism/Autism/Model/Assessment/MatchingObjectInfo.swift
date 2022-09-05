@@ -74,13 +74,21 @@ struct MatchingObjectInfo: Codable {
                 
             }
         }
-        if(bg_image == "") {
-            self.bg_image                 = try container.decodeIfPresent(String.self, forKey: .video_url) ?? ""
-        }
         
         self.correct_text          = try container.decodeIfPresent(String.self, forKey: .correct_text) ?? ""
         self.incorrect_text          = try container.decodeIfPresent(String.self, forKey: .incorrect_text) ?? ""
 
+        if(bg_image == "") {
+            self.bg_image                 = try container.decodeIfPresent(String.self, forKey: .video_url) ?? ""
+        }
+        
+        if(bg_image == "") {
+            if(screen_type == "reading_notts") {
+                let indexCorrect  = Int(self.correct_answer)!-1
+                self.bg_image = self.image_with_text[indexCorrect].image
+            }
+        }
+        
     }
 
     func encode(to encoder: Encoder) throws {

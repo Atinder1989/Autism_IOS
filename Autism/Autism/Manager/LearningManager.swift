@@ -59,7 +59,7 @@ class LearningManager {
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
             scriptController = vc
-        case .colors,.shapes,.solid_colors,.basic_colors,.colors_shapes,.simple_colors,.expressively_labeling_items, .lr_1m, .lr_2m, .lr_3m, .lr_4m, .lr_5m, .math:
+        case .colors,.shapes,.solid_colors,.basic_colors,.colors_shapes,.simple_colors,.expressively_labeling_items, .lr_1m, .lr_2m, .lr_3m, .lr_4m, .lr_5m, .math, .lr_ffc_l3_g11:
             let vc = Utility.getViewController(ofType: LearningColorViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
@@ -74,7 +74,7 @@ class LearningManager {
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
             scriptController = vc
-        case .echoic1M,.echoic_2M,.echoice_3M,.echoice_4M,.echoic_5M,.echoice_5M_2,.echoice_3M_2:
+        case .echoic1M,.echoic_2M,.echoice_3M,.echoice_4M,.echoic_5M,.echoice_5M_2,.echoice_3M_2, .quiz_intro:
             let vc = Utility.getViewController(ofType: LearningEchoicViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
@@ -105,6 +105,22 @@ class LearningManager {
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
             scriptController = vc
+        case .parent_presence:
+            let vc = Utility.getViewController(ofType: ParentPresenceViewController.self)
+            vc.modalPresentationStyle = .fullScreen
+            vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
+            scriptController = vc
+        case .lr_messyarray_touch:
+            let vc = Utility.getViewController(ofType: LearningMessyArrayViewController.self)
+            vc.modalPresentationStyle = .fullScreen
+            vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
+            scriptController = vc
+        case .math_sorting:
+            let vc = Utility.getViewController(ofType: LearningMathSortingViewController.self)
+            vc.modalPresentationStyle = .fullScreen
+            vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
+            scriptController = vc
+            
         default:break
         }
         

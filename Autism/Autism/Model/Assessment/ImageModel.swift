@@ -23,9 +23,10 @@ struct ImageModel: Codable {
     var info:String
     var label_code:String
     var language_code:String
-
+    var index:Int
     
     init() {
+        self.index = 0
         self.image = ""
         self.empty_image = ""
         self.id = ""
@@ -52,7 +53,7 @@ struct ImageModel: Codable {
         self.language_code          = try container.decodeIfPresent(String.self, forKey: .language_code) ?? ""
         self.avtar_gender          = try container.decodeIfPresent(String.self, forKey: .avtar_gender) ?? ""
         
-
+        self.index = try container.decodeIfPresent(Int.self, forKey: .index) ?? 0
     }
 
     func encode(to encoder: Encoder) throws {

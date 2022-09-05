@@ -30,6 +30,8 @@ class SpeechManager: NSObject {
     private var totalLinesToSpeak: Int = 0
     private var currentLineIndex: Int = 0
     
+    private var audioPlayer : AVPlayer!
+
     func setDelegate(delegate: SpeechManagerDelegate?) {
         self.delegate = delegate
     }
@@ -51,8 +53,58 @@ class SpeechManager: NSObject {
         }
     }
     
+    private func removeObserver() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                                                  object: nil)
+    }
+    
+    private func addObserver(item: AVPlayerItem) {
+        NotificationCenter.default.addObserver(self, selector: #selector(SpeechManager.playerDidFinishPlaying(notification:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
+    }
+    
+    private func playAudio(url: String) {
+        let urlString = ServiceHelper.baseURL.getMediaBaseUrl() + url
+        if let url = URL.init(string: urlString) {
+            if let player = audioPlayer {
+                removeObserver()
+                let item = AVPlayerItem(url: url)
+                player.replaceCurrentItem(with: item)
+                player.play()
+                addObserver(item: item)
+                if let del = self.delegate {
+                    rate = 1
+                    del.speechDidStart(speechText: "")
+                }
+            } else {
+                let item = AVPlayerItem(url: url)
+                audioPlayer = AVPlayer.init(playerItem: item)
+                if let player = audioPlayer {
+                    player.play()
+                    addObserver(item: item)
+                    if let del = self.delegate {
+                        rate = 1
+                        del.speechDidStart(speechText: "")
+                    }
+                }
+            }
+        }
+    }
+    
+    @objc func playerDidFinishPlaying(notification: NSNotification) {
+        rate = 0
+        if let del = self.delegate {
+            del.speechDidFinish(speechText: "")
+        }
+    }
+     
     func speak(message:String,uttrenceRate:Float) {
         if !self.isPlaying() {
+            
+            if message.contains("uploads/") {
+                self.playAudio(url: message)
+                return
+            }
+            
             if let user = UserManager.shared.getUserInfo() {
                 if user.languageCode == AppLanguage.en.rawValue {
                     handleSpeechForEnglishUser(message: message, uttrenceRate: uttrenceRate)

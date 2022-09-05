@@ -241,15 +241,15 @@ extension LearningMatchingIdenticalViewController {
                             if imageViewInfo?.value_id == currentCommand.value_id {
                                                             
                                 if(imageViewInfo?.option!.correct_option == "1") {
-                                    if view_Left.frame.contains(dropLocation) {
+                                    if commandImgViewTop.frame.contains(dropLocation) {
                                         isAnswer = true
                                     }
                                 } else if(imageViewInfo?.option!.correct_option == "2") {
-                                    if view_Right.frame.contains(dropLocation) {
+                                    if commandImgViewTop.frame.contains(dropLocation) {
                                         isAnswer = true
                                     }
                                 } else if(imageViewInfo?.option!.correct_option == "3") {
-                                    if view_Center.frame.contains(dropLocation) {
+                                    if commandImgViewTop.frame.contains(dropLocation) {
                                         isAnswer = true
                                     }
                                 }
@@ -268,6 +268,7 @@ extension LearningMatchingIdenticalViewController {
                     self.initialFrame = nil
                     self.selectedObject = nil
                 }
+                //self.isCorrectAnswerTapped = false
                 SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
             
