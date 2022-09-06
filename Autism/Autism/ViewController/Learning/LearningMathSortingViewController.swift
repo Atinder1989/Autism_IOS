@@ -36,17 +36,25 @@ class LearningMathSortingViewController: UIViewController {
             }
         }
     }
-    private var imageList = [ImageModel]() 
+    private var imageList = [ImageModel]()
 
     private var isImagesDownloaded = false
     private var isChildAction = false
     private var videoItem: VideoItem?
-    private var isChildActionCompleted = false {
+//    private var isChildActionCompleted = false {
+//        didSet {
+//            if isChildActionCompleted {
+//                DispatchQueue.main.async {
+//                    self.mathSortingViewModel.calculateChildAction(state: self.isChildActionCompleted, touch: self.isTouch)
+//                }
+//            }
+//        }
+//    }
+    var noOfImages = 0
+    private var totalImagesMatched: Int = 0 {
         didSet {
-            if isChildActionCompleted {
-                DispatchQueue.main.async {
-                    self.mathSortingViewModel.calculateChildAction(state: self.isChildActionCompleted, touch: self.isTouch)
-                }
+            if self.totalImagesMatched == noOfImages {
+                self.mathSortingViewModel.calculateChildAction(state: true, touch: self.isTouch)
             }
         }
     }
@@ -214,6 +222,7 @@ extension LearningMathSortingViewController {
                
                 self.foilImageList.removeAll()
                 self.foilImageList = array
+                self.noOfImages = array.count
                 self.showFoilSpaceForPattern()
                 self.mathSortingViewModel.updateCurrentCommandIndex()
             }
@@ -363,22 +372,16 @@ extension LearningMathSortingViewController {
 
             for view in self.view.subviews {
                 if let bucket = view as? CopyPatternBucketView {
-                    if bucket.iModel!.name == "foil" {
+                 //   if bucket.iModel!.name == "foil" {
                         if bucket.frame.contains(dropLocation) {
                             if(bucket.image == nil) {
                                 if(currentFilledPattern.iModel!.index == bucket.iModel!.index) {
                                     isLocationExist = true
                                     bucket.image = currentFilledPattern.image
-//                                    self.success_count = 100
-//                                    self.questionState = .submit
-//                                    SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.copyPatternInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                                    currentFilledPattern.removeFromSuperview()
+                                    self.totalImagesMatched = self.totalImagesMatched+1
                                 } else {
-//                                    bucket.image = currentFilledPattern.image
-//                                    self.success_count = 0
-//                                    self.questionState = .submit
-//                                    SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(self.copyPatternInfo.incorrect_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                                 }
-                                currentFilledPattern.removeFromSuperview()
                                 if let frame = self.initialFrame {
                                     self.selectedPattern.frame = frame
                                     self.initialFrame = nil
@@ -388,7 +391,7 @@ extension LearningMathSortingViewController {
                             }
                             break
                         }
-                    }
+                 //   }
                 }
             }
             

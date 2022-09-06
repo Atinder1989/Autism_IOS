@@ -83,21 +83,11 @@ extension AssessmentWhichTypeQuestionViewController {
     }
 
     private func customSetting() {
-        
-//        self.whichTypeQuestionInfo.image_with_text.removeLast()
-//        self.whichTypeQuestionInfo.image_with_text.removeLast()
-//        self.whichTypeQuestionInfo.image_with_text.removeLast()
-        
-//        self.whichTypeQuestionInfo.image_with_text.append(self.whichTypeQuestionInfo.image_with_text.last!)
-//        self.whichTypeQuestionInfo.image_with_text.append(self.whichTypeQuestionInfo.image_with_text.last!)
-//        self.whichTypeQuestionInfo.image_with_text.append(self.whichTypeQuestionInfo.image_with_text.last!)
 
         isUserInteraction = false
         imagesCollectionView.register(ImageCell.nib, forCellWithReuseIdentifier: ImageCell.identifier)
                 
         let c:CGFloat = CGFloat(self.whichTypeQuestionInfo.image_with_text.count)
-//        let sWidth:CGFloat = self.view.frame.size.width//UIScreen.main.bounds.width
-//        let sHeight:CGFloat = self.view.frame.size.height//UIScreen.main.bounds.height
 
         let sWidth:CGFloat = UIScreen.main.bounds.width
         let sHeight:CGFloat = UIScreen.main.bounds.height
@@ -169,13 +159,7 @@ extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource,
     func getLayoutHeightWidth() -> CGFloat {
         
         let c:CGFloat = CGFloat(self.whichTypeQuestionInfo.image_with_text.count)
-        let widthScreen:CGFloat = UIScreen.main.bounds.width
-
-//        if(c < 3){
-//            let size:CGFloat = (widthScreen / CGFloat(3)) - (10*CGFloat(3))
-//            return size
-//        }
-        
+    
         if(UIDevice.current.userInterfaceIdiom == .pad) {
             var size:CGFloat = ((UIScreen.main.bounds.width - safeArealLeft - safeArealRight - (20*(c+1))) / c)
             if(size > 300){

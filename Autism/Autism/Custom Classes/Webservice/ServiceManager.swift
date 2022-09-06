@@ -12,13 +12,24 @@ class ServiceManager: NSObject {
     
     class func processDataFromServer<T:Codable>(service: Service,model:T.Type,isloader:Bool = true,responseProcessingBlock: @escaping (T?,Error?) -> () )
     {
- 
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] //as? String
+
+        let headers:[String: Any] = ["os": "ios", "appcode": appVersion as Any]
+        print("headers = ", headers)
         print("service = \(service)")
+        
+        var updated_service:Service = service
+//        updated_service.headers = headers
+//        if service.url.contains("submitQuestion") || service.url.contains("getQuestion") || service.url.contains("trial_answer")
+//        {
+//            updated_service.headers = headers
+//        }
+        
         if Utility.isNetworkAvailable() {
 //            if isloader {
 //                Utility.showLoader()
 //            }
-            let request = RequestManager.sharedInstance.createRequest(service: service)
+            let request = RequestManager.sharedInstance.createRequest(service: updated_service)
             SessionManager.sharedInstance.processRequest(request: request) { (data, error) in                
                 ServiceManager.processDataModalFromResponseData(service: service, model:T.self,data: data,error: error,responseProcessingBlock: responseProcessingBlock)
             

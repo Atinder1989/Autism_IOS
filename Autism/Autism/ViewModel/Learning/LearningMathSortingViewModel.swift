@@ -39,7 +39,7 @@ class LearningMathSortingViewModel: NSObject {
         }
     }
     
-    private var currentCommandIndex = 1 {
+    private var currentCommandIndex = 0 {
         didSet{
             self.executeCommand()
         }

@@ -157,7 +157,8 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
         }
      } else {
         self.wrongAnswerCount += 1
-        SpeechManager.shared.speak(message: self.findObjectQuestionInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        SpeechManager.shared.speak(message: self.findObjectQuestionInfo.incorrect_text
+                                   , uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
 }
     private func updateList(index:Int) {
