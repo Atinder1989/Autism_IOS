@@ -132,7 +132,7 @@ struct AssessmentQuestionResponseVO: Codable {
             self.tacting4mQuestionInfo?.skill_domain_id = skill_domain_id
             self.tacting4mQuestionInfo?.program_id = program_id
             self.tacting4mQuestionInfo?.imagesList          = try dataContainer.decodeIfPresent([ImageModel].self, forKey: .rein_force_non_preferreds) ?? []
-        case .Puzzle,.puzzle_show_alpha:
+        case .Puzzle,.puzzle_show_alpha, .paint:
             self.blockDesignInfo = try dataContainer.decodeIfPresent(BlockDesignInfo.self, forKey: .questionDetail) ?? nil
             self.blockDesignInfo?.question_type = type!.rawValue
             self.blockDesignInfo?.skill_domain_id = skill_domain_id

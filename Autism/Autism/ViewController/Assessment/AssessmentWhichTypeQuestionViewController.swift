@@ -93,10 +93,18 @@ extension AssessmentWhichTypeQuestionViewController {
         let sHeight:CGFloat = UIScreen.main.bounds.height
 
         let size:CGFloat = self.getLayoutHeightWidth()
+
         let cWidth:CGFloat = (size*c) + 20*c
         let cHeight:CGFloat = size+20
-        
-        self.imagesCollectionView.frame = CGRect(x: (sWidth-cWidth)/2.0, y: ((sHeight-cHeight)/2.0)+20, width: cWidth, height: size+20)
+
+//        var cWidth:CGFloat = (size*c) + 20*c
+//        var cHeight:CGFloat = size+20
+//        if(c >= 8) {
+//            cWidth = (size*c) + 10*c
+//            cHeight = 4*(size+10)
+//        }
+
+        self.imagesCollectionView.frame = CGRect(x: (sWidth-cWidth)/2.0, y: ((sHeight-cHeight)/2.0)+20, width: cWidth, height: cHeight)
         
         self.questionTitle.text = self.whichTypeQuestionInfo.question_title
         self.perform(#selector(speechQuestionTitle), with: nil, afterDelay: TimeInterval(Int(AppConstant.screenloadQuestionSpeakTimeDelay.rawValue)!))
@@ -151,8 +159,11 @@ extension AssessmentWhichTypeQuestionViewController {
 extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         let size:CGFloat = self.getLayoutHeightWidth()
+//        let c:CGFloat = CGFloat(self.whichTypeQuestionInfo.image_with_text.count)
+//        if(c >= 8) {
+//            return CGSize.init(width: size+size, height: size+size)
+//        }
         return CGSize.init(width: size, height: size)
     }
     

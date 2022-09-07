@@ -355,7 +355,7 @@ extension AssessmentViewController {
                     vc.setPuzzleQuestionInfo(info: info, delegate: this)
                     this.presentVC(vc: vc)
                 }
-        case .Puzzle:
+        case .Puzzle, .paint:
             if let info = res.blockDesignInfo {
                 let vc = Utility.getViewController(ofType: AssessmentBlockDesignViewController.self)
                 vc.modalPresentationStyle = .fullScreen

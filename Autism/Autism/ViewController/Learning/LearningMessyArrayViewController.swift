@@ -31,6 +31,10 @@ class LearningMessyArrayViewController: UIViewController {
     @IBOutlet weak var imageView10: ImageViewWithID!
     @IBOutlet weak var imageViewTouched: ImageViewWithID?
 
+    var selectedObject:ImageViewWithID!
+//    var currectObject:ImageViewWithID!
+    
+    private var initialFrame: CGRect?
     
     @IBOutlet weak var thumnailImageView: UIImageView!
     @IBOutlet weak var speechTitle: UILabel!
@@ -47,6 +51,8 @@ class LearningMessyArrayViewController: UIViewController {
     private var command_array: [ScriptCommandInfo] = []
     var questionId = ""
 
+    var correct_option = "0"
+    
     private var imageList = [AnimationImageModel]() {
         didSet{
             DispatchQueue.main.async {
@@ -175,11 +181,273 @@ class LearningMessyArrayViewController: UIViewController {
         
 //        let type = AssessmentQuestionType.init(rawValue: self.matchingObjectInfo.screen_type)
 //
+        if(program.label_code == .vpmts_goal_6m) {
+            self.addPanGesture()
+        }
 //        if(type == .match_object_drag_with_messy_array) {
 //            self.addPanGesture()
 //        }
     }
     
+    private func addPanGesture() {
+
+        self.imageViewBG.isUserInteractionEnabled = true
+        let gestureRecognizer0 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        self.imageViewBG.addGestureRecognizer(gestureRecognizer0)
+        
+        if(self.imageList.count > 0) {
+            let gestureRecognizer1 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView1.addGestureRecognizer(gestureRecognizer1)
+        }
+        if(self.imageList.count > 1) {
+            let gestureRecognizer2 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView2.addGestureRecognizer(gestureRecognizer2)
+        }
+        if(self.imageList.count > 2) {
+            let gestureRecognizer3 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView3.addGestureRecognizer(gestureRecognizer3)
+        }
+        if(self.imageList.count > 3) {
+            let gestureRecognizer4 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView4.addGestureRecognizer(gestureRecognizer4)
+        }
+        if(self.imageList.count > 4) {
+            let gestureRecognizer5 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView5.addGestureRecognizer(gestureRecognizer5)
+        }
+        if(self.imageList.count > 5) {
+            let gestureRecognizer6 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView6.addGestureRecognizer(gestureRecognizer6)
+        }
+        if(self.imageList.count > 6) {
+            let gestureRecognizer7 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView7.addGestureRecognizer(gestureRecognizer7)
+        }
+        if(self.imageList.count > 7) {
+            let gestureRecognizer8 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView8.addGestureRecognizer(gestureRecognizer8)
+        }
+        if(self.imageList.count > 8) {
+            let gestureRecognizer9 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView9.addGestureRecognizer(gestureRecognizer9)
+        }
+        if(self.imageList.count > 9) {
+            let gestureRecognizer10 = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            self.imageView10.addGestureRecognizer(gestureRecognizer10)
+        }
+    }
+    
+    
+    @IBAction func handlePan(_ gestureRecognizer: UIPanGestureRecognizer) {
+        switch gestureRecognizer.state {
+            
+            case .began:
+            if self.initialFrame == nil && selectedObject == nil {
+                self.selectedObject = (gestureRecognizer.view as? ImageViewWithID)!
+                self.initialFrame = self.selectedObject.frame
+
+            }
+            break
+        case .changed:
+
+            let currentFilledPattern:ImageViewWithID = (gestureRecognizer.view as? ImageViewWithID)!
+            
+            if(selectedObject != currentFilledPattern) {
+                return
+            }
+            
+            if self.initialFrame == nil && selectedObject == nil {
+                return
+            }
+            let translation = gestureRecognizer.translation(in: self.view)
+            self.selectedObject.center = CGPoint(x: gestureRecognizer.view!.center.x + translation.x, y: gestureRecognizer.view!.center.y + translation.y)
+            gestureRecognizer.setTranslation(CGPoint.zero, in: self.view)
+            break
+        case .ended:
+            
+            let currentFilledImageView:ImageViewWithID = (gestureRecognizer.view as? ImageViewWithID)!
+            
+            if self.initialFrame == nil && selectedObject == nil {
+                return
+            }
+            
+            if(selectedObject != currentFilledImageView) {
+                return
+            }
+            
+            let dropLocation = gestureRecognizer.location(in: view)
+            var isLocationExist = false
+            
+            if(self.correct_option == "1") {
+                if(currentFilledImageView == imageView1) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView1.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView1)
+                    }
+                }
+            } else if(self.correct_option == "2") {
+                if(currentFilledImageView == imageView2) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView2.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView2)
+                    }
+                }
+            } else if(self.correct_option == "3") {
+                if(currentFilledImageView == imageView3) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView3.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView3)
+                    }
+                }
+            } else if(self.correct_option == "4") {
+                if(currentFilledImageView == imageView4) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView4.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView4)
+                    }
+                }
+            } else if(self.correct_option == "5") {
+                if(currentFilledImageView == imageView5) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView5.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView5)
+                    }
+                }
+            } else if(self.correct_option == "6") {
+                if(currentFilledImageView == imageView6) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView6.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView6)
+                    }
+                }
+            } else if(self.correct_option == "7") {
+                if(currentFilledImageView == imageView7) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView7.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView7)
+                    }
+                }
+            } else if(self.correct_option == "8") {
+                if(currentFilledImageView == imageView8) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView8.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView8)
+                    }
+                }
+            } else if(self.correct_option == "9") {
+                if(currentFilledImageView == imageView9) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView9.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView9)
+                    }
+                }
+            } else if(self.correct_option == "10") {
+                if(currentFilledImageView == imageView10) {
+                    if imageViewBG.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    }
+                } else if(currentFilledImageView == imageViewBG) {
+                    if imageView10.frame.contains(dropLocation) {
+                        isLocationExist = true
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView10)
+                    }
+                }
+            }
+            
+            if !isLocationExist {
+                self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
+            }
+            
+            break
+        default:
+            break
+        }
+    }
+    
+    private func handleInvalidDropLocation(currentImageView:ImageViewWithID){
+        DispatchQueue.main.async {
+            if let frame = self.initialFrame {
+                self.selectedObject.frame = frame
+                self.initialFrame = nil
+                self.selectedObject = nil
+            }
+//            SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+
+//            self.incorrectDragDropCount += 1
+//            SpeechManager.shared.speak(message: self.matchingObjectInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        }
+    }
+    
+    private func handleValidDropLocation(filledImageView:ImageViewWithID,emptyImageView:ImageViewWithID){
+        DispatchQueue.main.async {
+            emptyImageView.image = filledImageView.image
+            filledImageView.image = nil
+            filledImageView.isHidden = true
+            
+            if let frame = self.initialFrame {
+                self.selectedObject.frame = frame
+                self.initialFrame = nil
+                self.selectedObject = nil
+            }
+            self.isChildActionCompleted = true
+//                        self.success_count = 100
+//                        self.questionState = .submit
+//            imageViewRight.isHidden = false
+//            imageViewCroos.isHidden = true
+            SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+
+//            self.isUserInteraction = false
+////            self.success_count = 100
+////            self.questionState = .submit
+  //          SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.matchingObjectInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        }
+    }
     func initializeTheFrames() {
         
         let screenW:CGFloat = UIScreen.main.bounds.width
@@ -335,6 +603,10 @@ class LearningMessyArrayViewController: UIViewController {
 //            return
 //        }
         
+        if(program.label_code == .vpmts_goal_6m) {
+            return
+        }
+
         if let touch = touches.first {
             self.isTouch = true
                 let position = touch.location(in: view)
@@ -447,7 +719,8 @@ extension LearningMessyArrayViewController {
                 var array : [AnimationImageModel] = []
                 if let option = commandInfo.option {
                     let correctOption = (Int(option.correct_option) ?? 0) - 1
-                   
+                    self.correct_option = option.correct_option
+                    
                     for (index, element) in commandInfo.valueList.enumerated() {
                         var scModel = AnimationImageModel.init()
                         scModel.url = element
@@ -455,6 +728,8 @@ extension LearningMessyArrayViewController {
                         
                         if index == correctOption {
                             scModel.correct_option = ScriptCommandOptionType.actiontrue
+                            ImageDownloader.sharedInstance.downloadImage(urlString:  scModel.url, imageView: self.imageViewBG, callbackAfterNoofImages: 1, delegate: nil)
+                            
                         } else {
                             scModel.correct_option = ScriptCommandOptionType.actionfalse
                         }
@@ -503,12 +778,29 @@ extension LearningMessyArrayViewController {
         self.messyArrayViewModel.blinkImageClosure = { questionInfo in
             
             DispatchQueue.main.async {
-                self.updateImageListWithBlinkImageAnimation()
-               let deadlineTime = DispatchTime.now() + .seconds(3)
-               DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
-                   self.messyArrayViewModel.calculateChildAction(state: false, touch: self.isTouch)
-                   self.messyArrayViewModel.updateCommandIndex()
-               }
+                if let option = questionInfo.option {
+                    if(self.correct_option == "1") {
+                        self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration), imageView: self.imageView1)
+                    } else if(self.correct_option == "2") {
+                        self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration), imageView: self.imageView2)
+                    } else if(self.correct_option == "3") {
+                        self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration), imageView: self.imageView3)
+                    } else if(self.correct_option == "4") {
+                        self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration), imageView: self.imageView4)
+                    } else if(self.correct_option == "5") {
+                        self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration), imageView: self.imageView5)
+                    } else if(self.correct_option == "6") {
+                        self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration), imageView: self.imageView6)
+                    } else if(self.correct_option == "7") {
+                        self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration), imageView: self.imageView7)
+                    } else if(self.correct_option == "8") {
+                        self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration), imageView: self.imageView8)
+                    } else if(self.correct_option == "9") {
+                        self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration), imageView: self.imageView9)
+                    } else if(self.correct_option == "10") {
+                        self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration), imageView: self.imageView10)
+                    }
+                }
             }
         }
 
@@ -516,22 +808,18 @@ extension LearningMessyArrayViewController {
     
     private func blinkImage(count:Int,imageView:UIImageView) {
         if count == 0 {
-            for (index,element) in self.imageList.enumerated() {
-                var model:AnimationImageModel = AnimationImageModel()
-                model = element
-                model.isBlink = false
-                self.imageList.remove(at: index)
-                self.imageList.insert(model, at: index)
-            }
+            self.messyArrayViewModel.updateCommandIndex()
             return
         }
         
         DispatchQueue.main.async {
             UIView.animate(withDuration: 1, animations: {
                     imageView.alpha = 0.2
+                    self.imageViewBG.alpha = 0.2
                 }) { [weak self] finished in
                     if let this = self {
-                    imageView.alpha = 1
+                        imageView.alpha = 1
+                        self!.imageViewBG.alpha = 1
                         this.blinkImage(count: count - 1,imageView:imageView)
                     }
                 }

@@ -110,7 +110,7 @@ class LearningManager {
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
             scriptController = vc
-        case .lr_messyarray_touch:
+        case .lr_messyarray_touch, .vpmts_goal_6m:
             let vc = Utility.getViewController(ofType: LearningMessyArrayViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)

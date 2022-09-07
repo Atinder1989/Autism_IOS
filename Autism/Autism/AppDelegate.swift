@@ -99,7 +99,7 @@ extension AppDelegate {
                    try audioSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker])
                
                } catch {
-                   print("audioSession properties weren't set because of an error.")
+                   print("audioSession properties werenot set because of an error.")
                }
                SpeechManager.shared.requestAuthorizationPermissions()
     }

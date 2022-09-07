@@ -32,7 +32,6 @@ class LearningMessyArrayViewModel: NSObject {
     var childActionDict :[String:Any] = [:]
     var childDetailArray :[[String:Any]] = []
     var playerController: PlayerController?
-
     
     private var commandResponseVO: ScriptResponseVO? = nil {
         didSet {
@@ -356,6 +355,11 @@ extension LearningMessyArrayViewModel: SpeechManagerDelegate {
             }
             if self.scriptManager.getIsCommandCompleted() {
                 self.updateCurrentCommandIndex()
+            }
+        } else {
+            if let _ = self.scriptManager.getSequenceCommandInfo() {
+                self.scriptManager.updateSequenceCommandIndex()
+                return
             }
         }
     }

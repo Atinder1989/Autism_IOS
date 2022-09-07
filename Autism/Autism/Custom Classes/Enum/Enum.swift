@@ -183,6 +183,7 @@ enum AssessmentQuestionType: String
     case fill_container_by_count = "fill_container_by_count"
     case sort_sequence = "sort_sequence"
     case reading_notes = "reading_notts"
+    case paint = "paint"
     
     case none = "none"
 }
@@ -412,6 +413,7 @@ enum ProgramCode: String {
     case quiz_intro = "quiz_intro"
     case lr_messyarray_touch = "lr_messyarray_touch"
     case math_sorting = "math_sorting"
+    case vpmts_goal_6m = "vpmts_goal_6m"
     
     case none      = "none"
 }
