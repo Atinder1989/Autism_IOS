@@ -10,7 +10,8 @@ import UIKit
 
 class AssessmentBlockDesignViewController: UIViewController, UIDragInteractionDelegate {
     @IBOutlet weak var labelTitle: UILabel!
-
+    @IBOutlet weak var pauseButton: UIButton!
+    
     private var blockDesignInfo: BlockDesignInfo!
     private let blockDesignInfoViewModel = AssessmentBlockDesignViewModel()
     private weak var delegate: AssessmentSubmitDelegate?
@@ -40,7 +41,7 @@ class AssessmentBlockDesignViewController: UIViewController, UIDragInteractionDe
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-        self.stopQuestionCompletionTimer()
+        self.stopTimer()
         SpeechManager.shared.setDelegate(delegate: nil)
         UserManager.shared.exitAssessment()
     }
@@ -352,16 +353,15 @@ extension AssessmentBlockDesignViewController {
     }
     
     private func moveToNextQuestion() {
-        self.stopQuestionCompletionTimer()
+        self.stopTimer()
         self.questionState = .submit
         self.success_count = 0
         SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
     
-    private func stopQuestionCompletionTimer() {
+    private func stopTimer() {
         AutismTimer.shared.stopTimer()
-    
-}
+    }
 }
 
 // MARK: Speech Manager Delegate Methods
@@ -379,7 +379,7 @@ extension AssessmentBlockDesignViewController: SpeechManagerDelegate {
                 let perPer = 100/imagesCount
                 self.success_count = self.success_count*perPer
             }
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
           
             self.blockDesignInfoViewModel.submitUserAnswer(successCount: self.success_count, info: self.blockDesignInfo, timeTaken: self.timeTakenToSolve, skip: self.skipQuestion,touchOnEmptyScreenCount: touchOnEmptyScreenCount, incorrectDragDropCount: incorrectDragDropCount)
@@ -402,6 +402,31 @@ class BlockDesignView : UIImageView {
 
 class BlockDesignBucketView : UIImageView {
     var iModel : ImageModel?
+}
+
+extension AssessmentBlockDesignViewController: PauseViewDelegate {
+    func didTapOnPlay() {
+        Utility.hidePauseView()
+        self.pauseClicked(self.pauseButton as Any)
+    }
+    
+    @IBAction func pauseClicked(_ sender: Any) {
+        if AutismTimer.shared.isTimerRunning() {
+            self.stopTimer()
+            SpeechManager.shared.setDelegate(delegate: nil)
+            //RecordingManager.shared.stopRecording()
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "play"), for: .normal)
+            Utility.showPauseView(delegate: self)
+            self.isUserInteraction = true
+        } else {
+            AutismTimer.shared.initializeTimer(delegate: self)
+            SpeechManager.shared.setDelegate(delegate: self)
+            //RecordingManager.shared.startRecording(delegate: self)
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "pause"), for: .normal)
+        }
+    }
+
+
 }
 
 extension AssessmentBlockDesignViewController: NetworkRetryViewDelegate {

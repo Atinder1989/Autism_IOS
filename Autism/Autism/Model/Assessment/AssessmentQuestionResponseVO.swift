@@ -55,7 +55,8 @@ struct AssessmentQuestionResponseVO: Codable {
 
     var mandInfo:MandInfo?
     var writingOnPadInfo:WritingOnPadInfo?
-
+    var pictureSceneInfo:PictureSceneInfo?
+    
     init(from decoder:Decoder) throws {
         let container = try decoder.container(keyedBy: ServiceParsingKeys.self)
         self.success = try container.decodeIfPresent(Bool.self, forKey: .success) ?? false
@@ -305,6 +306,12 @@ struct AssessmentQuestionResponseVO: Codable {
             self.fillContainerInfo?.question_type = type!.rawValue
             self.fillContainerInfo?.skill_domain_id = skill_domain_id
             self.fillContainerInfo?.program_id = program_id
+        case .picture_scene_touch_object:
+            self.pictureSceneInfo = try dataContainer.decodeIfPresent(PictureSceneInfo.self, forKey: .questionDetail) ?? nil
+            self.pictureSceneInfo?.content_type = content_type
+            self.pictureSceneInfo?.question_type = type!.rawValue
+            self.pictureSceneInfo?.skill_domain_id = skill_domain_id
+            self.pictureSceneInfo?.program_id = program_id
         default:
             break
         }

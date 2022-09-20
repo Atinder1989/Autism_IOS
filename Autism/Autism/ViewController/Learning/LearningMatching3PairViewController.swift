@@ -43,14 +43,23 @@ class LearningMatching3PairViewController: UIViewController {
     private var frameImageViewRight2: CGRect = .zero
     private var frameImageViewRight3: CGRect = .zero
     
+    var questionId = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.customSetting()
         self.addGesture()
+
         if self.command_array.count == 0 {
             self.commandViewModal.fetchLearningQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
+        } else {
+            self.commandViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
         }
+
+//        if self.command_array.count == 0 {
+//            self.commandViewModal.fetchLearningQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
+//        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -66,13 +75,20 @@ class LearningMatching3PairViewController: UIViewController {
 //MARK:- Public Methods
 extension LearningMatching3PairViewController {
     func setData(program:LearningProgramModel, skillDomainId:String,command_array: [ScriptCommandInfo],questionId:String) {
+
         self.listenModelClosures()
         self.program = program
         self.skillDomainId = skillDomainId
-        if command_array.count > 0 {
-            self.command_array = command_array
-            self.commandViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
-        }
+        self.questionId = questionId
+        self.command_array = command_array
+
+//        self.listenModelClosures()
+//        self.program = program
+//        self.skillDomainId = skillDomainId
+//        if command_array.count > 0 {
+//            self.command_array = command_array
+//            self.commandViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
+//        }
     }
 }
 

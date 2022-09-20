@@ -76,7 +76,7 @@ enum ScreenLabel:String {
     case dashboard = "dashboard"
     case parentFeedback = "parentFeedback"
     case begin_Learning = "begin_Learning"
-    case modules_name = "modules_name"    
+    case modules_name = "modules_name"
 }
 
 enum ScreenRedirection:String {
@@ -184,6 +184,7 @@ enum AssessmentQuestionType: String
     case sort_sequence = "sort_sequence"
     case reading_notes = "reading_notts"
     case paint = "paint"
+    case picture_scene_touch_object = "picture_scene_touch_object"
     
     case none = "none"
 }
@@ -414,7 +415,9 @@ enum ProgramCode: String {
     case lr_messyarray_touch = "lr_messyarray_touch"
     case math_sorting = "math_sorting"
     case vpmts_goal_6m = "vpmts_goal_6m"
-    
+    case writing_goal13 = "writing_goal13"
+
+    case add_subs_mathematics = "add_subs_mathematics" //added to separate
     case none      = "none"
 }
 

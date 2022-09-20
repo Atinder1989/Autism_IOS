@@ -10,10 +10,9 @@ import Foundation
 
 enum ServiceEnvironment : String {
   
-    case Testing   = "https://impute.co.jp:3300/v1/"
-    case Development = "https://impute.co.jp:3400/v1/"
-    case DevelopmentNew = "https://impute.co.jp:5000/v1/"
-    case Production = "https://impute.co.jp:5002/v1/"
+    case Development    = "https://impute.co.jp:5000/v1/"    
+    case Production     = "https://impute.co.jp:5002/v1/"
+    case Testing        = "https://impute.co.jp:5003/v1/"
     
     func getMediaBaseUrl() -> String {
          return "https://autism-images.s3.ap-northeast-1.amazonaws.com/"

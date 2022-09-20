@@ -268,8 +268,8 @@ extension LearningMatchingIdenticalViewController {
                     self.initialFrame = nil
                     self.selectedObject = nil
                 }
-                //self.isCorrectAnswerTapped = false
-                SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                self.isCorrectAnswerTapped = false
+                SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
             
             break
@@ -547,9 +547,63 @@ extension LearningMatchingIdenticalViewController {
                 }
              }
         }
+        
+        self.matchingIdenticalViewModal.blinkImageClosure = { questionInfo in
+            
+            DispatchQueue.main.async {
+                if let option = questionInfo.option {
+                                        
+                    for subview in self.view_Left.subviews {
+                        if let commandImageView = subview as? ScriptCommandImageView {
+                            if commandImageView.commandInfo?.value_id == self.commandImgViewTop.commandInfo?.value_id {
+                                self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration), imageView: self.view_Left)
+                                break
+                            }
+                        }
+                    }
+                    
+                    for subview in self.view_Right.subviews {
+                        if let commandImageView = subview as? ScriptCommandImageView {
+                            if commandImageView.commandInfo?.value_id == self.commandImgViewTop.commandInfo?.value_id {
+                                self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration), imageView: self.view_Right)
+                                break
+                            }
+                        }
+                    }
+                    
+                    for subview in self.view_Center.subviews {
+                        if let commandImageView = subview as? ScriptCommandImageView {
+                            if commandImageView.commandInfo?.value_id == self.commandImgViewTop.commandInfo?.value_id {
+                                self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration), imageView: self.view_Center)
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
         
-    
+    private func blinkImage(count:Int,imageView:UIView) {
+        if count == 0 {
+            self.matchingIdenticalViewModal.updateCommandIndex()
+            return
+        }
+        
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 1, animations: {
+                    imageView.alpha = 0.2
+                    self.commandImgViewTop.alpha = 0.2
+                }) { [weak self] finished in
+                    if let this = self {
+                        imageView.alpha = 1
+                        self!.commandImgViewTop.alpha = 1
+                        this.blinkImage(count: count - 1,imageView:imageView)
+                    }
+                }
+        }
+    }
+
     
     private func addPlayer(urlString:String) {
         let string = ServiceHelper.baseURL.getMediaBaseUrl() + urlString

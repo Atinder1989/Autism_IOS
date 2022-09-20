@@ -18,7 +18,8 @@ class AssessmentVerbalMultiplesViewController: UIViewController {
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var questionImageView: FLAnimatedImageView!
-        
+    @IBOutlet weak var pauseButton: UIButton!
+    
     @IBOutlet weak var imgV1: FLAnimatedImageView!
     @IBOutlet weak var imgV2: FLAnimatedImageView!
     @IBOutlet weak var imgV3: FLAnimatedImageView!
@@ -744,6 +745,29 @@ extension AssessmentVerbalMultiplesViewController: ImageDownloaderDelegate {
             self.apiDataState = .imageDownloaded
             SpeechManager.shared.setDelegate(delegate: self)
             SpeechManager.shared.speak(message: self.verbalQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+        }
+    }
+}
+
+extension AssessmentVerbalMultiplesViewController: PauseViewDelegate {
+    func didTapOnPlay() {
+        Utility.hidePauseView()
+        self.pauseClicked(self.pauseButton as Any)
+    }
+    
+    @IBAction func pauseClicked(_ sender: Any) {
+        if AutismTimer.shared.isTimerRunning() {
+            self.stopTimer()
+            SpeechManager.shared.setDelegate(delegate: nil)
+            RecordingManager.shared.stopRecording()
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "play"), for: .normal)
+            Utility.showPauseView(delegate: self)
+            self.isUserInteraction = true
+        } else {
+            AutismTimer.shared.initializeTimer(delegate: self)
+            SpeechManager.shared.setDelegate(delegate: self)
+            RecordingManager.shared.startRecording(delegate: self)
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "pause"), for: .normal)
         }
     }
 }

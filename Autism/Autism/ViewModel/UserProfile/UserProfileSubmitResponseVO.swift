@@ -24,3 +24,17 @@ init(from decoder:Decoder) throws {
     print(self.nickname)
     }
 }
+
+
+struct UserDeviceSubmitResponseVO: Codable {
+    var success: Bool
+    var message: String
+    var data: String
+    
+    init(from decoder:Decoder) throws {
+        let container = try decoder.container(keyedBy: ServiceParsingKeys.self)
+        self.success = try container.decodeIfPresent(Bool.self, forKey: .success) ?? false
+        self.message = try container.decodeIfPresent(String.self, forKey: .message) ?? ""
+        self.data = try container.decodeIfPresent(String.self, forKey: .message) ?? ""
+    }
+}

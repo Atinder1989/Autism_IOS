@@ -35,7 +35,7 @@ class MandViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         
+        self.view.backgroundColor = .black
         if(mandInfo?.content_type == AssessmentQuestionType.mand.rawValue) {
             self.submitButton.isHidden = true
             self.scrlViewMand.isHidden = false
@@ -117,7 +117,7 @@ class MandViewController: UIViewController {
     @IBAction func handleTap(_ gestureRecognizer: UITapGestureRecognizer) {
         
         self.imgViewMandSelected = (gestureRecognizer.view as? ImageViewWithMand)!
-        imgViewMandSelected.alpha = 0.8
+        imgViewMandSelected.alpha = 0.7
         
         if imgViewMandSelected.mand?.mand_type == "youtube" {
             self.showWebView()

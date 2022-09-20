@@ -25,7 +25,7 @@ class AssessmentFillContainerViewController: UIViewController, UIDragInteraction
 
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var bucketView1: BucketView!
-    
+    @IBOutlet weak var pauseButton: UIButton!
     @IBOutlet weak var imgViewBucket: UIImageView!
 
     @IBOutlet weak var filledImageView1: FillContainerImageView!
@@ -94,7 +94,7 @@ class AssessmentFillContainerViewController: UIViewController, UIDragInteraction
         touchOnEmptyScreenCount += 1
     }
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-           self.stopQuestionCompletionTimer()
+           self.stopTimer()
            SpeechManager.shared.setDelegate(delegate: nil)
            UserManager.shared.exitAssessment()
     }
@@ -132,7 +132,7 @@ extension AssessmentFillContainerViewController {
 extension AssessmentFillContainerViewController {
     
     private func moveToNextQuestion() {
-          self.stopQuestionCompletionTimer()
+          self.stopTimer()
           self.questionState = .submit
           SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
       }
@@ -156,7 +156,7 @@ extension AssessmentFillContainerViewController {
         }
     }
     
-    func stopQuestionCompletionTimer() {
+    func stopTimer() {
         AutismTimer.shared.stopTimer()
     }
     
@@ -458,7 +458,7 @@ extension AssessmentFillContainerViewController: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             
             let type = AssessmentQuestionType.init(rawValue: self.fillContainerInfo!.question_type)
@@ -497,6 +497,29 @@ extension AssessmentFillContainerViewController: ImageDownloaderDelegate {
         self.apiDataState = .imageDownloaded
         SpeechManager.shared.speak(message:self.fillContainerInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         self.questionTitle.text = self.fillContainerInfo.question_title
+    }
+}
+
+extension AssessmentFillContainerViewController: PauseViewDelegate {
+    func didTapOnPlay() {
+        Utility.hidePauseView()
+        self.pauseClicked(self.pauseButton as Any)
+    }
+    
+    @IBAction func pauseClicked(_ sender: Any) {
+        if AutismTimer.shared.isTimerRunning() {
+            self.stopTimer()
+            SpeechManager.shared.setDelegate(delegate: nil)
+            //RecordingManager.shared.stopRecording()
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "play"), for: .normal)
+            Utility.showPauseView(delegate: self)
+            self.isUserInteraction = true
+        } else {
+            AutismTimer.shared.initializeTimer(delegate: self)
+            SpeechManager.shared.setDelegate(delegate: self)
+            //RecordingManager.shared.startRecording(delegate: self)
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "pause"), for: .normal)
+        }
     }
 }
 extension AssessmentFillContainerViewController: NetworkRetryViewDelegate {

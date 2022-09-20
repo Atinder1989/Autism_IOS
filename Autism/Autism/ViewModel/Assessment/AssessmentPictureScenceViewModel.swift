@@ -1,15 +1,15 @@
 //
-//  AssesmentWritingOnPadViewModel.swift
+//  AssessmentPictureScenceViewModel.swift
 //  Autism
 //
-//  Created by Singh, Atinderpal on 28/08/22.
+//  Created by Dilip Saket on 12/09/22.
 //  Copyright © 2022 IMPUTE. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class AssesmentWritingOnPadViewModel:NSObject  {
+class AssessmentPictureScenceViewModel:NSObject  {
     
     var dataClosure : (() -> Void)?
     
@@ -21,9 +21,7 @@ class AssesmentWritingOnPadViewModel:NSObject  {
         }
     }
     
-
-    
-    func submitUserAnswer(info:WritingOnPadInfo,timeTaken:Int, skip:Bool,touchOnEmptyScreenCount:Int, request: Bool) {
+    func submitUserAnswer(info:PictureSceneInfo,timeTaken:Int, skip:Bool,touchOnEmptyScreenCount:Int, successCount:Int) {
             
         var service = Service.init(httpMethod: .POST)
         service.url = ServiceHelper.assessmentQuestionSubmitUrl()
@@ -36,7 +34,7 @@ class AssesmentWritingOnPadViewModel:NSObject  {
                 ServiceParsingKeys.req_no.rawValue:info.req_no,
                 ServiceParsingKeys.skill_domain_id.rawValue:info.skill_domain_id,
                 ServiceParsingKeys.level.rawValue:info.level,
-                               ServiceParsingKeys.complete_rate.rawValue : skip ? 0 : request ? 100 : 0,
+                ServiceParsingKeys.complete_rate.rawValue : successCount,
                 ServiceParsingKeys.skip.rawValue : skip,
                 ServiceParsingKeys.program_id.rawValue:info.program_id,
 
@@ -59,49 +57,5 @@ class AssesmentWritingOnPadViewModel:NSObject  {
                 }
             }
         }
-    }
-    
-    func uploadImage(image: UIImage,timeTaken:Int,info:WritingOnPadInfo,skip:Bool,touchOnEmptyScreenCount:Int) {
-        Utility.showLoader()
-        Utility.sharedInstance.uploadCapturedImage(correctText: info.image_with_text[0].name, image: image) { error, responseVo in
-            Utility.hideLoader()
-            if error == nil {
-                if let responseVo = responseVo {
-                    self.submitUserAnswer(info: info, timeTaken: timeTaken, skip: skip, touchOnEmptyScreenCount: touchOnEmptyScreenCount, request: responseVo.result)
-                }
-            } else {
-                self.accessmentSubmitResponseVO = nil
-            }
-        }
-    }
-    
-}
-
-struct Media {
-    let key: String
-    let filename: String
-    let data: Data
-    let mimeType: String
-    init?(withImage image: UIImage, forKey key: String) {
-        self.key = key
-        self.mimeType = "image/jpeg"
-        self.filename = "imagefile.jpg"
-        guard let data = image.jpegData(compressionQuality: 0.7) else { return nil }
-        self.data = data
-    }
-}
-
-struct ImageUploadResponseVO: Codable {
-    var success: Bool
-    var result: Bool
-
-    init(from decoder:Decoder) throws {
-        let container = try decoder.container(keyedBy: ServiceParsingKeys.self)
-        self.success = try container.decodeIfPresent(Bool.self, forKey: .success) ?? false
-        self.result = try container.decodeIfPresent(Bool.self, forKey: .result) ?? false
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        
     }
 }

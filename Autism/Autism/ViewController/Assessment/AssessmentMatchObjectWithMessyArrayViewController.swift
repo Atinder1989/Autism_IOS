@@ -16,6 +16,7 @@ class AssessmentMatchObjectWithMessyArrayViewController: UIViewController {
         
     
     @IBOutlet weak var labelTitle: UILabel!
+    @IBOutlet weak var pauseButton: UIButton!
     
     @IBOutlet weak var imageViewRight:  UIImageView!
     @IBOutlet weak var imageViewCroos:  UIImageView!
@@ -67,7 +68,7 @@ class AssessmentMatchObjectWithMessyArrayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         answerIndex = Int(self.matchingObjectInfo.correct_answer)!-1
 
         if(answerIndex == 0) {
@@ -105,25 +106,45 @@ class AssessmentMatchObjectWithMessyArrayViewController: UIViewController {
             print(position)
 
            if(imageView1.frame.contains(position)) {
-               imageViewTouched = imageView1
+               if(self.matchingObjectInfo.images.count > 0) {
+                   imageViewTouched = imageView1
+               }
            } else if(imageView2.frame.contains(position)) {
-               imageViewTouched = imageView2
+               if(self.matchingObjectInfo.images.count > 1) {
+                   imageViewTouched = imageView2
+               }
            } else if(imageView3.frame.contains(position)) {
-               imageViewTouched = imageView3
+               if(self.matchingObjectInfo.images.count > 2) {
+                   imageViewTouched = imageView3
+               }
            } else if(imageView4.frame.contains(position)) {
-                imageViewTouched = imageView4
+               if(self.matchingObjectInfo.images.count > 3) {
+                   imageViewTouched = imageView4
+               }
            } else if(imageView5.frame.contains(position)) {
-                imageViewTouched = imageView5
+               if(self.matchingObjectInfo.images.count > 4) {
+                   imageViewTouched = imageView5
+               }
            } else if(imageView6.frame.contains(position)) {
-                imageViewTouched = imageView6
+               if(self.matchingObjectInfo.images.count > 5) {
+                   imageViewTouched = imageView6
+               }
            } else if(imageView7.frame.contains(position)) {
-                imageViewTouched = imageView7
+               if(self.matchingObjectInfo.images.count > 6) {
+                   imageViewTouched = imageView7
+               }
            } else if(imageView8.frame.contains(position)) {
-                imageViewTouched = imageView8
+               if(self.matchingObjectInfo.images.count > 7) {
+                   imageViewTouched = imageView8
+               }
            } else if(imageView9.frame.contains(position)) {
-                imageViewTouched = imageView9
+               if(self.matchingObjectInfo.images.count > 8) {
+                   imageViewTouched = imageView9
+               }
            } else if(imageView10.frame.contains(position)) {
-                imageViewTouched = imageView10
+               if(self.matchingObjectInfo.images.count > 9) {
+                   imageViewTouched = imageView10
+               }
            } else {
                 imageViewTouched = nil
            }
@@ -178,7 +199,7 @@ class AssessmentMatchObjectWithMessyArrayViewController: UIViewController {
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-           self.stopQuestionCompletionTimer()
+           self.stopTimer()
            SpeechManager.shared.setDelegate(delegate: nil)
            UserManager.shared.exitAssessment()
     }
@@ -203,7 +224,7 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
 extension AssessmentMatchObjectWithMessyArrayViewController {
     
     private func moveToNextQuestion() {
-          self.stopQuestionCompletionTimer()
+          self.stopTimer()
           self.questionState = .submit
           SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
       }
@@ -225,7 +246,7 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
         }
     }
     
-    func stopQuestionCompletionTimer() {
+    func stopTimer() {
         AutismTimer.shared.stopTimer()
     }
     
@@ -259,46 +280,67 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
 
     private func initializeFilledImageView() {
         
+        self.imageView1.isHidden = true
+        self.imageView2.isHidden = true
+        self.imageView3.isHidden = true
+        self.imageView4.isHidden = true
+        self.imageView5.isHidden = true
+        self.imageView6.isHidden = true
+        self.imageView7.isHidden = true
+        self.imageView8.isHidden = true
+        self.imageView9.isHidden = true
+        self.imageView10.isHidden = true
+
         self.initializeTheFrames()
         if(self.matchingObjectInfo.images.count > 0) {
+            self.imageView1.isHidden = false
             imageView1.iModel = self.matchingObjectInfo.images[0]
             ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[0].image, imageView: imageView1, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
 
         if(self.matchingObjectInfo.images.count > 1) {
+            self.imageView2.isHidden = false
             imageView2.iModel = self.matchingObjectInfo.images[1]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[1].image, imageView: imageView2, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
         
         if(self.matchingObjectInfo.images.count > 2) {
+            self.imageView3.isHidden = false
             imageView3.iModel = self.matchingObjectInfo.images[2]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[2].image, imageView: imageView3, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
         if(self.matchingObjectInfo.images.count > 3) {
+            self.imageView4.isHidden = false
             imageView4.iModel = self.matchingObjectInfo.images[3]
             ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[3].image, imageView: imageView4, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
         if(self.matchingObjectInfo.images.count > 4) {
+            self.imageView5.isHidden = false
             imageView5.iModel = self.matchingObjectInfo.images[4]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[4].image, imageView: imageView5, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
         if(self.matchingObjectInfo.images.count > 5) {
+            self.imageView6.isHidden = false
             imageView6.iModel = self.matchingObjectInfo.images[5]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[5].image, imageView: imageView6, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
         if(self.matchingObjectInfo.images.count > 6) {
+            self.imageView7.isHidden = false
             imageView7.iModel = self.matchingObjectInfo.images[6]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[6].image, imageView: imageView7, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
         if(self.matchingObjectInfo.images.count > 7) {
+            self.imageView8.isHidden = false
             imageView8.iModel = self.matchingObjectInfo.images[7]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[7].image, imageView: imageView8, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
         if(self.matchingObjectInfo.images.count > 8) {
+            self.imageView9.isHidden = false
             imageView9.iModel = self.matchingObjectInfo.images[8]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[8].image, imageView: imageView9, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
         if(self.matchingObjectInfo.images.count > 9) {
+            self.imageView10.isHidden = false
             imageView10.iModel = self.matchingObjectInfo.images[9]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.matchingObjectInfo.images[9].image, imageView: imageView10, callbackAfterNoofImages: self.matchingObjectInfo.images.count, delegate: self)
         }
@@ -315,7 +357,17 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
         let screenW:CGFloat = UIScreen.main.bounds.width
         let screenH:CGFloat = UIScreen.main.bounds.height
 
-        
+        imageView1.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView2.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView3.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView4.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView5.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView6.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView7.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView8.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView9.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView10.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+
         var y:CGFloat = 300
         
         var ySpace:CGFloat = 20.0
@@ -384,7 +436,18 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
             
             imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
         } else if(noOfImages == 7) {
-            imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+//            imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+//            imageView8.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0)+ySpace, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView7.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+//            imageView10.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+        } else if(noOfImages == 8) {
+//            imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
             xRef = xRef+wh+xSpace
             imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
             xRef = xRef+wh+xSpace
@@ -392,7 +455,7 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
             xRef = xRef+wh+xSpace
             imageView7.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
             xRef = xRef+wh+xSpace
-            imageView10.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+//            imageView10.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
             xRef = xRef+wh+xSpace
         } else if(noOfImages == 9) {
             imageView8.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
@@ -406,7 +469,7 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
             imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
             xRef = xRef+wh+xSpace
 
-        } else {
+        } else if(noOfImages == 10) {
             imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
             xRef = xRef+wh+xSpace
             imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
@@ -486,10 +549,6 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
             if self.initialFrame == nil && selectedObject == nil {
                 self.selectedObject = (gestureRecognizer.view as? ImageViewWithID)!
                 self.initialFrame = self.selectedObject.frame
-
-//                let translation = gestureRecognizer.translation(in: self.view)
-//                gestureRecognizer.view!.center = CGPoint(x: gestureRecognizer.view!.center.x + translation.x, y: gestureRecognizer.view!.center.y + translation.y)
-//                gestureRecognizer.setTranslation(CGPoint.zero, in: self.view)
             }
             break
         case .changed:
@@ -522,131 +581,298 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
             let dropLocation = gestureRecognizer.location(in: view)
             var isLocationExist = false
             
-            if(self.matchingObjectInfo.correct_answer == "1") {
-                if(currentFilledImageView == imageView1) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+            if(currentFilledImageView == imageViewBG) {
+                if (imageView1.frame.contains(dropLocation) || imageView2.frame.contains(dropLocation) || imageView3.frame.contains(dropLocation) || imageView4.frame.contains(dropLocation) ||
+                    imageView5.frame.contains(dropLocation) || imageView6.frame.contains(dropLocation) ||
+                    imageView7.frame.contains(dropLocation) || imageView8.frame.contains(dropLocation) ||
+                    imageView9.frame.contains(dropLocation) || imageView10.frame.contains(dropLocation)) {
+                    
+//                    if imageView1.frame.contains(dropLocation) {
+//                        if(self.matchingObjectInfo.correct_answer == "1") {
+//                            isLocationExist = true
+//                        }
+//                    } else if imageView2.frame.contains(dropLocation) {
+//                        if(self.matchingObjectInfo.correct_answer == "2") {
+//                            isLocationExist = true
+//                        }
+//                    } else if imageView3.frame.contains(dropLocation) {
+//                        if(self.matchingObjectInfo.correct_answer == "3") {
+//                            isLocationExist = true
+//                        }
+//                    } else if imageView4.frame.contains(dropLocation) {
+//                        if(self.matchingObjectInfo.correct_answer == "4") {
+//                            isLocationExist = true
+//                        }
+//                    } else if imageView5.frame.contains(dropLocation) {
+//                        if(self.matchingObjectInfo.correct_answer == "5") {
+//                            isLocationExist = true
+//                        }
+//                    } else if imageView6.frame.contains(dropLocation) {
+//                        if(self.matchingObjectInfo.correct_answer == "6") {
+//                            isLocationExist = true
+//                        }
+//                    } else if imageView7.frame.contains(dropLocation) {
+//                        if(self.matchingObjectInfo.correct_answer == "7") {
+//                            isLocationExist = true
+//                        }
+//                    } else if imageView8.frame.contains(dropLocation) {
+//                        if(self.matchingObjectInfo.correct_answer == "8") {
+//                            isLocationExist = true
+//                        }
+//                    } else if imageView9.frame.contains(dropLocation) {
+//                        if(self.matchingObjectInfo.correct_answer == "9") {
+//                            isLocationExist = true
+//                        }
+//                    } else if imageView10.frame.contains(dropLocation) {
+//                        if(self.matchingObjectInfo.correct_answer == "10") {
+//                            isLocationExist = true
+//                        }
+//                    }
+                    
+                    
+                    if(self.matchingObjectInfo.correct_answer == "1") {
+                        if imageView1.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "2") {
+                        if imageView2.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "3") {
+                        if imageView3.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "4") {
+                        if imageView4.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "5") {
+                        if imageView5.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "6") {
+                        if imageView6.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "7") {
+                        if imageView7.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "8") {
+                        if imageView8.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "9") {
+                        if imageView9.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "10") {
+                        if imageView10.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
                     }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView1.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView1)
+                    
+                    if isLocationExist == true {
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    } else {
+                        self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
+                    }
+
+                } else {
+                    DispatchQueue.main.async {
+                        if let frame = self.initialFrame {
+                            self.selectedObject.frame = frame
+                            self.initialFrame = nil
+                            self.selectedObject = nil
+                        }
+                        self.incorrectDragDropCount += 1
                     }
                 }
-            } else if(self.matchingObjectInfo.correct_answer == "2") {
-                if(currentFilledImageView == imageView2) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
+            } else {
+                if imageViewBG.frame.contains(dropLocation) {
+                    if(self.matchingObjectInfo.correct_answer == "1") {
+                        if(currentFilledImageView == imageView1) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "2") {
+                        if(currentFilledImageView == imageView2) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "3") {
+                        if(currentFilledImageView == imageView3) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "4") {
+                        if(currentFilledImageView == imageView4) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "5") {
+                        if(currentFilledImageView == imageView5) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "6") {
+                        if(currentFilledImageView == imageView6) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "7") {
+                        if(currentFilledImageView == imageView7) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "8") {
+                        if(currentFilledImageView == imageView8) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "9") {
+                        if(currentFilledImageView == imageView9) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "10") {
+                        if(currentFilledImageView == imageView10) {
+                            isLocationExist = true
+                        }
+                    }
+                    if isLocationExist == true {
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    } else {
+                        self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
                     }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView2.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView2)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "3") {
-                if(currentFilledImageView == imageView3) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView3.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView3)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "4") {
-                if(currentFilledImageView == imageView4) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView4.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView4)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "5") {
-                if(currentFilledImageView == imageView5) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView5.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView5)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "6") {
-                if(currentFilledImageView == imageView6) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView6.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView6)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "7") {
-                if(currentFilledImageView == imageView7) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView7.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView7)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "8") {
-                if(currentFilledImageView == imageView8) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView8.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView8)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "9") {
-                if(currentFilledImageView == imageView9) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView9.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView9)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "10") {
-                if(currentFilledImageView == imageView10) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView10.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView10)
+                } else {
+                    DispatchQueue.main.async {
+                        if let frame = self.initialFrame {
+                            self.selectedObject.frame = frame
+                            self.initialFrame = nil
+                            self.selectedObject = nil
+                        }
+                        self.incorrectDragDropCount += 1
                     }
                 }
             }
-            
-            if !isLocationExist {
-                self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
-            }
+
+//            if(self.matchingObjectInfo.correct_answer == "1") {
+//                if(currentFilledImageView == imageView1) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView1.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView1)
+//                    }
+//                }
+//            } else if(self.matchingObjectInfo.correct_answer == "2") {
+//                if(currentFilledImageView == imageView2) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView2.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView2)
+//                    }
+//                }
+//            } else if(self.matchingObjectInfo.correct_answer == "3") {
+//                if(currentFilledImageView == imageView3) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView3.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView3)
+//                    }
+//                }
+//            } else if(self.matchingObjectInfo.correct_answer == "4") {
+//                if(currentFilledImageView == imageView4) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView4.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView4)
+//                    }
+//                }
+//            } else if(self.matchingObjectInfo.correct_answer == "5") {
+//                if(currentFilledImageView == imageView5) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView5.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView5)
+//                    }
+//                }
+//            } else if(self.matchingObjectInfo.correct_answer == "6") {
+//                if(currentFilledImageView == imageView6) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView6.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView6)
+//                    }
+//                }
+//            } else if(self.matchingObjectInfo.correct_answer == "7") {
+//                if(currentFilledImageView == imageView7) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView7.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView7)
+//                    }
+//                }
+//            } else if(self.matchingObjectInfo.correct_answer == "8") {
+//                if(currentFilledImageView == imageView8) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView8.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView8)
+//                    }
+//                }
+//            } else if(self.matchingObjectInfo.correct_answer == "9") {
+//                if(currentFilledImageView == imageView9) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView9.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView9)
+//                    }
+//                }
+//            } else if(self.matchingObjectInfo.correct_answer == "10") {
+//                if(currentFilledImageView == imageView10) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView10.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView10)
+//                    }
+//                }
+//            }
+//
+//            if !isLocationExist {
+//                self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
+//            }
             
             break
         default:
@@ -663,6 +889,8 @@ extension AssessmentMatchObjectWithMessyArrayViewController {
                 self.selectedObject = nil
             }
             self.incorrectDragDropCount += 1
+            self.success_count = 0
+            self.questionState = .submit
             SpeechManager.shared.speak(message: self.matchingObjectInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
@@ -698,7 +926,7 @@ extension AssessmentMatchObjectWithMessyArrayViewController: SpeechManagerDelega
     func speechDidFinish(speechText:String) {
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             self.matchingObjectViewModel.submitUserAnswer(successCount: self.success_count, info: self.matchingObjectInfo, timeTaken: self.timeTakenToSolve, skip: self.skipQuestion, touchOnEmptyScreenCount: self.touchOnEmptyScreenCount, selectedIndex: self.selectedIndex)
             break
@@ -709,10 +937,32 @@ extension AssessmentMatchObjectWithMessyArrayViewController: SpeechManagerDelega
     }
     
     func speechDidStart(speechText:String) {
-//        self.isUserInteraction = false
+        self.isUserInteraction = false
     }
 }
 
+extension AssessmentMatchObjectWithMessyArrayViewController: PauseViewDelegate {
+    func didTapOnPlay() {
+        Utility.hidePauseView()
+        self.pauseClicked(self.pauseButton as Any)
+    }
+    
+    @IBAction func pauseClicked(_ sender: Any) {
+        if AutismTimer.shared.isTimerRunning() {
+            self.stopTimer()
+            SpeechManager.shared.setDelegate(delegate: nil)
+            //RecordingManager.shared.stopRecording()
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "play"), for: .normal)
+            Utility.showPauseView(delegate: self)
+            self.isUserInteraction = true
+        } else {
+            AutismTimer.shared.initializeTimer(delegate: self)
+            SpeechManager.shared.setDelegate(delegate: self)
+            //RecordingManager.shared.startRecording(delegate: self)
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "pause"), for: .normal)
+        }
+    }
+}
 
 extension AssessmentMatchObjectWithMessyArrayViewController: NetworkRetryViewDelegate {
     func didTapOnRetry() {

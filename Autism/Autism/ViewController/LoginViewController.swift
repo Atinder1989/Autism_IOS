@@ -102,37 +102,34 @@ extension LoginViewController {
         self.loginViewModel.noNetWorkClosure = {
             Utility.showRetryView(delegate: self)
         }
-           self.loginViewModel.dataClosure = {
-                     DispatchQueue.main.async {
-                        
-                        if let response = self.loginViewModel.loginResponseVO {
-                            if response.success {
-                                if let user = response.userVO {
-                                    
-                                    
-                if  let type = ScreenRedirection.init(rawValue: user.screen_id) {
-                      let vc = type.getViewController()
-                    
-                                        self.navigationController?.pushViewController(vc, animated: true)
-                                   }
-                                }
-                            } else {
-                                if let lableRes = self.loginViewModel.labelsResponseVO {
-                                Utility.showAlert(title: lableRes.getLiteralof(code: LoginLabelCode.information.rawValue).label_text, message: response.message)
-                                }
+           
+        self.loginViewModel.dataClosure = {
+            DispatchQueue.main.async {
+                if let response = self.loginViewModel.loginResponseVO {
+                    if response.success {
+                        if let user = response.userVO {
+                            if  let type = ScreenRedirection.init(rawValue: user.screen_id) {
+                                let vc = type.getViewController()
+                                self.navigationController?.pushViewController(vc, animated: true)
                             }
                         }
-                     }
+                    } else {
+                        if let lableRes = self.loginViewModel.labelsResponseVO {
+                            Utility.showAlert(title: lableRes.getLiteralof(code: LoginLabelCode.information.rawValue).label_text, message: response.message)
+                        }
+                    }
+                }
             }
+        }
         
         self.loginViewModel.labelsClosure = {
-                DispatchQueue.main.async {
-                        if let response = self.loginViewModel.labelsResponseVO {
-                            self.setLabels(labelresponse: response)
-                            self.formTableView.reloadData()
-                            self.setData()
-                        }
+            DispatchQueue.main.async {
+                if let response = self.loginViewModel.labelsResponseVO {
+                    self.setLabels(labelresponse: response)
+                    self.formTableView.reloadData()
+                    self.setData()
                 }
+            }
         }
     }
     

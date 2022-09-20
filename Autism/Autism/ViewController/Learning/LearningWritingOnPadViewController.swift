@@ -1,104 +1,124 @@
 //
-//  LearningManding2WordsViewController.swift
+//  LearningWritingOnPadViewController.swift
 //  Autism
 //
-//  Created by Savleen on 01/03/21.
-//  Copyright © 2021 IMPUTE. All rights reserved.
+//  Created by Singh, Atinderpal on 10/09/22.
+//  Copyright © 2022 IMPUTE. All rights reserved.
 //
 
 import UIKit
 import AVFoundation
-import FLAnimatedImage
 
-class LearningManding2WordsViewController: UIViewController {
-    private let manding2WordsViewModal: LearningManding2WordsViewModel = LearningManding2WordsViewModel()
+class LearningWritingOnPadViewController: UIViewController {
+    private let writingPadViewModal: LearningWritingOnPadViewModel = LearningWritingOnPadViewModel()
     private var program: LearningProgramModel!
     private var skillDomainId: String!
     private var command_array: [ScriptCommandInfo] = []
+
+    private var isTouch = false
+    private var isImagesDownloaded = false
+    private var isChildAction = false
     private var videoItem: VideoItem?
-    private var bufferLoaderTimer: Timer?
+    private var isChildActionCompleted = false {
+        didSet {
+            if isChildActionCompleted {
+                DispatchQueue.main.async {
+                    self.writingPadViewModal.calculateChildAction(state: self.isChildActionCompleted, touch: self.isTouch)
+                }
+            }
+        }
+    }
+   
     private var thumbnailImage: UIImage?
     private var videoFinishTimer: Timer? = nil
     private var videoFinishWaitingTime = 0
 
-    @IBOutlet weak var speechTitle: UILabel!
     @IBOutlet weak var thumnailImageView: UIImageView!
+    @IBOutlet weak var speechTitle: UILabel!
     @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var restartButton: UIButton!
+    @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
-    @IBOutlet weak var questionImageView: ScriptCommandImageView!
-    @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var bufferLoaderView: UIView!
-  
-    var questionId = ""
+    @IBOutlet weak var questionImageView: UIImageView!
+    @IBOutlet weak var curveImageView: DrawnImageView!
     
+    private var bufferLoaderTimer: Timer?
+    var questionId = ""
+    var isFromViewdidLoad:Bool = true
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         self.customSetting()
-        
-        if self.command_array.count == 0 {
-            self.manding2WordsViewModal.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)
-        } else {
-            self.manding2WordsViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if isFromViewdidLoad {
+            isFromViewdidLoad = false
+            if self.command_array.count == 0 {
+                self.writingPadViewModal.fetchLearningSolidQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
+                if(UIDevice.current.userInterfaceIdiom != .pad) {
+                    thumnailImageView.contentMode = .scaleAspectFit
+                }
+            } else {
+                self.writingPadViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
+            }
         }
-        
-//        if self.command_array.count == 0 {
-//            self.manding2WordsViewModal.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)
-//        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.stopPlayer()
         self.hideBufferLoader()
-        self.manding2WordsViewModal.stopAllCommands()
+        self.writingPadViewModal.stopAllCommands()
     }
     
     @IBAction func restartVideoClicked(_ sender: Any) {
         self.stopTimer()
-        self.manding2WordsViewModal.seekToTimePlayer(time: CMTime.zero)
+        self.writingPadViewModal.seekToTimePlayer(time: CMTime.zero)
         self.playVideo()
+    }
+    
+    @IBAction func submitClicked(_ sender: Any) {
+        self.writingPadViewModal.uploadImage(image: self.curveImageView.asImage())
+
     }
     
     @IBAction func nextClicked(_ sender: Any) {
         self.moveToNextCommand()
     }
-    
+
     @IBAction func exitAssessmentClicked(_ sender: Any) {
         self.stopTimer()
-        self.manding2WordsViewModal.pausePlayer()
-        self.manding2WordsViewModal.stopAllCommands()
-        UserManager.shared.exitAssessment()
+        self.writingPadViewModal.pausePlayer()
+        self.writingPadViewModal.stopAllCommands()
+        
+        SpeechManager.shared.stopSpeech()
+        FaceDetection.shared.stopFaceDetectionSession()
+        AutismTimer.shared.stopTimer()
+        
+        if !UserManager.shared.get_isActionPerformed() {
+            UserManager.shared.set_isActionPerformed(true)
+            UserManager.shared.updateScreenId(screenid: ScreenRedirection.dashboard.rawValue)
+            self.dismiss(animated: true)
+        }
     }
-    
-    @IBAction func skipLearningClicked(_ sender: Any) {
-        self.manding2WordsViewModal.stopAllCommands()
-        self.manding2WordsViewModal.skipLearningSubmitLearningMatchingAnswer()
-    }
+   
 }
-
 //MARK:- Public Methods
-extension LearningManding2WordsViewController {
+extension LearningWritingOnPadViewController {
     func setData(program:LearningProgramModel, skillDomainId:String,command_array: [ScriptCommandInfo],questionId:String) {
         self.listenModelClosures()
         self.program = program
         self.skillDomainId = skillDomainId
         self.questionId = questionId
         self.command_array = command_array
-
-        
-//        self.listenModelClosures()
-//        self.program = program
-//        self.skillDomainId = skillDomainId
-//        if command_array.count > 0 {
-//            self.command_array = command_array
-//            self.manding2WordsViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
-//        }
     }
 }
 
 //MARK:- Private Methods
-extension LearningManding2WordsViewController {
+extension LearningWritingOnPadViewController {
+    
     private func moveToNextCommand() {
        // self.view.isUserInteractionEnabled = false
         self.stopTimer()
@@ -107,32 +127,28 @@ extension LearningManding2WordsViewController {
         NotificationCenter.default.removeObserver(NSNotification.Name.AVPlayerItemDidPlayToEndTime)
         self.playerView.isHidden = true
         self.thumnailImageView.isHidden = true
-        self.manding2WordsViewModal.updateCurrentCommandIndex()
-    }
-    
-    private func initializeFrame()
-    {
-        let deviceWidth:CGFloat = UIScreen.main.bounds.width
-        let size: CGFloat = 460
-        let frame = CGRect.init(x: (deviceWidth/2) - (size/2), y: 154, width: size, height: size)
-        questionImageView.frame = frame
-        self.userAnswer.frame = CGRect.init(x: 0, y: frame.origin.y + size + 40, width: deviceWidth, height: 30)
+        self.writingPadViewModal.updateCurrentCommandIndex()
     }
     
     private func customSetting() {
-        self.initializeFrame()
-        self.questionImageView.isHidden = true
+        self.isTouch = false
         self.restartButton.isHidden = true
         self.nextButton.isHidden = true
         self.speechTitle.text = ""
+        isChildActionCompleted = false
         self.playerView.isHidden = true
         self.thumnailImageView.isHidden = true
-        self.userAnswer.text = ""
+        self.isChildAction = false
         self.bufferLoaderView.isHidden = true
+        isImagesDownloaded = false
+        self.questionImageView.isHidden = true
+        self.curveImageView.isHidden = true
+        self.submitButton.isHidden = true
+
     }
     
     private func listenModelClosures() {
-        self.manding2WordsViewModal.videoFinishedClosure = { [weak self] in
+        self.writingPadViewModal.videoFinishedClosure = { [weak self] in
             DispatchQueue.main.async {
                 if let this = self {
                 this.videoFinished()
@@ -140,102 +156,70 @@ extension LearningManding2WordsViewController {
             }
         }
         
-        self.manding2WordsViewModal.bufferLoaderClosure = {
+        self.writingPadViewModal.bufferLoaderClosure = {
             DispatchQueue.main.async {
-                if self.manding2WordsViewModal.isBufferLoader {
+                if self.writingPadViewModal.isBufferLoader {
                     self.showBufferLoader()
                 } else {
                     self.hideBufferLoader()
                 }
             }
         }
-       self.manding2WordsViewModal.clearScreenClosure = {
+        
+       self.writingPadViewModal.clearScreenClosure = {
              DispatchQueue.main.async {
                  self.customSetting()
              }
        }
-        
-       self.manding2WordsViewModal.resetDataClosure = {
-            DispatchQueue.main.async {
-                self.customSetting()
-            }
-       }
-        
-       self.manding2WordsViewModal.noNetWorkClosure = {
+               
+       self.writingPadViewModal.noNetWorkClosure = {
            Utility.showRetryView(delegate: self)
        }
         
-       self.manding2WordsViewModal.clearSpeechTextClosure = {
+       self.writingPadViewModal.clearSpeechTextClosure = {
             DispatchQueue.main.async {
                 self.speechTitle.text = ""
             }
        }
         
-        
-       self.manding2WordsViewModal.showSpeechTextClosure = { text in
+       self.writingPadViewModal.showSpeechTextClosure = { text in
             DispatchQueue.main.async {
                 self.speechTitle.text = text
             }
        }
        
-       self.manding2WordsViewModal.showVideoClosure = { urlString in
+       self.writingPadViewModal.showVideoClosure = { urlString in
            DispatchQueue.main.async {
             self.customSetting()
             self.addPlayer(urlString: urlString)
            }
        }
-                
-//        self.manding2WordsViewModal.talkAvatarClosure = {
-//             DispatchQueue.main.async {
-//                self.avatarImageView.isHidden = false
-//                self.avatarImageView.animatedImage = talkingGif
-//             }
-//        }
-//
-//        self.manding2WordsViewModal.idleAvatarClosure = {
-//             DispatchQueue.main.async {
-//                self.avatarImageView.isHidden = true
-//             }
-//        }
         
-        self.manding2WordsViewModal.showImageClosure = { questionInfo in
+        self.writingPadViewModal.childActionStateClosure = { state in
              DispatchQueue.main.async {
-                if let option = questionInfo.option {
-                     let url = ServiceHelper.baseURL.getMediaBaseUrl() + questionInfo.value
-                    if option.Position == ScriptCommandOptionType.center.rawValue {
-                         self.questionImageView.isHidden = false
-                        self.questionImageView.commandInfo = questionInfo
-                         self.questionImageView.setImageWith(urlString: url)
-                     }
-                }
+                self.isChildAction = state
+
              }
         }
-        
-        self.manding2WordsViewModal.childActionStateClosure = { state in
-             DispatchQueue.main.async {
-                if state {
-                    RecordingManager.shared.startRecording(delegate: self)
-                } else {
-                    RecordingManager.shared.stopRecording()
-                }
-             }
-        }
-        
-        self.manding2WordsViewModal.makeBiggerClosure = { questionInfo in
-             DispatchQueue.main.async {
-                self.speechTitle.text = ""
-                self.userAnswer.text = ""
-                Animations.makeBiggerAnimationFromCenter(imageView: self.questionImageView, questionInfo: questionInfo) { (finished) in
-                    self.manding2WordsViewModal.updateSequenceCommandIndex()
-                }
-             }
-        }
-        
+       
+       self.writingPadViewModal.showImageClosure = { commandInfo in
+           DispatchQueue.main.async { [weak self] in
+               if let this = self {
+                   let url = ServiceHelper.baseURL.getMediaBaseUrl() + commandInfo.value
+                   this.questionImageView.setImageWith(urlString: url)
+                   this.questionImageView.isHidden = false
+                   this.curveImageView.isHidden = false
+                   this.submitButton.isHidden = false
+
+               }
+               
+            }
+       }
     }
-        
-    private func addPlayer(urlString:String) {
+    
+     private func addPlayer(urlString:String) {
         let string = ServiceHelper.baseURL.getMediaBaseUrl() + urlString
-        if let playerController = manding2WordsViewModal.playerController {
+        if let playerController = writingPadViewModal.playerController {
             if let avplayerController = playerController.avPlayerController {
                 self.playerView.isHidden = false
                 self.playerView.addSubview(avplayerController.view)
@@ -250,7 +234,6 @@ extension LearningManding2WordsViewController {
     
     private func showBufferLoader() {
         self.playerView.bringSubviewToFront(self.bufferLoaderView)
-
         self.bufferLoaderView.isHidden = false
         if let timer = self.bufferLoaderTimer {
             timer.invalidate()
@@ -278,28 +261,28 @@ extension LearningManding2WordsViewController {
         }
     }
     
+    
     private func playVideo() {
         if let item = self.videoItem {
-        manding2WordsViewModal.playVideo(item: item)
+        writingPadViewModal.playVideo(item: item)
         self.nextButton.isHidden = true
         self.restartButton.isHidden = true
         self.thumnailImageView.isHidden = true
         }
     }
     
-    @objc private func videoFinished() {
+    func stopPlayer() {
+        self.writingPadViewModal.stopVideo()
+    }
+    
+    private func videoFinished() {
         self.restartButton.isHidden = false
         self.nextButton.isHidden = false
-
         if let image = self.thumbnailImage {
             self.thumnailImageView.image = image
             self.thumnailImageView.isHidden = false
         }
         self.initializeTimer()
-    }
-    
-    func stopPlayer() {
-        self.manding2WordsViewModal.stopVideo()
     }
     
     private func initializeTimer() {
@@ -309,7 +292,7 @@ extension LearningManding2WordsViewController {
     @objc private func calculateTimeTaken()  {
         videoFinishWaitingTime += 1
         print("Video Finish Timer Start == \(videoFinishWaitingTime)")
-        if let info = self.manding2WordsViewModal.getCurrentCommandInfo(),let option = info.option {
+        if let info = self.writingPadViewModal.getCurrentCommandInfo(),let option = info.option {
             let time = Int(option.switch_command_time) ?? 0
             if self.videoFinishWaitingTime >= time  {
                 self.moveToNextCommand()
@@ -329,7 +312,7 @@ extension LearningManding2WordsViewController {
  }
 
 
-extension LearningManding2WordsViewController: NetworkRetryViewDelegate {
+extension LearningWritingOnPadViewController: NetworkRetryViewDelegate {
     func didTapOnRetry() {
         if Utility.isNetworkAvailable() {
             Utility.hideRetryView()
@@ -338,20 +321,12 @@ extension LearningManding2WordsViewController: NetworkRetryViewDelegate {
 }
 
 
-//MARK:- RecordingManager Delegate Methods
-extension LearningManding2WordsViewController: RecordingManagerDelegate {
-    func recordingSpeechData(text:String) {
-        self.userAnswer.text = text.lowercased()
+extension LearningWritingOnPadViewController: ImageDownloaderDelegate {
+    func finishDownloading() {
+        if !isImagesDownloaded {
+            self.isImagesDownloaded = true
+            self.writingPadViewModal.updateCurrentCommandIndex()
+        }
     }
-    
-    func recordingStart() {
-        
-    }
-    
-    func recordingFinish(speechText:String) {
-        RecordingManager.shared.stopRecording()
-        self.manding2WordsViewModal.handleUserAnswer(text: speechText)
-    }
-    
 }
 

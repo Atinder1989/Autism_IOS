@@ -54,7 +54,7 @@ class AssessmentMatchingObjectViewController: UIViewController {
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-           self.stopQuestionCompletionTimer()
+           self.stopTimer()
            SpeechManager.shared.setDelegate(delegate: nil)
            UserManager.shared.exitAssessment()
     }
@@ -154,7 +154,7 @@ extension AssessmentMatchingObjectViewController {
 extension AssessmentMatchingObjectViewController {
     
     private func moveToNextQuestion() {
-          self.stopQuestionCompletionTimer()
+          self.stopTimer()
           self.questionState = .submit
           self.success_count = 0
           SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
@@ -177,7 +177,7 @@ extension AssessmentMatchingObjectViewController {
     }
 }
 
-    private func stopQuestionCompletionTimer() {
+    private func stopTimer() {
         AutismTimer.shared.stopTimer()
    
 }
@@ -291,7 +291,7 @@ extension AssessmentMatchingObjectViewController: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             self.matchingObjectViewModel.submitUserAnswer(successCount: self.success_count, info: self.matchingObjectInfo, timeTaken: self.timeTakenToSolve, skip: self.skipQuestion, touchOnEmptyScreenCount: self.touchOnEmptyScreenCount, selectedIndex: self.selectedIndex)
             break

@@ -28,19 +28,17 @@ class StagesViewController: UIViewController {
             stageViewModel.fetchDashboardScreenLabels()
             stageViewModel.getLearningSkillProgramList(performanceDetail: detail, startDate: self.startDate, endDate: self.endDate)
         } else if let algoResponse = self.algoResponse {
-            if(ServiceHelper.baseURL != ServiceEnvironment.DevelopmentNew) {//New Development
-                self.view.isUserInteractionEnabled = false
-                stageViewModel.fetchDashboardScreenLabels()
-                stageViewModel.setProgramResponseData(algoResponse: algoResponse)
-            }
+//            if(ServiceHelper.baseURL != ServiceEnvironment.Development) {//New Development
+//                self.view.isUserInteractionEnabled = false
+//                stageViewModel.fetchDashboardScreenLabels()
+//                stageViewModel.setProgramResponseData(algoResponse: algoResponse)
+//            }
         }
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         DispatchQueue.main.async {
-            if(ServiceHelper.baseURL == ServiceEnvironment.DevelopmentNew || ServiceHelper.baseURL == ServiceEnvironment.Production) {//New Development
-                self.executeAutomaticLearning()
-            }
+            self.executeAutomaticLearning()
         }
     }
     

@@ -67,7 +67,7 @@ class AssessmentVideoControllerVC: UIViewController {
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-          self.stopQuestionCompletionTimer()
+          self.stopTimer()
           SpeechManager.shared.setDelegate(delegate: nil)
           UserManager.shared.exitAssessment()
     }
@@ -243,7 +243,7 @@ extension AssessmentVideoControllerVC {
 }
 extension AssessmentVideoControllerVC {
      private func moveToNextQuestion() {
-        self.stopQuestionCompletionTimer()
+        self.stopTimer()
         self.questionState = .submit
         self.success_count = 0
         SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
@@ -269,7 +269,7 @@ extension AssessmentVideoControllerVC {
     
    
 
-func stopQuestionCompletionTimer() {
+func stopTimer() {
     AutismTimer.shared.stopTimer()
     
 }
@@ -290,7 +290,7 @@ extension AssessmentVideoControllerVC: SpeechManagerDelegate {
         }
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             self.videoViewModel.submitUserAnswer(successCount: self.success_count, info: self.videoQuestionInfo, timeTaken: self.timeTakenToSolve, skip: self.skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount, selectedIndex: selectedIndex)
             break

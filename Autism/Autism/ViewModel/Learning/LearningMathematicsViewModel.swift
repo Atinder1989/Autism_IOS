@@ -266,6 +266,14 @@ extension LearningMathematicsViewModel {
                 ServiceParsingKeys.childDetail.rawValue:self.childDetailArray,
                 ServiceParsingKeys.faceDetectionTime.rawValue:FaceDetection.shared.getFaceDetectionTime(),
                 ServiceParsingKeys.faceNotDetectionTime.rawValue:FaceDetection.shared.getFaceNotDetectionTime(),
+            
+            //NewDevelopment
+            ServiceParsingKeys.content_type.rawValue:self.program.content_type,
+            ServiceParsingKeys.course_type.rawValue:self.program.course_type,
+            ServiceParsingKeys.level.rawValue:self.program.level,
+            ServiceParsingKeys.bucket.rawValue:self.program.bucket,
+            ServiceParsingKeys.table_name.rawValue:self.program.table_name
+
                 ]
             LearningManager.submitLearningMatchingAnswer(parameters: parameters)
         }

@@ -34,6 +34,11 @@ class LearningManager {
         print("#program.label_code ==== \(program.label_code)")
         var scriptController: UIViewController? = nil
         switch program.label_code {
+        case .writing_goal13:
+            let vc = Utility.getViewController(ofType: LearningWritingOnPadViewController.self)
+            vc.modalPresentationStyle = .fullScreen
+            vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
+            scriptController = vc
         case .following_instructions:
             let vc = Utility.getViewController(ofType: LearningFollowingInstructionsViewController.self)
             vc.modalPresentationStyle = .fullScreen
@@ -44,7 +49,7 @@ class LearningManager {
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
             scriptController = vc
-        case .matching_identical, .matching_identical_2, .matching_identical_3:
+        case .matching_identical, .matching_identical_2, .matching_identical_3, .mathematics:
             let vc = Utility.getViewController(ofType: LearningMatchingIdenticalViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
@@ -90,7 +95,7 @@ class LearningManager {
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
             scriptController = vc
-        case .mathematics:
+        case .add_subs_mathematics: //OLD
             let vc = Utility.getViewController(ofType: LearningMathematicsViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)

@@ -24,14 +24,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var orientationLock = UIInterfaceOrientationMask.landscape
-    
+        
+    var fcm_device_token = ""
+    private var userProfileViewModel = UserProfileViewModel()
     
      func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.initializeAnalyticsAndCrashlytics()
         self.initializeSocialNetwork(application, didFinishLaunchingWithOptions: launchOptions)
         self.customSettings()
         self.checkExistingUser()
-         
+        self.registerRemoteNotification(application: application)
+
          let wd = UIApplication.shared.keyWindow
          safeArealLeft = wd?.safeAreaInsets.left ?? 0
          safeArealRight = wd?.safeAreaInsets.right ?? 0
@@ -68,6 +71,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     {
         return self.orientationLock
     }
+    
+    func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
 
 }
 
@@ -79,13 +89,20 @@ extension AppDelegate {
     }
     
     private func getGoogleInfoPlist() -> String {
-        return Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist")!
+        if ServiceHelper.baseURL == .Production {
+            return Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist")!
+        } else if ServiceHelper.baseURL == .Testing {
+            return Bundle.main.path(forResource: "GoogleServiceTesting-Info", ofType: "plist")!
+        } else {
+            return Bundle.main.path(forResource: "GoogleServiceDevelopment-Info", ofType: "plist")!
+        }
     }
     
     private func initializeAnalyticsAndCrashlytics() {
         let options = FirebaseOptions(contentsOfFile: getGoogleInfoPlist())
         FirebaseApp.configure(options: options!)
         FirebaseConfiguration.shared.setLoggerLevel(.min)
+        Messaging.messaging().delegate = self
     }
     
     private func customSettings() {
@@ -122,4 +139,46 @@ extension AppDelegate {
                }
     }
     
+    private func registerRemoteNotification(application: UIApplication) {
+        UNUserNotificationCenter.current().delegate = self
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions) { _, _ in }
+        application.registerForRemoteNotifications()
+    }
+    
+}
+
+// MARK: - UNUserNotificationCenterDelegate Methods
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler:
+        @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([[.alert, .sound, .badge]])
+    }
+    
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        completionHandler()
+    }
+}
+
+// MARK: - MessagingDelegate Methods
+extension AppDelegate: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        if let fcmToken = fcmToken {
+            print("FCM TOken ==== \(fcmToken)")
+            self.fcm_device_token = fcmToken
+            if UserManager.shared.getUserInfo() != nil {                                
+                self.userProfileViewModel.submitDeviceToken(fcmToken: self.fcm_device_token)
+            }
+        }
+    }
 }

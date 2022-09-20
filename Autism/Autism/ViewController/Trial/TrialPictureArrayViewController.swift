@@ -71,7 +71,7 @@ class TrialPictureArrayViewController: UIViewController {
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-           self.stopQuestionCompletionTimer()
+           self.stopTimer()
            SpeechManager.shared.setDelegate(delegate: nil)
            UserManager.shared.exitAssessment()
     }
@@ -449,7 +449,7 @@ extension TrialPictureArrayViewController {
 extension TrialPictureArrayViewController {
     
     private func moveToNextQuestion() {
-          self.stopQuestionCompletionTimer()
+          self.stopTimer()
           self.questionState = .submit
           self.success_count = 0
           SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
@@ -473,7 +473,7 @@ extension TrialPictureArrayViewController {
     }
 }
 
-    private func stopQuestionCompletionTimer() {
+    private func stopTimer() {
     if let timer = self.questionCompletionTimer {
               timer.invalidate()
         self.questionCompletionTimer = nil
@@ -515,7 +515,7 @@ extension TrialPictureArrayViewController: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             
             if(self.isFromLearning == false) {

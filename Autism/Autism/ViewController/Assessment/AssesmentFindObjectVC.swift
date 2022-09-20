@@ -54,7 +54,7 @@ class AssesmentFindObjectVC: UIViewController {
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-           self.stopQuestionCompletionTimer()
+           self.stopTimer()
            SpeechManager.shared.setDelegate(delegate: nil)
            UserManager.shared.exitAssessment()
     }
@@ -151,7 +151,7 @@ func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPat
                   if self.noOfCorrectAnswerList.count == self.findObjectQuestionInfo.correct_answer_TapCount {
                       self.success_count = 100
                       self.questionState = .submit
-                      self.stopQuestionCompletionTimer()
+                      self.stopTimer()
                       SpeechManager.shared.speak(message: self.findObjectQuestionInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
                   }
         }
@@ -195,13 +195,13 @@ extension AssesmentFindObjectVC {
     }
     
     private func moveToNextQuestion() {
-       self.stopQuestionCompletionTimer()
+       self.stopTimer()
        self.questionState = .submit
        self.success_count = 0
        SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
     
-func stopQuestionCompletionTimer() {
+func stopTimer() {
     AutismTimer.shared.stopTimer()
 }
     
@@ -221,7 +221,7 @@ extension AssesmentFindObjectVC: SpeechManagerDelegate {
         
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             self.findobjectViewModel.submitUserAnswer(successCount: success_count, info: self.findObjectQuestionInfo, timeTaken: self.timeTakenToSolve, skip: self.skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount, wrongAnswerCount: wrongAnswerCount)
             break

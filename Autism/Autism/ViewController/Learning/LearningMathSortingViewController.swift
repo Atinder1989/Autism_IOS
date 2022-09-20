@@ -102,9 +102,7 @@ class LearningMathSortingViewController: UIViewController {
         }
     }
     private func customSetting() {
-                
 //        self.initializeFilledImageView()
-
 //        labelTitle.text = matchingObjectInfo.question_title
 //        AutismTimer.shared.initializeTimer(delegate: self)
     }

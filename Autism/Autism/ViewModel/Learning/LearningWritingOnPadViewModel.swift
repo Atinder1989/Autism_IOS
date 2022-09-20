@@ -1,35 +1,33 @@
 //
-//  LearningManding2WordsViewModel.swift
+//  LearningWritingOnPadViewModel.swift
 //  Autism
 //
-//  Created by Savleen on 01/03/21.
-//  Copyright © 2021 IMPUTE. All rights reserved.
+//  Created by Singh, Atinderpal on 10/09/22.
+//  Copyright © 2022 IMPUTE. All rights reserved.
 //
 
 import Foundation
 import AVKit
 
-class LearningManding2WordsViewModel: NSObject {
+class LearningWritingOnPadViewModel: NSObject {
     private var scriptManager: ScriptManager!
  
     var showSpeechTextClosure : ((_ text: String) -> Void)?
     var clearSpeechTextClosure : (() -> Void)?
-    var resetDataClosure : (() -> Void)?
     var noNetWorkClosure: (() -> Void)?
     var clearScreenClosure : (() -> Void)?
     var showVideoClosure : ((_ urlString:String) -> Void)?
-    var showImageClosure  : ((_ questionInfo:ScriptCommandInfo) -> Void)?
-    var makeBiggerClosure : ((_ questionInfo:ScriptCommandInfo) -> Void)?
+    var showImageClosure : ((_ questionInfo:ScriptCommandInfo) -> Void)?
     var childActionStateClosure : ((Bool) -> Void)?
     var bufferLoaderClosure : (() -> Void)?
     var videoFinishedClosure : (() -> Void)?
-    var playerController: PlayerController?
 
     private var program: LearningProgramModel!
     private var skillDomainId: String!
-    private var childActionDict :[String:Any] = [:]
-    private var childDetailArray :[[String:Any]] = []
     
+    var childActionDict :[String:Any] = [:]
+    var childDetailArray :[[String:Any]] = []
+    var playerController: PlayerController?
 
     
     private var commandResponseVO: ScriptResponseVO? = nil {
@@ -37,14 +35,15 @@ class LearningManding2WordsViewModel: NSObject {
             self.executeCommand()
         }
     }
-    private var currentCommandIndex = 0 {
+    
+    private var currentCommandIndex = 1 {
         didSet{
             self.executeCommand()
         }
     }
-    
-    private var currentCommandInfo:ScriptCommandInfo?
+     
     private var isAnimationCommand = false
+    private var currentCommandInfo:ScriptCommandInfo?
 
     override init() {
         super.init()
@@ -88,7 +87,7 @@ class LearningManding2WordsViewModel: NSObject {
     }
     
     
-    func fetchLearningQuestion(skillDomainId: String,program: LearningProgramModel) {
+    func fetchLearningSolidQuestionCommands(skillDomainId: String,program: LearningProgramModel) {
         
         self.skillDomainId = skillDomainId
         self.program = program
@@ -108,14 +107,15 @@ class LearningManding2WordsViewModel: NSObject {
             ServiceParsingKeys.skill_domain_id.rawValue:self.skillDomainId!,
             ServiceParsingKeys.program_id.rawValue:self.program.program_id,
             ServiceParsingKeys.language_code.rawValue:user.languageCode,
-          ]
+
+           ]
         }
         ServiceManager.processDataFromServer(service: service, model: ScriptResponseVO.self) { (responseVo, error) in
             if let _ = error {
                  self.commandResponseVO = nil
             } else {
                 if let response = responseVo {
-                    DispatchQueue.main.async {                    
+                    DispatchQueue.main.async {
                     if response.success {
                         self.commandResponseVO = response
                     } else {
@@ -127,6 +127,8 @@ class LearningManding2WordsViewModel: NSObject {
                 }
             }
         }
+        
+        
     }
     
     func setScriptResponse(command_array:[ScriptCommandInfo],questionid:String,program: LearningProgramModel,skillDomainId: String) {
@@ -141,107 +143,68 @@ class LearningManding2WordsViewModel: NSObject {
         self.commandResponseVO = response
     }
     
-    func getCurrentCommandInfo() -> ScriptCommandInfo? {
-        return self.currentCommandInfo
-    }
-   
     func updateCurrentCommandIndex() {
         isAnimationCommand = false
-        if !SpeechManager.shared.isPlaying() {
+        if !SpeechManager.shared.isPlaying() && self.scriptManager.getChildActionCommandInfo() == nil {
             self.currentCommandIndex += 1
         }
     }
-    
-    func updateSequenceCommandIndex() {
-        self.isAnimationCommand = false
-        self.scriptManager.updateSequenceCommandIndex()
-    }
       
-    func calculateChildAction(state:Bool){
+    func updateCommandIndex() {
+        if let _ = self.scriptManager.getSequenceCommandInfo() {
+            self.scriptManager.updateSequenceCommandIndex()
+            return
+        }
+        if self.scriptManager.getIsCommandCompleted() {
+            self.updateCurrentCommandIndex()
+        }
+    }
+
+    func calculateChildAction(state:Bool, touch:Bool){
         isAnimationCommand = false
-        self.saveDataForSubmit()
+        self.saveDataForSubmit(touch: touch)
         self.scriptManager.setChildActionState(state: state)
     }
     
-    func handleUserAnswer(text:String) {
-        if let info = self.scriptManager.getChildActionCommandInfo() {
-            if Utility.sharedInstance.isAnswerMatched(text: text, answer: info.value) {
-               self.calculateChildAction(state: true)
-            } else {
-                saveDataForSubmit(isAnswerMatched: false)
-//                if let closure = self.clearSpeechTextClosure {
-//                    closure()
-//                }
-                if let closure = self.childActionStateClosure {
-                    closure(true)
-                }
-                
-            }
-        }
+    func getCurrentCommandInfo() -> ScriptCommandInfo? {
+        return self.currentCommandInfo
     }
     
     func stopAllCommands() {
         SpeechManager.shared.stopSpeech()
         SpeechManager.shared.setDelegate(delegate: nil)
-        RecordingManager.shared.stopRecording()
         self.scriptManager.stopallTimer()
     }
     
-    
-     func skipLearningSubmitLearningMatchingAnswer() {
-        if !Utility.isNetworkAvailable() {
-            if let noNetwork = self.noNetWorkClosure {
-                noNetwork()
+    func uploadImage(image: UIImage) {
+        Utility.showLoader()
+        if let info = self.scriptManager.getChildActionCommandInfo() {
+        Utility.sharedInstance.uploadCapturedImage(correctText: info.value, image: image) { error, responseVo in
+            Utility.hideLoader()
+            if error == nil {
+                if let responseVo = responseVo {
+                    if responseVo.result {
+                        self.calculateChildAction(state: true, touch: true)
+                    }
+                }
             }
-            return
-        }
-        if let res = self.commandResponseVO {
-        if let user = UserManager.shared.getUserInfo() {
-            var tempArray :[[String:Any]] = []
-            var dict :[String:Any] = [:]
-            dict = [
-                //ServiceParsingKeys.id.rawValue:info.id,
-                ServiceParsingKeys.complete_rate.rawValue:100,
-                ServiceParsingKeys.time_taken.rawValue:2,
-                ServiceParsingKeys.isDragStarted.rawValue:false,
-                ServiceParsingKeys.isFaceDetected.rawValue:false,
-               // ServiceParsingKeys.value.rawValue:info.value,
-                ServiceParsingKeys.attemptLevel.rawValue:0
-            ]
-            tempArray.append(dict)
-            let parameters: [String : Any] = [
-                ServiceParsingKeys.language.rawValue:user.languageCode,
-                ServiceParsingKeys.user_id.rawValue:user.id,
-                ServiceParsingKeys.skill_domain_id.rawValue:self.skillDomainId!,
-                ServiceParsingKeys.program_id.rawValue:self.program.program_id,
-                ServiceParsingKeys.question_id.rawValue:res.question_id,
-                ServiceParsingKeys.childDetail.rawValue:tempArray,
-                ServiceParsingKeys.faceDetectionTime.rawValue:FaceDetection.shared.getFaceDetectionTime(),
-                ServiceParsingKeys.faceNotDetectionTime.rawValue:FaceDetection.shared.getFaceNotDetectionTime(),
-                //NewDevelopment
-                ServiceParsingKeys.content_type.rawValue:self.program.content_type,
-                ServiceParsingKeys.course_type.rawValue:self.program.course_type,
-                ServiceParsingKeys.level.rawValue:self.program.level,
-                ServiceParsingKeys.bucket.rawValue:self.program.bucket,
-                ServiceParsingKeys.table_name.rawValue:self.program.table_name                ]
-            LearningManager.submitLearningMatchingAnswer(parameters: parameters)
         }
         }
     }
-    
+        
 }
 
-extension LearningManding2WordsViewModel {
+extension LearningWritingOnPadViewModel {
     private func resetData() {
         self.isAnimationCommand = false
         self.currentCommandInfo = nil
     }
-   
+    
     private func executeCommand() {
         if let commandResponseVO = self.commandResponseVO  {
             if commandResponseVO.command_array.count > 0 {
                 if currentCommandIndex < commandResponseVO.command_array.count {
-                print("currentCommandIndex === \(currentCommandIndex)")
+                    print("currentCommandIndex === \(currentCommandIndex)")
                     self.resetData()
                     let commandInfo = commandResponseVO.command_array[self.currentCommandIndex]
                         self.scriptManager.executeCommand(commandInfo: commandInfo)
@@ -260,8 +223,10 @@ extension LearningManding2WordsViewModel {
             }
             return
         }
+        
         if let res = self.commandResponseVO {
         if let user = UserManager.shared.getUserInfo() {
+            
             var CR = "0"
             
             if(self.childDetailArray.count > 0) {
@@ -274,16 +239,15 @@ extension LearningManding2WordsViewModel {
             
             let parameters: [String : Any] = [
             ServiceParsingKeys.complete_rate.rawValue:CR as Any,
+            ServiceParsingKeys.language.rawValue:user.languageCode,
+            ServiceParsingKeys.user_id.rawValue:user.id,
+            ServiceParsingKeys.skill_domain_id.rawValue:self.skillDomainId!,
+            ServiceParsingKeys.program_id.rawValue:self.program.program_id,
+            ServiceParsingKeys.question_id.rawValue:res.question_id,
+            ServiceParsingKeys.childDetail.rawValue:self.childDetailArray,
+            ServiceParsingKeys.faceDetectionTime.rawValue:FaceDetection.shared.getFaceDetectionTime(),
+            ServiceParsingKeys.faceNotDetectionTime.rawValue:FaceDetection.shared.getFaceNotDetectionTime(),
 
-                ServiceParsingKeys.language.rawValue:user.languageCode,
-                ServiceParsingKeys.user_id.rawValue:user.id,
-                ServiceParsingKeys.skill_domain_id.rawValue:self.skillDomainId!,
-                ServiceParsingKeys.program_id.rawValue:self.program.program_id,
-                ServiceParsingKeys.question_id.rawValue:res.question_id,
-                ServiceParsingKeys.childDetail.rawValue:self.childDetailArray,
-                ServiceParsingKeys.faceDetectionTime.rawValue:FaceDetection.shared.getFaceDetectionTime(),
-                ServiceParsingKeys.faceNotDetectionTime.rawValue:FaceDetection.shared.getFaceNotDetectionTime(),
-            
             //NewDevelopment
             ServiceParsingKeys.content_type.rawValue:self.program.content_type,
             ServiceParsingKeys.course_type.rawValue:self.program.course_type,
@@ -291,15 +255,15 @@ extension LearningManding2WordsViewModel {
             ServiceParsingKeys.bucket.rawValue:self.program.bucket,
             ServiceParsingKeys.table_name.rawValue:self.program.table_name
 
-                ]
+           ]
             LearningManager.submitLearningMatchingAnswer(parameters: parameters)
         }
         }
+         
     }
       
     private func handleShowVideoCommand(commandInfo:ScriptCommandInfo) {
         self.currentCommandInfo = commandInfo
-        isAnimationCommand = true
         if let closure = self.showVideoClosure {
             closure(commandInfo.value)
         }
@@ -324,13 +288,6 @@ extension LearningManding2WordsViewModel {
         }
     }
     
-    private func handleMakeBiggerCommand(commandInfo:ScriptCommandInfo) {
-        isAnimationCommand = true
-        if let closure = self.makeBiggerClosure {
-            closure(commandInfo)
-        }
-    }
-    
     private func handleChildActionState(state:Bool,commandInfo:ScriptCommandInfo?) {
         if state {
             if let info = commandInfo {
@@ -345,6 +302,7 @@ extension LearningManding2WordsViewModel {
     private func handleClearScreenCommand() {
         if let closure = self.clearScreenClosure {
             closure()
+            self.updateCurrentCommandIndex()
         }
     }
     
@@ -354,22 +312,21 @@ extension LearningManding2WordsViewModel {
             ServiceParsingKeys.id.rawValue:info.id,
             ServiceParsingKeys.complete_rate.rawValue:0,
             ServiceParsingKeys.time_taken.rawValue:0,
-            //ServiceParsingKeys.touch.rawValue:false,
+            ServiceParsingKeys.touch.rawValue:false,
             ServiceParsingKeys.isFaceDetected.rawValue:false,
             ServiceParsingKeys.value.rawValue:info.value,
             ServiceParsingKeys.attemptLevel.rawValue:0
         ]
     }
     
-    private func saveDataForSubmit(isAnswerMatched:Bool = true) {
+    private func saveDataForSubmit(touch:Bool) {
         if let info = self.scriptManager.getChildActionCommandInfo() {
             if let option = info.option {
-                let completePercentage = isAnswerMatched ? option.complete_percentage : "0"
             childActionDict = [
                 ServiceParsingKeys.id.rawValue:info.id,
-                ServiceParsingKeys.complete_rate.rawValue:completePercentage,
+                ServiceParsingKeys.complete_rate.rawValue:option.complete_percentage,
                 ServiceParsingKeys.time_taken.rawValue:self.scriptManager.getTimeTaken(),
-                //ServiceParsingKeys.touch.rawValue:touch,
+                ServiceParsingKeys.touch.rawValue:touch,
                 ServiceParsingKeys.isFaceDetected.rawValue:false,
                 ServiceParsingKeys.value.rawValue:info.value,
             ]
@@ -381,27 +338,28 @@ extension LearningManding2WordsViewModel {
 }
 
 // MARK: Speech Manager Delegate Methods
-extension LearningManding2WordsViewModel: SpeechManagerDelegate {
+extension LearningWritingOnPadViewModel: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
-//            if let closure = self.idleAvatarClosure {
-//                closure()
-//            }
-        
         if !self.isAnimationCommand {
             if let _ = self.scriptManager.getSequenceCommandInfo() {
                 self.scriptManager.updateSequenceCommandIndex()
                 return
             }
             if self.scriptManager.getIsCommandCompleted() {
-                self.currentCommandIndex += 1
+                self.updateCurrentCommandIndex()
             }
         }
     }
+
+//    func speechDidFinish(speechText:String) {
+//        if !self.isAnimationCommand {
+//            if self.scriptManager.getIsCommandCompleted() {
+//                self.currentCommandIndex += 1
+//            }
+//        }
+//    }
     
     func speechDidStart(speechText:String) {
-//            if let closure = self.talkAvatarClosure {
-//                closure()
-//            }
         if let closure = self.showSpeechTextClosure {
             closure(speechText)
         }
@@ -409,7 +367,7 @@ extension LearningManding2WordsViewModel: SpeechManagerDelegate {
 }
 
 
-extension LearningManding2WordsViewModel: ScriptManagerDelegate {
+extension LearningWritingOnPadViewModel: ScriptManagerDelegate {
     func get(scriptCommand: ScriptCommand) {
         switch scriptCommand {
         case .show_video(commandInfo:  let commandInfo):
@@ -417,24 +375,19 @@ extension LearningManding2WordsViewModel: ScriptManagerDelegate {
                 self.handleShowVideoCommand(commandInfo: info)
             }
             break
-        case .show_image(commandInfo:  let commandInfo):
-            if let info = commandInfo {
-                self.handleShowImageCommand(commandInfo: info)
-            }
-            break
         case .text_to_speech(commandInfo: let commandInfo):
             if let info = commandInfo {
                 self.handleTextToSpeechCommand(commandInfo: info)
             }
             break
-        case .make_bigger(commandInfo: let commandInfo)://p4
+        case .show_image(commandInfo: let commandInfo):
             if let info = commandInfo {
-                self.handleMakeBiggerCommand(commandInfo: info)
+                self.handleShowImageCommand(commandInfo: info)
             }
         case .commandCompleted:
             if !isAnimationCommand && !SpeechManager.shared.isPlaying() {
                 print("Delegate ===== Command Complete ##################### ")
-                self.updateCurrentCommandIndex()
+               // self.updateCurrentCommandIndex()
             }
         case .child_actionStarted(commandInfo: let commandInfo):
             self.handleChildActionState(state: true, commandInfo: commandInfo)
@@ -442,6 +395,8 @@ extension LearningManding2WordsViewModel: ScriptManagerDelegate {
             self.handleChildActionState(state: false, commandInfo: nil)
         case .clear_screen:
             self.handleClearScreenCommand()
+        case .moveToNextCommand:
+            self.updateCurrentCommandIndex()
         default:
             break
         }
@@ -451,7 +406,7 @@ extension LearningManding2WordsViewModel: ScriptManagerDelegate {
 
 
 // MARK: - PlayerController Delegate
-extension LearningManding2WordsViewModel: PlayerControllerDelegate {
+extension LearningWritingOnPadViewModel: PlayerControllerDelegate {
     func didChangeJTPlayerStatus(status: VideoPlayerStatus) {
         switch status {
         case .playbackLikelyToKeepUp:

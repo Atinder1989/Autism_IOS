@@ -42,13 +42,22 @@ class LearningVisualTrackingViewController: UIViewController {
     private var noOfBalloonsAtTime = 4
     private var totalBalloonInGame = 0
 
+    var questionId = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.customSetting()
+        
         if self.command_array.count == 0 {
             self.visualTrackingViewModal.fetchLearningQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
+        } else {
+            self.visualTrackingViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
         }
+        
+//        if self.command_array.count == 0 {
+//            self.visualTrackingViewModal.fetchLearningQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
+//        }
     }
     
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -96,13 +105,20 @@ class LearningVisualTrackingViewController: UIViewController {
 //MARK:- Public Methods
 extension LearningVisualTrackingViewController {
     func setData(program:LearningProgramModel, skillDomainId:String,command_array: [ScriptCommandInfo],questionId:String) {
+        
         self.listenModelClosures()
         self.program = program
         self.skillDomainId = skillDomainId
-        if command_array.count > 0 {
-            self.command_array = command_array
-            self.visualTrackingViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
-        }
+        self.questionId = questionId
+        self.command_array = command_array
+
+//        self.listenModelClosures()
+//        self.program = program
+//        self.skillDomainId = skillDomainId
+//        if command_array.count > 0 {
+//            self.command_array = command_array
+//            self.visualTrackingViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
+//        }
     }
 }
 

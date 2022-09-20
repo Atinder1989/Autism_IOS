@@ -20,6 +20,7 @@ class LearningMatchingIdenticalViewModel: NSObject {
     var clearScreenClosure : (() -> Void)?
     var showImageClosure  : ((_ questionInfo:ScriptCommandInfo) -> Void)?
     var showImagesClosure  : ((_ questionInfo:ScriptCommandInfo) -> Void)?
+    var blinkImageClosure : ((_ questionInfo:ScriptCommandInfo) -> Void)?
     var showTapFingerAnimationClosure : ((_ questionInfo:ScriptCommandInfo) -> Void)?
     var childActionStateClosure : ((Bool) -> Void)?
     var bufferLoaderClosure : (() -> Void)?
@@ -187,11 +188,21 @@ class LearningMatchingIdenticalViewModel: NSObject {
     
     func updateCurrentCommandIndex() {
         isAnimationCommand = false
-        if !SpeechManager.shared.isPlaying() {
+        if !SpeechManager.shared.isPlaying() && self.scriptManager.getChildActionCommandInfo() == nil {
             self.currentCommandIndex += 1
         }
     }
-      
+    
+    func updateCommandIndex() {
+        if let _ = self.scriptManager.getSequenceCommandInfo() {
+            self.scriptManager.updateSequenceCommandIndex()
+            return
+        }
+        if self.scriptManager.getIsCommandCompleted() {
+            self.updateCurrentCommandIndex()
+        }
+    }
+
     func calculateChildAction(state:Bool){
         isAnimationCommand = false
         self.saveDataForSubmit()
@@ -311,6 +322,14 @@ extension LearningMatchingIdenticalViewModel {
             ServiceParsingKeys.childDetail.rawValue:self.childDetailArray,
             ServiceParsingKeys.faceDetectionTime.rawValue:FaceDetection.shared.getFaceDetectionTime(),
             ServiceParsingKeys.faceNotDetectionTime.rawValue:FaceDetection.shared.getFaceNotDetectionTime(),
+            
+            //NewDevelopment
+            ServiceParsingKeys.content_type.rawValue:self.program.content_type,
+            ServiceParsingKeys.course_type.rawValue:self.program.course_type,
+            ServiceParsingKeys.level.rawValue:self.program.level,
+            ServiceParsingKeys.bucket.rawValue:self.program.bucket,
+            ServiceParsingKeys.table_name.rawValue:self.program.table_name
+
            ]
             LearningManager.submitLearningMatchingAnswer(parameters: parameters)
         }
@@ -352,7 +371,13 @@ extension LearningMatchingIdenticalViewModel {
         }
     }
 
-    
+    private func handleBlinkImageCommand(commandInfo:ScriptCommandInfo) {
+        isAnimationCommand = true
+        if let closure = self.blinkImageClosure {
+            closure(commandInfo)
+        }
+    }
+
     private func handleChildActionState(state:Bool,commandInfo:ScriptCommandInfo?) {
         if state {
             if let info = commandInfo {
@@ -412,11 +437,37 @@ extension LearningMatchingIdenticalViewModel {
 // MARK: Speech Manager Delegate Methods
 extension LearningMatchingIdenticalViewModel: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
+        
         if !self.isAnimationCommand {
+            if let _ = self.scriptManager.getSequenceCommandInfo() {
+                self.scriptManager.updateSequenceCommandIndex()
+                return
+            }
             if self.scriptManager.getIsCommandCompleted() {
-                self.currentCommandIndex += 1
+                self.updateCurrentCommandIndex()
+            }
+        } else {
+            if let _ = self.scriptManager.getSequenceCommandInfo() {
+                self.scriptManager.updateSequenceCommandIndex()
+                return
             }
         }
+
+////        if !self.isAnimationCommand {
+////            if self.scriptManager.getIsCommandCompleted() {
+////                self.currentCommandIndex += 1
+////            }
+////        }
+//        if !self.isAnimationCommand {
+//            if let _ = self.scriptManager.getSequenceCommandInfo() {
+//                self.scriptManager.updateSequenceCommandIndex()
+//                return
+//            }
+//            if self.scriptManager.getIsCommandCompleted() {
+//                self.currentCommandIndex += 1
+//            }
+//        }
+
     }
     
     func speechDidStart(speechText:String) {
@@ -451,6 +502,10 @@ extension LearningMatchingIdenticalViewModel: ScriptManagerDelegate {
                 self.handleShowImagesCommand(commandInfo: info)
             }
             break
+        case .blink_image(commandInfo: let commandInfo):
+            if let info = commandInfo {
+                self.handleBlinkImageCommand(commandInfo: info)
+            }
         case .commandCompleted:
             if !isAnimationCommand && !SpeechManager.shared.isPlaying() {
                 print("Delegate ===== Command Complete ##################### ")
@@ -467,6 +522,8 @@ extension LearningMatchingIdenticalViewModel: ScriptManagerDelegate {
             if let info = commandInfo {
                 self.handleShowTapFingerCommand(commandInfo: info)
             }
+        case .moveToNextCommand:
+            self.updateCurrentCommandIndex()
         default:
             break
         }

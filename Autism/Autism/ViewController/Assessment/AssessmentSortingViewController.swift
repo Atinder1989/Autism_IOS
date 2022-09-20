@@ -92,7 +92,7 @@ class AssessmentSortingViewController: UIViewController, UIDragInteractionDelega
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-           self.stopQuestionCompletionTimer()
+           self.stopTimer()
            SpeechManager.shared.setDelegate(delegate: nil)
            UserManager.shared.exitAssessment()
     }
@@ -119,7 +119,7 @@ extension AssessmentSortingViewController {
 extension AssessmentSortingViewController {
     
     private func moveToNextQuestion() {
-          self.stopQuestionCompletionTimer()
+          self.stopTimer()
           self.questionState = .submit
           SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
       }
@@ -143,7 +143,7 @@ extension AssessmentSortingViewController {
         }
     }
     
-    func stopQuestionCompletionTimer() {
+    func stopTimer() {
         AutismTimer.shared.stopTimer()
     }
     
@@ -563,7 +563,7 @@ extension AssessmentSortingViewController: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             
             let imagesCount:Int = self.sortObjectInfo.imagesList.count

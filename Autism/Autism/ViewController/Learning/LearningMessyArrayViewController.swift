@@ -112,17 +112,6 @@ class LearningMessyArrayViewController: UIViewController {
             }
         }
     }
-    private func customSetting() {
-        
-        imageViewBG.alpha = 0.9
-        imageViewBG.backgroundColor = .clear
-        imageViewBG.isHidden = false
-        
-//        self.initializeFilledImageView()
-
-//        labelTitle.text = matchingObjectInfo.question_title
-//        AutismTimer.shared.initializeTimer(delegate: self)
-    }
 
     func setData(program:LearningProgramModel, skillDomainId:String,command_array: [ScriptCommandInfo],questionId:String) {
         
@@ -133,9 +122,21 @@ class LearningMessyArrayViewController: UIViewController {
         self.command_array = command_array
     }
     
+    private func customSetting() {
+        
+        imageViewBG.alpha = 0.9
+        imageViewBG.backgroundColor = .clear
+        imageViewBG.isHidden = false
+    }
+
     private func initializeFilledImageView() {
         
-        self.initializeTheFrames()
+        if(program.label_code != .mathematics) {
+            self.initializeTheFramesLeanier()
+        } else {
+            self.initializeTheFrames()
+        }
+        
         if(self.imageList.count > 0) {
             imageView1.aModel = self.imageList[0]
             ImageDownloader.sharedInstance.downloadImage(urlString:  self.imageList[0].url, imageView: imageView1, callbackAfterNoofImages: self.imageList.count, delegate: self)
@@ -178,17 +179,225 @@ class LearningMessyArrayViewController: UIViewController {
             imageView10.aModel = self.imageList[9]
             ImageDownloader.sharedInstance.downloadImage(urlString: self.imageList[9].url, imageView: imageView10, callbackAfterNoofImages: self.imageList.count, delegate: self)
         }
-        
-//        let type = AssessmentQuestionType.init(rawValue: self.matchingObjectInfo.screen_type)
-//
-        if(program.label_code == .vpmts_goal_6m) {
+
+        if(program.label_code != .lr_messyarray_touch) {
             self.addPanGesture()
         }
-//        if(type == .match_object_drag_with_messy_array) {
-//            self.addPanGesture()
-//        }
     }
     
+    func initializeTheFrames() {
+        
+        let screenW:CGFloat = UIScreen.main.bounds.width
+        let screenH:CGFloat = UIScreen.main.bounds.height
+
+        
+        var y:CGFloat = 300
+        
+        var ySpace:CGFloat = 20.0
+        var xSpace:CGFloat = (screenW-(5*wh))/6.0
+        var xRef:CGFloat = xSpace
+        
+        
+        var yRef:CGFloat = y+wh+ySpace
+
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            y = 160
+            wh = 70
+            
+            ySpace = 10
+            xSpace = (screenW-(5*wh))/6.0
+            
+            xRef = xSpace
+            yRef = screenH-safeAreaBottom-100//y+wh+ySpace
+        }
+
+        let noOfImages:Int = self.imageList.count
+        
+        if(noOfImages < 4) {
+            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            
+            xRef = xRef+wh+xSpace
+            imageView3.frame = CGRect(x: xRef, y: yRef-ySpace-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            
+            xRef = xRef+wh+xSpace
+            imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+
+        } else if(noOfImages == 4) {
+            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView3.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            //imageView5.frame = CGRect(x: xRef, y: yRef-ySpace-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView4.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView2.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+
+        } else if(noOfImages > 4) {
+            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView4.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView3.frame = CGRect(x: xRef, y: yRef-ySpace-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView5.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+        }
+        
+        yRef = y
+        xRef = xSpace
+        
+        if(noOfImages == 6) {
+            xRef = xRef+wh+xSpace
+            xRef = xRef+wh+xSpace
+            
+            imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+        } else if(noOfImages == 7) {
+            imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView8.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0)+ySpace, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView7.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView10.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+        } else if(noOfImages == 9) {
+            imageView8.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            //imageView8.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0)+ySpace, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView7.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+
+        } else {
+            imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView8.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0)+ySpace, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView7.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView10.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+        }
+    }
+    
+    func initializeTheFramesLeanier() {
+        
+        let screenW:CGFloat = UIScreen.main.bounds.width
+        let screenH:CGFloat = UIScreen.main.bounds.height
+
+        var wh:CGFloat = 180.0
+        var y:CGFloat = 300
+        
+        var ySapce:CGFloat = 20.0
+        var xSpace:CGFloat = (screenW-(5*wh))/6.0
+        var xRef:CGFloat = xSpace
+        
+        
+        var yRef:CGFloat = y+wh+ySapce
+
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+//            y = screenH-safeAreaBottom-100
+            y = 160
+            wh = 70
+            
+            ySapce = 10
+            xSpace = (screenW-(5*wh))/6.0
+            
+            xRef = xSpace
+            yRef = screenH-safeAreaBottom-100//y+wh+ySapce
+        }
+        
+        let noOfImages:Int = self.imageList.count
+
+        if(noOfImages == 4) {
+            xSpace = (screenW-(CGFloat(noOfImages)*wh))/CGFloat(noOfImages+1)
+            xRef = xSpace
+            
+            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView3.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView4.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            return
+        }
+    
+        //if(noOfImages == 5) {
+            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView4.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView3.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView5.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+        //}
+        yRef = y
+        xRef = xSpace
+        
+        if(noOfImages == 6) {
+            xRef = xRef+wh+xSpace
+            xRef = xRef+wh+xSpace
+            imageView6.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        } else if(noOfImages == 7) {
+            xRef = xRef+wh+xSpace
+            imageView6.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            xRef = xRef+wh+xSpace
+            imageView7.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+        } else if(noOfImages == 8) {
+            xRef = xRef+wh+xSpace
+            imageView6.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView7.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView8.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+        } else if(noOfImages == 9) {
+            imageView6.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView7.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView10.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView8.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView9.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+
+        } else if(noOfImages == 10) {
+            imageView6.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView9.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView8.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView10.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView7.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+        }
+
+    }
     private func addPanGesture() {
 
         self.imageViewBG.isUserInteractionEnabled = true
@@ -417,10 +626,7 @@ class LearningMessyArrayViewController: UIViewController {
                 self.initialFrame = nil
                 self.selectedObject = nil
             }
-//            SpeechManager.shared.speak(message: SpeechMessage.keepTrying.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-
-//            self.incorrectDragDropCount += 1
-//            SpeechManager.shared.speak(message: self.matchingObjectInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            self.isChildActionCompleted = false
         }
     }
     
@@ -436,134 +642,11 @@ class LearningMessyArrayViewController: UIViewController {
                 self.selectedObject = nil
             }
             self.isChildActionCompleted = true
-//                        self.success_count = 100
-//                        self.questionState = .submit
-//            imageViewRight.isHidden = false
-//            imageViewCroos.isHidden = true
+
             SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-
-//            self.isUserInteraction = false
-////            self.success_count = 100
-////            self.questionState = .submit
-  //          SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(self.matchingObjectInfo.correct_text), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
-    func initializeTheFrames() {
-        
-        let screenW:CGFloat = UIScreen.main.bounds.width
-        let screenH:CGFloat = UIScreen.main.bounds.height
 
-        
-        var y:CGFloat = 300
-        
-        var ySpace:CGFloat = 20.0
-        var xSpace:CGFloat = (screenW-(5*wh))/6.0
-        var xRef:CGFloat = xSpace
-        
-        
-        var yRef:CGFloat = y+wh+ySpace
-
-        if(UIDevice.current.userInterfaceIdiom != .pad) {
-            y = 160
-            wh = 70
-            
-            ySpace = 10
-            xSpace = (screenW-(5*wh))/6.0
-            
-            xRef = xSpace
-            yRef = screenH-safeAreaBottom-100//y+wh+ySpace
-        }
-
-        let noOfImages:Int = self.imageList.count
-        
-        if(noOfImages < 4) {
-            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            
-            xRef = xRef+wh+xSpace
-            imageView3.frame = CGRect(x: xRef, y: yRef-ySpace-ySpace-(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            
-            xRef = xRef+wh+xSpace
-            imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-
-        } else if(noOfImages == 4) {
-            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView3.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            //imageView5.frame = CGRect(x: xRef, y: yRef-ySpace-ySpace-(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView4.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView2.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-
-        } else if(noOfImages > 4) {
-            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView4.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView3.frame = CGRect(x: xRef, y: yRef-ySpace-ySpace-(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView5.frame = CGRect(x: xRef, y: y, width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-        }
-        
-        yRef = y
-        xRef = xSpace
-        
-        if(noOfImages == 6) {
-            xRef = xRef+wh+xSpace
-            xRef = xRef+wh+xSpace
-            
-            imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
-        } else if(noOfImages == 7) {
-            imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView8.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0)+ySpace, width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView7.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView10.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-        } else if(noOfImages == 9) {
-            imageView8.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            //imageView8.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0)+ySpace, width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView7.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-
-        } else {
-            imageView9.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView6.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView8.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0)+ySpace, width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView7.frame = CGRect(x: xRef, y: yRef+ySpace+wh+(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-            imageView10.frame = CGRect(x: xRef, y: yRef-ySpace-(wh/2.0), width: wh, height: wh)
-            xRef = xRef+wh+xSpace
-        }
-        
-//        if(UIDevice.current.userInterfaceIdiom != .pad) {
-//            self.imageViewRight.frame = CGRect(x: currectObject!.center.x+(wh/2.0)-24, y: currectObject!.center.y+(wh/2.0)-24, width: 24, height: 24)
-//        } else {
-//            self.imageViewRight.frame = CGRect(x: currectObject!.center.x+(wh/2.0)-34, y: currectObject!.center.y+(wh/2.0)-34, width: 34, height: 34)
-//        }
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 //        touchOnEmptyScreenCount += 1
         
@@ -597,13 +680,8 @@ class LearningMessyArrayViewController: UIViewController {
         }
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        let type = AssessmentQuestionType.init(rawValue: self.matchingObjectInfo.screen_type)
-//
-//        if(type == .match_object_drag_with_messy_array) {
-//            return
-//        }
         
-        if(program.label_code == .vpmts_goal_6m) {
+        if(program.label_code != .lr_messyarray_touch) {
             return
         }
 
@@ -613,13 +691,10 @@ class LearningMessyArrayViewController: UIViewController {
                 print(position)
             if(imageViewTouched != nil) {
                 if(self.imageViewTouched!.frame.contains(position)) {
-                    
-                    //let iMdl = self.matchingObjectInfo.image_with_text[answerIndex]
-                    
+                                        
                     if(self.imageViewTouched?.aModel?.correct_option == ScriptCommandOptionType.actiontrue) {
                         self.isChildActionCompleted = true
-//                        self.success_count = 100
-//                        self.questionState = .submit
+
                         imageViewRight.isHidden = false
                         imageViewCroos.isHidden = true
                         SpeechManager.shared.speak(message: SpeechMessage.hurrayGoodJob.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
@@ -631,12 +706,8 @@ class LearningMessyArrayViewController: UIViewController {
                             self.imageViewCroos.frame = CGRect(x: imageViewTouched!.center.x+(wh/2.0)-34, y: imageViewTouched!.center.y+(wh/2.0)-34, width: 34, height: 34)
                         }
 
-//                        self.success_count = 0
-//                        self.questionState = .submit
                         imageViewRight.isHidden = false
                         imageViewCroos.isHidden = false
-//                        let speechText = SpeechMessage.rectifyAnswer.getMessage()+iMdl.name
-//                        self.animateTheRightImage(speechText)
                     }
                 }
             }

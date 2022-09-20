@@ -14,6 +14,7 @@ class AssessmentMatchingObjectDragViewController: UIViewController {
     private let matchingObjectViewModel = AssessmentMatchingObjectViewModel()
     private weak var delegate: AssessmentSubmitDelegate?
         
+    @IBOutlet weak var pauseButton: UIButton!
     @IBOutlet weak var labelTitle: UILabel!
     @IBOutlet weak var imageViewBG:  ImageViewWithID!
 
@@ -66,12 +67,28 @@ class AssessmentMatchingObjectDragViewController: UIViewController {
         answerIndex = Int(self.matchingObjectInfo.correct_answer)!-1
     }
     
+    @IBAction func pauseClicked(_ sender: Any) {
+        if AutismTimer.shared.isTimerRunning() {
+            self.stopTimer()
+            SpeechManager.shared.setDelegate(delegate: nil)
+            //RecordingManager.shared.stopRecording()
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "play"), for: .normal)
+            Utility.showPauseView(delegate: self)
+            self.isUserInteraction = true
+        } else {
+            AutismTimer.shared.initializeTimer(delegate: self)
+            SpeechManager.shared.setDelegate(delegate: self)
+            //RecordingManager.shared.startRecording(delegate: self)
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "pause"), for: .normal)
+        }
+    }
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchOnEmptyScreenCount += 1
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-           self.stopQuestionCompletionTimer()
+           self.stopTimer()
            SpeechManager.shared.setDelegate(delegate: nil)
            UserManager.shared.exitAssessment()
     }
@@ -96,7 +113,7 @@ extension AssessmentMatchingObjectDragViewController {
 extension AssessmentMatchingObjectDragViewController {
     
     private func moveToNextQuestion() {
-          self.stopQuestionCompletionTimer()
+          self.stopTimer()
           self.questionState = .submit
           SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
       }
@@ -119,7 +136,7 @@ extension AssessmentMatchingObjectDragViewController {
         }
     }
     
-    func stopQuestionCompletionTimer() {
+    func stopTimer() {
         AutismTimer.shared.stopTimer()
          
     }
@@ -157,6 +174,19 @@ extension AssessmentMatchingObjectDragViewController {
         let screenH:CGFloat = UIScreen.main.bounds.height
 
         var wh:CGFloat = 180.0
+        
+        imageView1.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView2.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView3.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView4.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView5.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView6.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView7.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView8.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView9.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        imageView10.frame = CGRect(x: screenW, y: screenH, width: wh, height: wh)
+        
+        
         var y:CGFloat = 300
         
         var ySapce:CGFloat = 20.0
@@ -167,7 +197,6 @@ extension AssessmentMatchingObjectDragViewController {
         var yRef:CGFloat = y+wh+ySapce
 
         if(UIDevice.current.userInterfaceIdiom != .pad) {
-//            y = screenH-safeAreaBottom-100
             y = 160
             wh = 70
             
@@ -175,9 +204,34 @@ extension AssessmentMatchingObjectDragViewController {
             xSpace = (screenW-(5*wh))/6.0
             
             xRef = xSpace
-            yRef = screenH-safeAreaBottom-100//y+wh+ySapce
+            yRef = screenH-safeAreaBottom-100
         }
-        if(self.matchingObjectInfo.image_with_text.count < 5) {
+        
+        if(self.matchingObjectInfo.image_with_text.count == 2) {
+            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+//            imageView4.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+//            imageView3.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+//            imageView5.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+
+        } else if(self.matchingObjectInfo.image_with_text.count == 3) {
+            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+//            imageView4.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView3.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+//            imageView5.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+
+        } else if(self.matchingObjectInfo.image_with_text.count == 4) {
             xSpace = (screenW-(CGFloat(self.matchingObjectInfo.image_with_text.count)*wh))/CGFloat(self.matchingObjectInfo.image_with_text.count+1)
             xRef = xSpace
             
@@ -190,18 +244,19 @@ extension AssessmentMatchingObjectDragViewController {
             imageView4.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
             xRef = xRef+wh+xSpace
             return
+        } else if(self.matchingObjectInfo.image_with_text.count == 5) {
+            imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView4.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView3.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView5.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
+            imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
+            xRef = xRef+wh+xSpace
         }
-        imageView1.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
-        xRef = xRef+wh+xSpace
-        imageView4.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
-        xRef = xRef+wh+xSpace
-        imageView3.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
-        xRef = xRef+wh+xSpace
-        imageView5.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
-        xRef = xRef+wh+xSpace
-        imageView2.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
-        xRef = xRef+wh+xSpace
-                    
+
         yRef = y
         xRef = xSpace
         
@@ -258,7 +313,6 @@ extension AssessmentMatchingObjectDragViewController {
         if(self.matchingObjectInfo.images.count > 0) {
             imageView1.iModel = self.matchingObjectInfo.images[0]
             ImageDownloader.sharedInstance.downloadImage(urlString:  self.matchingObjectInfo.images[0].image, imageView: imageView1, callbackAfterNoofImages: self.matchingObjectInfo.images.count+1, delegate: self)
-
         }
         if(self.matchingObjectInfo.images.count > 1) {
             imageView2.iModel = self.matchingObjectInfo.images[1]
@@ -365,10 +419,6 @@ extension AssessmentMatchingObjectDragViewController {
             if self.initialFrame == nil && selectedObject == nil {
                 self.selectedObject = (gestureRecognizer.view as? ImageViewWithID)!
                 self.initialFrame = self.selectedObject.frame
-
-//                let translation = gestureRecognizer.translation(in: self.view)
-//                gestureRecognizer.view!.center = CGPoint(x: gestureRecognizer.view!.center.x + translation.x, y: gestureRecognizer.view!.center.y + translation.y)
-//                gestureRecognizer.setTranslation(CGPoint.zero, in: self.view)
             }
             break
         case .changed:
@@ -401,132 +451,130 @@ extension AssessmentMatchingObjectDragViewController {
             let dropLocation = gestureRecognizer.location(in: view)
             var isLocationExist = false
             
-            if(self.matchingObjectInfo.correct_answer == "1") {
-                if(currentFilledImageView == imageView1) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView1.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView1)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "2") {
-                if(currentFilledImageView == imageView2) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView2.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView2)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "3") {
-                if(currentFilledImageView == imageView3) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    } else if(currentFilledImageView == imageViewBG) {
+            if(currentFilledImageView == imageViewBG) {
+                if (imageView1.frame.contains(dropLocation) || imageView2.frame.contains(dropLocation) || imageView3.frame.contains(dropLocation) || imageView4.frame.contains(dropLocation) ||
+                    imageView5.frame.contains(dropLocation) || imageView6.frame.contains(dropLocation) ||
+                    imageView7.frame.contains(dropLocation) || imageView8.frame.contains(dropLocation) ||
+                    imageView9.frame.contains(dropLocation) || imageView10.frame.contains(dropLocation)) {
+                    
+                    if(self.matchingObjectInfo.correct_answer == "1") {
+                        if imageView1.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "2") {
+                        if imageView2.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "3") {
                         if imageView3.frame.contains(dropLocation) {
                             isLocationExist = true
-                            self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView3)
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "4") {
+                        if imageView4.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "5") {
+                        if imageView5.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "6") {
+                        if imageView6.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "7") {
+                        if imageView7.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "8") {
+                        if imageView8.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "9") {
+                        if imageView9.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "10") {
+                        if imageView10.frame.contains(dropLocation) {
+                            isLocationExist = true
                         }
                     }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "4") {
-                if(currentFilledImageView == imageView4) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
+                    
+                    if isLocationExist == true {
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    } else {
+                        self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
                     }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView4.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView4)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "5") {
-                if(currentFilledImageView == imageView5) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView5.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView5)
+
+                } else {
+                    DispatchQueue.main.async {
+                        if let frame = self.initialFrame {
+                            self.selectedObject.frame = frame
+                            self.initialFrame = nil
+                            self.selectedObject = nil
+                        }
+                        self.incorrectDragDropCount += 1
                     }
                 }
-            } else if(self.matchingObjectInfo.correct_answer == "6") {
-                if(currentFilledImageView == imageView6) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
+            } else {
+                if imageViewBG.frame.contains(dropLocation) {
+                    if(self.matchingObjectInfo.correct_answer == "1") {
+                        if(currentFilledImageView == imageView1) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "2") {
+                        if(currentFilledImageView == imageView2) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "3") {
+                        if(currentFilledImageView == imageView3) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "4") {
+                        if(currentFilledImageView == imageView4) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "5") {
+                        if(currentFilledImageView == imageView5) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "6") {
+                        if(currentFilledImageView == imageView6) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "7") {
+                        if(currentFilledImageView == imageView7) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "8") {
+                        if(currentFilledImageView == imageView8) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "9") {
+                        if(currentFilledImageView == imageView9) {
+                            isLocationExist = true
+                        }
+                    } else if(self.matchingObjectInfo.correct_answer == "10") {
+                        if(currentFilledImageView == imageView10) {
+                            isLocationExist = true
+                        }
+                    }
+                    if isLocationExist == true {
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    } else {
+                        self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
                     }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView6.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView6)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "7") {
-                if(currentFilledImageView == imageView7) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView7.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView7)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "8") {
-                if(currentFilledImageView == imageView8) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView8.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView8)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "9") {
-                if(currentFilledImageView == imageView9) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView9.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView9)
-                    }
-                }
-            } else if(self.matchingObjectInfo.correct_answer == "10") {
-                if(currentFilledImageView == imageView10) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView10.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView10)
+                } else {
+                    DispatchQueue.main.async {
+                        if let frame = self.initialFrame {
+                            self.selectedObject.frame = frame
+                            self.initialFrame = nil
+                            self.selectedObject = nil
+                        }
+                        self.incorrectDragDropCount += 1
                     }
                 }
             }
-            
-            if !isLocationExist {
-                self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
-            }
-            
+                        
             break
         default:
             break
@@ -542,6 +590,8 @@ extension AssessmentMatchingObjectDragViewController {
                 self.selectedObject = nil
             }
             self.incorrectDragDropCount += 1
+            self.success_count = 0
+            self.questionState = .submit
             SpeechManager.shared.speak(message: self.matchingObjectInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
     }
@@ -577,7 +627,7 @@ extension AssessmentMatchingObjectDragViewController: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             self.matchingObjectViewModel.submitUserAnswer(successCount: self.success_count, info: self.matchingObjectInfo, timeTaken: self.timeTakenToSolve, skip: self.skipQuestion, touchOnEmptyScreenCount: self.touchOnEmptyScreenCount, selectedIndex: self.selectedIndex)
             break
@@ -592,11 +642,17 @@ extension AssessmentMatchingObjectDragViewController: SpeechManagerDelegate {
     }
     
     func speechDidStart(speechText:String) {
-        //self.isUserInteraction = false
+        self.isUserInteraction = false
 
     }
 }
 
+extension AssessmentMatchingObjectDragViewController: PauseViewDelegate {
+    func didTapOnPlay() {
+        Utility.hidePauseView()
+        self.pauseClicked(self.pauseButton as Any)
+    }
+}
 
 extension AssessmentMatchingObjectDragViewController: NetworkRetryViewDelegate {
     func didTapOnRetry() {
@@ -610,6 +666,7 @@ extension AssessmentMatchingObjectDragViewController: NetworkRetryViewDelegate {
         }
     }
 }
+
 class ImageViewWithID : UIImageView {
     var iModel : ImageModel?
     var aModel : AnimationImageModel?

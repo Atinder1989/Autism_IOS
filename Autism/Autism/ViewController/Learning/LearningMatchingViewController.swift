@@ -42,15 +42,23 @@ class LearningMatchingViewController: UIViewController {
     @IBOutlet weak var dragAnimationView: UIView!
     @IBOutlet weak var skipLearningButton: UIButton!
 
+    var questionId = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.skipLearningButton.isHidden = isSkipLearningHidden
         self.customSetting()
         self.addGesture()
+        
         if self.command_array.count == 0 {
             self.commandViewModal.fetchLearningQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
+        } else {
+            self.commandViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
         }
+
+//        if self.command_array.count == 0 {
+//            self.commandViewModal.fetchLearningQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
+//        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -71,14 +79,21 @@ class LearningMatchingViewController: UIViewController {
 //MARK:- Public Methods
 extension LearningMatchingViewController {
     func setData(program:LearningProgramModel, skillDomainId:String,command_array: [ScriptCommandInfo],questionId:String) {
-        self.listenModelClosures()
 
+        self.listenModelClosures()
         self.program = program
         self.skillDomainId = skillDomainId
-        if command_array.count > 0 {
-            self.command_array = command_array
-            self.commandViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
-        }
+        self.questionId = questionId
+        self.command_array = command_array
+
+//        self.listenModelClosures()
+//
+//        self.program = program
+//        self.skillDomainId = skillDomainId
+//        if command_array.count > 0 {
+//            self.command_array = command_array
+//            self.commandViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
+//        }
     }
 }
 

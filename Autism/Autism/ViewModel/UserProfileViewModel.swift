@@ -263,6 +263,33 @@ class UserProfileViewModel:NSObject {
                }
            }
        }
+
+    func submitDeviceToken(fcmToken:String) {
+                   
+        var service = Service.init(httpMethod: .POST)
+        service.url = ServiceHelper.getNotificationSubscribeUrl()
+        
+        if let user = UserManager.shared.getUserInfo() {
+            let token:String =  user.token
+            service.headers = ["Authorization": "Bearer "+token]
+        }
+
+        let paramsDict :[String: Any] =  [ServiceParsingKeys.device_id.rawValue:fcmToken]
+        service.params = paramsDict
+           ServiceManager.processDataFromServer(service: service, model: UserDeviceSubmitResponseVO.self) { (responseVo, error) in
+               if let e = error {
+                   print(e.localizedDescription)
+               } else {
+                   if let response = responseVo {
+//                       UserManager.shared.updateUserProfileInfo(response: response)
+//                        if let closure = self.submitClosure {
+//                            closure(response)
+//                        }
+                    }
+               }
+           }
+       }
+
 }
 
 // MARK: Private Methods

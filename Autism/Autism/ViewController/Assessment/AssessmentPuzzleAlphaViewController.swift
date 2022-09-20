@@ -75,7 +75,7 @@ class AssessmentPuzzleAlphaViewController: UIViewController, UIDragInteractionDe
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-             self.stopQuestionCompletionTimer()
+             self.stopTimer()
              SpeechManager.shared.setDelegate(delegate: nil)
              UserManager.shared.exitAssessment()
     }
@@ -101,7 +101,7 @@ extension AssessmentPuzzleAlphaViewController {
 extension AssessmentPuzzleAlphaViewController {
    
      private func moveToNextQuestion() {
-        self.stopQuestionCompletionTimer()
+        self.stopTimer()
         self.questionState = .submit
         SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
@@ -124,7 +124,7 @@ extension AssessmentPuzzleAlphaViewController {
         }
     }
     
-    func stopQuestionCompletionTimer() {
+    func stopTimer() {
         AutismTimer.shared.stopTimer()
     }
     
@@ -484,7 +484,7 @@ extension AssessmentPuzzleAlphaViewController: SpeechManagerDelegate {
         switch self.questionState {
         case .submit:
            
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             
             var numberOfAction:Int = 0

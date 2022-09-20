@@ -42,8 +42,11 @@ class ParentPresenceViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(AssesmentMathematicsViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(AssesmentMathematicsViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            NotificationCenter.default.addObserver(self, selector: #selector(AssesmentMathematicsViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(AssesmentMathematicsViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

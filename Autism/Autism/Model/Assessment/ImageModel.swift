@@ -46,14 +46,14 @@ struct ImageModel: Codable {
         self.empty_image     = try container.decodeIfPresent(String.self, forKey: .empty_image) ?? ""
         self.name          = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
         self.position          = try container.decodeIfPresent(String.self, forKey: .position) ?? ""
-        self.isCorrectAnswer = false
         
         self.info          = try container.decodeIfPresent(String.self, forKey: .info) ?? ""
         self.label_code          = try container.decodeIfPresent(String.self, forKey: .label_code) ?? ""
         self.language_code          = try container.decodeIfPresent(String.self, forKey: .language_code) ?? ""
         self.avtar_gender          = try container.decodeIfPresent(String.self, forKey: .avtar_gender) ?? ""
         
-        self.index = try container.decodeIfPresent(Int.self, forKey: .index) ?? 0
+        self.index = try container.decodeIfPresent(Int.self, forKey: .index) ?? 0        
+        self.isCorrectAnswer = try container.decodeIfPresent(Bool.self, forKey: .correct_answer) ?? false
     }
 
     func encode(to encoder: Encoder) throws {

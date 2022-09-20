@@ -594,6 +594,13 @@ extension AssessmentViewController {
                 vc.setWritingOnPadInfo(info: info, delegate: this)
                 this.presentVC(vc: vc)
             }
+        case .picture_scene_touch_object:
+            if let info = res.pictureSceneInfo {
+                let vc = Utility.getViewController(ofType: AssessmentPictureSceneViewController.self)
+                vc.modalPresentationStyle = .fullScreen
+                vc.setPictureSceneInfo(info: info, delegate: this)
+                this.presentVC(vc: vc)
+            }
         default:
             this.moveToNextController(screenName: res.screen_id)
             break

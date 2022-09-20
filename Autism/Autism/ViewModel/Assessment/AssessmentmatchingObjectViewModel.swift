@@ -26,19 +26,18 @@ class AssessmentMatchingObjectViewModel: NSObject {
         var programID:String?
         
         if let user = UserManager.shared.getUserInfo() {
-            service.params = [ ServiceParsingKeys.user_id.rawValue:user.id,
-                               ServiceParsingKeys.question_type.rawValue : info.question_type,
-                               ServiceParsingKeys.time_taken.rawValue : timeTaken,
-                          ServiceParsingKeys.complete_rate.rawValue : successCount,
-                        ServiceParsingKeys.success_count.rawValue : successCount,
-                ServiceParsingKeys.question_id.rawValue : info.id,
-                ServiceParsingKeys.language.rawValue:user.languageCode,
-                ServiceParsingKeys.req_no.rawValue:info.req_no,
+                service.params = [ ServiceParsingKeys.user_id.rawValue:user.id,
+                                   ServiceParsingKeys.question_type.rawValue : info.question_type,
+                                   ServiceParsingKeys.time_taken.rawValue : timeTaken,
+                                   ServiceParsingKeys.complete_rate.rawValue : successCount,
+                                   ServiceParsingKeys.success_count.rawValue : successCount,
+                                   ServiceParsingKeys.question_id.rawValue : info.id,
+                                   ServiceParsingKeys.language.rawValue:user.languageCode,
+                                   ServiceParsingKeys.req_no.rawValue:info.req_no,
                                 ServiceParsingKeys.skill_domain_id.rawValue:info.skill_domain_id,
                                 ServiceParsingKeys.level.rawValue:info.level,
                                 ServiceParsingKeys.skip.rawValue:skip,
-                                ServiceParsingKeys.program_id.rawValue:programID,//info.program_id,
-                                
+                                ServiceParsingKeys.program_id.rawValue:programID,
                                 ServiceParsingKeys.touchOnEmptyScreenCount.rawValue:touchOnEmptyScreenCount,
                                 ServiceParsingKeys.selectedIndex.rawValue:selectedIndex+1,
                                 ServiceParsingKeys.faceDetectionDataList.rawValue:FaceDetection.shared.getFaceDetectionDataList(),

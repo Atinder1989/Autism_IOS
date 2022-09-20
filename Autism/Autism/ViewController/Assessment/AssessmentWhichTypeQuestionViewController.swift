@@ -15,6 +15,7 @@ class AssessmentWhichTypeQuestionViewController: UIViewController {
     @IBOutlet weak var imagesCollectionView: UICollectionView!
     
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
+    @IBOutlet weak var pauseButton: UIButton!
     
     private weak var delegate: AssessmentSubmitDelegate?
     private var whichTypeQuestionInfo: WhichTypeQuestionInfo!
@@ -94,15 +95,15 @@ extension AssessmentWhichTypeQuestionViewController {
 
         let size:CGFloat = self.getLayoutHeightWidth()
 
-        let cWidth:CGFloat = (size*c) + 20*c
-        let cHeight:CGFloat = size+20
+//        let cWidth:CGFloat = (size*c) + 20*c
+//        let cHeight:CGFloat = size+20
 
-//        var cWidth:CGFloat = (size*c) + 20*c
-//        var cHeight:CGFloat = size+20
-//        if(c >= 8) {
-//            cWidth = (size*c) + 10*c
-//            cHeight = 4*(size+10)
-//        }
+        var cWidth:CGFloat = (size*c) + 20*c
+        var cHeight:CGFloat = size+20
+        if(c >= 8) {
+            cWidth = (size*c) + 10*c
+            cHeight = 4*(size+10)
+        }
 
         self.imagesCollectionView.frame = CGRect(x: (sWidth-cWidth)/2.0, y: ((sHeight-cHeight)/2.0)+20, width: cWidth, height: cHeight)
         
@@ -160,10 +161,10 @@ extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size:CGFloat = self.getLayoutHeightWidth()
-//        let c:CGFloat = CGFloat(self.whichTypeQuestionInfo.image_with_text.count)
-//        if(c >= 8) {
-//            return CGSize.init(width: size+size, height: size+size)
-//        }
+        let c:CGFloat = CGFloat(self.whichTypeQuestionInfo.image_with_text.count)
+        if(c >= 8) {
+            return CGSize.init(width: size+size, height: size+size)
+        }
         return CGSize.init(width: size, height: size)
     }
     
@@ -307,6 +308,29 @@ extension AssessmentWhichTypeQuestionViewController: SpeechManagerDelegate {
             }
         }
         self.avatarImageView.animatedImage =  getTalkingGif()
+    }
+}
+
+extension AssessmentWhichTypeQuestionViewController: PauseViewDelegate {
+    func didTapOnPlay() {
+        Utility.hidePauseView()
+        self.pauseClicked(self.pauseButton as Any)
+    }
+    
+    @IBAction func pauseClicked(_ sender: Any) {
+        if AutismTimer.shared.isTimerRunning() {
+            self.stopTimer()
+            SpeechManager.shared.setDelegate(delegate: nil)
+            //RecordingManager.shared.stopRecording()
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "play"), for: .normal)
+            Utility.showPauseView(delegate: self)
+            self.isUserInteraction = true
+        } else {
+            AutismTimer.shared.initializeTimer(delegate: self)
+            SpeechManager.shared.setDelegate(delegate: self)
+            //RecordingManager.shared.startRecording(delegate: self)
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "pause"), for: .normal)
+        }
     }
 }
 

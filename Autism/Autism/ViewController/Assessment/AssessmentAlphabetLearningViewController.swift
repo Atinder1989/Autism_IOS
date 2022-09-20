@@ -47,7 +47,7 @@ class AssessmentAlphabetLearningViewController: UIViewController {
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-           self.stopQuestionCompletionTimer()
+           self.stopTimer()
            SpeechManager.shared.setDelegate(delegate: nil)
            UserManager.shared.exitAssessment()
        }
@@ -162,7 +162,7 @@ extension AssessmentAlphabetLearningViewController {
 
 extension AssessmentAlphabetLearningViewController {
     private func moveToNextQuestion() {
-          self.stopQuestionCompletionTimer()
+          self.stopTimer()
           self.questionState = .submit
           self.success_count = 0
          SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
@@ -184,7 +184,7 @@ extension AssessmentAlphabetLearningViewController {
         }
     }
 
-    private func stopQuestionCompletionTimer() {
+    private func stopTimer() {
         AutismTimer.shared.stopTimer()
     }
 }
@@ -205,7 +205,7 @@ extension AssessmentAlphabetLearningViewController: SpeechManagerDelegate {
         
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             self.alphabetLearningViewModel.submitUserAnswer(successCount: self.success_count, info: self.alphabetLearningInfo, timeTaken: self.timeTakenToSolve, skip: self.skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount, selectedIndex: selectedIndex)
             break

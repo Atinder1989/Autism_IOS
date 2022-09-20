@@ -47,7 +47,7 @@ class AssessmentMakeWordViewController: UIViewController, UIDragInteractionDeleg
     
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-        self.stopQuestionCompletionTimer()
+        self.stopTimer()
         SpeechManager.shared.setDelegate(delegate: nil)
         UserManager.shared.exitAssessment()
     }
@@ -92,12 +92,12 @@ class AssessmentMakeWordViewController: UIViewController, UIDragInteractionDeleg
         }
         
         private func moveToNextQuestion() {
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             self.questionState = .submit
             SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
         
-        func stopQuestionCompletionTimer() {
+        func stopTimer() {
             AutismTimer.shared.stopTimer()
                
         }
@@ -338,7 +338,7 @@ extension AssessmentMakeWordViewController: SpeechManagerDelegate {
         
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             
             let wordCount:Int = self.actualWorrd.count

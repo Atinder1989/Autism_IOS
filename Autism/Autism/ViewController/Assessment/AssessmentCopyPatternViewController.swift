@@ -14,6 +14,7 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
     
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     @IBOutlet weak var labelTitle: UILabel!
+    @IBOutlet weak var pauseButton: UIButton!
     
     private var success_count = 0
     private var timeTakenToSolve = 0
@@ -48,7 +49,7 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-        self.stopQuestionCompletionTimer()
+        self.stopTimer()
         SpeechManager.shared.setDelegate(delegate: nil)
         UserManager.shared.exitAssessment()
     }
@@ -93,12 +94,12 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
         }
         
         private func moveToNextQuestion() {
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             self.questionState = .submit
             SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
         
-        func stopQuestionCompletionTimer() {
+        func stopTimer() {
             AutismTimer.shared.stopTimer()
         }
         
@@ -175,7 +176,7 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
                     cpBucketView.contentMode = .scaleToFill
                     self.view.addSubview(cpBucketView)
                     
-                    if(strName != "foil") {
+                    if(strName.lowercased() != "foil") {
                         let urlString = ServiceHelper.baseURL.getMediaBaseUrl() + strImage
                         cpBucketView.setImageWith(urlString: urlString)
                     }
@@ -338,7 +339,7 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
                 if(type == .sort_sequence) {
                     for view in self.view.subviews {
                         if let bucket = view as? CopyPatternBucketView {
-                            if bucket.iModel!.name == "foil" {
+                            if bucket.iModel!.name.lowercased() == "foil" {
                                 if bucket.frame.contains(dropLocation) {
                                     if(bucket.image == nil) {
                                         if(currentFilledPattern.iModel!.name == bucket.iModel!.name) {
@@ -507,7 +508,7 @@ extension AssessmentCopyPatternViewController: SpeechManagerDelegate {
         }
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
 
             let type = AssessmentQuestionType.init(rawValue: self.copyPatternInfo.question_type)
@@ -558,6 +559,29 @@ class CopyPatternView : UIImageView {
 
 class CopyPatternBucketView : UIImageView {
     var iModel : ImageModel?
+}
+
+extension AssessmentCopyPatternViewController: PauseViewDelegate {
+    func didTapOnPlay() {
+        Utility.hidePauseView()
+        self.pauseClicked(self.pauseButton as Any)
+    }
+    
+    @IBAction func pauseClicked(_ sender: Any) {
+        if AutismTimer.shared.isTimerRunning() {
+            self.stopTimer()
+            SpeechManager.shared.setDelegate(delegate: nil)
+            //RecordingManager.shared.stopRecording()
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "play"), for: .normal)
+            Utility.showPauseView(delegate: self)
+            self.isUserInteraction = true
+        } else {
+            AutismTimer.shared.initializeTimer(delegate: self)
+            SpeechManager.shared.setDelegate(delegate: self)
+            //RecordingManager.shared.startRecording(delegate: self)
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "pause"), for: .normal)
+        }
+    }
 }
 
 extension AssessmentCopyPatternViewController: NetworkRetryViewDelegate {

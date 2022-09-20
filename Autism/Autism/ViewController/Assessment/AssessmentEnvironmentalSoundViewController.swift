@@ -15,6 +15,7 @@ class AssessmentEnvironmentalSoundViewController: UIViewController {
     @IBOutlet weak var userAnswer: UILabel!
     @IBOutlet weak var questionImageView: UIImageView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
+    @IBOutlet weak var pauseButton: UIButton!
     
     private var environmentQuestionInfo: EnvironmentalSoundQuestionInfo!
     private var timeTakenToSolve = 0
@@ -265,6 +266,29 @@ extension AssessmentEnvironmentalSoundViewController: RecordingManagerDelegate {
             SpeechManager.shared.speak(message: self.environmentQuestionInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         }
             
+        }
+    }
+}
+
+extension AssessmentEnvironmentalSoundViewController: PauseViewDelegate {
+    func didTapOnPlay() {
+        Utility.hidePauseView()
+        self.pauseClicked(self.pauseButton as Any)
+    }
+    
+    @IBAction func pauseClicked(_ sender: Any) {
+        if AutismTimer.shared.isTimerRunning() {
+            self.stopTimer()
+            SpeechManager.shared.setDelegate(delegate: nil)
+            RecordingManager.shared.stopRecording()
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "play"), for: .normal)
+            Utility.showPauseView(delegate: self)
+            self.isUserInteraction = true
+        } else {
+            AutismTimer.shared.initializeTimer(delegate: self)
+            SpeechManager.shared.setDelegate(delegate: self)
+            RecordingManager.shared.startRecording(delegate: self)
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "pause"), for: .normal)
         }
     }
 }

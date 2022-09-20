@@ -45,15 +45,24 @@ class LearningFineMotorMovementViewController: UIViewController {
     @IBOutlet weak var bufferLoaderView: UIView!
     private var bufferLoaderTimer: Timer?
 
+    var questionId = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         sceneView.delegate = self
         self.addTapGesture()
         self.customSetting()
+        
         if self.command_array.count == 0 {
             self.fineMotorViewModel.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)
+        } else {
+            self.fineMotorViewModel.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
         }
+        
+//        if self.command_array.count == 0 {
+//            self.fineMotorViewModel.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)
+//        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -111,14 +120,20 @@ class LearningFineMotorMovementViewController: UIViewController {
 //MARK:- Public Methods
 extension LearningFineMotorMovementViewController {
     func setData(program:LearningProgramModel, skillDomainId:String,command_array: [ScriptCommandInfo],questionId:String) {
+        
         self.listenModelClosures()
         self.program = program
         self.skillDomainId = skillDomainId
-        if command_array.count > 0 {
-            self.command_array = command_array
-            self.fineMotorViewModel.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
+        self.questionId = questionId
+        self.command_array = command_array
 
-        }
+//        self.listenModelClosures()
+//        self.program = program
+//        self.skillDomainId = skillDomainId
+//        if command_array.count > 0 {
+//            self.command_array = command_array
+//            self.fineMotorViewModel.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
+//        }
     }
 }
 

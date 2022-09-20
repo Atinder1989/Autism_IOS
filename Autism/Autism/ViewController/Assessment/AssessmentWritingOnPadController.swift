@@ -15,7 +15,9 @@ class AssessmentWritingOnPadController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var questionTitle: UILabel!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
-    
+    @IBOutlet weak var pauseButton: UIButton!
+
+
     private var touchOnEmptyScreenCount = 0
     private weak var delegate: AssessmentSubmitDelegate?
     private var writingPadInfo: WritingOnPadInfo!
@@ -28,6 +30,8 @@ class AssessmentWritingOnPadController: UIViewController {
     }
     private var skipQuestion = false
 
+    var isPaused = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.customSetting()
@@ -39,7 +43,6 @@ class AssessmentWritingOnPadController: UIViewController {
     }
     
     @IBAction func submitClicked(_ sender: Any) {
-     //   SpeechManager.shared.speak(message: self.writingPadInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
         self.writingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
     }
     
@@ -137,3 +140,29 @@ extension AssessmentWritingOnPadController: NetworkRetryViewDelegate {
         }
     }
 }
+
+extension AssessmentWritingOnPadController: PauseViewDelegate {
+    func didTapOnPlay() {
+        Utility.hidePauseView()
+        self.pauseClicked(self.pauseButton as Any)
+    }
+    
+    @IBAction func pauseClicked(_ sender: Any) {
+        if isPaused == false {
+            isPaused = true
+            //self.stopTimer()
+            //RecordingManager.shared.stopRecording()
+            SpeechManager.shared.setDelegate(delegate: nil)
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "play"), for: .normal)
+            Utility.showPauseView(delegate: self)
+            self.isUserInteraction = true
+        } else {
+            isPaused = false
+            //AutismTimer.shared.initializeTimer(delegate: self)
+            //RecordingManager.shared.startRecording(delegate: self)
+            SpeechManager.shared.setDelegate(delegate: self)
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "pause"), for: .normal)
+        }
+    }
+}
+

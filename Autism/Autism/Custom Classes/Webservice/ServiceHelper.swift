@@ -11,7 +11,7 @@ import Foundation
 class ServiceHelper: NSObject {
     static var baseURL: ServiceEnvironment {
         get {
-            return ServiceEnvironment.DevelopmentNew
+            return ServiceEnvironment.Testing
         }
     }
 }
@@ -148,6 +148,11 @@ extension ServiceHelper {
     static func getWritingOnPadUploadImageUrl() -> String {
                 return baseURL.rawValue + "image/submit"
         }
+    
+    static func getNotificationSubscribeUrl() -> String {
+        return baseURL.rawValue + "notification/subscribe"
+    }
+    
 }
 
 

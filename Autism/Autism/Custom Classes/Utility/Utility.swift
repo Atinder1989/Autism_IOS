@@ -433,7 +433,38 @@ class Utility {
                }
            }
        }
+
+    private static func createPauseView(delegate: PauseViewDelegate) -> UIView {
+        let retryView = self.getView(of: PauseView.self)
+         let frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width,
+         height: UIScreen.main.bounds.height)
+           retryView.frame = frame
+           retryView.setDelegate(delegate: delegate)
+           return retryView
+       }
+
+    static func showPauseView(delegate: PauseViewDelegate) {
+      DispatchQueue.main.async {
+        if let topVC = UIApplication.topViewController() {
+            let rViews = topVC.view.allSubViewsOf(type: PauseView.self)
+                if rViews.count == 0 {
+                 topVC.view.addSubview(self.createPauseView(delegate: delegate))
+                }
+            }
+        }
+    }
     
+    static func hidePauseView() {
+        DispatchQueue.main.async {
+        if let topVC = UIApplication.topViewController() {
+            let rViews = topVC.view.allSubViewsOf(type: PauseView.self)
+            if rViews.count > 0 {
+                rViews[0].removeFromSuperview()
+                }
+            }
+        }
+    }
+
     static func getThumbnailImage(urlString:String,time:CMTime) -> UIImage? {
         if let sourceURL = URL(string: urlString) {
         let asset = AVAsset(url: sourceURL)
@@ -521,6 +552,76 @@ class Utility {
         }
     }
     
+    func createDataBody(withParameters params: [String: Any]?, media: [Media]?, boundary: String) -> Data {
+       let lineBreak = "\r\n"
+       var body = Data()
+       if let parameters = params {
+          for (key, value) in parameters {
+             body.append("--\(boundary + lineBreak)")
+             body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
+             body.append("\((value as? String ?? "") + lineBreak)")
+          }
+       }
+       if let media = media {
+          for photo in media {
+             body.append("--\(boundary + lineBreak)")
+             body.append("Content-Disposition: form-data; name=\"\(photo.key)\"; filename=\"\(photo.filename)\"\(lineBreak)")
+             body.append("Content-Type: \(photo.mimeType + lineBreak + lineBreak)")
+             body.append(photo.data)
+             body.append(lineBreak)
+          }
+       }
+        body.append("--\(boundary)--\(lineBreak)")
+       return body
+    }
     
+    func generateBoundary() -> String {
+       return "Boundary-\(NSUUID().uuidString)"
+    }
+    
+    func uploadCapturedImage(correctText: String, image: UIImage, completion: @escaping (Error?, ImageUploadResponseVO?) -> Void) {
+
+        var parameter: [String: Any] = [:]
+        parameter["correct_text"] = correctText
+       
+         guard let mediaImage = Media(withImage: image, forKey: "image") else { return }
+        
+          //create boundary
+        let boundary = self.generateBoundary()
+        
+          //create dataBody
+        let dataBody = self.createDataBody(withParameters: parameter, media: [mediaImage], boundary: boundary)
+
+          guard let url = URL(string: "https://impute.co.jp:4000/v1/image/submit") else { return }
+          var request = URLRequest(url: url)
+          request.httpMethod = "POST"
+          request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        let username = "oeEU1BG0ES"
+        let password = "rNGkOF+p/D}V@rK"
+        let joined = username + ":" + password
+        let data = Data(joined.utf8)
+        let encoded = data.base64EncodedString()
+        request.setValue("Basic \(encoded)", forHTTPHeaderField: "Authorization")
+        
+          //call createDataBody method
+          request.httpBody = dataBody
+        
+          let session = URLSession.shared
+          session.dataTask(with: request) { (data, response, error) in
+             if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any]
+                    print(json)
+                    let jsonDecoder = JSONDecoder.init()
+                    let imageCheckResponse = try jsonDecoder.decode(ImageUploadResponseVO.self, from: data)
+                    completion(nil, imageCheckResponse)
+                } catch {
+                    completion(error, nil)
+                }
+             }
+          }.resume()
+    }
+
 }
 

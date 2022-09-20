@@ -19,7 +19,8 @@ class LearningVocalImitationsViewController: UIViewController {
     private var videoItem: VideoItem?
     private var bufferLoaderTimer: Timer?
 
-
+    @IBOutlet weak var pauseButton: UIButton!
+    
     private var isChildActionCompleted = false {
         didSet {
             if isChildActionCompleted {
@@ -379,3 +380,27 @@ extension LearningVocalImitationsViewController: RecordingManagerDelegate {
     
 }
 
+extension LearningVocalImitationsViewController: PauseViewDelegate {
+    func didTapOnPlay() {
+        Utility.hidePauseView()
+        self.pauseClicked(self.pauseButton as Any)
+    }
+    
+    @IBAction func pauseClicked(_ sender: Any) {        
+        
+        if AutismTimer.shared.isTimerRunning() {
+//            self.stopTimer()
+//            SpeechManager.shared.setDelegate(delegate: nil)
+//            RecordingManager.shared.stopRecording()
+            
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "play"), for: .normal)
+            Utility.showPauseView(delegate: self)
+        } else {
+//            AutismTimer.shared.initializeTimer(delegate: self)
+//            SpeechManager.shared.setDelegate(delegate: self)
+//            RecordingManager.shared.startRecording(delegate: self)
+            
+            self.pauseButton.setBackgroundImage(UIImage.init(named: "pause"), for: .normal)
+        }
+    }
+}

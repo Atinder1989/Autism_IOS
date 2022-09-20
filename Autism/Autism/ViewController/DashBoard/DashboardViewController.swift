@@ -288,10 +288,12 @@ extension DashboardViewController {
                         }
                         
                         if let _ = data.learninginfo {
-                            let vc = Utility.getViewController(ofType: StagesViewController.self)
-                            vc.modalPresentationStyle = .fullScreen
-                            vc.setStageScreen(performanceDetail: nil, algoResponse: algoResponse, startDate: "", endDate: "", level: "")
-                            self.present(vc, animated: true, completion: nil)
+                            self.executeAutomaticLearning(algoResponse: algoResponse)
+//                            let vc = Utility.getViewController(ofType: StagesViewController.self)
+//                            vc.modalPresentationStyle = .fullScreen
+//                            vc.setStageScreen(performanceDetail: nil, algoResponse: algoResponse, startDate: "", endDate: "", level: "")
+//                            self.present(vc, animated: true, completion: nil)
+
                         } else if let trailinfo = data.trialInfo {
                             if let vc =  LearningManager.getTrialController(info: trailinfo) {
                                 self.present(vc, animated: true, completion: {
@@ -326,6 +328,43 @@ extension DashboardViewController {
         }
     }
     
+    private func executeAutomaticLearning(algoResponse:AlgorithmResponseVO) {
+        if let data = algoResponse.data,let info = data.learninginfo  {
+            var program = LearningProgramModel.init()
+            program.program_id = info.program_id
+            
+            program.course_type = info.course_type
+            program.content_type = info.content_type
+            program.bucket = info.bucket
+            program.index = info.index
+            program.table_name = info.table_name
+            program.level = info.level
+
+        if let code =  ProgramCode.init(rawValue: info.label_code) {
+                program.label_code = code
+        } else {
+                program.label_code = .none
+        }
+         
+        weak var weakSelf = self
+        if let vc =  LearningManager.getLearningScriptController(skill_domain_id: info.skill_domain_id, program: program, command_array: info.command_array, questionId: info.question_id) {
+            if let this = weakSelf {
+                this.dismiss(animated: false, completion: {
+                    if let topvc = UIApplication.topViewController() {
+                    topvc.present(vc, animated: true, completion: {
+                        LearningManager.setLastVC(vc: vc)
+                    })
+                    }
+                })
+            }
+        } else {
+            Utility.showAlert(title: "Information", message: "Learning Work under progress")
+            UserManager.shared.exitAssessment()
+        }
+            
+        }
+        }
+
     private func setLabels(labelresponse:ScreenLabelResponseVO) {
         self.resumeAssessmentButton.isHidden = false
         
@@ -468,40 +507,43 @@ extension DashboardViewController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        DispatchQueue.main.async {
-            if collectionView == self.levelCollectionView {
-                let newLevel = indexPath.row
-                if newLevel != self.levelIndex {
-                    self.selectedLevelIndexPath = indexPath
-                    self.levelIndex = newLevel
-                }
-            } else {
-                
-                if let history = self.selectedHistory {
-                let model = history.performanceList[self.levelIndex].performanceDetail[indexPath.row]
-                if model.assesment_status == .completed {
-                    if let res = self.dashboardViewModel.dashboardPerformanceResponseVO {
-                        if res.assessment_status == .completed {
-                            let vc = Utility.getViewController(ofType: StagesViewController.self)
-                            vc.modalPresentationStyle = .fullScreen
-                            vc.setStageScreen(performanceDetail: model, algoResponse: nil, startDate: history.start_date, endDate: history.end_date, level: history.performanceList[self.levelIndex].title)
-                            self.present(vc, animated: true, completion: nil)
-                        } else {
-                            if let labelresponse = self.dashboardViewModel.labelsResponseVO {
-                            Utility.showAlert(title: labelresponse.getLiteralof(code: DashboardLabelCode.information.rawValue).label_text, message: labelresponse.getLiteralof(code: DashboardLabelCode.completeAssessment.rawValue).label_text)
-                            }
-                        }
-                    }
-                } 
-                else if model.assesment_question {
-                    if let labelresponse = self.dashboardViewModel.labelsResponseVO {
-                    Utility.showAlert(title: labelresponse.getLiteralof(code: DashboardLabelCode.information.rawValue).label_text, message: labelresponse.getLiteralof(code: DashboardLabelCode.completeAssessment.rawValue).label_text)
-                    }
-                }
-                }
-                
-            }
-        }
+        
+        return
+        //Temporary disabled
+//        DispatchQueue.main.async {
+//            if collectionView == self.levelCollectionView {
+//                let newLevel = indexPath.row
+//                if newLevel != self.levelIndex {
+//                    self.selectedLevelIndexPath = indexPath
+//                    self.levelIndex = newLevel
+//                }
+//            } else {
+//
+//                if let history = self.selectedHistory {
+//                let model = history.performanceList[self.levelIndex].performanceDetail[indexPath.row]
+//                if model.assesment_status == .completed {
+//                    if let res = self.dashboardViewModel.dashboardPerformanceResponseVO {
+//                        if res.assessment_status == .completed {
+//                            let vc = Utility.getViewController(ofType: StagesViewController.self)
+//                            vc.modalPresentationStyle = .fullScreen
+//                            vc.setStageScreen(performanceDetail: model, algoResponse: nil, startDate: history.start_date, endDate: history.end_date, level: history.performanceList[self.levelIndex].title)
+//                            self.present(vc, animated: true, completion: nil)
+//                        } else {
+//                            if let labelresponse = self.dashboardViewModel.labelsResponseVO {
+//                            Utility.showAlert(title: labelresponse.getLiteralof(code: DashboardLabelCode.information.rawValue).label_text, message: labelresponse.getLiteralof(code: DashboardLabelCode.completeAssessment.rawValue).label_text)
+//                            }
+//                        }
+//                    }
+//                }
+//                else if model.assesment_question {
+//                    if let labelresponse = self.dashboardViewModel.labelsResponseVO {
+//                    Utility.showAlert(title: labelresponse.getLiteralof(code: DashboardLabelCode.information.rawValue).label_text, message: labelresponse.getLiteralof(code: DashboardLabelCode.completeAssessment.rawValue).label_text)
+//                    }
+//                }
+//                }
+//
+//            }
+//        }
     }
     
 }

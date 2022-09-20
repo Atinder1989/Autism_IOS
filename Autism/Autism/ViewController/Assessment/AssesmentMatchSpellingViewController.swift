@@ -70,7 +70,7 @@ class AssesmentMatchSpellingViewController: UIViewController, UITextFieldDelegat
         }
     }
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-          self.stopQuestionCompletionTimer()
+          self.stopTimer()
           SpeechManager.shared.setDelegate(delegate: nil)
           UserManager.shared.exitAssessment()
       }
@@ -126,7 +126,7 @@ extension AssesmentMatchSpellingViewController {
                            if res.success {
                              self.dismiss(animated: true) {
                                    if let del = self.delegate {
-                                    self.stopQuestionCompletionTimer()
+                                    self.stopTimer()
                                        del.submitQuestionResponse(response: res)
                                   }
                               }
@@ -171,13 +171,13 @@ extension AssesmentMatchSpellingViewController {
 }
     
     private func moveToNextQuestion() {
-        self.stopQuestionCompletionTimer()
+        self.stopTimer()
         self.success_count = 0
         self.questionState = .submit
         SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
 
-    func stopQuestionCompletionTimer() {
+    func stopTimer() {
         AutismTimer.shared.stopTimer()
     }
 }
@@ -199,7 +199,7 @@ extension AssesmentMatchSpellingViewController: SpeechManagerDelegate {
         
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             self.matchSpellingViewModel.submitUserAnswer(successCount: self.success_count, info: self.matchSpellingQuestionInfo, timeTaken: self.timeTakenToSolve, skip: self.skipQuestion, touchOnEmptyScreenCount: self.touchOnEmptyScreenCount)
             break

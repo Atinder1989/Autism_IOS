@@ -75,7 +75,7 @@ class TrialMatchingOnePairViewController: UIViewController {
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-           self.stopQuestionCompletionTimer()
+           self.stopTimer()
            SpeechManager.shared.setDelegate(delegate: nil)
            UserManager.shared.exitAssessment()
     }
@@ -575,7 +575,7 @@ extension TrialMatchingOnePairViewController {
 extension TrialMatchingOnePairViewController {
     
     private func moveToNextQuestion() {
-          self.stopQuestionCompletionTimer()
+          self.stopTimer()
           self.questionState = .submit
           self.success_count = 0
           SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
@@ -599,7 +599,7 @@ extension TrialMatchingOnePairViewController {
     }
 }
 
-    private func stopQuestionCompletionTimer() {
+    private func stopTimer() {
     if let timer = self.questionCompletionTimer {
               timer.invalidate()
         self.questionCompletionTimer = nil
@@ -637,7 +637,7 @@ extension TrialMatchingOnePairViewController: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             
             if(self.isFromLearning == false) {

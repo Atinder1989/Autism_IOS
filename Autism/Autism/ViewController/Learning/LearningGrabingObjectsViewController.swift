@@ -55,14 +55,22 @@ class LearningGrabingObjectsViewController: UIViewController {
 
     @IBOutlet weak var avatarBottomImageView: FLAnimatedImageView!
 
+    var questionId = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.addPanGesture()
         self.customSetting()
+    
         if self.command_array.count == 0 {
             self.grabingObjectViewModel.fetchLearningSolidQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
+        } else {
+            self.grabingObjectViewModel.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
         }
+//        if self.command_array.count == 0 {
+//            self.grabingObjectViewModel.fetchLearningSolidQuestionCommands(skillDomainId: self.skillDomainId, program: self.program)
+//        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -92,14 +100,20 @@ class LearningGrabingObjectsViewController: UIViewController {
 //MARK:- Public Methods
 extension LearningGrabingObjectsViewController {
     func setData(program:LearningProgramModel, skillDomainId:String,command_array: [ScriptCommandInfo],questionId:String) {
+        
         self.listenModelClosures()
         self.program = program
         self.skillDomainId = skillDomainId
-        if command_array.count > 0 {
-            self.command_array = command_array
-            self.grabingObjectViewModel.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
+        self.questionId = questionId
+        self.command_array = command_array
 
-        }
+//        self.listenModelClosures()
+//        self.program = program
+//        self.skillDomainId = skillDomainId
+//        if command_array.count > 0 {
+//            self.command_array = command_array
+//            self.grabingObjectViewModel.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
+//        }
     }
 }
 

@@ -37,7 +37,7 @@ class AssesmentMatchDateViewController: UIViewController {
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-         self.stopQuestionCompletionTimer()
+         self.stopTimer()
         SpeechManager.shared.setDelegate(delegate: nil)
         UserManager.shared.exitAssessment()
     }
@@ -58,7 +58,7 @@ extension AssesmentMatchDateViewController {
 
 extension AssesmentMatchDateViewController {
      private func moveToNextQuestion() {
-        self.stopQuestionCompletionTimer()
+        self.stopTimer()
         self.questionState = .submit
         self.success_count = 0
         SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
@@ -131,7 +131,7 @@ extension AssesmentMatchDateViewController {
        }
     }
 
-    func stopQuestionCompletionTimer() {
+    func stopTimer() {
         AutismTimer.shared.stopTimer()
        
     }
@@ -151,7 +151,7 @@ extension AssesmentMatchDateViewController: SpeechManagerDelegate {
         
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             self.matchobjectViewModel.submitUserAnswer(successCount: success_count, info: self.matchObjectQuestionInfo, timeTaken: self.timeTakenToSolve, skip: self.skipQuestion)
             break

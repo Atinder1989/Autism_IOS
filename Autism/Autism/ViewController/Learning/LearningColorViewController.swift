@@ -138,10 +138,7 @@ class LearningColorViewController: UIViewController {
             UserManager.shared.updateScreenId(screenid: ScreenRedirection.dashboard.rawValue)
                 
             self.dismiss(animated: true)
-//            let vc = Utility.getViewController(ofType: DashboardViewController.self)
-//            self.setRootViewController(vc: vc)
         }
-        //UserManager.shared.exitAssessment()
     }
    
 }

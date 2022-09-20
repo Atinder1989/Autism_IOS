@@ -45,6 +45,8 @@ class LearningSpellingViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var bufferLoaderView: UIView!
     private var bufferLoaderTimer: Timer?
 
+    var questionId = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -52,7 +54,13 @@ class LearningSpellingViewController: UIViewController, UITextFieldDelegate {
         self.customSetting()
         if self.command_array.count == 0 {
             self.spellingViewModel.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)
+        } else {
+            self.spellingViewModel.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
         }
+
+//        if self.command_array.count == 0 {
+//            self.spellingViewModel.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,14 +118,20 @@ class LearningSpellingViewController: UIViewController, UITextFieldDelegate {
 //MARK:- Public Methods
 extension LearningSpellingViewController {
     func setData(program:LearningProgramModel, skillDomainId:String,command_array: [ScriptCommandInfo],questionId:String) {
+
         self.listenModelClosures()
         self.program = program
+        self.questionId = questionId
         self.skillDomainId = skillDomainId
-        if command_array.count > 0 {
-            self.command_array = command_array
-            self.spellingViewModel.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
+        self.command_array = command_array
 
-        }
+//        self.listenModelClosures()
+//        self.program = program
+//        self.skillDomainId = skillDomainId
+//        if command_array.count > 0 {
+//            self.command_array = command_array
+//            self.spellingViewModel.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
+//        }
     }
 }
 

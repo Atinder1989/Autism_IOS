@@ -70,7 +70,7 @@ class AssesmentMathematicsViewController: UIViewController, UITextFieldDelegate 
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
-        self.stopQuestionCompletionTimer()
+        self.stopTimer()
         SpeechManager.shared.setDelegate(delegate: nil)
         UserManager.shared.exitAssessment()
     }
@@ -144,7 +144,7 @@ extension AssesmentMathematicsViewController {
     
     
     private func moveToNextQuestion() {
-        self.stopQuestionCompletionTimer()
+        self.stopTimer()
         self.questionState = .submit
         self.success_count = 0
         SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
@@ -169,7 +169,7 @@ extension AssesmentMathematicsViewController {
         }
 }
 
-private func stopQuestionCompletionTimer() {
+private func stopTimer() {
     AutismTimer.shared.stopTimer()
     }
 }
@@ -189,7 +189,7 @@ extension AssesmentMathematicsViewController: SpeechManagerDelegate {
         
         switch self.questionState {
         case .submit:
-            self.stopQuestionCompletionTimer()
+            self.stopTimer()
             SpeechManager.shared.setDelegate(delegate: nil)
             self.mathematicsCalculationViewModel.submitUserAnswer(successCount: success_count, info: self.mathematicsCalculationQuestionInfo, timeTaken: self.timeTakenToSolve, skip: self.skipQuestion)
             break
