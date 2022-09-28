@@ -205,7 +205,6 @@ extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource,
         if (self.whichTypeQuestionInfo.question_type == AssessmentQuestionType.touch_object.rawValue) {
             cornerRadius = 0.0
             borderWidth = 0.0
-//            cell.dataImageView.transform = CGAffineTransform(rotationAngle: CGFloat(model.degrees * .pi/180))
         } else {
             cell.dataImageView.transform = CGAffineTransform(rotationAngle: 0)
         }
@@ -216,7 +215,8 @@ extension AssessmentWhichTypeQuestionViewController: UICollectionViewDataSource,
         }
         
         if selectedIndex == -1 {
-          Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .darkGray)
+            borderWidth = 0.0
+            Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .darkGray)
         } else {
             if indexPath.row == Int(self.whichTypeQuestionInfo.correct_answer)! - 1 {
                  cell.greenTickImageView.isHidden = false

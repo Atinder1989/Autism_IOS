@@ -32,7 +32,7 @@ class LearningMessyArrayViewController: UIViewController {
     @IBOutlet weak var imageViewTouched: ImageViewWithID?
 
     var selectedObject:ImageViewWithID!
-//    var currectObject:ImageViewWithID!
+    var currectObject:ImageViewWithID!
     
     private var initialFrame: CGRect?
     
@@ -122,6 +122,23 @@ class LearningMessyArrayViewController: UIViewController {
         self.command_array = command_array
     }
     
+    @IBAction func exitAssessmentClicked(_ sender: Any) {
+        self.stopTimer()
+        self.messyArrayViewModel.pausePlayer()
+        self.messyArrayViewModel.stopAllCommands()
+        
+        SpeechManager.shared.stopSpeech()
+        FaceDetection.shared.stopFaceDetectionSession()
+        AutismTimer.shared.stopTimer()
+        
+        if !UserManager.shared.get_isActionPerformed() {
+            UserManager.shared.set_isActionPerformed(true)
+            UserManager.shared.updateScreenId(screenid: ScreenRedirection.dashboard.rawValue)
+                
+            self.dismiss(animated: true)
+        }
+    }
+
     private func customSetting() {
         
         imageViewBG.alpha = 0.9
@@ -131,7 +148,7 @@ class LearningMessyArrayViewController: UIViewController {
 
     private func initializeFilledImageView() {
         
-        if(program.label_code != .mathematics) {
+        if(program.label_code != .lr_messyarray_touch) {
             self.initializeTheFramesLeanier()
         } else {
             self.initializeTheFrames()
@@ -183,6 +200,13 @@ class LearningMessyArrayViewController: UIViewController {
         if(program.label_code != .lr_messyarray_touch) {
             self.addPanGesture()
         }
+        
+        if(UIDevice.current.userInterfaceIdiom != .pad) {
+            self.imageViewRight.frame = CGRect(x: currectObject!.center.x+(wh/2.0)-24, y: currectObject!.center.y+(wh/2.0)-24, width: 24, height: 24)
+        } else {
+            self.imageViewRight.frame = CGRect(x: currectObject!.center.x+(wh/2.0)-34, y: currectObject!.center.y+(wh/2.0)-34, width: 34, height: 34)
+        }
+        print("wh = ", wh)
     }
     
     func initializeTheFrames() {
@@ -396,8 +420,8 @@ class LearningMessyArrayViewController: UIViewController {
             imageView7.frame = CGRect(x: xRef, y: yRef, width: wh, height: wh)
             xRef = xRef+wh+xSpace
         }
-
     }
+    
     private func addPanGesture() {
 
         self.imageViewBG.isUserInteractionEnabled = true
@@ -486,132 +510,255 @@ class LearningMessyArrayViewController: UIViewController {
             
             let dropLocation = gestureRecognizer.location(in: view)
             var isLocationExist = false
-            
-            if(self.correct_option == "1") {
-                if(currentFilledImageView == imageView1) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+        
+            if(currentFilledImageView == imageViewBG) {
+                if (imageView1.frame.contains(dropLocation) || imageView2.frame.contains(dropLocation) || imageView3.frame.contains(dropLocation) || imageView4.frame.contains(dropLocation) ||
+                    imageView5.frame.contains(dropLocation) || imageView6.frame.contains(dropLocation) ||
+                    imageView7.frame.contains(dropLocation) || imageView8.frame.contains(dropLocation) ||
+                    imageView9.frame.contains(dropLocation) || imageView10.frame.contains(dropLocation)) {
+                                        
+                    if(self.correct_option == "1") {
+                        if imageView1.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "2") {
+                        if imageView2.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "3") {
+                        if imageView3.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "4") {
+                        if imageView4.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "5") {
+                        if imageView5.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "6") {
+                        if imageView6.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "7") {
+                        if imageView7.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "8") {
+                        if imageView8.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "9") {
+                        if imageView9.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "10") {
+                        if imageView10.frame.contains(dropLocation) {
+                            isLocationExist = true
+                        }
                     }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView1.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView1)
+                    
+                    if isLocationExist == true {
+                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    } else {
+                        self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
+                    }
+
+                } else {
+                    DispatchQueue.main.async {
+                        if let frame = self.initialFrame {
+                            self.selectedObject.frame = frame
+                            self.initialFrame = nil
+                            self.selectedObject = nil
+                        }
+//                        self.incorrectDragDropCount += 1
                     }
                 }
-            } else if(self.correct_option == "2") {
-                if(currentFilledImageView == imageView2) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
+            } else {
+                if imageViewBG.frame.contains(dropLocation) {
+                    if(self.correct_option == "1") {
+                        if(currentFilledImageView == imageView1) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "2") {
+                        if(currentFilledImageView == imageView2) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "3") {
+                        if(currentFilledImageView == imageView3) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "4") {
+                        if(currentFilledImageView == imageView4) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "5") {
+                        if(currentFilledImageView == imageView5) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "6") {
+                        if(currentFilledImageView == imageView6) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "7") {
+                        if(currentFilledImageView == imageView7) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "8") {
+                        if(currentFilledImageView == imageView8) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "9") {
+                        if(currentFilledImageView == imageView9) {
+                            isLocationExist = true
+                        }
+                    } else if(self.correct_option == "10") {
+                        if(currentFilledImageView == imageView10) {
+                            isLocationExist = true
+                        }
+                    }
+                    if isLocationExist == true {
                         self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+                    } else {
+                        self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
                     }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView2.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView2)
-                    }
-                }
-            } else if(self.correct_option == "3") {
-                if(currentFilledImageView == imageView3) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView3.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView3)
-                    }
-                }
-            } else if(self.correct_option == "4") {
-                if(currentFilledImageView == imageView4) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView4.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView4)
-                    }
-                }
-            } else if(self.correct_option == "5") {
-                if(currentFilledImageView == imageView5) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView5.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView5)
-                    }
-                }
-            } else if(self.correct_option == "6") {
-                if(currentFilledImageView == imageView6) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView6.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView6)
-                    }
-                }
-            } else if(self.correct_option == "7") {
-                if(currentFilledImageView == imageView7) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView7.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView7)
-                    }
-                }
-            } else if(self.correct_option == "8") {
-                if(currentFilledImageView == imageView8) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView8.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView8)
-                    }
-                }
-            } else if(self.correct_option == "9") {
-                if(currentFilledImageView == imageView9) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView9.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView9)
-                    }
-                }
-            } else if(self.correct_option == "10") {
-                if(currentFilledImageView == imageView10) {
-                    if imageViewBG.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
-                    }
-                } else if(currentFilledImageView == imageViewBG) {
-                    if imageView10.frame.contains(dropLocation) {
-                        isLocationExist = true
-                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView10)
+                } else {
+                    DispatchQueue.main.async {
+                        if let frame = self.initialFrame {
+                            self.selectedObject.frame = frame
+                            self.initialFrame = nil
+                            self.selectedObject = nil
+                        }
+//                        self.incorrectDragDropCount += 1
                     }
                 }
             }
-            
-            if !isLocationExist {
-                self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
-            }
+//            if(self.correct_option == "1") {
+//                if(currentFilledImageView == imageView1) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView1.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView1)
+//                    }
+//                }
+//            } else if(self.correct_option == "2") {
+//                if(currentFilledImageView == imageView2) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView2.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView2)
+//                    }
+//                }
+//            } else if(self.correct_option == "3") {
+//                if(currentFilledImageView == imageView3) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView3.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView3)
+//                    }
+//                }
+//            } else if(self.correct_option == "4") {
+//                if(currentFilledImageView == imageView4) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView4.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView4)
+//                    }
+//                }
+//            } else if(self.correct_option == "5") {
+//                if(currentFilledImageView == imageView5) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView5.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView5)
+//                    }
+//                }
+//            } else if(self.correct_option == "6") {
+//                if(currentFilledImageView == imageView6) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView6.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView6)
+//                    }
+//                }
+//            } else if(self.correct_option == "7") {
+//                if(currentFilledImageView == imageView7) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView7.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView7)
+//                    }
+//                }
+//            } else if(self.correct_option == "8") {
+//                if(currentFilledImageView == imageView8) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView8.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView8)
+//                    }
+//                }
+//            } else if(self.correct_option == "9") {
+//                if(currentFilledImageView == imageView9) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView9.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView9)
+//                    }
+//                }
+//            } else if(self.correct_option == "10") {
+//                if(currentFilledImageView == imageView10) {
+//                    if imageViewBG.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageViewBG)
+//                    }
+//                } else if(currentFilledImageView == imageViewBG) {
+//                    if imageView10.frame.contains(dropLocation) {
+//                        isLocationExist = true
+//                        self.handleValidDropLocation(filledImageView: currentFilledImageView, emptyImageView: imageView10)
+//                    }
+//                }
+//            }
+//
+//            if !isLocationExist {
+//                self.handleInvalidDropLocation(currentImageView:currentFilledImageView)
+//            }
             
             break
         default:
@@ -791,7 +938,29 @@ extension LearningMessyArrayViewController {
                 if let option = commandInfo.option {
                     let correctOption = (Int(option.correct_option) ?? 0) - 1
                     self.correct_option = option.correct_option
-                    
+                            
+                    if(self.correct_option == "1") {
+                        self.currectObject = imageView1
+                    } else if(self.correct_option == "2") {
+                        self.currectObject = imageView2
+                    } else if(self.correct_option == "3") {
+                        self.currectObject = imageView3
+                    } else if(self.correct_option == "4") {
+                        self.currectObject = imageView4
+                    } else if(self.correct_option == "5") {
+                        self.currectObject = imageView5
+                    } else if(self.correct_option == "6") {
+                        self.currectObject = imageView6
+                    } else if(self.correct_option == "7") {
+                        self.currectObject = imageView7
+                    } else if(self.correct_option == "8") {
+                        self.currectObject = imageView8
+                    } else if(self.correct_option == "9") {
+                        self.currectObject = imageView9
+                    } else if(self.correct_option == "10") {
+                        self.currectObject = imageView10
+                    }
+
                     for (index, element) in commandInfo.valueList.enumerated() {
                         var scModel = AnimationImageModel.init()
                         scModel.url = element
@@ -811,9 +980,6 @@ extension LearningMessyArrayViewController {
                     }
                 }
                
-                let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
-                let screenHeight:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.height)
-
                 if(UIDevice.current.userInterfaceIdiom != .pad) {
                                        
                 } else {

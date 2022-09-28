@@ -19,7 +19,7 @@ target 'Autism' do
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Messaging'
   pod 'Crashlytics'
-
+  pod 'Starscream'
   target 'AutismTests' do
     inherit! :search_paths
     # Pods for testing

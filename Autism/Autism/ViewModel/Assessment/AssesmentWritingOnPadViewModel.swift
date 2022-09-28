@@ -12,7 +12,8 @@ import UIKit
 class AssesmentWritingOnPadViewModel:NSObject  {
     
     var dataClosure : (() -> Void)?
-    
+    var speechClosure : ((_ status: Bool) -> Void)?
+
     var accessmentSubmitResponseVO: AssessmentQuestionResponseVO? = nil {
         didSet {
             if let closure = self.dataClosure {
@@ -21,7 +22,6 @@ class AssesmentWritingOnPadViewModel:NSObject  {
         }
     }
     
-
     
     func submitUserAnswer(info:WritingOnPadInfo,timeTaken:Int, skip:Bool,touchOnEmptyScreenCount:Int, request: Bool) {
             
@@ -60,14 +60,19 @@ class AssesmentWritingOnPadViewModel:NSObject  {
             }
         }
     }
-    
-    func uploadImage(image: UIImage,timeTaken:Int,info:WritingOnPadInfo,skip:Bool,touchOnEmptyScreenCount:Int) {
+    //class func getProfileAPICall(VC: UIViewController, completetionBlock: @escaping (Bool) -> Void) {
+
+    func uploadImage(image: UIImage,timeTaken:Int,info:WritingOnPadInfo,skip:Bool,touchOnEmptyScreenCount:Int, completetionBlock: @escaping (Bool) -> Void) {
         Utility.showLoader()
         Utility.sharedInstance.uploadCapturedImage(correctText: info.image_with_text[0].name, image: image) { error, responseVo in
             Utility.hideLoader()
             if error == nil {
                 if let responseVo = responseVo {
-                    self.submitUserAnswer(info: info, timeTaken: timeTaken, skip: skip, touchOnEmptyScreenCount: touchOnEmptyScreenCount, request: responseVo.result)
+                    completetionBlock(responseVo.result)
+//                    if let closure = self.speechClosure {
+//                        closure(responseVo.result)
+//                    }
+//                    self.submitUserAnswer(info: info, timeTaken: timeTaken, skip: skip, touchOnEmptyScreenCount: touchOnEmptyScreenCount, request: responseVo.result)
                 }
             } else {
                 self.accessmentSubmitResponseVO = nil

@@ -1,17 +1,17 @@
 //
-//  LearningVocalImitationsViewController.swift
+//  LearningQuizIntroViewController.swift
 //  Autism
 //
-//  Created by Savleen on 30/10/20.
-//  Copyright © 2020 IMPUTE. All rights reserved.
+//  Created by Dilip Saket on 20/09/22.
+//  Copyright © 2022 IMPUTE. All rights reserved.
 //
 
 import UIKit
 import AVFoundation
 import FLAnimatedImage
 
-class LearningVocalImitationsViewController: UIViewController {
-    private let verbalViewModal: LearningVocalImitationsViewModel = LearningVocalImitationsViewModel()
+class LearningQuizIntroViewController: UIViewController {
+    private let quizIntroViewModal: LearningQuizIntroViewModel = LearningQuizIntroViewModel()
     private var program: LearningProgramModel!
     private var skillDomainId: String!
     private var command_array: [ScriptCommandInfo] = []
@@ -19,13 +19,12 @@ class LearningVocalImitationsViewController: UIViewController {
     private var videoItem: VideoItem?
     private var bufferLoaderTimer: Timer?
 
-    @IBOutlet weak var pauseButton: UIButton!
-    
+
     private var isChildActionCompleted = false {
         didSet {
             if isChildActionCompleted {
                 DispatchQueue.main.async {
-                    self.verbalViewModal.calculateChildAction(state: self.isChildActionCompleted)
+                    self.quizIntroViewModal.calculateChildAction(state: self.isChildActionCompleted)
                 }
             }
         }
@@ -40,41 +39,39 @@ class LearningVocalImitationsViewController: UIViewController {
     @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
-    @IBOutlet weak var questionImageView: ScriptCommandImageView!
     @IBOutlet weak var avatarImageView: FLAnimatedImageView!
     @IBOutlet weak var userAnswer: UILabel!
-    
     @IBOutlet weak var bufferLoaderView: UIView!
 
-    var questionId:String = ""
+    @IBOutlet weak var submitButton: UIButton!
     
+    var questionId:String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        self.pauseButton.isHidden = true
         self.customSetting()
         
         if self.command_array.count == 0 {
-            self.verbalViewModal.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)
+            self.quizIntroViewModal.fetchLearningQuestion(skillDomainId: self.skillDomainId, program: self.program)
 
-            //if(UIDevice.current.userInterfaceIdiom != .pad) {
+            if(UIDevice.current.userInterfaceIdiom != .pad) {
                 thumnailImageView.contentMode = .scaleAspectFit
-            //}
+            }
         } else {
-            self.verbalViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
+            self.quizIntroViewModal.setScriptResponse(command_array: command_array, questionid: questionId,program: program,skillDomainId: skillDomainId)
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.stopPlayer()
         self.hideBufferLoader()
-        self.verbalViewModal.stopAllCommands()
+        self.quizIntroViewModal.stopAllCommands()
     }
     
     @IBAction func restartVideoClicked(_ sender: Any) {
         self.stopTimer()
-        self.verbalViewModal.seekToTimePlayer(time: CMTime.zero)
+        self.quizIntroViewModal.seekToTimePlayer(time: CMTime.zero)
         self.playVideo()
     }
     
@@ -84,19 +81,24 @@ class LearningVocalImitationsViewController: UIViewController {
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
         self.stopTimer()
-        self.verbalViewModal.pausePlayer()
-        self.verbalViewModal.stopAllCommands()
+        self.quizIntroViewModal.pausePlayer()
+        self.quizIntroViewModal.stopAllCommands()
         UserManager.shared.exitAssessment()
     }
     
     @IBAction func skipLearningClicked(_ sender: Any) {
-        self.verbalViewModal.stopAllCommands()
-        self.verbalViewModal.skipLearningSubmitLearningMatchingAnswer()
+        self.quizIntroViewModal.stopAllCommands()
+        self.quizIntroViewModal.skipLearningSubmitLearningMatchingAnswer()
+    }
+    
+    @IBAction func submitButtonClicked(_ sender: Any) {
+        self.submitButton.isUserInteractionEnabled = false
+        self.quizIntroViewModal.submitLearningMatchingAnswer()
     }
 }
 
 //MARK:- Public Methods
-extension LearningVocalImitationsViewController {
+extension LearningQuizIntroViewController {
     func setData(program:LearningProgramModel, skillDomainId:String,command_array: [ScriptCommandInfo],questionId:String) {
         self.listenModelClosures()
         self.program = program
@@ -107,7 +109,7 @@ extension LearningVocalImitationsViewController {
 }
 
 //MARK:- Private Methods
-extension LearningVocalImitationsViewController {
+extension LearningQuizIntroViewController {
     private func moveToNextCommand() {
        // self.view.isUserInteractionEnabled = false
         self.stopTimer()
@@ -116,12 +118,12 @@ extension LearningVocalImitationsViewController {
         NotificationCenter.default.removeObserver(NSNotification.Name.AVPlayerItemDidPlayToEndTime)
         self.playerView.isHidden = true
         self.thumnailImageView.isHidden = true
-        self.verbalViewModal.updateCurrentCommandIndex()
+        self.quizIntroViewModal.updateCurrentCommandIndex()
     }
     
     private func customSetting() {
-        self.questionImageView.isHidden = true
-        self.avatarImageView.isHidden = true
+        self.avatarImageView.isHidden = false
+        
         self.restartButton.isHidden = true
         self.nextButton.isHidden = true
         self.speechTitle.text = ""
@@ -129,12 +131,12 @@ extension LearningVocalImitationsViewController {
         self.playerView.isHidden = true
         self.thumnailImageView.isHidden = true
         self.userAnswer.text = ""
-//        self.speechTitle.isHidden = true
+
         self.bufferLoaderView.isHidden = true
     }
     
     private func listenModelClosures() {
-        self.verbalViewModal.videoFinishedClosure = { [weak self] in
+        self.quizIntroViewModal.videoFinishedClosure = { [weak self] in
             DispatchQueue.main.async {
                 if let this = self {
                 this.videoFinished()
@@ -142,133 +144,87 @@ extension LearningVocalImitationsViewController {
             }
         }
         
-        self.verbalViewModal.bufferLoaderClosure = {
+        self.quizIntroViewModal.bufferLoaderClosure = {
             DispatchQueue.main.async {
-                if self.verbalViewModal.isBufferLoader {
+                if self.quizIntroViewModal.isBufferLoader {
                     self.showBufferLoader()
                 } else {
                     self.hideBufferLoader()
                 }
             }
         }
-       self.verbalViewModal.clearScreenClosure = {
+       self.quizIntroViewModal.clearScreenClosure = {
              DispatchQueue.main.async {
                  self.customSetting()
              }
        }
         
-       self.verbalViewModal.resetDataClosure = {
+       self.quizIntroViewModal.resetDataClosure = {
             DispatchQueue.main.async {
                 self.customSetting()
             }
        }
         
-       self.verbalViewModal.noNetWorkClosure = {
+       self.quizIntroViewModal.noNetWorkClosure = {
            Utility.showRetryView(delegate: self)
        }
         
-       self.verbalViewModal.clearSpeechTextClosure = {
+       self.quizIntroViewModal.clearSpeechTextClosure = {
             DispatchQueue.main.async {
-                self.userAnswer.text = ""
                 self.speechTitle.text = ""
             }
        }
         
-       self.verbalViewModal.showSpeechTextClosure = { text in
+       self.quizIntroViewModal.showSpeechTextClosure = { text in
             DispatchQueue.main.async {
                 self.speechTitle.text = text
             }
        }
+        
+    
        
-       self.verbalViewModal.showVideoClosure = { urlString in
+       self.quizIntroViewModal.showVideoClosure = { urlString in
            DispatchQueue.main.async {
-               if(self.questionImageView != nil) {
-                   self.customSetting()
-               
-                   self.addPlayer(urlString: urlString)
-               }
+            self.customSetting()
+            self.addPlayer(urlString: urlString)
            }
        }
         
-        
-        
-        self.verbalViewModal.talkAvatarClosure = {
+        self.quizIntroViewModal.talkAvatarClosure = {
              DispatchQueue.main.async {
-                 if(self.avatarImageView != nil) {
-                     self.avatarImageView.isHidden = false
-                     self.avatarImageView.animatedImage = getTalkingGif()
-                 }
+                self.avatarImageView.animatedImage = getTalkingGif()
              }
         }
         
-        self.verbalViewModal.idleAvatarClosure = {
+        self.quizIntroViewModal.idleAvatarClosure = {
              DispatchQueue.main.async {
-                self.avatarImageView.isHidden = true
+                self.avatarImageView.animatedImage = getIdleGif()
              }
         }
         
-        
-        self.verbalViewModal.showImageClosure = { questionInfo in
-             DispatchQueue.main.async {
-                if let option = questionInfo.option {
-                     
-                    if option.Position == ScriptCommandOptionType.center.rawValue {
-                         self.questionImageView.isHidden = false
-                         self.questionImageView.commandInfo = questionInfo
-                        
-                        let url = ServiceHelper.baseURL.getMediaBaseUrl() + questionInfo.value
-                        self.questionImageView.setImageWith(urlString: url)
-                        self.verbalViewModal.updateCommandIndex()
-                        //self.verbalViewModal.updateCurrentCommandIndex()
-                     }
-                }
-             }
-        }
-        
-        self.verbalViewModal.blinkImageClosure = { questionInfo in
+        self.quizIntroViewModal.showAvatarClosure = {
             DispatchQueue.main.async {
-                if let option = questionInfo.option {
-                    self.blinkImage(count: Int(option.time_in_second) ?? Int(learningAnimationDuration))
-                }
-             }
+               self.avatarImageView.isHidden = false
+            }
         }
         
-        self.verbalViewModal.childActionStateClosure = { state in
-            DispatchQueue.main.async {//After(deadline: .now() + 1.5) {
+
+        
+        self.quizIntroViewModal.childActionStateClosure = { state in
+             DispatchQueue.main.async {
                 if state {
                     RecordingManager.shared.startRecording(delegate: self)
                 } else {
-                    RecordingManager.shared.stopRecordingWithDelegate()
-                    //self.verbalViewModal.updateCommandIndex()
+                    RecordingManager.shared.stopRecording()
                 }
              }
         }
     }
-    
-    private func blinkImage(count: Int) {
-        if count == 0 {
-            self.verbalViewModal.updateCommandIndex()
-            return
-        }
-                UIView.animate(withDuration: 1, animations: {
-                    for subview in self.view.subviews {
-                        if let cmdImageView = subview as? ScriptCommandImageView {
-                            cmdImageView.alpha = 0.2
-                        }
-                    }
-                }) { [self] finished in
-                    for subview in self.view.subviews {
-                        if let cmdImageView = subview as? ScriptCommandImageView {
-                            cmdImageView.alpha = 1
-                        }
-                    }
-                    self.blinkImage(count: count - 1)
-                }
-    }
+
     
     private func addPlayer(urlString:String) {
         let string = ServiceHelper.baseURL.getMediaBaseUrl() + urlString
-        if let playerController = verbalViewModal.playerController {
+        if let playerController = quizIntroViewModal.playerController {
             if let avplayerController = playerController.avPlayerController {
                 self.playerView.isHidden = false
                 self.playerView.addSubview(avplayerController.view)
@@ -313,7 +269,7 @@ extension LearningVocalImitationsViewController {
     
     private func playVideo() {
         if let item = self.videoItem {
-        verbalViewModal.playVideo(item: item)
+        quizIntroViewModal.playVideo(item: item)
         self.nextButton.isHidden = true
         self.restartButton.isHidden = true
         self.thumnailImageView.isHidden = true
@@ -332,7 +288,7 @@ extension LearningVocalImitationsViewController {
     }
     
     func stopPlayer() {
-        self.verbalViewModal.stopVideo()
+        self.quizIntroViewModal.stopVideo()
     }
     
     private func initializeTimer() {
@@ -342,7 +298,7 @@ extension LearningVocalImitationsViewController {
     @objc private func calculateTimeTaken()  {
         videoFinishWaitingTime += 1
         print("Video Finish Timer Start == \(videoFinishWaitingTime)")
-        if let info = self.verbalViewModal.getCurrentCommandInfo(),let option = info.option {
+        if let info = self.quizIntroViewModal.getCurrentCommandInfo(),let option = info.option {
             let time = Int(option.switch_command_time) ?? 0
             if self.videoFinishWaitingTime >= time  {
                 self.moveToNextCommand()
@@ -362,7 +318,7 @@ extension LearningVocalImitationsViewController {
  }
 
 
-extension LearningVocalImitationsViewController: NetworkRetryViewDelegate {
+extension LearningQuizIntroViewController: NetworkRetryViewDelegate {
     func didTapOnRetry() {
         if Utility.isNetworkAvailable() {
             Utility.hideRetryView()
@@ -372,7 +328,7 @@ extension LearningVocalImitationsViewController: NetworkRetryViewDelegate {
 
 
 //MARK:- RecordingManager Delegate Methods
-extension LearningVocalImitationsViewController: RecordingManagerDelegate {
+extension LearningQuizIntroViewController: RecordingManagerDelegate {
     func recordingSpeechData(text:String) {
         self.userAnswer.text = text.lowercased()
     }
@@ -383,32 +339,8 @@ extension LearningVocalImitationsViewController: RecordingManagerDelegate {
     
     func recordingFinish(speechText:String) {
         RecordingManager.shared.stopRecording()
-        self.verbalViewModal.handleUserAnswer(text: speechText)
+        self.quizIntroViewModal.handleUserAnswer(text: speechText)
     }
     
 }
 
-extension LearningVocalImitationsViewController: PauseViewDelegate {
-    func didTapOnPlay() {
-        Utility.hidePauseView()
-        self.pauseClicked(self.pauseButton as Any)
-    }
-    
-    @IBAction func pauseClicked(_ sender: Any) {        
-        
-        if AutismTimer.shared.isTimerRunning() {
-//            self.stopTimer()
-//            SpeechManager.shared.setDelegate(delegate: nil)
-//            RecordingManager.shared.stopRecording()
-            
-            self.pauseButton.setBackgroundImage(UIImage.init(named: "play"), for: .normal)
-            Utility.showPauseView(delegate: self)
-        } else {
-//            AutismTimer.shared.initializeTimer(delegate: self)
-//            SpeechManager.shared.setDelegate(delegate: self)
-//            RecordingManager.shared.startRecording(delegate: self)
-            
-            self.pauseButton.setBackgroundImage(UIImage.init(named: "pause"), for: .normal)
-        }
-    }
-}

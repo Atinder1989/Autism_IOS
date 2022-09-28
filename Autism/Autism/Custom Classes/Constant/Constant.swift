@@ -45,6 +45,8 @@ enum AppConstant:String {
     case faceNotDetectTimer = "15"
 }
 
+let isSocket: Bool = true
+
 let noseOptions = ["👃", "🐽", "💧", " "]
 let eyeOptions = ["👁", "🌕", "🌟", "🔥", "⚽️", "🔎", " "]
 let mouthOptions = ["👄", "👅", "❤️", " "]

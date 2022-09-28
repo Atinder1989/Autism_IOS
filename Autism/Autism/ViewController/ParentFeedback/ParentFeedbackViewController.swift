@@ -166,13 +166,6 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
             } else {
                 cell.btnPrevious.isHidden = false
             }
-          /*  cell.btnPrevious.setTitle(labelresponse.getLiteralof(code: ParentFeedbackLabelCode.previous.rawValue).label_text, for: .normal)
-            
-            if indexPath.row == res.feedbackList.count - 1 {
-                cell.btnNext.setTitle(labelresponse.getLiteralof(code: ParentFeedbackLabelCode.submit.rawValue).label_text, for: .normal)
-            } else {
-                cell.btnNext.setTitle(labelresponse.getLiteralof(code: ParentFeedbackLabelCode.next.rawValue).label_text, for: .normal)
-            } */
         }
     }
     return cell

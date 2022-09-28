@@ -79,7 +79,7 @@ class LearningManager {
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
             scriptController = vc
-        case .echoic1M,.echoic_2M,.echoice_3M,.echoice_4M,.echoic_5M,.echoice_5M_2,.echoice_3M_2, .quiz_intro:
+        case .echoic1M,.echoic_2M,.echoice_3M,.echoice_4M,.echoic_5M,.echoice_5M_2,.echoice_3M_2:
             let vc = Utility.getViewController(ofType: LearningEchoicViewController.self)
             vc.modalPresentationStyle = .fullScreen
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
@@ -126,6 +126,16 @@ class LearningManager {
             vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
             scriptController = vc
             
+        case .quiz_intro:
+            let vc = Utility.getViewController(ofType: LearningQuizIntroViewController.self)
+            vc.modalPresentationStyle = .fullScreen
+            vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
+            scriptController = vc
+        case .lrffc_goal13:
+            let vc = Utility.getViewController(ofType: LearningPictureScenceViewController.self)
+            vc.modalPresentationStyle = .fullScreen
+            vc.setData(program: program, skillDomainId: skill_domain_id,command_array:command_array ,questionId:questionId)
+            scriptController = vc
         default:break
         }
         
@@ -280,7 +290,7 @@ class LearningManager {
                         
                         if response.success {
                             //Call GetAlgoAPI
-                            getLearningAlgoScript()
+                            self.getLearningAlgoScript()
                         } else {
                             
                         }

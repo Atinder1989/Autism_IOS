@@ -130,48 +130,6 @@ class LearningMatchingIdenticalViewModel: NSObject {
             }
         }
     }
-    
-//    func fetchLearningMatchingIdenticalCommands(skillDomainId: String,program: LearningProgramModel) {
-//
-//        self.skillDomainId = skillDomainId
-//        self.program = program
-//
-//        if !Utility.isNetworkAvailable() {
-//            if let noNetwork = self.noNetWorkClosure {
-//                noNetwork()
-//            }
-//            return
-//        }
-//
-//        var service = Service.init(httpMethod: .POST)
-//        service.url = ServiceHelper.getLearningQuestionUrl()
-//        if let user = UserManager.shared.getUserInfo() {
-//           service.params = [
-//            ServiceParsingKeys.user_id.rawValue:user.id,
-//            ServiceParsingKeys.skill_domain_id.rawValue:self.skillDomainId!,
-//            ServiceParsingKeys.program_id.rawValue:self.program.program_id,
-//            ServiceParsingKeys.language_code.rawValue:user.languageCode,
-//
-//           ]
-//        }
-//        ServiceManager.processDataFromServer(service: service, model: ScriptResponseVO.self) { (responseVo, error) in
-//            if let _ = error {
-//                 self.commandResponseVO = nil
-//            } else {
-//                if let response = responseVo {
-//                    DispatchQueue.main.async {
-//                    if response.success {
-//                        self.commandResponseVO = response
-//                    } else {
-//
-//                        Utility.showAlert(title: "Information", message: "Learning Work under progress")
-//                        UserManager.shared.exitAssessment()
-//                    }
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     func setScriptResponse(command_array:[ScriptCommandInfo],questionid:String,program: LearningProgramModel,skillDomainId: String) {
         self.program = program
@@ -452,22 +410,6 @@ extension LearningMatchingIdenticalViewModel: SpeechManagerDelegate {
                 return
             }
         }
-
-////        if !self.isAnimationCommand {
-////            if self.scriptManager.getIsCommandCompleted() {
-////                self.currentCommandIndex += 1
-////            }
-////        }
-//        if !self.isAnimationCommand {
-//            if let _ = self.scriptManager.getSequenceCommandInfo() {
-//                self.scriptManager.updateSequenceCommandIndex()
-//                return
-//            }
-//            if self.scriptManager.getIsCommandCompleted() {
-//                self.currentCommandIndex += 1
-//            }
-//        }
-
     }
     
     func speechDidStart(speechText:String) {

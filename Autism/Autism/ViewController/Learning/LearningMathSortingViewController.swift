@@ -116,6 +116,23 @@ class LearningMathSortingViewController: UIViewController {
         self.command_array = command_array
     }
     
+    @IBAction func exitAssessmentClicked(_ sender: Any) {
+        self.stopTimer()
+        self.mathSortingViewModel.pausePlayer()
+        self.mathSortingViewModel.stopAllCommands()
+        
+        SpeechManager.shared.stopSpeech()
+        FaceDetection.shared.stopFaceDetectionSession()
+        AutismTimer.shared.stopTimer()
+        
+        if !UserManager.shared.get_isActionPerformed() {
+            UserManager.shared.set_isActionPerformed(true)
+            UserManager.shared.updateScreenId(screenid: ScreenRedirection.dashboard.rawValue)
+                
+            self.dismiss(animated: true)
+        }
+    }
+
 }
 
 //MARK: - Private

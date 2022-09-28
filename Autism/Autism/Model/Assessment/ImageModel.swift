@@ -26,7 +26,7 @@ struct ImageModel: Codable {
     var index:Int
     
     init() {
-        self.index = 0
+        self.index = -1
         self.image = ""
         self.empty_image = ""
         self.id = ""

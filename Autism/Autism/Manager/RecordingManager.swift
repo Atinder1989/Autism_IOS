@@ -54,8 +54,13 @@ class RecordingManager:NSObject {
         if !FaceDetection.shared.isFaceDetected {
             return
         }
-        
         self.delegate = delegate
+        
+        if isSocket {
+            SocketManager.shared.connect(delegate: self)
+            return
+        }
+        
         recognitionRequest = nil
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
 
@@ -141,6 +146,7 @@ class RecordingManager:NSObject {
        }
 //        self.delegate = nil
        self.isRecorder = false
+        print("****** Recording Stop ==========")
    }
     
     func isRecording() -> Bool {
@@ -174,7 +180,6 @@ class RecordingManager:NSObject {
         self.stopWaitUserAnswerTimer()
         if let del = self.delegate {
             if let result = predictedResult {
-                
                 if let user = UserManager.shared.getUserInfo() {
                     if user.languageCode == AppLanguage.ja.rawValue {
                         del.recordingFinish(speechText: result.bestTranscription.formattedString.hiragana)
@@ -239,7 +244,26 @@ extension String {
     var katakana: String { convert(self, to: .katakana) }
 }
 
-//let names: [String] = ["相葉雅紀", "松本潤", "二宮和也", "大野智", "櫻井翔"]
-//for name in names {
-//    print("\(name.katakana) / \(name.hiragana)")
-//}
+extension RecordingManager: SocketManagerDelegate {
+    func didSocketRecordingStart() {
+        if let del = self.delegate {
+            isRecorder = true
+            del.recordingStart()
+        }
+    }
+    
+    func didSocketConnected() {
+    }
+    
+    func didSocketDisConnected(text: String) {
+        if let del = self.delegate {
+            del.recordingFinish(speechText: text)
+        }
+    }
+    
+    func didSocketTextReceived(text: String) {
+        if let del = self.delegate {
+            del.recordingSpeechData(text: text.replacingOccurrences(of: ".", with: ""))
+        }
+    }
+}

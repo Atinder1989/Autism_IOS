@@ -166,6 +166,7 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
 
                     let cpBucketView: CopyPatternBucketView = CopyPatternBucketView()
                     cpBucketView.iModel = img
+                    cpBucketView.iModel?.index = i
                     cpBucketView.tag = i
                     cpBucketView.frame = CGRect(x:xRef, y:yRef, width:widthHeight, height:widthHeight)
                     cpBucketView.backgroundColor = .white
@@ -257,6 +258,7 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
 
             }
             
+            var idx = 0
             for imageModel in imagesToDrag {
 
                 let cpView: CopyPatternView = CopyPatternView()
@@ -267,6 +269,7 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
                 cpView.layer.borderColor = UIColor.white.cgColor
                 cpView.clipsToBounds = true
                 cpView.iModel = imageModel
+                cpView.iModel?.index = idx
                 self.view.addSubview(cpView)
                 cpView.isUserInteractionEnabled = true
 
@@ -291,6 +294,7 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
                         longPressRecognizer.minimumPressDuration = delayTime
                     }
                 }
+                idx = idx+1
             }
         }
         
@@ -337,12 +341,13 @@ class AssessmentCopyPatternViewController: UIViewController, UIDragInteractionDe
 
                 let type = AssessmentQuestionType.init(rawValue: self.copyPatternInfo.question_type)
                 if(type == .sort_sequence) {
+                    let correctIndex = Int(self.copyPatternInfo.correct_image_choice)!-1
                     for view in self.view.subviews {
                         if let bucket = view as? CopyPatternBucketView {
                             if bucket.iModel!.name.lowercased() == "foil" {
                                 if bucket.frame.contains(dropLocation) {
                                     if(bucket.image == nil) {
-                                        if(currentFilledPattern.iModel!.name == bucket.iModel!.name) {
+                                        if(currentFilledPattern.iModel!.index == correctIndex) {
                                             isLocationExist = true
                                             bucket.image = currentFilledPattern.image
                                             self.success_count = 100

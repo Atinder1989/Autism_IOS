@@ -70,9 +70,8 @@ extension AssessmentPictureSceneViewController {
 
 extension AssessmentPictureSceneViewController {
     private func customSetting() {
+        
         self.isUserInteraction = false
-        self.labelTitle.text = self.pictureSceneInfo.question_title
-
         let space:CGFloat = 0.0
 
         var matrixOf:CGFloat = 4
@@ -149,10 +148,9 @@ extension AssessmentPictureSceneViewController {
         self.view.bringSubviewToFront(self.btnHome)
         self.view.bringSubviewToFront(self.btnSkip)
 
-        
         SpeechManager.shared.setDelegate(delegate: self)
         SpeechManager.shared.speak(message:  pictureSceneInfo.question_title, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-        labelTitle.text = pictureSceneInfo.question_title
+        self.labelTitle.text = self.pictureSceneInfo.question_title
         AutismTimer.shared.initializeTimer(delegate: self)
 
     }

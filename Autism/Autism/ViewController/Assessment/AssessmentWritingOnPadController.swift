@@ -31,6 +31,8 @@ class AssessmentWritingOnPadController: UIViewController {
     private var skipQuestion = false
 
     var isPaused = false
+    var answerGiven = false
+    var answerState = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +45,21 @@ class AssessmentWritingOnPadController: UIViewController {
     }
     
     @IBAction func submitClicked(_ sender: Any) {
-        self.writingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
+        //self.writingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
+        
+        self.writingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount, completetionBlock: {(state) in
+            
+            self.answerGiven = true
+            self.answerState = state
+            if state {
+                SpeechManager.shared.speak(message: self.writingPadInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            } else {
+                SpeechManager.shared.speak(message: self.writingPadInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+            }
+
+            //self.submitUserAnswer(info: info, timeTaken: timeTaken, skip: skip, touchOnEmptyScreenCount: touchOnEmptyScreenCount, request: responseVo.result)
+            
+        })
     }
     
     @IBAction func exitAssessmentClicked(_ sender: Any) {
@@ -53,8 +69,19 @@ class AssessmentWritingOnPadController: UIViewController {
       @IBAction func skipQuestionClicked(_ sender: Any) {
         if !skipQuestion {
             skipQuestion = true
-      //  SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-            self.writingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
+
+            self.writingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount, completetionBlock: {(state) in
+                
+                self.answerGiven = true
+                self.answerState = false
+                if self.answerState {
+                    SpeechManager.shared.speak(message: self.writingPadInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                } else {
+                    SpeechManager.shared.speak(message: self.writingPadInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                }
+            })
+
+            //self.writingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
         }
       }
     
@@ -84,6 +111,16 @@ extension AssessmentWritingOnPadController {
     }
     
     private func listenModelClosures() {
+        self.writingViewModel.speechClosure = { state in
+            DispatchQueue.main.async {
+                if state {
+                    SpeechManager.shared.speak(message: self.writingPadInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                } else {
+                    SpeechManager.shared.speak(message: self.writingPadInfo.incorrect_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                }
+            }
+        }
+
         self.writingViewModel.dataClosure = {
             DispatchQueue.main.async {
                 if let res = self.writingViewModel.accessmentSubmitResponseVO {
@@ -113,6 +150,12 @@ extension AssessmentWritingOnPadController: SpeechManagerDelegate {
                 self.avatarImageView.animatedImage =  getIdleGif()
         }
         isUserInteraction = true
+        
+        if(self.answerGiven == true) {
+            //self.writingViewModel.uploadImage(image: self.curveImageView.asImage(), timeTaken: self.timeTakenToSolve, info: self.writingPadInfo, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount)
+            
+            self.writingViewModel.submitUserAnswer(info: self.writingPadInfo, timeTaken: self.timeTakenToSolve, skip: skipQuestion, touchOnEmptyScreenCount: touchOnEmptyScreenCount, request: self.answerState)
+        }
     }
     
     func speechDidStart(speechText:String) {

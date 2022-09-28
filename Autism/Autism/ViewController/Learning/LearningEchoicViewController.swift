@@ -115,12 +115,8 @@ extension LearningEchoicViewController {
     }
     
     private func customSetting() {
-        if(program.label_code == .quiz_intro) {
-            self.avatarImageView.isHidden = false
-        } else {
-            self.avatarImageView.isHidden = true
-        }
         
+        self.avatarImageView.isHidden = true
         self.restartButton.isHidden = true
         self.nextButton.isHidden = true
         self.speechTitle.text = ""

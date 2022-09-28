@@ -1,38 +1,21 @@
 //
-//  LearningColorViewController.swift
+//  LearningPictureScenceViewController.swift
 //  Autism
 //
-//  Created by Savleen on 14/10/20.
-//  Copyright © 2020 IMPUTE. All rights reserved.
+//  Created by Dilip Saket on 21/09/22.
+//  Copyright © 2022 IMPUTE. All rights reserved.
 //
 
 import UIKit
 import FLAnimatedImage
 import AVFoundation
 
-struct AnimationImageModel {
-    var url : String
-    var value_id : String
-    var correct_option : ScriptCommandOptionType
-    var isShowFinger = false
-    var isShowTapFingerAnimation = false
-    var isCircleShape = ""
-    var isBlink = false
-    
-    init() {
-        self.url = ""
-        self.value_id = ""
-        self.correct_option = .none
-    }
-}
-
-class LearningColorViewController: UIViewController {
-    private let commandSolidViewModal: LearningColorViewModel = LearningColorViewModel()
+class LearningPictureScenceViewController: UIViewController {
+    private let commandSolidViewModal: LearningPictureScenceViewModel = LearningPictureScenceViewModel()
     private var program: LearningProgramModel!
     private var skillDomainId: String!
     private var command_array: [ScriptCommandInfo] = []
 
-    private var itemSize:CGFloat = 266
     private var isTouch = false
     private var isImagesDownloaded = false
     private var isChildAction = false
@@ -49,7 +32,7 @@ class LearningColorViewController: UIViewController {
     private var selectedIndex = -1 {
         didSet {
             DispatchQueue.main.async {
-                self.imagesCollectionView.reloadData()
+//                self.imagesCollectionView.reloadData()
             }
         }
     }
@@ -57,39 +40,44 @@ class LearningColorViewController: UIViewController {
     private var videoFinishTimer: Timer? = nil
     private var videoFinishWaitingTime = 0
 
-    @IBOutlet weak var collectionViewWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var thumnailImageView: UIImageView!
-    @IBOutlet weak var speechTitle: UILabel!
-    @IBOutlet weak var playerView: UIView!
-    @IBOutlet weak var imagesCollectionView: UICollectionView!
     @IBOutlet weak var restartButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var skipLearningButton: UIButton!
+    @IBOutlet weak var thumnailImageView: UIImageView!
+    @IBOutlet weak var speechTitle: UILabel!
+    @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var bufferLoaderView: UIView!
     private var bufferLoaderTimer: Timer?
 
-    private var imageList = [AnimationImageModel]() {
+    private var imageList = [ImageModel]() {
         didSet{
             DispatchQueue.main.async {
-                self.imagesCollectionView.reloadData()
+                //self.showPictureScence()
             }
         }
     }
      
     var questionId = ""
     var isFromViewdidLoad:Bool = true
-        
+
+    var matrixOf:CGFloat = 4
+
+    var w:CGFloat = 100*1.22
+    var h:CGFloat = 100
+
+    var x:CGFloat = 0.0
+    var y:CGFloat = 0.0
+
+    var allScene:[PictureSceneView] = []
+    
+    let imgViewPrompt = UIImageView()
+    
+    var touchOnEmptyScreenCount:Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        if(UIDevice.current.userInterfaceIdiom != .pad) {
-            itemSize = 140
-        } else {
-            //itemSize = 140
-        }
-
         self.customSetting()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -141,9 +129,42 @@ class LearningColorViewController: UIViewController {
         }
     }
    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        if(touchOnEmptyScreenCount > 0) {
+            return
+        }
+
+        if let touch = touches.first {
+            let position = touch.location(in: view)
+            print(position)
+            
+            for viewSceneCorrect in self.allScene {
+                if(viewSceneCorrect != nil) {
+                    touchOnEmptyScreenCount += 1
+                    if(viewSceneCorrect.frame.contains(position)) {
+                        self.isTouch = true
+                        self.isChildActionCompleted = true
+                        //self.questionState = .submit
+                        //SpeechManager.shared.speak(message: self.pictureSceneInfo.correct_text, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                        break
+                    } else {
+//                        self.success_count = 0
+//                        self.questionState = .submit
+//                        self.animateTheRightImage(imageView: viewSceneCorrect)
+                    }
+                }
+            }
+            if(self.isChildActionCompleted == false) {
+                self.isTouch = false
+                self.isChildActionCompleted = true
+            }
+        }
+    }
+
 }
 //MARK:- Public Methods
-extension LearningColorViewController {
+extension LearningPictureScenceViewController {
     func setData(program:LearningProgramModel, skillDomainId:String,command_array: [ScriptCommandInfo],questionId:String) {
         
         self.listenModelClosures()
@@ -155,7 +176,7 @@ extension LearningColorViewController {
 }
 
 //MARK:- Private Methods
-extension LearningColorViewController {
+extension LearningPictureScenceViewController {
     
     private func moveToNextCommand() {
        // self.view.isUserInteractionEnabled = false
@@ -176,13 +197,11 @@ extension LearningColorViewController {
         self.speechTitle.text = ""
         isChildActionCompleted = false
         self.playerView.isHidden = true
-        self.imagesCollectionView.isHidden = true
         self.thumnailImageView.isHidden = true
         self.isChildAction = false
         self.bufferLoaderView.isHidden = true
         selectedIndex = -1
         isImagesDownloaded = false
-        imagesCollectionView.register(ImageCell.nib, forCellWithReuseIdentifier: ImageCell.identifier)
     }
     
     private func listenModelClosures() {
@@ -241,86 +260,50 @@ extension LearningColorViewController {
         }
        
        self.commandSolidViewModal.showImagesClosure = {commandInfo in
+           
            DispatchQueue.main.async { [self] in
-                var array : [AnimationImageModel] = []
-                if let option = commandInfo.option {
-                    
-                    if(program.label_code == .lrffc_goal13) {
-                        
-                    } else {
-                        let correctOption = (Int(option.correct_option) ?? 0) - 1
-                       
-                        for (index, element) in commandInfo.valueList.enumerated() {
-                            var scModel = AnimationImageModel.init()
-                            scModel.url = element
-                            scModel.value_id = commandInfo.value_idList[index]
-                            
-                            if index == correctOption {
-                                scModel.correct_option = ScriptCommandOptionType.actiontrue
-                            } else {
-                                scModel.correct_option = ScriptCommandOptionType.actionfalse
-                            }
-                            scModel.isShowFinger = false
-                            scModel.isShowTapFingerAnimation = false
-                            scModel.isCircleShape = option.show_circle
-                            array.append(scModel)
-                        }
-                    }
-                }
-               
-                let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
-                let screenHeight:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.height)
+                
+               var array : [ImageModel] = []
+               if let option = commandInfo.option {
+                   var correctIndexes:[Int] = []
 
-                if(UIDevice.current.userInterfaceIdiom != .pad) {
-                    
-                    if(array.count <= 3) {
-                        self.itemSize = 140
-                    } else {
-                        self.itemSize = 100
-                    }
-                    
-                    if(array.count > 5) {
-                        var w:CGFloat = CGFloat(itemSize*CGFloat(array.count))
-                        if((array.count%2) == 0) {
-                            w = CGFloat(itemSize*CGFloat(array.count/2))
-                        } else  {
-                            w = CGFloat(itemSize*CGFloat((array.count/2)+1))
-                        }
-                        
-                        self.imagesCollectionView.frame = CGRect(x: (screenWidth-w)/2.0, y: (screenHeight-itemSize)/2.0, width: w, height: itemSize+itemSize)
-                    } else {
-                        let w:CGFloat = CGFloat(itemSize*CGFloat(array.count))
-                        self.imagesCollectionView.frame = CGRect(x: (screenWidth-w)/2.0, y: (screenHeight-itemSize)/2.0, width: w, height: itemSize)
-                    }
-                } else {
-                    
-                    if(array.count <= 3) {
-                        self.itemSize = 266
-                    } else {
-                        self.itemSize = 190
-                    }
-                    
-                    if(array.count > 5) {
-                        var w:CGFloat = CGFloat(itemSize*CGFloat(array.count))
-                        if((array.count%2) == 0) {
-                            w = CGFloat(itemSize*CGFloat(array.count/2))
-                        } else  {
-                            w = CGFloat(itemSize*CGFloat((array.count/2)+1))
-                        }
-                        
-                        self.imagesCollectionView.frame = CGRect(x: (screenWidth-w)/2.0, y: (screenHeight-itemSize)/2.0, width: w, height: itemSize+itemSize)
-                    } else {
-                        let w:CGFloat = CGFloat(itemSize*CGFloat(array.count))
-                        self.imagesCollectionView.frame = CGRect(x: (screenWidth-w)/2.0, y: (screenHeight-itemSize)/2.0, width: w, height: itemSize)
-                    }
-                }
+                   let options:[String] = option.correct_options
+                   for opt in options {
+                       let cIndex:Int = (Int(opt) ?? 0) - 1
+                       correctIndexes.append(cIndex)
+                   }
 
-                self.imageList.removeAll()
-                self.imageList = array
-                self.imagesCollectionView.isHidden = false
-                self.commandSolidViewModal.updateCurrentCommandIndex()
+                   for (index, element) in commandInfo.valueList.enumerated() {
+                       var iModel = ImageModel.init()
+                       iModel.image = element
+                       iModel.id = commandInfo.value_idList[index]
+                                                                               
+                       if correctIndexes.contains(index) {
+                           iModel.isCorrectAnswer = true
+                       } else {
+                           iModel.isCorrectAnswer = false
+                       }
+                       array.append(iModel)
+                   }
+               }
+            
+               self.imageList.removeAll()
+               self.imageList = array
+               self.showPictureScence()
+               self.commandSolidViewModal.updateCurrentCommandIndex()
             }
        }
+        
+        self.commandSolidViewModal.showImageClosure = {commandInfo in
+            
+            DispatchQueue.main.async { [self] in
+                 
+                let urlString = ServiceHelper.baseURL.getMediaBaseUrl() + commandInfo.value
+                self.imgViewPrompt.setImageWith(urlString: urlString)
+                self.imgViewPrompt.isUserInteractionEnabled = false
+                self.commandSolidViewModal.updateCommandIndex()
+             }
+        }
         self.commandSolidViewModal.showFingerClosure = {
              DispatchQueue.main.async {
                 self.selectedIndex = -1
@@ -344,7 +327,12 @@ extension LearningColorViewController {
         self.commandSolidViewModal.blinkImageClosure = { questionInfo in
             
             DispatchQueue.main.async {
-                self.updateImageListWithBlinkImageAnimation()
+                for v in self.allScene {
+                    if(questionInfo.value_id == v.iModel?.id) {
+                        self.blinkImage(count: 2, imageView: v)
+                        break;
+                    }
+                }
                let deadlineTime = DispatchTime.now() + .seconds(3)
                DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
                    self.commandSolidViewModal.calculateChildAction(state: false, touch: self.isTouch)
@@ -352,89 +340,187 @@ extension LearningColorViewController {
                }
             }
         }
-
     }
     
-    private func blinkImage(count:Int,imageView:UIImageView) {
-        if count == 0 {
-            for (index,element) in self.imageList.enumerated() {
-                var model:AnimationImageModel = AnimationImageModel()
-                model = element
-                model.isBlink = false
-                self.imageList.remove(at: index)
-                self.imageList.insert(model, at: index)
+    private func showPictureScence() {
+        
+        let space:CGFloat = 0.0
+
+        if(self.imageList.count == 4) {
+            matrixOf = 2
+        } else if(self.imageList.count == 9) {
+            matrixOf = 3
+        }
+
+        let screenWidth:CGFloat = max(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
+        let screenHeight:CGFloat = min(UIScreen.main.bounds.height, UIScreen.main.bounds.width)
+        
+        let screenW4:CGFloat = screenWidth/matrixOf
+        let screenH4:CGFloat = screenHeight/matrixOf
+        
+        var cW:CGFloat = 100*1.22
+        var cH:CGFloat = 100
+
+        var xRef:CGFloat = 100.0
+        var yRef:CGFloat = 220.0
+
+        if(((screenH4*1.22)*matrixOf) > screenWidth) {
+            cW = screenW4
+            cH = screenW4*0.45
+        } else {
+            cH = screenH4
+            cW = screenH4*2.22
+        }
+
+        xRef = (screenWidth-(cW*matrixOf))/2.0
+        yRef = (screenHeight-(cH*matrixOf))/2.0
+                
+        self.x = xRef
+        self.y = yRef
+        self.w = cW
+        self.h = cH
+
+        var index:Int = 0
+
+        for i in 0..<Int(matrixOf) {
+
+            for j in 0..<Int(matrixOf) {
+
+                let iModel:ImageModel = self.imageList[index]
+
+                let viewScene = PictureSceneView()
+                viewScene.iModel = iModel
+                viewScene.tag = index
+                viewScene.frame =  CGRect(x:xRef, y: yRef, width: cW, height: cH)
+                viewScene.tag = Int(i*Int(matrixOf))+j
+                viewScene.backgroundColor = .white
+                viewScene.clipsToBounds = true
+                self.view.addSubview(viewScene)
+                
+                
+                if(iModel.isCorrectAnswer == true) {
+                    self.allScene.append(viewScene)
+                }
+                
+                let urlString = ServiceHelper.baseURL.getMediaBaseUrl() + iModel.image
+                viewScene.setImageWith(urlString: urlString)
+
+                xRef = xRef+space+cW
+
+                index = index+1
             }
+            xRef = (screenWidth-(cW*4.0))/2.0
+            yRef = yRef+cH+space
+        }
+        
+        self.view.bringSubviewToFront(self.speechTitle)
+        self.view.bringSubviewToFront(self.skipLearningButton)
+        self.view.bringSubviewToFront(self.nextButton)
+        self.view.bringSubviewToFront(self.restartButton)
+        
+        self.imgViewPrompt.frame = CGRect(x: self.x, y: self.y, width: self.w*CGFloat(self.matrixOf), height: self.h*CGFloat(self.matrixOf))
+        self.imgViewPrompt.backgroundColor = .clear
+        self.view.addSubview(imgViewPrompt)
+    }
+    
+    private func blinkImage(count:Int,imageView:UIView) {
+        if count == 0 {
+            self.commandSolidViewModal.updateCommandIndex()
             return
         }
         
         DispatchQueue.main.async {
             UIView.animate(withDuration: 1, animations: {
-                    imageView.alpha = 0.2
+                    imageView.alpha = 0.5
                 }) { [weak self] finished in
                     if let this = self {
-                    imageView.alpha = 1
+                        imageView.alpha = 1
                         this.blinkImage(count: count - 1,imageView:imageView)
                     }
                 }
         }
     }
+
+//    private func blinkImage(count:Int,imageView:UIImageView) {
+//        if count == 0 {
+//            for (index,element) in self.imageList.enumerated() {
+//                var model:AnimationImageModel = AnimationImageModel()
+//                model = element
+//                model.isBlink = false
+//                self.imageList.remove(at: index)
+//                self.imageList.insert(model, at: index)
+//            }
+//            return
+//        }
+//
+//        DispatchQueue.main.async {
+//            UIView.animate(withDuration: 1, animations: {
+//                    imageView.alpha = 0.2
+//                }) { [weak self] finished in
+//                    if let this = self {
+//                    imageView.alpha = 1
+//                        this.blinkImage(count: count - 1,imageView:imageView)
+//                    }
+//                }
+//        }
+//    }
        
     private func updateImageListWithShowFinger() {
-        var array : [AnimationImageModel] = []
-        for element in self.imageList {
-            var scModel = element
-            if element.correct_option == ScriptCommandOptionType.actiontrue {
-                scModel.isShowFinger = true
-            } else {
-                scModel.isShowFinger = false
-            }
-            array.append(scModel)
-        }
-        self.imageList.removeAll()
-        self.imageList = array
+//        var array : [AnimationImageModel] = []
+//        for element in self.imageList {
+//            var scModel = element
+//            if element.correct_option == ScriptCommandOptionType.actiontrue {
+//                scModel.isShowFinger = true
+//            } else {
+//                scModel.isShowFinger = false
+//            }
+//            array.append(scModel)
+//        }
+//        self.imageList.removeAll()
+//        self.imageList = array
     }
     
     private func updateImageListWithBlinkImageAnimation() {
-        var array : [AnimationImageModel] = []
-        for element in self.imageList {
-            var scModel = element
-            if element.correct_option == ScriptCommandOptionType.actiontrue {
-                scModel.isBlink = true
-            } else {
-                scModel.isBlink = false
-            }
-            array.append(scModel)
-        }
-        self.imageList.removeAll()
-        self.imageList = array
+//        var array : [AnimationImageModel] = []
+//        for element in self.imageList {
+//            var scModel = element
+//            if element.correct_option == ScriptCommandOptionType.actiontrue {
+//                scModel.isBlink = true
+//            } else {
+//                scModel.isBlink = false
+//            }
+//            array.append(scModel)
+//        }
+//        self.imageList.removeAll()
+//        self.imageList = array
     }
 
     private func updateImageListWithShowTapFingerAnimation() {
-        var array : [AnimationImageModel] = []
-        for element in self.imageList {
-            var scModel = element
-            if element.correct_option == ScriptCommandOptionType.actiontrue {
-                scModel.isShowTapFingerAnimation = true
-                scModel.isShowFinger = true
-            } else {
-                scModel.isShowTapFingerAnimation = false
-                scModel.isShowFinger = false
-            }
-            array.append(scModel)
-        }
-        self.imageList.removeAll()
-        self.imageList = array
+//        var array : [AnimationImageModel] = []
+//        for element in self.imageList {
+//            var scModel = element
+//            if element.correct_option == ScriptCommandOptionType.actiontrue {
+//                scModel.isShowTapFingerAnimation = true
+//                scModel.isShowFinger = true
+//            } else {
+//                scModel.isShowTapFingerAnimation = false
+//                scModel.isShowFinger = false
+//            }
+//            array.append(scModel)
+//        }
+//        self.imageList.removeAll()
+//        self.imageList = array
     }
     
     private func resetImageList() {
-        var array : [AnimationImageModel] = []
-        for element in self.imageList {
-            var scModel = element
-            scModel.isShowFinger = false
-            array.append(scModel)
-        }
-        self.imageList.removeAll()
-        self.imageList = array
+//        var array : [AnimationImageModel] = []
+//        for element in self.imageList {
+//            var scModel = element
+//            scModel.isShowFinger = false
+//            array.append(scModel)
+//        }
+//        self.imageList.removeAll()
+//        self.imageList = array
     }
     
     private func addPlayer(urlString:String) {
@@ -529,94 +615,9 @@ extension LearningColorViewController {
         }
     }
 
- }
-
-extension LearningColorViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-       return CGSize(width: itemSize - 20, height: itemSize - 20)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.imageList.count
-    }
-    
-    // make a cell for each cell index path
-    internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as! ImageCell
-        
-        let model = self.imageList[indexPath.row]
-        
-        let cornerRadius = (itemSize-20)/2.0
-        let borderWidth:CGFloat = 2
-        
-        if model.isCircleShape != "no" {
-            Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .white)
-        }
-
-        let url = ServiceHelper.baseURL.getMediaBaseUrl()+model.url
-        cell.dataImageView.setImageWith(urlString: url)
-        
-        cell.handImageView.isHidden = true
-        cell.greenTickImageView.isHidden = true
-        cell.handImageView.isHidden = !model.isShowFinger
-        
-        if selectedIndex >= 0  {
-            if model.correct_option ==  ScriptCommandOptionType.actiontrue  {
-                cell.greenTickImageView.isHidden = false
-                cell.greenTickImageView.image = UIImage.init(named: "greenTick")
-                if model.isCircleShape != "no" {
-                Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .greenBorderColor)
-                }
-
-            } else if indexPath.row == self.selectedIndex {
-                cell.greenTickImageView.isHidden = false
-                cell.greenTickImageView.image = UIImage.init(named: "cross")
-                if model.isCircleShape != "no" {
-                Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .redBorderColor)
-                }
-            }
-        }
-        if model.isShowTapFingerAnimation {
-            if model.isCircleShape != "no" {
-            Utility.setView(view: cell.dataImageView, cornerRadius: cornerRadius, borderWidth: borderWidth, color: .greenBorderColor)
-            }
-            Animations.shake(on: cell.dataImageView)
-        } else if model.isBlink {
-            self.blinkImage(count: 3, imageView: cell.dataImageView)
-        }
-
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if !isChildAction {
-            return
-        }
-        if(self.selectedIndex == -1) {
-            self.isTouch = true
-            self.selectedIndex = indexPath.row
-            let model = self.imageList[indexPath.row]
-            if model.correct_option == ScriptCommandOptionType.actiontrue {
-                self.isChildActionCompleted = true
-            } else {
-                self.isChildActionCompleted = false
-            }
-        }
-        
-        self.perform(#selector(resetSelection), with: nil, afterDelay: 3)
-    }
-    
-    @objc func resetSelection() {
-        self.selectedIndex = -1
-    }
 }
 
-
-
-extension LearningColorViewController: NetworkRetryViewDelegate {
+extension LearningPictureScenceViewController: NetworkRetryViewDelegate {
     func didTapOnRetry() {
         if Utility.isNetworkAvailable() {
             Utility.hideRetryView()
@@ -624,8 +625,7 @@ extension LearningColorViewController: NetworkRetryViewDelegate {
     }
 }
 
-
-extension LearningColorViewController: ImageDownloaderDelegate {
+extension LearningPictureScenceViewController: ImageDownloaderDelegate {
     func finishDownloading() {
         if !isImagesDownloaded {
             self.isImagesDownloaded = true

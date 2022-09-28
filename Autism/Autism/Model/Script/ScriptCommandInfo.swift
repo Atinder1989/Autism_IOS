@@ -59,6 +59,11 @@ struct ScriptCommandInfo: Codable {
             self.value          = try container.decodeIfPresent(String.self, forKey: .value) ?? ""
             self.value_id = try container.decodeIfPresent(String.self, forKey: .value_id) ?? ""
         }
+
+//        if(self.child_condition == "parallel") {
+//            self.child_condition = "sequence"
+//        }
+
     }
 
     func encode(to encoder: Encoder) throws {
@@ -81,6 +86,7 @@ struct Option: Codable {
     var bounce_direction: String
     var color_code: String
     var correct_option: String
+    var correct_options: [String]
     var complete_percentage: String
     var switch_command_time: String
     var show_circle: String
@@ -112,6 +118,7 @@ struct Option: Codable {
         self.bounce_direction = ""
         self.color_code = ""
         self.correct_option = ""
+        self.correct_options = []
         self.complete_percentage = ""
         self.switch_command_time = ""
         self.show_circle = ""
@@ -147,6 +154,7 @@ struct Option: Codable {
         self.is_complete           = try container.decodeIfPresent(String.self, forKey: .is_complete) ?? ""
         self.bounce_direction           = try container.decodeIfPresent(String.self, forKey: .bounce_direction) ?? ""
         self.correct_option           = try container.decodeIfPresent(String.self, forKey: .correct_option) ?? ""
+        self.correct_options          = try container.decodeIfPresent([String].self, forKey: .correct_options) ?? []
         self.complete_percentage           = try container.decodeIfPresent(String.self, forKey: .complete_percentage) ?? ""
 
         self.color_code = ""

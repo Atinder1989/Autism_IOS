@@ -1,26 +1,29 @@
 //
-//  LearningVocalImitationsViewModel.swift
+//  LearningQuizIntroViewModel.swift
 //  Autism
 //
-//  Created by Savleen on 30/10/20.
-//  Copyright © 2020 IMPUTE. All rights reserved.
+//  Created by Dilip Saket on 21/09/22.
+//  Copyright © 2022 IMPUTE. All rights reserved.
 //
 
 import Foundation
 import AVKit
 
-class LearningVocalImitationsViewModel: NSObject {
+class LearningQuizIntroViewModel: NSObject {
     private var scriptManager: ScriptManager!
  
+
     var showSpeechTextClosure : ((_ text: String) -> Void)?
     var clearSpeechTextClosure : (() -> Void)?
     var resetDataClosure : (() -> Void)?
     var noNetWorkClosure: (() -> Void)?
     var clearScreenClosure : (() -> Void)?
     var showVideoClosure : ((_ urlString:String) -> Void)?
-    var showImageClosure  : ((_ questionInfo:ScriptCommandInfo) -> Void)?
-    var blinkImageClosure : ((_ questionInfo:ScriptCommandInfo) -> Void)?
+    //var showImageClosure  : ((_ questionInfo:ScriptCommandInfo) -> Void)?
+    //var blinkImageClosure : ((_ questionInfo:ScriptCommandInfo) -> Void)?
     var talkAvatarClosure : (() -> Void)?
+    var showAvatarClosure : (() -> Void)?
+
     var idleAvatarClosure : (() -> Void)?
     var childActionStateClosure : ((Bool) -> Void)?
     
@@ -134,8 +137,8 @@ class LearningVocalImitationsViewModel: NSObject {
     }
     
     func setScriptResponse(command_array:[ScriptCommandInfo],questionid:String,program: LearningProgramModel,skillDomainId: String) {
-        self.skillDomainId = skillDomainId
         self.program = program
+        self.skillDomainId = skillDomainId
         var response = ScriptResponseVO.init()
         response.success = true
         response.statuscode = 200
@@ -156,16 +159,6 @@ class LearningVocalImitationsViewModel: NSObject {
         }
     }
       
-    func updateCommandIndex() {
-        if let _ = self.scriptManager.getSequenceCommandInfo() {
-            self.scriptManager.updateSequenceCommandIndex()
-            return
-        }
-        if self.scriptManager.getIsCommandCompleted() {
-            self.updateCurrentCommandIndex()
-        }
-    }
-
     func calculateChildAction(state:Bool){
         isAnimationCommand = false
         self.saveDataForSubmit()
@@ -174,7 +167,6 @@ class LearningVocalImitationsViewModel: NSObject {
     
     func handleUserAnswer(text:String) {
         if let info = self.scriptManager.getChildActionCommandInfo() {
-                        
             if Utility.sharedInstance.isAnswerMatched(text: text, answer: info.value) {
                 
                self.calculateChildAction(state: true)
@@ -186,10 +178,8 @@ class LearningVocalImitationsViewModel: NSObject {
                 if let closure = self.childActionStateClosure {
                     closure(true)
                 }
+                
             }
-        } else {
-            self.updateCommandIndex()
-            //self.updateCurrentCommandIndex()
         }
     }
     
@@ -231,7 +221,14 @@ class LearningVocalImitationsViewModel: NSObject {
                 ServiceParsingKeys.childDetail.rawValue:tempArray,
                 ServiceParsingKeys.faceDetectionTime.rawValue:FaceDetection.shared.getFaceDetectionTime(),
                 ServiceParsingKeys.faceNotDetectionTime.rawValue:FaceDetection.shared.getFaceNotDetectionTime(),
-                ]
+                
+                //NewDevelopment
+                ServiceParsingKeys.content_type.rawValue:self.program.content_type,
+                ServiceParsingKeys.course_type.rawValue:self.program.course_type,
+                ServiceParsingKeys.level.rawValue:self.program.level,
+                ServiceParsingKeys.bucket.rawValue:self.program.bucket,
+                ServiceParsingKeys.table_name.rawValue:self.program.table_name                ]
+
             LearningManager.submitLearningMatchingAnswer(parameters: parameters)
         }
         }
@@ -239,7 +236,7 @@ class LearningVocalImitationsViewModel: NSObject {
     
 }
 
-extension LearningVocalImitationsViewModel {
+extension LearningQuizIntroViewModel {
     private func resetData() {
         self.isAnimationCommand = false
         self.currentCommandInfo = nil
@@ -255,13 +252,14 @@ extension LearningVocalImitationsViewModel {
                         self.scriptManager.executeCommand(commandInfo: commandInfo)
                 } else {
                     print("Command Array Completed")
-                    self.submitLearningMatchingAnswer()
+//                    self.submitLearningMatchingAnswer()
                 }
             }
         }
     }
     
-    private func submitLearningMatchingAnswer() {
+    //private
+    func submitLearningMatchingAnswer() {
         if !Utility.isNetworkAvailable() {
             if let noNetwork = self.noNetWorkClosure {
                 noNetwork()
@@ -270,7 +268,6 @@ extension LearningVocalImitationsViewModel {
         }
         if let res = self.commandResponseVO {
         if let user = UserManager.shared.getUserInfo() {
-            
             var CR = "0"
             
             if(self.childDetailArray.count > 0) {
@@ -282,6 +279,7 @@ extension LearningVocalImitationsViewModel {
             }
             
             let parameters: [String : Any] = [
+            
                 ServiceParsingKeys.complete_rate.rawValue:CR as Any,
                 ServiceParsingKeys.language.rawValue:user.languageCode,
                 ServiceParsingKeys.user_id.rawValue:user.id,
@@ -312,17 +310,17 @@ extension LearningVocalImitationsViewModel {
         }
     }
     
-//    private func handleAvatarCommand(commandInfo:ScriptCommandInfo) {
-//
-//            if let option = commandInfo.option {
-//                if option.avatar_variation == ScriptCommandOptionType.talk_avatar.rawValue {
-//                    isAvatar = true
-//                    if let closure = self.talkAvatarClosure {
-//                        closure()
-//                    }
-//                }
-//            }
-//    }
+    private func handleAvatarCommand(commandInfo:ScriptCommandInfo) {
+
+            if let option = commandInfo.option {
+                if option.avatar_variation == ScriptCommandOptionType.show_avatar.rawValue {
+                  //  isAvatar = true
+                    if let closure = self.showAvatarClosure {
+                        closure()
+                    }
+                }
+            }
+    }
         
     private func handleTextToSpeechCommand(commandInfo:ScriptCommandInfo) {
         var message = commandInfo.value
@@ -333,24 +331,18 @@ extension LearningVocalImitationsViewModel {
                 }
             }
         }
-        DispatchQueue.main.async {
-            SpeechManager.shared.setDelegate(delegate: self)//Speech Issue
-            SpeechManager.shared.speak(message: message, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
-        }
+        SpeechManager.shared.setDelegate(delegate: self)//Speech Issue
+        SpeechManager.shared.speak(message: message, uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
     }
     
-    private func handleShowImageCommand(commandInfo:ScriptCommandInfo) {
-        if let closure = self.showImageClosure {
-            closure(commandInfo)
-        }
-    }
+
     
-    private func handleBlinkImageCommand(commandInfo:ScriptCommandInfo) {
-        isAnimationCommand = true
-        if let closure = self.blinkImageClosure {
-            closure(commandInfo)
-        }
-    }
+//    private func handleBlinkImageCommand(commandInfo:ScriptCommandInfo) {
+//        isAnimationCommand = true
+//        if let closure = self.blinkImageClosure {
+//            closure(commandInfo)
+//        }
+//    }
     
     private func handleChildActionState(state:Bool,commandInfo:ScriptCommandInfo?) {
         if state {
@@ -366,7 +358,6 @@ extension LearningVocalImitationsViewModel {
     private func handleClearScreenCommand() {
         if let closure = self.clearScreenClosure {
             closure()
-            self.updateCurrentCommandIndex()
         }
     }
     
@@ -403,7 +394,7 @@ extension LearningVocalImitationsViewModel {
 }
 
 // MARK: Speech Manager Delegate Methods
-extension LearningVocalImitationsViewModel: SpeechManagerDelegate {
+extension LearningQuizIntroViewModel: SpeechManagerDelegate {
     func speechDidFinish(speechText:String) {
             if let closure = self.idleAvatarClosure {
                 closure()
@@ -417,13 +408,7 @@ extension LearningVocalImitationsViewModel: SpeechManagerDelegate {
             if self.scriptManager.getIsCommandCompleted() {
                 self.currentCommandIndex += 1
             }
-        } else {
-            if let _ = self.scriptManager.getSequenceCommandInfo() {
-                self.scriptManager.updateSequenceCommandIndex()
-                return
-            }
         }
-
     }
     
     func speechDidStart(speechText:String) {
@@ -437,39 +422,34 @@ extension LearningVocalImitationsViewModel: SpeechManagerDelegate {
 }
 
 
-extension LearningVocalImitationsViewModel: ScriptManagerDelegate {
+extension LearningQuizIntroViewModel: ScriptManagerDelegate {
     func get(scriptCommand: ScriptCommand) {
-        print("LVICommand = ", scriptCommand)
         switch scriptCommand {
-//        case .avatar(commandInfo: let commandInfo):
-//            if let info = commandInfo {
-//                self.handleAvatarCommand(commandInfo: info)
-//            }
-//            break
+        case .avatar(commandInfo: let commandInfo):
+            if let info = commandInfo {
+                self.handleAvatarCommand(commandInfo: info)
+            }
+            break
         case .show_video(commandInfo:  let commandInfo):
             if let info = commandInfo {
                 self.handleShowVideoCommand(commandInfo: info)
             }
             break
-        case .show_image(commandInfo:  let commandInfo):
-            if let info = commandInfo {
-                self.handleShowImageCommand(commandInfo: info)
-            }
-            break
+        
         case .text_to_speech(commandInfo: let commandInfo):
             if let info = commandInfo {
                 self.handleTextToSpeechCommand(commandInfo: info)
             }
             break
-        case .blink_image(commandInfo: let commandInfo):
-            if let info = commandInfo {
-                self.handleBlinkImageCommand(commandInfo: info)
-            }
-        case .moveToNextCommand:
-            self.updateCurrentCommandIndex()
+//        case .blink_image(commandInfo: let commandInfo):
+//            if let info = commandInfo {
+//                self.handleBlinkImageCommand(commandInfo: info)
+//            }
+
         case .commandCompleted:
-            if !isAnimationCommand && !SpeechManager.shared.isPlaying(){
+            if !isAnimationCommand && !SpeechManager.shared.isPlaying() {
                 print("Delegate ===== Command Complete ##################### ")
+                self.updateCurrentCommandIndex()
             }
         case .child_actionStarted(commandInfo: let commandInfo):
             self.handleChildActionState(state: true, commandInfo: commandInfo)
@@ -477,6 +457,8 @@ extension LearningVocalImitationsViewModel: ScriptManagerDelegate {
             self.handleChildActionState(state: false, commandInfo: nil)
         case .clear_screen:
             self.handleClearScreenCommand()
+        case .moveToNextCommand:
+            self.updateCurrentCommandIndex()
         default:
             break
         }
@@ -486,7 +468,7 @@ extension LearningVocalImitationsViewModel: ScriptManagerDelegate {
 
 
 // MARK: - PlayerController Delegate
-extension LearningVocalImitationsViewModel: PlayerControllerDelegate {
+extension LearningQuizIntroViewModel: PlayerControllerDelegate {
     func didChangeJTPlayerStatus(status: VideoPlayerStatus) {
         switch status {
         case .playbackLikelyToKeepUp:

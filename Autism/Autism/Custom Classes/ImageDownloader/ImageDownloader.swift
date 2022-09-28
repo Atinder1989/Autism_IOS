@@ -29,7 +29,8 @@ class ImageDownloader {
             if let data = data {
                 // Create Image and Update Image View
                 guard let me = self else { return }
-                DispatchQueue.main.async {
+                //DispatchQueue.main.async {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     let image = UIImage(data: data)
                     imageView.image = image
                     me.totalCount = me.totalCount  + 1

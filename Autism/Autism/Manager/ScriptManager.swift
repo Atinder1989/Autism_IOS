@@ -664,6 +664,8 @@ extension ScriptManager {
                 }
             } else if info.condition != ScriptCommandConditionType.sequence.rawValue && info.condition != ScriptCommandConditionType.no.rawValue {
                 self.handleChildActionNotCompletedNextStage(childInfo: info)
+            } else if info.condition == ScriptCommandConditionType.no.rawValue && info.child_condition == ScriptCommandConditionType.no.rawValue {
+                self.handleNoConditionCommand(commandInfo: info)
             }
         }
     }

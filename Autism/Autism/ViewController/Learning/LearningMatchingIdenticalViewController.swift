@@ -182,13 +182,13 @@ extension LearningMatchingIdenticalViewController {
             
             case .began:
             if self.initialFrame == nil && selectedObject == nil {
-                self.selectedObject = (gestureRecognizer.view as? UIView)!
+                self.selectedObject = gestureRecognizer.view
                 self.initialFrame = self.selectedObject.frame
             }
             break
         case .changed:
 
-            let currentFilledPattern:UIView = (gestureRecognizer.view as? UIView)!
+            let currentFilledPattern:UIView = gestureRecognizer.view!
             
             if(selectedObject != currentFilledPattern) {
                 return
@@ -213,64 +213,141 @@ extension LearningMatchingIdenticalViewController {
                 return
             }
             
-            let dropLocation = gestureRecognizer.location(in: view)            
-            
+            let dropLocation = gestureRecognizer.location(in: view)
             var isAnswer = false
-            
+
             if(currentFilledImageView == commandImgViewTop) {
-                if(commandImgViewTop.commandInfo?.option!.correct_option == "1") {
-                    if view_Left.frame.contains(dropLocation) {
-                        isAnswer = true
-                    }
-                } else if(commandImgViewTop.commandInfo?.option!.correct_option == "2") {
-                    if view_Right.frame.contains(dropLocation) {
-                        isAnswer = true
-                    }
-                } else if(commandImgViewTop.commandInfo?.option!.correct_option == "3") {
-                    if view_Center.frame.contains(dropLocation) {
-                        isAnswer = true
-                    }
-                }
-            } else {
-                for subview in currentFilledImageView.subviews {
-                    if let scriptImageView = subview as? ScriptCommandImageView {
-                        let imageViewInfo = scriptImageView.commandInfo
-                        print("value_id = ", imageViewInfo?.value_id)
-                        
-                        if let currentCommand = self.matchingIdenticalViewModal.getCurrentCommandInfo() {
-                            if imageViewInfo?.value_id == currentCommand.value_id {
-                                                            
-                                if(imageViewInfo?.option!.correct_option == "1") {
-                                    if commandImgViewTop.frame.contains(dropLocation) {
-                                        isAnswer = true
-                                    }
-                                } else if(imageViewInfo?.option!.correct_option == "2") {
-                                    if commandImgViewTop.frame.contains(dropLocation) {
-                                        isAnswer = true
-                                    }
-                                } else if(imageViewInfo?.option!.correct_option == "3") {
-                                    if commandImgViewTop.frame.contains(dropLocation) {
-                                        isAnswer = true
-                                    }
-                                }
-                            }
+                if (view_Left.frame.contains(dropLocation) || view_Right.frame.contains(dropLocation) || view_Center.frame.contains(dropLocation)) {
+                                        
+                    if(commandImgViewTop.commandInfo?.option!.correct_option == "1") {
+                        if view_Left.frame.contains(dropLocation) {
+                            isAnswer = true
+                        }
+                    } else if(commandImgViewTop.commandInfo?.option!.correct_option == "2") {
+                        if view_Right.frame.contains(dropLocation) {
+                            isAnswer = true
+                        }
+                    } else if(commandImgViewTop.commandInfo?.option!.correct_option == "3") {
+                        if view_Center.frame.contains(dropLocation) {
+                            isAnswer = true
                         }
                     }
+                    
+                    if isAnswer == true {
+                        currentFilledImageView.isHidden = true
+                        self.isCorrectAnswerTapped = isAnswer
+                    } else {
+                        if let frame = self.initialFrame {
+                            self.selectedObject.frame = frame
+                            self.initialFrame = nil
+                            self.selectedObject = nil
+                        }
+                        self.isCorrectAnswerTapped = false
+                        SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        if let frame = self.initialFrame {
+                            self.selectedObject.frame = frame
+                            self.initialFrame = nil
+                            self.selectedObject = nil
+                        }
+//                        self.incorrectDragDropCount += 1
+                    }
                 }
-            }
-            
-            if(isAnswer == true) {
-                currentFilledImageView.isHidden = true
-                self.isCorrectAnswerTapped = isAnswer
             } else {
-                if let frame = self.initialFrame {
-                    self.selectedObject.frame = frame
-                    self.initialFrame = nil
-                    self.selectedObject = nil
+                if commandImgViewTop.frame.contains(dropLocation) {
+                    if(self.commandImgViewTop.commandInfo?.option!.correct_option == "1") {
+                        if(currentFilledImageView == view_Left) {
+                            isAnswer = true
+                        }
+                    } else if(self.commandImgViewTop.commandInfo?.option!.correct_option == "2") {
+                        if(currentFilledImageView == view_Right) {
+                            isAnswer = true
+                        }
+                    } else if(self.commandImgViewTop.commandInfo?.option!.correct_option == "3") {
+                        if(currentFilledImageView == view_Center) {
+                            isAnswer = true
+                        }
+                    }
+                    if isAnswer == true {
+                        currentFilledImageView.isHidden = true
+                        self.isCorrectAnswerTapped = isAnswer
+                    } else {
+                        if let frame = self.initialFrame {
+                            self.selectedObject.frame = frame
+                            self.initialFrame = nil
+                            self.selectedObject = nil
+                        }
+                        self.isCorrectAnswerTapped = false
+                        SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        if let frame = self.initialFrame {
+                            self.selectedObject.frame = frame
+                            self.initialFrame = nil
+                            self.selectedObject = nil
+                        }
+//                        self.incorrectDragDropCount += 1
+                    }
                 }
-                self.isCorrectAnswerTapped = false
-                SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
             }
+
+//            if(currentFilledImageView == commandImgViewTop) {
+//                if(commandImgViewTop.commandInfo?.option!.correct_option == "1") {
+//                    if view_Left.frame.contains(dropLocation) {
+//                        isAnswer = true
+//                    }
+//                } else if(commandImgViewTop.commandInfo?.option!.correct_option == "2") {
+//                    if view_Right.frame.contains(dropLocation) {
+//                        isAnswer = true
+//                    }
+//                } else if(commandImgViewTop.commandInfo?.option!.correct_option == "3") {
+//                    if view_Center.frame.contains(dropLocation) {
+//                        isAnswer = true
+//                    }
+//                }
+//            } else {
+//                for subview in currentFilledImageView.subviews {
+//                    if let scriptImageView = subview as? ScriptCommandImageView {
+//                        let imageViewInfo = scriptImageView.commandInfo
+//                        print("value_id = ", imageViewInfo?.value_id)
+//
+//                        if let currentCommand = self.matchingIdenticalViewModal.getCurrentCommandInfo() {
+//                            if imageViewInfo?.value_id == currentCommand.value_id {
+//
+//                                if(imageViewInfo?.option!.correct_option == "1") {
+//                                    if commandImgViewTop.frame.contains(dropLocation) {
+//                                        isAnswer = true
+//                                    }
+//                                } else if(imageViewInfo?.option!.correct_option == "2") {
+//                                    if commandImgViewTop.frame.contains(dropLocation) {
+//                                        isAnswer = true
+//                                    }
+//                                } else if(imageViewInfo?.option!.correct_option == "3") {
+//                                    if commandImgViewTop.frame.contains(dropLocation) {
+//                                        isAnswer = true
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            if(isAnswer == true) {
+//                currentFilledImageView.isHidden = true
+//                self.isCorrectAnswerTapped = isAnswer
+//            } else {
+//                if let frame = self.initialFrame {
+//                    self.selectedObject.frame = frame
+//                    self.initialFrame = nil
+//                    self.selectedObject = nil
+//                }
+//                self.isCorrectAnswerTapped = false
+//                SpeechManager.shared.speak(message: SpeechMessage.moveForward.getMessage(), uttrenceRate: AppConstant.speakUtteranceNormalRate.rawValue.floatValue)
+//            }
             
             break
         default:

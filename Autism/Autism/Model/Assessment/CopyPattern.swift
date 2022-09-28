@@ -38,6 +38,8 @@ struct CopyPatternInfo: Codable {
     var correct_text: String = ""
     var incorrect_text: String = ""
     
+    var correct_image_choice: String = ""
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ServiceParsingKeys.self)
         self.id          = try container.decodeIfPresent(String.self, forKey: .id) ?? ""
@@ -66,11 +68,12 @@ struct CopyPatternInfo: Codable {
         self.str_repeat_count       = try container.decodeIfPresent(String.self, forKey: .repeat_count) ?? "0"
         self.repeat_count           = Int(self.str_repeat_count)!
         self.level                  = try container.decodeIfPresent(String.self, forKey: .level) ?? ""
-        self.program_id         = ""
+        self.program_id             = ""
 
-        self.correct_text          = try container.decodeIfPresent(String.self, forKey: .correct_text) ?? ""
-        self.incorrect_text          = try container.decodeIfPresent(String.self, forKey: .incorrect_text) ?? ""
+        self.correct_text           = try container.decodeIfPresent(String.self, forKey: .correct_text) ?? ""
+        self.incorrect_text         = try container.decodeIfPresent(String.self, forKey: .incorrect_text) ?? ""
 
+        self.correct_image_choice   = try container.decodeIfPresent(String.self, forKey: .correct_image_choice) ?? ""
     }
 
     func encode(to encoder: Encoder) throws {

@@ -447,6 +447,10 @@
 		C82F9BA928A401C0005EF370 /* MandObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82F9BA828A401C0005EF370 /* MandObject.swift */; };
 		C834ACCD287186D800F94907 /* MandInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C834ACCC287186D800F94907 /* MandInfo.swift */; };
 		C834ACD028718A0500F94907 /* MandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C834ACCF28718A0400F94907 /* MandViewModel.swift */; };
+		C83676C328D9DBAA005B3430 /* LearningQuizIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83676C228D9DBAA005B3430 /* LearningQuizIntroViewController.swift */; };
+		C83E5FD728DAD2F600512604 /* LearningQuizIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83E5FD628DAD2F600512604 /* LearningQuizIntroViewModel.swift */; };
+		C83E5FE128DB403400512604 /* LearningPictureScenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83E5FE028DB403400512604 /* LearningPictureScenceViewController.swift */; };
+		C83E5FE328DB405400512604 /* LearningPictureScenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83E5FE228DB405400512604 /* LearningPictureScenceViewModel.swift */; };
 		C8501AE628BB838800479784 /* WritingOnPadInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8501AE528BB838700479784 /* WritingOnPadInfo.swift */; };
 		C8501AE828BB840200479784 /* AssesmentWritingOnPadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8501AE728BB840100479784 /* AssesmentWritingOnPadViewModel.swift */; };
 		C8501AEA28BB849900479784 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8501AE928BB849900479784 /* Data+Extension.swift */; };
@@ -455,6 +459,7 @@
 		C8777A6E28D43EA400A61F9A /* PauseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C8777A6C28D43EA400A61F9A /* PauseView.xib */; };
 		C8777A6F28D43EA400A61F9A /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8777A6D28D43EA400A61F9A /* PauseView.swift */; };
 		C886F5A328C8FDF200A13C97 /* GoogleServiceDevelopment-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C886F5A228C8FDF200A13C97 /* GoogleServiceDevelopment-Info.plist */; };
+		C89589A128E18962001B5E7A /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89589A028E18962001B5E7A /* SocketManager.swift */; };
 		C8AA965A28703AC0007991F0 /* MandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AA965928703AC0007991F0 /* MandViewController.swift */; };
 		C8DA594E28C1D929005F7BB1 /* LearningMessyArrayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DA594D28C1D929005F7BB1 /* LearningMessyArrayViewController.swift */; };
 		C8DA595028C1D9AE005F7BB1 /* LearningMessyArrayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DA594F28C1D9AE005F7BB1 /* LearningMessyArrayViewModel.swift */; };
@@ -975,6 +980,10 @@
 		C82F9BA828A401C0005EF370 /* MandObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandObject.swift; sourceTree = "<group>"; };
 		C834ACCC287186D800F94907 /* MandInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandInfo.swift; sourceTree = "<group>"; };
 		C834ACCF28718A0400F94907 /* MandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandViewModel.swift; sourceTree = "<group>"; };
+		C83676C228D9DBAA005B3430 /* LearningQuizIntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningQuizIntroViewController.swift; sourceTree = "<group>"; };
+		C83E5FD628DAD2F600512604 /* LearningQuizIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningQuizIntroViewModel.swift; sourceTree = "<group>"; };
+		C83E5FE028DB403400512604 /* LearningPictureScenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningPictureScenceViewController.swift; sourceTree = "<group>"; };
+		C83E5FE228DB405400512604 /* LearningPictureScenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningPictureScenceViewModel.swift; sourceTree = "<group>"; };
 		C8501AE528BB838700479784 /* WritingOnPadInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WritingOnPadInfo.swift; sourceTree = "<group>"; };
 		C8501AE728BB840100479784 /* AssesmentWritingOnPadViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssesmentWritingOnPadViewModel.swift; sourceTree = "<group>"; };
 		C8501AE928BB849900479784 /* Data+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
@@ -984,6 +993,7 @@
 		C8777A6D28D43EA400A61F9A /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
 		C886F5A128C8C16F00A13C97 /* Autism.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Autism.entitlements; sourceTree = "<group>"; };
 		C886F5A228C8FDF200A13C97 /* GoogleServiceDevelopment-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleServiceDevelopment-Info.plist"; sourceTree = "<group>"; };
+		C89589A028E18962001B5E7A /* SocketManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		C8AA965928703AC0007991F0 /* MandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MandViewController.swift; sourceTree = "<group>"; };
 		C8DA594D28C1D929005F7BB1 /* LearningMessyArrayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningMessyArrayViewController.swift; sourceTree = "<group>"; };
 		C8DA594F28C1D9AE005F7BB1 /* LearningMessyArrayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningMessyArrayViewModel.swift; sourceTree = "<group>"; };
@@ -1336,6 +1346,7 @@
 			isa = PBXGroup;
 			children = (
 				B2121C1E24FE345E002E393E /* EyeTrackManager.swift */,
+				C89589A028E18962001B5E7A /* SocketManager.swift */,
 				B8EA50C7246D326C00BA5021 /* DatabaseManager.swift */,
 				B8B2D552246E54C900FB4B0D /* UserManager.swift */,
 				B863508E24540EC2002B5834 /* SocialNetworkManager.swift */,
@@ -1450,11 +1461,13 @@
 		B224966124F14DF4007A4C87 /* Learning */ = {
 			isa = PBXGroup;
 			children = (
+				B27F3CBB254C29FA00F5AEE5 /* LearningVocalImitationsViewController.swift */,
 				C8DA595128C211DB005F7BB1 /* LearningMathSortingViewController.swift */,
 				C8DA594D28C1D929005F7BB1 /* LearningMessyArrayViewController.swift */,
 				B2A90B472536F1F900AFB482 /* LearningColorViewController.swift */,
-				B27F3CBB254C29FA00F5AEE5 /* LearningVocalImitationsViewController.swift */,
 				B241C2EB25F0DFEF00060127 /* LearningEchoicViewController.swift */,
+				C83676C228D9DBAA005B3430 /* LearningQuizIntroViewController.swift */,
+				C83E5FE028DB403400512604 /* LearningPictureScenceViewController.swift */,
 				B2326A69252EFCDF004B9C6F /* LearningMatchingViewController.swift */,
 				B23E61FE259F6C1A00A787D8 /* LearningMatchingIdenticalViewController.swift */,
 				B2960B9F25B71D8E0019502A /* LearningSpellingViewController.swift */,
@@ -1474,11 +1487,13 @@
 		B224966424F14E31007A4C87 /* Learning */ = {
 			isa = PBXGroup;
 			children = (
+				B27F3CC0254C2A1100F5AEE5 /* LearningVocalImitationsViewModel.swift */,
 				C8DA595328C21541005F7BB1 /* LearningMathSortingViewModel.swift */,
 				C8DA594F28C1D9AE005F7BB1 /* LearningMessyArrayViewModel.swift */,
 				B2A90B4C2536F56B00AFB482 /* LearningColorViewModel.swift */,
-				B27F3CC0254C2A1100F5AEE5 /* LearningVocalImitationsViewModel.swift */,
 				B241C2F025F0E01900060127 /* LearningEchoicViewModel.swift */,
+				C83E5FD628DAD2F600512604 /* LearningQuizIntroViewModel.swift */,
+				C83E5FE228DB405400512604 /* LearningPictureScenceViewModel.swift */,
 				1C283D70251A201300628908 /* LearningMatchingViewModel.swift */,
 				B23E6203259F6C4200A787D8 /* LearningMatchingIdenticalViewModel.swift */,
 				B2960BA425B71DBE0019502A /* LearningSpellingViewModel.swift */,
@@ -2659,6 +2674,7 @@
 				1C529C0826393C9200A817A2 /* TrialMathematicsViewModel.swift in Sources */,
 				840F0FDB2341D0C60054612C /* String+Extension.swift in Sources */,
 				B25FEDE22654D6C000D694C6 /* LearningVisualTrackingViewModel.swift in Sources */,
+				C89589A128E18962001B5E7A /* SocketManager.swift in Sources */,
 				B23AE42924C546EC009DD695 /* FSCalendarTransitionCoordinator.m in Sources */,
 				B25F6A532521FD7D00750791 /* MathUtility.swift in Sources */,
 				8494839223E2DAEF00174F87 /* LanguageCell.swift in Sources */,
@@ -2760,8 +2776,10 @@
 				8494839E23E4172600174F87 /* UIApplication+Extension.swift in Sources */,
 				1CECC74E26147B2A00DB2773 /* TrialSpellingViewModel.swift in Sources */,
 				B2638F362667D49800CB3AC2 /* LearningFollowingInstructionsViewController.swift in Sources */,
+				C83E5FE328DB405400512604 /* LearningPictureScenceViewModel.swift in Sources */,
 				B8B2D55D246E88B200FB4B0D /* ScreenLabelResponseVO.swift in Sources */,
 				B22DFA2324FCD38D0063A14E /* TPKeyboardAvoidingTableView.m in Sources */,
+				C83E5FD728DAD2F600512604 /* LearningQuizIntroViewModel.swift in Sources */,
 				B8C3A5F7242B2FAA00AA30B0 /* Enum.swift in Sources */,
 				8494839923E4134E00174F87 /* LoginViewController.swift in Sources */,
 				C8501AE628BB838800479784 /* WritingOnPadInfo.swift in Sources */,
@@ -2939,6 +2957,7 @@
 				B23E61FF259F6C1A00A787D8 /* LearningMatchingIdenticalViewController.swift in Sources */,
 				B23AE42424C546EC009DD695 /* FSCalendarExtensions.m in Sources */,
 				B2FE6CCD2511206200E1BAB9 /* CGImage+Extension.swift in Sources */,
+				C83676C328D9DBAA005B3430 /* LearningQuizIntroViewController.swift in Sources */,
 				B25F6A522521FD7D00750791 /* Throttler.swift in Sources */,
 				B2FE6CC925111FD400E1BAB9 /* PoseBuilder.swift in Sources */,
 				B24D994E24A86069004C0982 /* SequenceCell.swift in Sources */,
@@ -2949,6 +2968,7 @@
 				B24B4D9C24D42AEB00577751 /* AvatarDownloader.swift in Sources */,
 				B25F6A5A2521FD7D00750791 /* UIHeadGazeViewControllerBase.swift in Sources */,
 				B25FEDDD2654D34D00D694C6 /* LearningVisualTrackingViewController.swift in Sources */,
+				C83E5FE128DB403400512604 /* LearningPictureScenceViewController.swift in Sources */,
 				B8D2447C248BD2D200ACAAA5 /* PuzzleCustomImageView.swift in Sources */,
 				B23AE41C24C546EC009DD695 /* FSCalendarDelegationProxy.m in Sources */,
 				046A1222249BB1910078C7AB /* AssesmentMatchDateViewModel.swift in Sources */,
@@ -3206,7 +3226,7 @@
 				CODE_SIGN_ENTITLEMENTS = Autism/Autism.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Atinder Singh (9DV8CU23L4)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 118;
+				CURRENT_PROJECT_VERSION = 124;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5YVF838RR5;
 				ENABLE_BITCODE = NO;
@@ -3233,7 +3253,7 @@
 				CODE_SIGN_ENTITLEMENTS = Autism/Autism.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 118;
+				CURRENT_PROJECT_VERSION = 124;
 				DEVELOPMENT_TEAM = 5YVF838RR5;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Autism/Info.plist;
