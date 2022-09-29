@@ -10,25 +10,6 @@ import Foundation
 
 struct PictureSceneInfo: Codable
 {
-//    "question_type": "2-10 items on screen and verbal instruction/question → select 1 item",
-//                "_id": "631d8cd023240063a0925a89",
-//                "question_title": "Where is the white animal.",
-//                "language_code": "en",
-//                "level": "5",
-//                "screen_type": "picture_scene_touch_object",
-//                "video_url": "",
-//                "req_no": "vpsmts",
-//                "trial_time": 10,
-//                "completion_time": 20,
-//                "status": "Active",
-//                "course_type": "Assessment",
-//                "video": "none",
-//                "correct_answer": "10",
-//                "incorrect_text": "better luck next time..!!",
-//                "correct_text": "good job...!!",
-//                "order_num": 283,
-//                "next_question_order_no": -1,
-//                "image_count": 16,
     var id: String
     var content_type: String
     var question_type: String

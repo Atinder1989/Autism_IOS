@@ -30,6 +30,8 @@ struct VerbalQuestionInfo: Codable {
     var correct_text: String = ""
     var incorrect_text: String = ""
         
+    var vocabulary_list:VocabularyListModel = VocabularyListModel()
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: ServiceParsingKeys.self)
         self.id          = try container.decodeIfPresent(String.self, forKey: .id) ?? ""
@@ -58,6 +60,7 @@ struct VerbalQuestionInfo: Codable {
         self.correct_text          = try container.decodeIfPresent(String.self, forKey: .correct_text) ?? ""
         self.incorrect_text          = try container.decodeIfPresent(String.self, forKey: .incorrect_text) ?? ""
 
+        self.vocabulary_list = try container.decodeIfPresent(VocabularyListModel.self, forKey: .vocabulary_list) ?? VocabularyListModel()
     }
 
     func encode(to encoder: Encoder) throws {

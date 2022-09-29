@@ -101,6 +101,7 @@ class DashboardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //print(Utility.deCrypt(text: "QWFtn+dcin1+qRiD+OEwrls1/8j066YuiVDOcW52uzs="))
         self.listenModelClosures()
         self.customSetting()
         self.dashboardViewModel.fetchDashboardScreenLabels()

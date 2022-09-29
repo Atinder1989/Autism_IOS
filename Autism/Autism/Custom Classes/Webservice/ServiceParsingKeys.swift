@@ -295,7 +295,7 @@ enum ServiceParsingKeys : String, CodingKey {
     case image_choice_with_text = "image_choice_with_text"
     case device_id = "device_id"
     case correct_image_choice = "correct_image_choice"
-    
+    case vocabulary_list = "vocabulary_list"
     case result = "result"
 }
 

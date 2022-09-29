@@ -2099,20 +2099,20 @@
 			isa = PBXGroup;
 			children = (
 				B88B75DE24976AAD00E3BB5F /* AssessmentQuestionResponseVO.swift */,
+				1C78964224C1D64500EE99BB /* MatchingObjectInfo.swift */,
 				C824068228CF134A009575D7 /* PictureSceneInfo.swift */,
 				C8501AE528BB838700479784 /* WritingOnPadInfo.swift */,
 				1CE9A39224CB4E7D00143BDC /* BlockDesignInfo.swift */,
 				1C78964124C1D64400EE99BB /* AlphabetLearningInfo.swift */,
 				1C78964424C1D64600EE99BB /* MakeWorkInfo.swift */,
 				1CDD629F24C5ED6A00E9BBF7 /* CopyPattern.swift */,
-				1C78964224C1D64500EE99BB /* MatchingObjectInfo.swift */,
-				B88B75E024976B4500E3BB5F /* VerbalQuestionInfo.swift */,
 				B88B75E224976B6400E3BB5F /* PuzzleQuestionInfo.swift */,
 				B88B75E424976B9D00E3BB5F /* PuzzleBlock.swift */,
 				B88B75E624976BB200E3BB5F /* ReinforcerInfo.swift */,
 				B88B75E824976BC600E3BB5F /* ReinforcerNonPreferredInfo.swift */,
 				B88B75EA24976BDB00E3BB5F /* WhichTypeQuestionInfo.swift */,
 				B88B75EC24976BF300E3BB5F /* ImageModel.swift */,
+				B88B75E024976B4500E3BB5F /* VerbalQuestionInfo.swift */,
 				B88B75EE24976C0900E3BB5F /* SoundImitationInfo.swift */,
 				B88B75F224976C3C00E3BB5F /* VideoInfo.swift */,
 				B88B75F424976C5A00E3BB5F /* VideoAnswer.swift */,
@@ -3226,7 +3226,7 @@
 				CODE_SIGN_ENTITLEMENTS = Autism/Autism.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Atinder Singh (9DV8CU23L4)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 124;
+				CURRENT_PROJECT_VERSION = 125;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5YVF838RR5;
 				ENABLE_BITCODE = NO;
@@ -3253,7 +3253,7 @@
 				CODE_SIGN_ENTITLEMENTS = Autism/Autism.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 124;
+				CURRENT_PROJECT_VERSION = 125;
 				DEVELOPMENT_TEAM = 5YVF838RR5;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Autism/Info.plist;

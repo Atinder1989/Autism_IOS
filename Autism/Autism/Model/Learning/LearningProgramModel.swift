@@ -11,6 +11,7 @@ import Foundation
 struct LearningProgramModel: Codable {
     
     //New Parameters
+    var vocabulary_list:VocabularyListModel = VocabularyListModel()
     var course_type: String = ""
     var content_type: String = ""
     var bucket: String = ""
@@ -40,6 +41,7 @@ struct LearningProgramModel: Codable {
     var isLocked: Bool
     var tag: Int
 
+    
     init() {
         
         self.course_type = ""
@@ -85,34 +87,34 @@ struct LearningProgramModel: Codable {
         self.trial_complete_rate          = try container.decodeIfPresent(Int.self, forKey: .trial_complete_rate) ?? 0
         self.learning_complete_rate          = try container.decodeIfPresent(Int.self, forKey: .learning_complete_rate) ?? 0
     
-    self.assement_attempt_status          = try container.decodeIfPresent(Bool.self, forKey: .assement_attempt_status) ?? false
+        self.assement_attempt_status          = try container.decodeIfPresent(Bool.self, forKey: .assement_attempt_status) ?? false
 
-    self.learning_attempt_status          = try container.decodeIfPresent(Bool.self, forKey: .learning_attempt_status) ?? false
-    self.trial_attempt_status          = try container.decodeIfPresent(Bool.self, forKey: .trial_attempt_status) ?? false
+        self.learning_attempt_status          = try container.decodeIfPresent(Bool.self, forKey: .learning_attempt_status) ?? false
+        self.trial_attempt_status          = try container.decodeIfPresent(Bool.self, forKey: .trial_attempt_status) ?? false
 
-    let lcStatus = try container.decodeIfPresent(String.self, forKey: .learning_current_status) ?? ""
-    let lStatus = try container.decodeIfPresent(String.self, forKey: .learning_status) ?? ""
-    let tStatus = try container.decodeIfPresent(String.self, forKey: .trial_status) ?? ""
-    
-    if let status =  ModuleStatus.init(rawValue: lcStatus) {
-        self.learning_current_status = status
-    } else {
-        self.learning_current_status = .none
-    }
-    
-    if let status =  ModuleStatus.init(rawValue: lStatus) {
-        self.learning_status = status
-    } else {
-        self.learning_status = .none
-    }
-    
-    if let status =  ModuleStatus.init(rawValue: tStatus) {
-        self.trial_status = status
-    } else {
-        self.trial_status = .none
-    }
-    self.isLocked = false
-    self.tag = 0
+        let lcStatus = try container.decodeIfPresent(String.self, forKey: .learning_current_status) ?? ""
+        let lStatus = try container.decodeIfPresent(String.self, forKey: .learning_status) ?? ""
+        let tStatus = try container.decodeIfPresent(String.self, forKey: .trial_status) ?? ""
+        
+        if let status =  ModuleStatus.init(rawValue: lcStatus) {
+            self.learning_current_status = status
+        } else {
+            self.learning_current_status = .none
+        }
+        
+        if let status =  ModuleStatus.init(rawValue: lStatus) {
+            self.learning_status = status
+        } else {
+            self.learning_status = .none
+        }
+        
+        if let status =  ModuleStatus.init(rawValue: tStatus) {
+            self.trial_status = status
+        } else {
+            self.trial_status = .none
+        }
+        self.isLocked = false
+        self.tag = 0
     
     }
 
@@ -120,4 +122,26 @@ struct LearningProgramModel: Codable {
     }
 }
 
+struct VocabularyListModel: Codable {
+
+    var id: String = ""
+    var name: String = ""
+    var value: String = ""
+
+    init() {
+        self.id = ""
+        self.name = ""
+        self.value = ""
+    }
+    
+   init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: ServiceParsingKeys.self)
+        self.id             = try container.decodeIfPresent(String.self, forKey: .id) ?? ""
+        self.name           = try container.decodeIfPresent(String.self, forKey: .name) ?? ""
+        self.value          = try container.decodeIfPresent(String.self, forKey: .value) ?? ""
+    }
+
+    func encode(to encoder: Encoder) throws {
+    }
+}
 
